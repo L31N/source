@@ -1,17 +1,27 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string>
+#include <unistd.h>
 
 using namespace std;
 
 int main(int argc, char* argv[]) {
-        FILE* fmouse;
-        char b[3];
 
-        string argvstr[argc];
-        for (int i = 0; i < argc; i++) {
-            argvstr[i] = string(argv[i]);
-        }
+    int uid = getuid();
+
+    FILE* fmouse;
+    char b[3];
+
+    string argvstr[argc];
+    for (int i = 0; i < argc; i++) {
+        argvstr[i] = string(argv[i]);
+    }
+
+    if(uid != 0)
+    {
+        printf("This Programm requires to be root. Please log in as root or use sudo\n\n");
+        return -1;
+    }
 
 	if (argc < 2) {printf("invalid count of arguments ...\ntype mouse --help for more information...\n\n"); return -1;}
 	else if (argvstr[1] == "--help") {
