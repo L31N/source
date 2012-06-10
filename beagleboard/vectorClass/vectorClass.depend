@@ -1,0 +1,11 @@
+# depslib dependency file v1.0
+1339354458 source:/media/Daten/Sonstiges/Robotics/source/beagleboard/vectorClass/main.cpp
+	<iostream>
+	"vector.hpp"
+
+1339354265 /media/Daten/Sonstiges/Robotics/source/beagleboard/vectorClass/vector.hpp
+	<iostream>
+
+1339354472 source:/media/Daten/Sonstiges/Robotics/source/beagleboard/vectorClass/vector.cpp
+	"vector.hpp"
+
