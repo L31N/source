@@ -66,23 +66,23 @@ class vector
 == done
 !=  done
 
-* vector
-*= vector
+* vector Skalrprodukt
+*= vector isn't possile
 
-/ vector
-/= vector
+/ vector nothing for moment
+/= vector nothing for moment
 
-++
---
+++ |vektor| ++
+-- |vektor| --
 
-<
-<=
+< |vektor| < |vektor|
+<= |vektor| <= |vektor|
 
->
->=
+> |vektor| > |vektor|
+>= |vektor| >= |vektor|
 
-!
-%
+! -vektor
+% doen't make sense
 
 
 
