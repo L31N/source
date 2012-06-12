@@ -50,6 +50,27 @@ double vector::getY()
 
 
 /*
+    Setzt X
+*/
+void vector::setX(double px)
+{
+    x = px;
+    return;
+}
+
+
+/*
+    Setzt Y
+*/
+void vector::setY(double py)
+{
+    y = py;
+    return;
+}
+
+//******************************************************************************
+
+/*
     Diese Methode Addiert das Objekt und den vector sum
 */
 vector vector::operator+(vector sum)
@@ -188,6 +209,153 @@ bool vector::operator!=(vector vect)
     }
 }
 
+
+/*
+    Gibt das Skalarprodukt des Objekts und von vect zurück
+*/
+double vector::operator*(vector vect)
+{
+	return x*vect.getX()+y*vect.getY();
+}
+
+
+/*
+    Erhöht den Betrag um 1
+*/
+vector vector::operator++()
+{
+	*this += this->getUnitVector();
+	return *this;
+}
+
+
+/*
+    Erhöht den Betrag um 1
+*/
+vector vector::operator++(int)
+{
+	vector tmp = *this;
+	*this += this->getUnitVector();
+	return tmp;
+}
+
+
+/*
+    Rediziert den Betrag um 1
+*/
+vector vector::operator--()
+{
+	*this -= this->getUnitVector();
+	return *this;
+}
+
+
+/*
+    Reduziert den Betrag um 1
+*/
+vector vector::operator--(int)
+{
+	vector tmp = *this;
+	*this -= this->getUnitVector();
+	return tmp;
+}
+
+
+/*
+    vergleicht die Beträge
+*/
+bool vector::operator<(vector vect)
+{
+    if(this->abs()<vect.abs())
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+
+/*
+    vergleicht die Beträge
+*/
+bool vector::operator<=(vector vect)
+{
+    if(this->abs()<=vect.abs())
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+
+/*
+    vergleicht die Beträge
+*/
+bool vector::operator>(vector vect)
+{
+    if(this->abs()>vect.abs())
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+
+/*
+    vergleicht die Beträge
+*/
+bool vector::operator>=(vector vect)
+{
+    if(this->abs()>=vect.abs())
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+
+/*
+    gibt den Gegenvektor zurück
+*/
+vector vector::operator!()
+{
+    vector tmp = *this;
+    tmp *= -1;
+    return tmp;
+}
+
+
+//*******************************************************************
+
+/*
+    Gibt den Betrag des Vektors zurück
+*/
+double vector::abs()
+{
+	return sqrt(x*x+y*y);
+}
+
+
+/*
+    Gibt den Einheitsvektor zurück
+*/
+vector vector::getUnitVector()
+{
+	vector tmp = *this;
+	tmp /= tmp.abs();
+	return tmp;
+}
 
 
 

@@ -8,10 +8,17 @@ int main()
 {
     cout << "This Programm is to test the general 2d vector class." << endl;
 
-    vector v1(1, 2);
-    vector v2(2, 2);
+    vector v1;
+    vector v2;
 
-    cout << (v1==v2);
+    v1.setX(1);
+    v1.setY(2);
 
-    return 0;
+    v2 = !v1;
+
+    v2.print();
+
+    cout << endl;
+
+	return 0;
 }
