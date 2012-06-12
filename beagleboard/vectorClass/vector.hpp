@@ -4,6 +4,7 @@
 #include <iostream>
 #include <cmath>
 
+
 using namespace std;
 
 class vector
@@ -27,6 +28,9 @@ class vector
 
 		//***********************************
 
+        double getY();
+
+
         vector operator+(vector sum);
         vector operator+=(vector sum);
 
@@ -46,24 +50,25 @@ class vector
 
         double operator*(vector vect);
 
-		vector operator++();
-		vector operator++(int);
+	vector operator++();
+	vector operator++(int);
 
-		vector operator--();
-		vector operator--(int);
+	vector operator--();
+	vector operator--(int);
 
-		bool operator<(vector vect);
-		bool operator<=(vector vect);
+	bool operator<(vector vect);
+	bool operator<=(vector vect);
 
-		bool operator>(vector vect);
-		bool operator>=(vector vect);
+	bool operator>(vector vect);
+	bool operator>=(vector vect);
 
-		vector operator!();
+	vector operator!();
 
-		//***********************************
+	//***********************************
 
-		double abs();
-		vector getUnitVector();
+	double abs();
+	vector getUnitVector();
+
 
 };
 
@@ -93,11 +98,13 @@ class vector
 == done
 !=  done
 
+
 * vector Skalarprodukt done
 *= vector isn't possile
 
 / vector nothing for moment
 /= vector nothing for moment
+
 
 ++ |vektor| ++ done
 -- |vektor| -- done
@@ -108,7 +115,8 @@ class vector
 > |vektor| > |vektor| done
 >= |vektor| >= |vektor| done
 
-! -vektor done
+! -vektor
+
 % doen't make sense
 
 
