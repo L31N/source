@@ -1,7 +1,7 @@
 #ifndef VECTOR_HPP_INCLUDED
 #define VECTOR_HPP_INCLUDED
 
-#include <iostream>ar
+#include <iostream>
 #include <cmath>
 
 
