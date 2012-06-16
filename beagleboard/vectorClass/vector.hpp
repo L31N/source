@@ -28,8 +28,6 @@ class vector
 
 		//***********************************
 
-        double getY();
-
 
         vector operator+(vector sum);
         vector operator+=(vector sum);
