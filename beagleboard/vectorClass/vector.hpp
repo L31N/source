@@ -4,7 +4,6 @@
 #include <iostream>
 #include <cmath>
 
-
 using namespace std;
 
 class vector
@@ -35,6 +34,12 @@ class vector
         vector operator-(vector sum);
         vector operator-=(vector sum);
 
+        vector operator+(double l);
+        vector operator+=(double l);
+
+        vector operator-(double l);
+        vector operator-=(double l);
+
         vector operator=(vector sum);
 
         vector operator*(double factor);
@@ -48,24 +53,28 @@ class vector
 
         double operator*(vector vect);
 
-	vector operator++();
-	vector operator++(int);
+        vector operator++();
+        vector operator++(int);
 
-	vector operator--();
-	vector operator--(int);
+        vector operator--();
+        vector operator--(int);
 
-	bool operator<(vector vect);
-	bool operator<=(vector vect);
+        bool operator<(vector vect);
+        bool operator<=(vector vect);
 
-	bool operator>(vector vect);
-	bool operator>=(vector vect);
+        bool operator>(vector vect);
+        bool operator>=(vector vect);
 
-	vector operator!();
+        vector operator!();
 
-	//***********************************
+        //***********************************
 
-	double abs();
-	vector getUnitVector();
+        double abs();
+        vector getUnitVector();
+
+        void setLenght(double l);
+
+        double getAngle(vector vect, bool deg = true);
 
 
 };

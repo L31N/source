@@ -68,6 +68,19 @@ void vector::setY(double py)
     return;
 }
 
+
+/*
+    Setzt die Länge auf l
+*/
+void vector::setLenght(double l)
+{
+    vector tmp = this->getUnitVector()*l;
+    (*this) = tmp;
+}
+
+
+
+
 //******************************************************************************
 
 /*
@@ -113,6 +126,54 @@ vector vector::operator-=(vector sum)
 {
     x -= sum.getX();
     y -= sum.getY();
+
+    return *this;
+}
+
+
+/*
+    Diese Methode verlängert das Objekt um l
+*/
+vector vector::operator+(double l)
+{
+    vector tmp = this->getUnitVector()*l;
+    (*this) += tmp;
+
+    return *this;
+}
+
+
+/*
+    Diese Methode verlängert das Objekt um l
+*/
+vector vector::operator+=(double l)
+{
+    vector tmp = this->getUnitVector()*l;
+    (*this) += tmp;
+
+    return *this;
+}
+
+
+/*
+    Diese Methode verkürzt das Objekt um l
+*/
+vector vector::operator-(double l)
+{
+    vector tmp = this->getUnitVector()*l;
+    (*this) -= tmp;
+
+    return *this;
+}
+
+
+/*
+    Diese Methode verkürzt das Objekt um l
+*/
+vector vector::operator-=(double l)
+{
+    vector tmp = this->getUnitVector()*l;
+    (*this) -= tmp;
 
     return *this;
 }
@@ -356,6 +417,28 @@ vector vector::getUnitVector()
 	tmp /= tmp.abs();
 	return tmp;
 }
+
+
+/*
+    Gibt den Einheitsvektor zurück
+*/
+double vector::getAngle(vector vect, bool deg)
+{
+    double tmp = acos( ((*this)*vect) / (this->abs()*vect.abs()) );
+
+    if(deg)
+    {
+        tmp *= 180;
+        tmp /= M_PI;
+    }
+
+    return tmp;
+}
+
+
+
+
+
 
 
 
