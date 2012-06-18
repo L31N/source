@@ -1,0 +1,4 @@
+# depslib dependency file v1.0
+1340048224 source:/home/lukas/source/beagleboard/ledSwitch/main.cpp
+	<iostream>
+
