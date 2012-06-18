@@ -40,7 +40,6 @@ int main(int argc, char *argv[])
     //open the correct file
     if(argvstr[1]=="0")
     {
-        cout << "File 0" << endl;
         file.open("/sys/class/leds/beagleboard::usr0/brightness", ios_base::out);
     }
     else if(argvstr[1]=="1")
