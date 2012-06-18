@@ -40,15 +40,15 @@ int main(int argc, char *argv[])
     //open the correct file
     if(argvstr[1]=="0")
     {
-        file.open("/sys/class/leds/beagleboard\\:\\:usr0/brightness", ios_base::trunc);
+        file.open("/sys/class/leds/beagleboard::usr0/brightness", ios_base::trunc);
     }
     else if(argvstr[1]=="1")
     {
-        file.open("/sys/class/leds/beagleboard\\:\\:usr1/brightness", ios_base::trunc);
+        file.open("/sys/class/leds/beagleboard::usr1/brightness", ios_base::trunc);
     }
     else if(argvstr[1]=="2")
     {
-        file.open("/sys/class/leds/beagleboard\\:\\:pmu_stat/brightness", ios_base::trunc);
+        file.open("/sys/class/leds/beagleboard::pmu_stat/brightness", ios_base::trunc);
     }
 
     //Check for errors
