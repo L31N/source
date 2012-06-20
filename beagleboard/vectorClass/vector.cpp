@@ -435,6 +435,29 @@ double vector::getAngle(vector vect, bool deg)
     return tmp;
 }
 
+/*
+    returns the Angle of the vector in radian measure or in degree, if deg is true
+*/
+
+double vector::getAngle(bool deg)
+{
+    double tmp = asin(x / this -> abs());
+    if (this->y < 0 && this->x < 0)
+    {
+        tmp -= (M_PI / 2);
+    }
+    if (this->y < 0 && this->x > 0)
+    {
+        tmp += (M_PI / 2);
+    }
+
+    if (deg)
+    {
+        tmp *= 180;
+        tmp /= M_PI;
+    }
+    return tmp;
+}
 
 
 

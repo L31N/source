@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="main.cpp" open="1" top="1" tabpos="1">
-		<Cursor position="259" topLine="0" />
+	<File name="main.cpp" open="1" top="0" tabpos="1">
+		<Cursor position="203" topLine="0" />
 	</File>
-	<File name="vector.cpp" open="1" top="0" tabpos="3">
-		<Cursor position="774" topLine="36" />
+	<File name="vector.cpp" open="1" top="1" tabpos="3">
+		<Cursor position="5944" topLine="420" />
 	</File>
 	<File name="vector.hpp" open="1" top="0" tabpos="2">
-		<Cursor position="306" topLine="0" />
+		<Cursor position="1540" topLine="61" />
 	</File>
 </CodeBlocks_layout_file>
