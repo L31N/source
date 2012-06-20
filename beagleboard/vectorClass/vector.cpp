@@ -420,7 +420,7 @@ vector vector::getUnitVector()
 
 
 /*
-    Gibt den Einheitsvektor zurück
+    Gibt den Winkel zwischen this und vect zurück
 */
 double vector::getAngle(vector vect, bool deg)
 {
@@ -442,6 +442,7 @@ double vector::getAngle(vector vect, bool deg)
 double vector::getAngle(bool deg)
 {
     double tmp = asin(x / this -> abs());
+
     if (this->y < 0 && this->x < 0)
     {
         tmp -= (M_PI / 2);
