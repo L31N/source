@@ -420,50 +420,61 @@ vector vector::getUnitVector()
 
 
 /*
-    Gibt den Winkel zwischen this und vect zurück
+    Gibt den Winkel zwischen this und dem Vektor v(0,1) zurück
 */
-double vector::getAngle(vector vect, bool deg)
+double vector::getAngle(bool deg)
 {
-    double tmp = acos( ((*this)*vect) / (this->abs()*vect.abs()) );
+    double angleV1;
+
+    if(this->x > 0)
+    {
+        angleV1 = atan(y/x);
+    }
+    else if(this->x < 0 && this->y >= 0)
+    {
+        angleV1 = atan(this->y/this->x) + M_PI;
+    }
+    else if(this->x < 0 && this->y < 0)
+    {
+        angleV1 = atan(this->y/this->x) - M_PI;
+    }
+    else if(this->x == 0 && this->y > 0)
+    {
+        angleV1 = M_PI/2;
+    }
+    else if(this->x == 0 && this->y < 0)
+    {
+        angleV1 = -M_PI/2;
+    }
+
+    angleV1 *= -1;
+    angleV1 += M_PI/2;
+
+    if(angleV1 > M_PI)
+    {
+        angleV1 -= 2*M_PI;
+    }
 
     if(deg)
     {
-        tmp *= 180;
-        tmp /= M_PI;
+        angleV1 *= 180;
+        angleV1 /= M_PI;
     }
 
-    return tmp;
+    return angleV1;
 }
+
 
 /*
-    returns the Angle of the vector in radian measure or in degree, if deg is true
+    Gibt den Winkel zwischen this und dem Vektor vect zurück
 */
-
-double vector::getAngle(bool deg)
+double vector::getAngle(vector vect, bool deg)
 {
-    double tmp = asin(x / this -> abs());
+    double angleV1 = this->getAngle(deg);
+    double angleV2 = vect.getAngle(deg);
 
-    if (this->y < 0 && this->x < 0)
-    {
-        tmp -= (M_PI / 2);
-    }
-    if (this->y < 0 && this->x > 0)
-    {
-        tmp += (M_PI / 2);
-    }
-
-    if (deg)
-    {
-        tmp *= 180;
-        tmp /= M_PI;
-    }
-    return tmp;
+    return (angleV2 - angleV1);
 }
-
-
-
-
-
 
 
 

@@ -74,10 +74,8 @@ class vector
 
         void setLenght(double l);
 
-        double getAngle(vector vect, bool deg = true);
         double getAngle(bool deg = true);
-
-
+        double getAngle(vector vect, bool deg = true);
 };
 
 
