@@ -38,14 +38,10 @@ int main(int argc, char* argv[]) {
 	}
 	else { printf ("invalid option ...\n"); return -1; }
 
-	int xd=0,yd=00; //x/y movement delt
+	int xd=0,yd=0; //x/y movement delt
         int xo=0,yo=0; //x/y overflow (out of range -255 to +255)
 	int lb=0,mb=0,rb=0,hs=0,vs=0; //left/middle/right mousebutton
 	int run=0;
-
-	long long absx=0;
-	long long absy=0;
-
         while(!run) {
 		fread(b,sizeof(char),3,fmouse);
                 lb=(b[0]&1)>0;
@@ -58,13 +54,7 @@ int main(int argc, char* argv[]) {
                 xd=b[1];
                 yd=b[2];
 
-		absx += xd;
-		absy += yd;
-
-		printf("%lld\t%lld\n", absx, absy);
-
-
-		//printf("hs=%d,vs=%d,lb=%d rm=%d mb=%d xo=%d yo=%d xd=%d yd=%d\n",hs,vs,lb,rb,mb,xo,yo,xd,yd);
+		printf("hs=%d,vs=%d,lb=%d rm=%d mb=%d xo=%d yo=%d xd=%d yd=%d\n",hs,vs,lb,rb,mb,xo,yo,xd,yd);
 	}
 
         fclose(fmouse);
