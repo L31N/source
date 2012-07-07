@@ -1,6 +1,5 @@
-*.o
-*.save
-*.layout
-*.depend
-*/bin/
-*/bin
+*.o 
+*.save 
+*.layout 
+*.depend 
+bin/
