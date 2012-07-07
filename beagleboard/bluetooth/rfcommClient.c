@@ -8,7 +8,7 @@ int main(int argc, char **argv)
 {
     struct sockaddr_rc addr = { 0 };
     int s, status;
-    char dest[18] = "00:1B:DC:05:7E:E2";
+    char dest[18] = argv[1];
 
     // allocate a socket
     s = socket(AF_BLUETOOTH, SOCK_STREAM, BTPROTO_RFCOMM);
