@@ -32,7 +32,8 @@ int main(int argc, char **argv) {
     //loc_addr.rc_bdaddr = *BDADDR_ANY;
     loc_addr.rc_bdaddr = *BDADDR_ANY;
     //loc_addr.rc_channel = (uint8_t) argv[3];
-    loc_addr.rc_channel = *(unsigned char*) argv[2];
+    //loc_addr.rc_channel = *(unsigned char*) argv[2];
+    loc_addr.rc_channel = (uint8_t) 1;
 
     if (bind(s, (struct sockaddr *)&loc_addr, sizeof(loc_addr)) == -1) {
         cout << "error in function bind() ..." << endl;
