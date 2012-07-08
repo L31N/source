@@ -25,6 +25,7 @@ int main()
     loc_addr.rc_channel = (uint8_t) 1;
     bind(s, (struct sockaddr *)&loc_addr, sizeof(loc_addr));
 
+    while(1) {
     // put socket into listening mode
     printf("put socket into listening mode ...");
     listen(s, 1);
@@ -43,7 +44,7 @@ int main()
     if( bytes_read > 0 ) {
         printf("received [%s]\n", buf);
     }
-
+    }
     // close connection
     printf("close connection ...");
     close(client);

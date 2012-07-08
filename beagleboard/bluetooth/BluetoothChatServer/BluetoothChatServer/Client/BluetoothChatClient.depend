@@ -1,0 +1,10 @@
+# depslib dependency file v1.0
+1341774909 source:/home/l31n/Ubuntu One/Programming/BeagleboardTests/BluetoothChatServer/Client/main.cpp
+	<iostream>
+	<string>
+	<stdio.h>
+	<unistd.h>
+	<sys/socket.h>
+	<bluetooth/bluetooth.h>
+	<bluetooth/rfcomm.h>
+
