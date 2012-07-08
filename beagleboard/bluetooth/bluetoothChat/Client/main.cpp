@@ -20,10 +20,10 @@ int main (int argc, char** argv) {
 
     struct sockaddr_rc addr = { 0 };
     int s, status;
-    char dest[18] = "00:1B:DC:05:7E:24";
-    //for (int i = 0; i < 18; i++) {
-        //dest[i] = *(argv[1]+i);
-    //}
+    char dest[18];
+    for (int i = 0; i < 18; i++) {
+        dest[i] = *(argv[1]+i);
+    }
     cout << "\nbdaddr:\t\t " << dest << endl;
 
     // allocate a socket
