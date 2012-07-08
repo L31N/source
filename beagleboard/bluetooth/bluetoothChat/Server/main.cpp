@@ -62,6 +62,9 @@ int main(int argc, char **argv) {
             cout << "recived data: " << buf << endl;
         }
         else cout << "error while reciving data ..." << endl;
+
+        usleep(5000);
+
         close(client);
 
     }

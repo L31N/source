@@ -13,8 +13,8 @@ using namespace std;
 
 int main (int argc, char** argv) {
 
-    if (argc != 3) {
-        cout << "usage: BluetoothChatClient <bdaddr> <channel>" << endl;
+    if (argc != 2) {
+        cout << "usage: BluetoothChatClient <bdaddr>" << endl;
         return -1;
     }
 
@@ -36,8 +36,8 @@ int main (int argc, char** argv) {
 
     // set the connection parameters (who to connect to)
     addr.rc_family = AF_BLUETOOTH;
-    addr.rc_channel = *(unsigned char*) argv[2];
-    cout << "channel:\t " << argv[2] << "\n" << endl;
+    //addr.rc_channel = *(uint8_t*) argv[2];
+    addr.rc_channel = (uint8_t) 1;
     str2ba( dest, &addr.rc_bdaddr );
 
     // connect to server
@@ -45,7 +45,7 @@ int main (int argc, char** argv) {
     if (status == -1) {
         //cout << "error in function connect() ..." << endl;
         perror("error in function connect()");
-        //return -1;
+        return -1;
     }
 
     string input = "";
@@ -59,6 +59,7 @@ int main (int argc, char** argv) {
             if (status < 0) {
                 //cout << "error occured while sending data to server ..." << endl;
                 perror("error occured while sending data to server");
+                return -1;
             }
         }
     }
