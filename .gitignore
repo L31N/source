@@ -2,4 +2,5 @@
 *.save 
 *.layout 
 *.depend 
-bin/
+#bin/
+
