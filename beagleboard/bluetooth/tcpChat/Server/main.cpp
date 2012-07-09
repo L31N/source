@@ -55,6 +55,7 @@ int main(int argc, char **argv) {
         }
 
         // read data from the client
+        memset(buf, 0, sizeof(buf));
         bytes_read = read(client, buf, sizeof(buf));
         if( bytes_read > 0 ) {
             cout << "recived data: " << buf << endl;
