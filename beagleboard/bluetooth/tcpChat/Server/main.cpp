@@ -60,7 +60,7 @@ int main(int argc, char **argv) {
         if( bytes_read > 0 ) {
             cout << "recived data: " << buf << endl;
         }
-        else { cout << "error while reciving data ..." << endl; return -1; }
+        else { cout << "error while reciving data --> client closed connection ..." << endl;}
 
         //usleep(500);
 
@@ -68,5 +68,6 @@ int main(int argc, char **argv) {
 
     }
     close(s);
+
     return 0;
 }
