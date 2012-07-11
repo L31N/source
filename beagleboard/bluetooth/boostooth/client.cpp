@@ -7,7 +7,7 @@ int main() {
 
 
     boost::asio::ip::BluetoothProtocol::socket socket(BTConn::ioService);
-    boost::asio::ip::BluetoothEndpoint endpoint("00:00:00:ff:ff:ff"); //This is localhost?
+    boost::asio::ip::BluetoothEndpoint endpoint("00:1B:DC:05:7E:24"); //This is localhost?
     socket.async_connect(endpoint, BTConn::handle_connect);
     BTConn::ioService.run();
     socket.close();
