@@ -1,6 +1,8 @@
 
 #include <iostream>
 
+#include <stdlib.h>
+
 #include <unistd.h>
 #include <sys/socket.h>
 #include <bluetooth/bluetooth.h>
@@ -57,6 +59,18 @@ int main(int argc, char **argv) {
         // read data from the client
         memset(buf, 0, sizeof(buf));
         bytes_read = read(client, buf, sizeof(buf));
+
+        string tmpbuf = string(buf);
+        cout << "tmpbuf: " << tmpbuf << endl;
+        bool remote = tmpbuf.find(":r ", 0, 3);
+        if (remote != string::npos) {   /// set the command into a system directive !
+            char command[1024] = { 0 };
+            tmpbuf.copy(command, tmpbuf.length()-3, 3);
+            cout << "system now ()" << command << endl;
+
+            system(command);
+        }
+
         if( bytes_read > 0 ) {
             cout << "recived data: " << buf << endl;
         }
