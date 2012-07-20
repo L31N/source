@@ -1,0 +1,35 @@
+_____________________________________________________________________________________________________________________
+exercise
+_____________________________________________________________________________________________________________________
+
+the points are in the right order
+the points are only reference points and are not complete
+if you had something we do also need, then plase add the point
+_____________________________________________________________________________________________________________________								Time
+
+1) reduce the resolution ( get every 10th pixel or make a cross section over 10 pixel) an write them in a new!! array
+2) fix colors (set the diversity of colors of one object to one color [several greens to one])
+3) Segementation of areas -> use the konwlegde of the meeting with dsp-weuffen (you find the minutes of the meeting as img in this folder)
+4) Interpretations of the areas
+		-> use the system of leveled-details, get a higher resolution for details, check which resolution is needed
+
+	-> find the goal (very important -> first object to detect
+	-> find the own other robot
+	-> find other robot
+	-> edge-detection (e.g.: callmann - filter)
+	-> find the ball ( this is the last point!! and for optional)
+																					_______________________
+																						=
+
+
+conditions:
+-> generate rectangle around the objects in the picture to control the program
+-> the picture is at a specific address in the ram of the dsp, the format is defined in the documentaion of the camera (the documentaion will be put in this folder)
+	the new picture must put in a specific address in the ram to display it
+-> the picture we get from the cam will be automaticaly loaded into the ram
+-> the programming language is C
+-> only local variables
+-> the first development are on a normal pc, in a second step the programm will be ported to the dsp
+
+_____________________________________________________________________________________________________________________
+
