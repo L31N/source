@@ -9,7 +9,7 @@ namespace BTConn {
             std::cout << "Congrats u made a connection. Now lets see if it works" << std::endl;
         }
         else
-            std::cerr << "An error occurred opening a connection!" << std::endl;
+            std::cerr << "An error occurred opening a connection! " << error.message() << std::endl;
     }
 
 
