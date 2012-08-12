@@ -4,6 +4,8 @@
 #include <bluetooth/bluetooth.h>
 #include <bluetooth/rfcomm.h>
 
+static const bdaddr_t bt_bdaddr_any   = {{0, 0, 0, 0, 0, 0}};
+
 int main()
 {
     printf("starting rfcommServer ...");
@@ -21,7 +23,7 @@ int main()
     // local bluetooth adapter
     printf("bind socket to first available bluetooth adapter ...");
     loc_addr.rc_family = AF_BLUETOOTH;
-    loc_addr.rc_bdaddr = *BDADDR_ANY;
+    loc_addr.rc_bdaddr = bt_bdaddr_any;
     loc_addr.rc_channel = (uint8_t) 1;
     bind(s, (struct sockaddr *)&loc_addr, sizeof(loc_addr));
 

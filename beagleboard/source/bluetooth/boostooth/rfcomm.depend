@@ -1,0 +1,10 @@
+# depslib dependency file v1.0
+1342037060 source:/home/l31n/Ubuntu One/Programming/robotics2013/source/beagleboard/source/bluetooth/boostooth/client.cpp
+	"boostooth.hpp"
+
+1342036202 /home/l31n/Ubuntu One/Programming/robotics2013/source/beagleboard/source/bluetooth/boostooth/boostooth.hpp
+	<bluetooth/bluetooth.h>
+	<bluetooth/rfcomm.h>
+	<boost/asio.hpp>
+	<boost/bind.hpp>
+
