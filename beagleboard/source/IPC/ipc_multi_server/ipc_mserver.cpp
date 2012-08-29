@@ -8,7 +8,7 @@
 
 #include <stdio.h>
 
-using namespace std;
+//using namespace std;
 
 const string SOCKET_FILE = "/tmp/ipc_mserver.uds";
 
