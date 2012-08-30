@@ -135,7 +135,13 @@ int main () {
                     client_socks[i] = -1;
                     cout << "client closed communication" << endl;
                 }
-                else cout << "recived message: " << buf << endl;
+                //else cout << "recived message: " << buf << endl;
+
+                /// write back a confirmation
+                //cout << "sending a confirmation now ..." << endl;
+                if (write(com_sock, "data recived ...", 17) < 0) {
+                    perror("could not send a confirmation to client --> function write()");
+                }
 
                 /// check for more ready descriptors
                 if (--ready <= 0) break;    //seems not so

@@ -41,11 +41,11 @@ int main (int argc, char** argv) {
         return -1;
     }
 
-    for (int i = 0; i < 100000000; i++) {
-    //while(true) {
+    //for (int i = 0; i < 100000000; i++) {
+    while(true) {
         string data;
         //cout << "please enter message to send: "; cin >> data;
-        data = "abcdefghijklmnopqrstuvwxyz";
+        data = "a";
 
         timeval start, end;
         gettimeofday(&start, 0);
@@ -67,10 +67,10 @@ int main (int argc, char** argv) {
         start_usecs = start.tv_sec * 10000000 + start.tv_usec;
         end_usecs = end.tv_sec * 10000000 + end.tv_usec;
 
-        //system("clear");
-        //cout << "ping --> " << double(end_usecs - start_usecs)/1000.0 << endl;
+        system("clear");
+        cout << "ping --> " << double(end_usecs - start_usecs)/1000.0 << endl;
 
-        //usleep(100000);
+        usleep(100000);
 
         if (data == "quit") break;
     }
