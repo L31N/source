@@ -12,14 +12,16 @@
 
 using namespace std;
 
-const int max_connections = FD_SETSIZE;             /// describes the max. number of connections who are possible -- for system max. possible use "FD_SETSIZE"
-
-const string SOCKET_FILE = "/tmp/ipc_testing/ipc_mserver.uds";
-
-void printFD(fd_set* set);
-
 int main () {
+
+
+    const int max_connections = FD_SETSIZE;                     /// describes the max. number of connections who are possible -- for system max. possible use "FD_SETSIZE"
+    const string SOCKET_FILE = "/tmp/ipcserver_module.uds";     /// defines the unix-domain-socket-file used for socket-communication
+
+
     int client_socks[max_connections];              /// sockets used for the client communication
+    int client_IDs[max_connections];                /// contains the client-IDs, the index is related to the socket-descriptors used by the client
+
     int max_sock = -1;                              /// the highest used socket-descriptor used as parameter for function select()
     int max = -1;                                   /// the highest used index of "client_socks" used to check all sockets up to this index-value
 
@@ -135,13 +137,16 @@ int main () {
                     client_socks[i] = -1;
                     cout << "client closed communication" << endl;
                 }
-                //else cout << "recived message: " << buf << endl;
+                else {  /// read identification and save it to client_IDs[]
+
+                    cout << "recived id-message from client: " << buf << "  " << com_sock << endl;
+                }
 
                 /// write back a confirmation
                 //cout << "sending a confirmation now ..." << endl;
-                if (write(com_sock, "data recived ...", 17) < 0) {
-                    perror("could not send a confirmation to client --> function write()");
-                }
+                //if (write(com_sock, "data recived ...", 17) < 0) {
+                  //  perror("could not send a confirmation to client --> function write()");
+                //}
 
                 /// check for more ready descriptors
                 if (--ready <= 0) break;    //seems not so
@@ -169,11 +174,4 @@ int main () {
 
     return 0;
 
-}
-
-
-void printFD(fd_set* set) {
-    for (int j = 0; j < 10; j++) {
-            cout << j << " is in set: " << FD_ISSET(j, set) << endl;
-    }
 }
