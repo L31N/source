@@ -16,7 +16,7 @@
 #include <fstream>
 
 #define BUF 1024
-#define UDS_FILE "/tmp/ipc_mserver.uds"
+#define UDS_FILE "/tmp/ipc_testing/ipc_mserver.uds"
 
 using namespace std;
 
