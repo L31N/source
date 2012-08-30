@@ -16,6 +16,8 @@ const int max_connections = FD_SETSIZE;             /// describes the max. numbe
 
 const string SOCKET_FILE = "/tmp/ipc_testing/ipc_mserver.uds";
 
+void printFD(fd_set* set);
+
 int main () {
     int client_socks[max_connections];              /// sockets used for the client communication
     int max_sock = -1;                              /// the highest used socket-descriptor used as parameter for function select()
@@ -74,10 +76,13 @@ int main () {
     /// the main-loop
     while(true) {
         /// check weather new data or new connections were recived
-        readable_sockets = all_sockets;
-        cout << "before select()" << endl;
+        *readable_sockets = *all_sockets;
+
         ready = select(max_sock + 1, readable_sockets, NULL, NULL, NULL);
-        cout << "after select()" << endl;
+        if (ready == -1) {
+            perror("function select()");
+            return -1;
+        }
 
         /// check for a new connection
         if (FD_ISSET(server_sock, readable_sockets)) {
@@ -123,7 +128,7 @@ int main () {
 
                 /// read the data from client
                 bzero (buf, sizeof(buf));
-                if ((rval = read(msgsock, buf, 1024)) < 0) perror("reading stream message");
+                if ((rval = read(com_sock, buf, 1024)) < 0) perror("reading stream message");
                 else if (rval == 0) {
                     close(com_sock);
                     FD_CLR(com_sock, all_sockets);
@@ -158,4 +163,11 @@ int main () {
 
     return 0;
 
+}
+
+
+void printFD(fd_set* set) {
+    for (int j = 0; j < 10; j++) {
+            cout << j << " is in set: " << FD_ISSET(j, set) << endl;
+    }
 }
