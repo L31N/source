@@ -7,6 +7,8 @@
 
 #include <iostream>
 #include <string>
+#include <cstring>
+#include <sstream>
 
 #include <stdio.h>
 
@@ -20,7 +22,8 @@ int main () {
 
 
     int client_socks[max_connections];              /// sockets used for the client communication
-    int client_IDs[max_connections];                /// contains the client-IDs, the index is related to the socket-descriptors used by the client
+    short client_IDs[max_connections];              /// contains the client-IDs, the index is related to the socket-descriptors used by the client
+    short endpoint_IDs[max_connections];            /// contains the ID of the client-destination, the index is related to the socket-descriptors used by the client
 
     int max_sock = -1;                              /// the highest used socket-descriptor used as parameter for function select()
     int max = -1;                                   /// the highest used index of "client_socks" used to check all sockets up to this index-value
@@ -45,8 +48,11 @@ int main () {
     FD_ZERO(writeable_sockets);                     /// sets the fd_set of the writeable socket-descriptors to ZERO
     FD_ZERO(all_sockets);                           /// sets the fd_set of all socket-descriptors to ZERO
 
-    for (i = 0; i < max_connections; i++)           /// set all client_socks to -1, -1 is the value for an empty socket which contains no real socket-descriptor
-        client_socks[i] = -1;
+    for (i = 0; i < max_connections; i++) {
+        client_socks[i] = -1;                       /// set all client_socks[] to -1, -1 is the value for an empty socket which contains no real socket-descriptor
+        client_IDs[i] = -1;                         /// set all clientIDs[] to -1, -1 is the value for an empty ID which is not bound to an client
+        endpoint_IDs[i] = -1;                       /// set all endpointIDs[] to -1, -1 is the value for an empty ID which is not bound to an endpoint
+    }
 
     /// setup of server_sock ///
     unlink(SOCKET_FILE.c_str());
@@ -137,9 +143,22 @@ int main () {
                     client_socks[i] = -1;
                     cout << "client closed communication" << endl;
                 }
-                else {  /// read identification and save it to client_IDs[]
-
-                    cout << "recived id-message from client: " << buf << "  " << com_sock << endl;
+                else {      /// recived data from client
+                    if (client_IDs[com_sock] == -1) {   /// read identification and save it to client_IDs[]
+                        cout << "unknown ID" << endl;
+                        if (strlen(buf) == 2) {
+                            client_IDs[com_sock] = short(buf[0]);
+                            endpoint_IDs[com_sock] = short(buf[1]);
+                        }
+                        else {  /// wrong data format
+                            cout << "error: received wrong data format, expected ID-package (2byte)" << endl;
+                            continue;
+                        }
+                    }
+                    else {  /// work with recived data
+                        cout << "received data from sender: " << client_IDs[com_sock] << " with endpoint: " << endpoint_IDs[com_sock] << endl;
+                    }
+                    //cout << "recived id-message from client: " << buf << "  " << com_sock << endl;
                 }
 
                 /// write back a confirmation
