@@ -22,6 +22,7 @@ class BluetoothProtocol {
         typedef basic_stream_socket<BluetoothProtocol> socket;
         typedef basic_socket_acceptor<BluetoothProtocol> acceptor;
         typedef basic_resolver<BluetoothProtocol> resolver;
+	//typedef BluetoothAcceptor acceptor;
 
 #if !defined(BOOST_NO_IOSTREAM)
         typedef basic_socket_iostream<BluetoothProtocol> iostream;

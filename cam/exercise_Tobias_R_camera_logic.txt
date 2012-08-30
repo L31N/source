@@ -26,7 +26,7 @@ conditions:
 -> generate rectangle around the objects in the picture to control the program
 -> the picture is at a specific address in the ram of the dsp, the format is defined in the documentaion of the camera (the documentaion will be put in this folder)
 	the new picture must put in a specific address in the ram to display it
--> the picture we get from the cam will be automaticaly loaded into the ram
+-> the picture we get from the cam will be automaticaly loaded into the ram in YUV Values
 -> the programming language is C
 -> only local variables
 -> the first development are on a normal pc, in a second step the programm will be ported to the dsp
