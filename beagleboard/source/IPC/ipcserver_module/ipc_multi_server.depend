@@ -1,0 +1,10 @@
+# depslib dependency file v1.0
+1346330956 source:/home/l31n/Ubuntu One/Programming/robotics2013/source/beagleboard/source/IPC/ipc_multi_server/ipc_mserver.cpp
+	<sys/socket.h>
+	<sys/types.h>
+	<sys/un.h>
+	<sys/select.h>
+	<iostream>
+	<string>
+	<stdio.h>
+
