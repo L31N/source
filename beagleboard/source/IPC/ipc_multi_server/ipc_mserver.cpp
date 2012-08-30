@@ -31,11 +31,14 @@ int main () {
     struct sockaddr_un addresses[max_connections];
     char buf[1024];
 
-    fd_set* readable_sockets = new fd_set;
-    fd_set* writeable_sockets = new fd_set;
+    //fd_set* readable_sockets = new fd_set;
+    //fd_set* writeable_sockets = new fd_set;
 
-    FD_ZERO(readable_sockets);
-    FD_ZERO(writeable_sockets);
+    fd_set readable_sockets;
+    fd_set writeable_sockets;
+
+    FD_ZERO(&readable_sockets);
+    FD_ZERO(&writeable_sockets);
 
     for (int i = 0; i < max_connections; i++) {
 
@@ -60,14 +63,14 @@ int main () {
             return -1;
         }
 
-        cout << "socket_path -->" << addresses[i].sun_path << endl;
+        cout << "socket_path -->" << addresses[i].sun_path << "\t sock_num: " << sockets[i] << endl;
 
-        FD_SET(sockets[i], readable_sockets);
+        FD_SET(sockets[i], &readable_sockets);
         if (sockets[i] > max_sock) max_sock = sockets[i];
     }
 
     while(true) {
-        active_socket = select(max_sock + 1, readable_sockets, NULL, NULL, NULL);
+        active_socket = select(max_sock + 1, &readable_sockets, NULL, NULL, NULL);
         cout << "max_sock: " << max_sock << endl;
         cout << "active_socket: " << active_socket << endl;
         if (active_socket < 0) {
@@ -75,7 +78,7 @@ int main () {
             continue;
         }
 
-        if (FD_ISSET(msgsock, readable_sockets)) {
+        //if (FD_ISSET(msgsock, &readable_sockets)) {
             msgsock = accept(active_socket, 0, 0);
 
             if (msgsock == -1) perror("function accept()");
@@ -86,9 +89,12 @@ int main () {
                 else cout << "recived message: " << buf << endl;
             } while (rval > 0);
 
-        }
+            close(msgsock);
+        //}
 
-        close(msgsock);
+        int tmp = 0;
+        cin >> tmp;
+
     }
 
     for (int i = 0; i < max_connections; i++) {
@@ -96,8 +102,8 @@ int main () {
         unlink(SOCKET_FILES[i].c_str());
     }
 
-    FD_ZERO(readable_sockets);
-    FD_ZERO(writeable_sockets);
+    FD_ZERO(&readable_sockets);
+    FD_ZERO(&writeable_sockets);
 
     return 0;
 
