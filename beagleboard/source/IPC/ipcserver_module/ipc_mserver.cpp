@@ -17,12 +17,16 @@ using namespace std;
 int main () {
 
 
-    const int max_connections = FD_SETSIZE;                     /// describes the max. number of connections who are possible -- for system max. possible use "FD_SETSIZE"
-    const string SOCKET_FILE = "/tmp/ipcserver_module.uds";     /// defines the unix-domain-socket-file used for socket-communication
+    const int max_connections = FD_SETSIZE;                         /// describes the max. number of connections who are possible -- for system max. possible use "FD_SETSIZE"
+    const string SOCKET_FILE = "/tmp/ipcserver_module.uds";         /// defines the unix-domain-socket-file used for socket-communication
 
-    const short callback_error_by_setting_up_connection = 0;    /// callback which is sent by an error while setting up a new connection
-    const short callback_connection_setup_seccessful = 1;       /// callback which is sent after a successful setup of the connection
-    const short callback_endpoint_not_longer_available = 2;     /// callback which is sent when an endpoint of the connection is not longer available
+    const short callback_error_by_setting_up_connection = 0;        /// callback which is sent for an error while setting up a new connection
+    const short callback_connection_setup_seccessful = 1;           /// callback which is sent after a successful setup of the connection
+    const short callback_endpoint_not_longer_available = 2;         /// callback which is sent when an endpoint of the connection is not longer available
+    const short callback_data_delivered_successfully = 3;           /// callback which is sent when the sent data-package is delivered successfully to the endpoint
+    const short callback_error_while_sending_data_package = 4;      /// callback which is sent for an error while sending a data-package to an endpoint
+    const short callback_wrong_data_format_for_identification = 5;  /// callback which is sent for receiving a wrong data format for the identification-package
+    const short callback_receiving_connection_already_exists = 6;   /// callback which is sent when a client try to setup a receiving-connection which already exists
 
 
     int client_socks[max_connections];              /// sockets used for the client communication
@@ -183,9 +187,24 @@ int main () {
 
                             /// check for an receiving connection
                             if (short(buf[0]) == short(buf[1])) {   /// its a receiving connection
-                                client_IDs[com_sock] = short(buf[0]);
-                                endpoint_IDs[com_sock] = short(buf[1]);
-                                cout << "new receiving connection set ..." << endl;
+                                bool con_exists = false;
+                                for (int j = 0; j < max_connections; j++) {   /// check weather the receiving-connection already exists
+                                    if (short(buf[0]) == client_IDs[j] || short(buf[1]) == endpoint_IDs[j]) {   /// the receiving-connections already exists
+                                        con_exists = true;
+                                        if (write(com_sock, (char*)&callback_receiving_connection_already_exists, 1) < 0) {
+                                            perror("could not send callback to client --> function write()");
+                                        }
+                                        cout << "receiving connection already exists ..." << endl;
+                                        break;
+                                    }
+
+                                }
+                                if (!con_exists) {      /// receiving-connections do not exist, so set it here
+                                    client_IDs[com_sock] = short(buf[0]);
+                                    endpoint_IDs[com_sock] = short(buf[1]);
+                                    cout << "new receiving connection set ..." << endl;
+                                }
+                                else continue;
                             }
                             else {  /// check weather the endpoint is already known
                                 for (int j = 0; j < max_connections; j++) {
@@ -210,12 +229,20 @@ int main () {
                             }
                         }
                         else {  /// wrong data format
+                            if (write(com_sock, (char*)&callback_wrong_data_format_for_identification, 1) < 0) {
+                                perror("could not send callback to client --> function write()");
+                            }
+
                             cout << "error: received wrong data format, expected ID-package (2byte)" << endl;
                             continue;
                         }
                     }
                     else {  /// work with recived data
                         cout << "received data from sender: " << client_IDs[com_sock] << " with endpoint: " << endpoint_IDs[com_sock] << endl;
+
+                        if (write(com_sock, (char*)&callback_data_delivered_successfully, 1) < 0) {
+                            perror("could not send callback to client --> function write()");
+                        }
                     }
                     //cout << "recived id-message from client: " << buf << "  " << com_sock << endl;
                 }

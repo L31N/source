@@ -55,9 +55,11 @@ int main (int argc, char** argv) {
         }
 
         char buf[1024];
-        if (read(sock, buf, 1024) < 0) perror("could not read data from server --> function read()");
-
-        cout << "callback: " << short(buf[0]) << endl;
+        int retval = -1;
+        retval = read(sock, buf, 1024);
+        if (retval < 0) perror("could not read data from server --> function read()");
+        else if (retval == 0) cout << "server closed connection" << endl;
+        else cout << "callback: " << short(buf[0]) << endl;
 
         if (data == "quit") break;
     }
