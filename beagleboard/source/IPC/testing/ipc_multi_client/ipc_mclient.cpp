@@ -54,6 +54,11 @@ int main (int argc, char** argv) {
             perror("could not send data to server --> function write()");
         }
 
+        char buf[1024];
+        if (read(sock, buf, 1024) < 0) perror("could not read data from server --> function read()");
+
+        cout << "callback: " << short(buf[0]) << endl;
+
         if (data == "quit") break;
     }
 

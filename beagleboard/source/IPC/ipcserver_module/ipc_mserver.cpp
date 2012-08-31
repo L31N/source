@@ -20,6 +20,10 @@ int main () {
     const int max_connections = FD_SETSIZE;                     /// describes the max. number of connections who are possible -- for system max. possible use "FD_SETSIZE"
     const string SOCKET_FILE = "/tmp/ipcserver_module.uds";     /// defines the unix-domain-socket-file used for socket-communication
 
+    const short callback_error_by_setting_up_connection = 0;    /// callback which is sent by an error while setting up a new connection
+    const short callback_connection_setup_seccessful = 1;       /// callback which is sent after a successful setup of the connection
+    const short callback_endpoint_not_longer_available = 2;     /// callback which is sent when an endpoint of the connection is not longer available
+
 
     int client_socks[max_connections];              /// sockets used for the client communication
     short client_IDs[max_connections];              /// contains the client-IDs, the index is related to the socket-descriptors used by the client
@@ -141,14 +145,69 @@ int main () {
                     close(com_sock);
                     FD_CLR(com_sock, all_sockets);
                     client_socks[i] = -1;
+
+                    /// reset ID-relations for this client / socket-descriptor
+                        /// if it was a receiving connection --> all connections with endpoint to it have to be closed
+
                     cout << "client closed communication" << endl;
+
+                    if (client_IDs[com_sock] == endpoint_IDs[com_sock]) { /// connection was a receiving-connection
+                        for (int j = 0; j < max_connections; j++) {
+                            //cout << "client_socks[" << j << "]: " << client_socks[j] << " client_IDs[" << j << "]: " << client_IDs[j] << " endpoint_IDs[" << j << "]: " << endpoint_IDs[j] << endl;
+                            if (endpoint_IDs[j] == client_IDs[com_sock]) {  /// connections found with endpoint to closed receiving connection
+                                /// write back a callback to client which have to close communication
+                                    /// find socket-descriptor which contains the connection which should be closed
+                                for (int k = 0; k < max_connections; k++) {
+                                    if (client_socks[k] == j) {     /// socket-descriptor which contains the right connection found
+                                        if (write(client_socks[k], (char*)&callback_endpoint_not_longer_available, 1) < 0) {
+                                            perror("could not send callback to client --> function write()");
+                                        }
+                                        /// release IDs for this connection
+                                        client_IDs[client_socks[k]] = -1;
+                                        endpoint_IDs[client_socks[k]] = -1;
+                                    }
+                                    //cout << "sent callback (endpoint_not_longer_available) to client: " << client_socks[k] << endl;
+                                }
+
+                                cout << "closed connection to released endpoint" << endl;
+                            }
+                        }
+                    }
+                    /// release IDs for the connections which closed client
+                    client_IDs[com_sock] = -1;
+                    endpoint_IDs[com_sock] = -1;
                 }
                 else {      /// recived data from client
                     if (client_IDs[com_sock] == -1) {   /// read identification and save it to client_IDs[]
-                        cout << "unknown ID" << endl;
                         if (strlen(buf) == 2) {
-                            client_IDs[com_sock] = short(buf[0]);
-                            endpoint_IDs[com_sock] = short(buf[1]);
+
+                            /// check for an receiving connection
+                            if (short(buf[0]) == short(buf[1])) {   /// its a receiving connection
+                                client_IDs[com_sock] = short(buf[0]);
+                                endpoint_IDs[com_sock] = short(buf[1]);
+                                cout << "new receiving connection set ..." << endl;
+                            }
+                            else {  /// check weather the endpoint is already known
+                                for (int j = 0; j < max_connections; j++) {
+                                    if (client_IDs[j] == short(buf[1])) {   /// endpoint already known -> setup IDs
+                                        client_IDs[com_sock] = short(buf[0]);
+                                        endpoint_IDs[com_sock] = short(buf[1]);
+                                    }
+                                }
+                            }
+                            /// send error message back, if endpoint is not already known (callback 0)
+                            if (client_IDs[com_sock] == -1 || client_IDs[com_sock] == -1) {
+                                if (write(com_sock, (char*)&callback_error_by_setting_up_connection, 1) < 0) {
+                                    perror("could not send callback to client --> function write()");
+                                }
+                                cout << "received unknown endpoint ..." << endl;
+                            }
+                            else {  /// setting up connection was successful (callback 1)
+                                if (write(com_sock, (char*)&callback_connection_setup_seccessful, 1) < 0) {
+                                    perror("could not send callback to client --> function write()");
+                                }
+                                cout << "connection was successfully set ..." << endl;
+                            }
                         }
                         else {  /// wrong data format
                             cout << "error: received wrong data format, expected ID-package (2byte)" << endl;
