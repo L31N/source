@@ -161,7 +161,7 @@ int main () {
                             if (endpoint_IDs[j] == client_IDs[com_sock]) {  /// connections found with endpoint to closed receiving connection
                                 /// write back a callback to client which have to close communication
                                     /// find socket-descriptor which contains the connection which should be closed
-                                for (int k = 0; k < max_connections; k++) {
+                                for (int k = 0; k < max_sock + 1; k++) {
                                     if (client_socks[k] == j) {     /// socket-descriptor which contains the right connection found
                                         if (write(client_socks[k], (char*)&callback_endpoint_not_longer_available, 1) < 0) {
                                             perror("could not send callback to client --> function write()");
@@ -237,12 +237,49 @@ int main () {
                             continue;
                         }
                     }
-                    else {  /// work with recived data
-                        cout << "received data from sender: " << client_IDs[com_sock] << " with endpoint: " << endpoint_IDs[com_sock] << endl;
+                    else {  /// work with received data
+                        cout << "received data from sender: " << char(client_IDs[com_sock]) << " with endpoint: " << char(endpoint_IDs[com_sock]) << endl;
 
-                        if (write(com_sock, (char*)&callback_data_delivered_successfully, 1) < 0) {
-                            perror("could not send callback to client --> function write()");
+                        /// create new string with right formatting to send it to the endpoint
+                        string data_for_endpoint = buf;
+                        data_for_endpoint.insert(0, 1, char(client_IDs[com_sock]));
+                        cout << "the output string will look like this: " << data_for_endpoint << endl;
+
+                        int endpoint_sock = -1;
+                        /// find the right socket-descriptor for endpoint
+                        for (int j = 0; j < max_connections; j++) {
+                            if (client_IDs[j] == endpoint_IDs[com_sock]) {
+                                for (int k = 0; k < max_sock + 1; k++) {
+                                    if (client_socks[k] == j) {
+                                        endpoint_sock = client_socks[k];
+                                        break;
+                                    }
+                                }
+                                break;
+                            }
                         }
+
+                        cout << "endpoint filedescriptor: " << endpoint_sock << endl;
+
+                        if (endpoint_sock != -1) {      /// the socket-descriptor for the right endpoint was found
+                            if (write(endpoint_sock, data_for_endpoint.c_str(), data_for_endpoint.length()) < 0) {
+                                perror("could not send data-package to endpoint --> function write()");
+                                if (write(com_sock, (char*)&callback_error_while_sending_data_package, 1) < 0) {
+                                    perror("could not send callback to client --> function write()");
+                                }
+                            }
+                            else {
+                                if (write(com_sock, (char*)&callback_data_delivered_successfully, 1) < 0) {
+                                    perror("could not send callback to client --> function write()");
+                                }
+                            }
+                        }
+                        else {      /// could not find socket-descriptor for endpoint
+                            if (write(com_sock, (char*)&callback_error_while_sending_data_package, 1) < 0) {
+                                perror("could not send callback to client --> function write()");
+                            }
+                        }
+
                     }
                     //cout << "recived id-message from client: " << buf << "  " << com_sock << endl;
                 }
