@@ -279,16 +279,8 @@ int main () {
                                 perror("could not send callback to client --> function write()");
                             }
                         }
-
                     }
-                    //cout << "recived id-message from client: " << buf << "  " << com_sock << endl;
                 }
-
-                /// write back a confirmation
-                //cout << "sending a confirmation now ..." << endl;
-                //if (write(com_sock, "data recived ...", 17) < 0) {
-                  //  perror("could not send a confirmation to client --> function write()");
-                //}
 
                 /// check for more ready descriptors
                 if (--ready <= 0) break;    //seems not so
