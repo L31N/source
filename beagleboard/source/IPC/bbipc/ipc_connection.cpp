@@ -68,7 +68,11 @@ ipcConnection::ipcConnection(short _senderID, short _endpointID, const std::stri
     }
 }
 
-ipcConnection::~ipcConnection() {}
+ipcConnection::~ipcConnection() {
+    /// release connection ...
+    cout << "deconstructor of Connection ..." << endl;
+    close(sock);
+}
 
 void ipcConnection::setSenderID(short _senderID) { senderID = _senderID; }
 void ipcConnection::setEndpointID(short _endpointID) { endpointID = _endpointID; }
@@ -83,6 +87,30 @@ bool ipcConnection::sendData(const std::string data) {
         _errno = errno;
         return false;
     }
-    else return true;
+    char callback[1];
+    int retval = read(sock, callback, 1);
+
+    if (retval < 0) {
+        _errno = errno;
+        cout << "error while reading data: " << strerror(errno) << endl;
+        return false;
+    }
+    else if (retval == 0) {
+        cout << "error: server closed communication ..." << endl;
+        return false;
+    }
+    else {
+        switch (short(callback[0])) {
+            case 4:
+                cout << "error while sending data package ..." << endl;
+                _errno = -1;
+                break;
+            case 3:
+                cout << "data-package successfully delivered ..." << endl;
+                break;
+        }
+    }
+
+    return true;
 }
 
