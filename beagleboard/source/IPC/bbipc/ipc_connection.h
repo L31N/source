@@ -16,6 +16,7 @@ class ipcConnection {
         ~ipcConnection();
 
         bool sendData(const std::string data);
+        bool readDataFromBuffer();
 
         int getLastError(void);
 
@@ -36,6 +37,12 @@ class ipcConnection {
 
         short getSenderID(void);
         short getEndpointID(void);
+};
+
+class ipcReceivingConnection : public ipcConnection {
+    public:
+        ipcReceivingConnection();
+        ~ipcReceivingConnection();
 };
 
 #endif // _CONNECTION_H_

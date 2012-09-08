@@ -7,10 +7,7 @@
 #include <sys/un.h>
 
 #include <string>
-#include <iostream>
 
 #include "ipc_connection.h"
-
-
 
 #endif // _BB_IPC_H_

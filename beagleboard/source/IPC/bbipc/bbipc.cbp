@@ -34,9 +34,10 @@
 				</Linker>
 			</Target>
 		</Build>
-		<Unit filename="main.c">
-			<Option compilerVar="CC" />
-		</Unit>
+		<Unit filename="bbipc.cpp" />
+		<Unit filename="bbipc.h" />
+		<Unit filename="ipc_connection.cpp" />
+		<Unit filename="ipc_connection.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

@@ -15,28 +15,26 @@ int main () {
     }
 
 
-        ipcConnection* connection2 = new ipcConnection(50, 49, "/tmp/ipcserver_module.uds");
-        if (connection2->getLastError() != 0) {
-            cout << "error in constructor of Connection2: " << strerror(connection->getLastError()) << endl;
+    ipcConnection* connection2 = new ipcConnection(50, 49, "/tmp/ipcserver_module.uds");
+    if (connection2->getLastError() != 0) {
+        cout << "error in constructor of Connection2: " << strerror(connection->getLastError()) << endl;
+    }
+
+    for(int i = 0; i < 5; i++) {
+
+        if (!connection2->sendData("hello123")) {
+            cout << "error while sending data: " << strerror(connection->getLastError());
         }
+    }
 
-        for(int i = 0; i < 5; i++) {
-
-            if (!connection2->sendData("hello123")) {
-                cout << "error while sending data: " << strerror(connection->getLastError());
-            }
-        }
-
-        delete connection2;
-
-        //sleep(1);
+    delete connection2;
 
 
+    connection2 = new ipcConnection(60, 49, "/tmp/ipcserver_module.uds");
+    connection2->sendData("hellofromsecondconnection");
+
+    delete connection2;
     delete connection;
-
-    //sleep(1);
-
-    //while(true);
 
     return 0;
 }
