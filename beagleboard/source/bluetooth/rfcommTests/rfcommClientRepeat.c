@@ -10,6 +10,8 @@ int main(int argc, char **argv)
 {
     while(1) {
 
+    //usleep(1000);
+
     struct sockaddr_rc addr = { 0 };
     int s, status;
     char* dest = *(argv+1);
