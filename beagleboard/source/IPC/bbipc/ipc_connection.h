@@ -10,6 +10,8 @@
 
 #include <sys/errno.h>
 
+#include <pthread.h>
+
 #include "buffer.h"
 
 class ipcConnection {
@@ -57,6 +59,13 @@ class ipcReceivingConnection : public ipcConnection {
         Data* readDataFromBuffer();
 
     private:
+        struct thread_data {
+            int _sock;
+            Buffer* _buffer;
+        };
+
+        static void* saveReceivedData_threaded(thread_data* arg);
+
         Buffer* dataBuffer;
 };
 

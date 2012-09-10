@@ -122,8 +122,21 @@ ipcReceivingConnection::ipcReceivingConnection(const std::string _UDS_FILE_PATH,
     /// Setting up the data-buffer
     dataBuffer = new Buffer;
 
-    /// --> Here we have to set a new thread to fill the buffer ...
 
+    /// --> Here we have to set a new thread to listen for incoming data and fill the buffer ...
+
+    pthread_t listeningThread;
+
+    struct thread_data* data = new struct thread_data;
+    data->_sock = sock;
+    data->_buffer = dataBuffer;
+
+
+    if(pthread_create(&listeningThread, NULL, &saveReceivedData_threaded, &data) != 0) {
+         cout << "Konnte Thread nicht erzeugen: " << strerror(errno) << endl;
+         _errno = errno;
+         return;
+    }
 
 }
 
@@ -132,3 +145,9 @@ ipcReceivingConnection::~ipcReceivingConnection() { delete dataBuffer; }
 Data* ipcReceivingConnection::readDataFromBuffer() {
     return dataBuffer->getLastData();
 }
+
+/// This is the function which is executed as a new thread
+void ipcReceivingConnection::saveReceivedData_threaded(thread_data* arg) {
+
+}
+
