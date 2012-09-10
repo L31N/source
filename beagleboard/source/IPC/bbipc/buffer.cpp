@@ -7,10 +7,14 @@ Buffer::~Buffer() {}
 
 void Buffer::insert(Data* data) {
     start->insert(data);
+
+    /// To many elements exists ... delete the latest
+    if (start->getKnotCount() > maxElements) start->releaseLastKnot();
+
     return;
 }
 
-Data* Buffer::getLastData(void) { return start->getData(void); }
+Data* Buffer::getLastData(void) { return start->getData(); }
 
 /** CLASS DATA **/
 Data::Data() {}
@@ -25,7 +29,23 @@ Knot* StartingKnot::insert(Data* data) {
     return this;
 }
 
-Data* StartingKnot::getData(void) { return next->getData(void); }
+Data* StartingKnot::getData(void) {
+    return next->getData();
+    /// Knoten nach auslesen der Daten wieder löschen ...
+    Knot* old = next;
+    next = next->getNext();
+    delete old;
+}
+
+void StartingKnot::releaseLastKnot(void) {
+    Knot* old = next;
+    next = next->getNext();
+    delete old;
+}
+
+unsigned short StartingKnot::getKnotCount(void) { return next->getKnotCount(); }
+
+Knot* StartingKnot::getNext(void) { return next->getNext(); }
 
 /** CLASS ENDING KNOT **/
 EndingKnot::EndingKnot() {}
@@ -36,15 +56,25 @@ Knot* EndingKnot::insert(Data* data) {
     return dataKnot;
 }
 
+unsigned short EndingKnot::getKnotCount(void) { return 0; }
+
+Data* EndingKnot::getData(void) { return NULL; }
+
+Knot* EndingKnot::getNext(void) { return NULL; }
+
 /** CLASS DATA KNOT **/
 DataKnot::DataKnot(Data* _data, Knot* _knot) {
     data = _data;
     next = _knot;
+
+    knotCount++;
 }
 
 DataKnot::~DataKnot() {
     delete data;
     delete next;
+
+    knotCount--;
 }
 
 Knot* DataKnot::insert(Data* data) {
@@ -55,3 +85,6 @@ Knot* DataKnot::insert(Data* data) {
 }
 
 Data* DataKnot::getData(void) { return data; }
+
+Knot* DataKnot::getNext(void) { return next; }
+unsigned short DataKnot::getKnotCount(void) { return knotCount; }

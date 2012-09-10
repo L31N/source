@@ -9,7 +9,7 @@ class Data;
 
 class Buffer {
     public:
-        Buffer(unsigned short _maxElements = 0);
+        Buffer(unsigned short _maxElements = 5);
         ~Buffer();
 
         void insert(Data* data);
@@ -37,6 +37,11 @@ class Knot {
         virtual ~Knot() {}
 
         virtual Knot* insert(Data* data) = 0;
+
+        virtual Data* getData(void) = 0;
+        virtual Knot* getNext(void) = 0;
+
+        virtual unsigned short getKnotCount(void) = 0;
 };
 
 class StartingKnot : public Knot {
@@ -45,10 +50,16 @@ class StartingKnot : public Knot {
         ~StartingKnot();
 
         Knot* insert(Data* data);
+        void releaseLastKnot();
+
         Data* getData(void);
+        Knot* getNext(void);
 
     private:
         Knot* next;
+
+    public:
+        unsigned short getKnotCount(void);
 };
 
 class EndingKnot : public Knot {
@@ -57,6 +68,11 @@ class EndingKnot : public Knot {
         ~EndingKnot();
 
         Knot* insert(Data* _data);
+        Data* getData(void);
+
+        Knot* getNext(void);
+
+       unsigned short getKnotCount(void);
 };
 
 class DataKnot : public Knot {
@@ -70,6 +86,12 @@ class DataKnot : public Knot {
     private:
         Data* data;
         Knot* next;
+
+        static unsigned short knotCount;
+
+    public:
+        Knot* getNext(void);
+        unsigned short getKnotCount(void);
 };
 
 #endif // _BUFFER_H_
