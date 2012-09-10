@@ -10,17 +10,16 @@
 
 #include <sys/errno.h>
 
+#include "buffer.h"
+
 class ipcConnection {
     public:
-        ipcConnection(short _senderID, short _endpointID, const std::string _UDS_FILE_PATH);
+        ipcConnection (const std::string _UDS_FILE_PATH);
         ~ipcConnection();
-
-        bool sendData(const std::string data);
-        bool readDataFromBuffer();
 
         int getLastError(void);
 
-    private:
+    protected:
         short senderID;
         short endpointID;
 
@@ -37,12 +36,28 @@ class ipcConnection {
 
         short getSenderID(void);
         short getEndpointID(void);
+
+};
+
+class ipcSendingConnection : public ipcConnection {
+    public:
+        ipcSendingConnection(const std::string _UDS_FILE_PATH, short _senderID, short _endpointID);
+
+        bool sendData(const std::string data);
+
+    private:
+        short endpointID;
 };
 
 class ipcReceivingConnection : public ipcConnection {
     public:
-        ipcReceivingConnection();
+        ipcReceivingConnection(const std::string _UDS_FILE_PATH, short _senderID);
         ~ipcReceivingConnection();
+
+        bool readDataFromBuffer();
+
+    private:
+        Buffer* dataBuffer;
 };
 
 #endif // _CONNECTION_H_

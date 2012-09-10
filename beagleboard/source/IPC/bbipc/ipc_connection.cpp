@@ -5,13 +5,26 @@
 
 using namespace std;
 
-ipcConnection::ipcConnection(short _senderID, short _endpointID, const std::string _UDS_FILE_PATH) {
+/** CLASS IPC_CONNECTION **/
+
+ipcConnection::ipcConnection(const std::string _UDS_FILE_PATH) { UDS_FILE_PATH = _UDS_FILE_PATH; }
+ipcConnection::~ipcConnection() { close(sock); }
+
+void ipcConnection::setEndpointID(short _endpointID) { endpointID = _endpointID; }
+void ipcConnection::setSenderID(short _senderID) { senderID = _senderID; }
+
+short ipcConnection::getSenderID(void) { return senderID; }
+short ipcConnection::getEndpointID(void) { return endpointID; }
+
+int ipcConnection::getLastError(void) { return _errno; }
+
+
+/** CLASS IPC_SENDING_CONNECTION **/
+ipcSendingConnection::ipcSendingConnection (const std::string _UDS_FILE_PATH, short _senderID, short _endpointID) : ipcConnection(_UDS_FILE_PATH) {
     _errno = 0;
 
     senderID = _senderID;
     endpointID = _endpointID;
-
-    UDS_FILE_PATH = _UDS_FILE_PATH;
 
     /// Connect to the server and hold connection ...
     addr.sun_family = AF_UNIX;
@@ -68,21 +81,7 @@ ipcConnection::ipcConnection(short _senderID, short _endpointID, const std::stri
     }
 }
 
-ipcConnection::~ipcConnection() {
-    /// release connection ...
-    cout << "deconstructor of Connection ..." << endl;
-    close(sock);
-}
-
-void ipcConnection::setSenderID(short _senderID) { senderID = _senderID; }
-void ipcConnection::setEndpointID(short _endpointID) { endpointID = _endpointID; }
-
-short ipcConnection::getSenderID(void) { return senderID; }
-short ipcConnection::getEndpointID(void) { return endpointID; }
-
-int ipcConnection::getLastError(void) { return _errno; }
-
-bool ipcConnection::sendData(const std::string data) {
+bool ipcSendingConnection::sendData(const std::string data) {
     if (write(sock, data.c_str(), data.length()) < 0) {
         _errno = errno;
         return false;
@@ -114,3 +113,22 @@ bool ipcConnection::sendData(const std::string data) {
     return true;
 }
 
+/** CLASS IPC_RECEIVING_CONNECTION **/
+
+ipcReceivingConnection::ipcReceivingConnection(const std::string _UDS_FILE_PATH, short _connID) : ipcConnection(_UDS_FILE_PATH) {
+    senderID = _connID;
+    endpointID = _connID;
+
+    /// Setting up the data-buffer
+    dataBuffer = new Buffer;
+
+    /// --> Here we have to set a new thread to fill the buffer ...
+
+
+}
+
+ipcReceivingConnection::~ipcReceivingConnection() { delete dataBuffer; }
+
+bool ipcReceivingConnection::readDataFromBuffer() {
+
+}
