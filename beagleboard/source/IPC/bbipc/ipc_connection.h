@@ -54,7 +54,7 @@ class ipcReceivingConnection : public ipcConnection {
         ipcReceivingConnection(const std::string _UDS_FILE_PATH, short _senderID);
         ~ipcReceivingConnection();
 
-        bool readDataFromBuffer();
+        Data* readDataFromBuffer();
 
     private:
         Buffer* dataBuffer;
