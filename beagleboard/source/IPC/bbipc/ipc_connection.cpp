@@ -129,7 +129,6 @@ ipcReceivingConnection::ipcReceivingConnection(const std::string _UDS_FILE_PATH,
 
 ipcReceivingConnection::~ipcReceivingConnection() { delete dataBuffer; }
 
-bool ipcReceivingConnection::readDataFromBuffer() {
-
-    return true;
+Data* ipcReceivingConnection::readDataFromBuffer() {
+    return dataBuffer->getLastData();
 }
