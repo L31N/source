@@ -131,4 +131,5 @@ ipcReceivingConnection::~ipcReceivingConnection() { delete dataBuffer; }
 
 bool ipcReceivingConnection::readDataFromBuffer() {
 
+    return true;
 }
