@@ -2,7 +2,10 @@
 #define VECTOR_HPP_INCLUDED
 
 #include <iostream>
+<<<<<<< HEAD
 #include <cmath>
+=======
+>>>>>>> 3dee279cc767b3b7f4b0a4da7a3d5da120e1f981
 
 using namespace std;
 
@@ -20,25 +23,22 @@ class vector
         void print();
 
         double getX();
+<<<<<<< HEAD
         double getY();
 
         void setX(double px);
         void setY(double py);
 
 		//***********************************
-
+=======
+        double getY();
+>>>>>>> 3dee279cc767b3b7f4b0a4da7a3d5da120e1f981
 
         vector operator+(vector sum);
         vector operator+=(vector sum);
 
         vector operator-(vector sum);
         vector operator-=(vector sum);
-
-        vector operator+(double l);
-        vector operator+=(double l);
-
-        vector operator-(double l);
-        vector operator-=(double l);
 
         vector operator=(vector sum);
 
@@ -51,31 +51,30 @@ class vector
         bool operator==(vector vect);
         bool operator!=(vector vect);
 
+<<<<<<< HEAD
         double operator*(vector vect);
 
-        vector operator++();
-        vector operator++(int);
+		vector operator++();
+		vector operator++(int);
 
-        vector operator--();
-        vector operator--(int);
+		vector operator--();
+		vector operator--(int);
 
-        bool operator<(vector vect);
-        bool operator<=(vector vect);
+		bool operator<(vector vect);
+		bool operator<=(vector vect);
 
-        bool operator>(vector vect);
-        bool operator>=(vector vect);
+		bool operator>(vector vect);
+		bool operator>=(vector vect);
 
-        vector operator!();
+		vector operator!();
 
-        //***********************************
+		//***********************************
 
-        double abs();
-        vector getUnitVector();
+		double abs();
+		vector getUnitVector();
 
-        void setLenght(double l);
-
-        double getAngle(bool deg = true);
-        double getAngle(vector vect, bool deg = true);
+=======
+>>>>>>> 3dee279cc767b3b7f4b0a4da7a3d5da120e1f981
 };
 
 
@@ -104,14 +103,17 @@ class vector
 == done
 !=  done
 
-
+<<<<<<< HEAD
 * vector Skalarprodukt done
+=======
+* vector Skalrprodukt
+>>>>>>> 3dee279cc767b3b7f4b0a4da7a3d5da120e1f981
 *= vector isn't possile
 
 / vector nothing for moment
 /= vector nothing for moment
 
-
+<<<<<<< HEAD
 ++ |vektor| ++ done
 -- |vektor| -- done
 
@@ -121,8 +123,19 @@ class vector
 > |vektor| > |vektor| done
 >= |vektor| >= |vektor| done
 
-! -vektor
+! -vektor done
+=======
+++ |vektor| ++
+-- |vektor| --
 
+< |vektor| < |vektor|
+<= |vektor| <= |vektor|
+
+> |vektor| > |vektor|
+>= |vektor| >= |vektor|
+
+! -vektor
+>>>>>>> 3dee279cc767b3b7f4b0a4da7a3d5da120e1f981
 % doen't make sense
 
 
