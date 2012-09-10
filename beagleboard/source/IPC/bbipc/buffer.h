@@ -4,7 +4,7 @@
 
 #include <string>
 
-class StartingKnot;
+class StartingNode;
 class Data;
 
 class Buffer {
@@ -16,7 +16,7 @@ class Buffer {
         Data* getLastData(void);
 
     private:
-        StartingKnot* start;
+        StartingNode* start;
 
         unsigned short maxElements;
 };
@@ -31,67 +31,67 @@ class Data {
         short senderID;
 };
 
-class Knot {
+class Node {
     public:
-        Knot() {}
-        virtual ~Knot() {}
+        Node() {}
+        virtual ~Node() {}
 
-        virtual Knot* insert(Data* data) = 0;
+        virtual Node* insert(Data* data) = 0;
 
         virtual Data* getData(void) = 0;
-        virtual Knot* getNext(void) = 0;
+        virtual Node* getNext(void) = 0;
 
-        virtual unsigned short getKnotCount(void) = 0;
+        virtual unsigned short getNodeCount(void) = 0;
 };
 
-class StartingKnot : public Knot {
+class StartingNode : public Node {
     public:
-        StartingKnot();
-        ~StartingKnot();
+        StartingNode();
+        ~StartingNode();
 
-        Knot* insert(Data* data);
-        void releaseLastKnot();
+        Node* insert(Data* data);
+        void releaseLastNode();
 
         Data* getData(void);
-        Knot* getNext(void);
+        Node* getNext(void);
 
     private:
-        Knot* next;
+        Node* next;
 
     public:
-        unsigned short getKnotCount(void);
+        unsigned short getNodeCount(void);
 };
 
-class EndingKnot : public Knot {
+class EndingNode : public Node {
     public:
-        EndingKnot();
-        ~EndingKnot();
+        EndingNode();
+        ~EndingNode();
 
-        Knot* insert(Data* _data);
+        Node* insert(Data* _data);
         Data* getData(void);
 
-        Knot* getNext(void);
+        Node* getNext(void);
 
-       unsigned short getKnotCount(void);
+       unsigned short getNodeCount(void);
 };
 
-class DataKnot : public Knot {
+class DataNode : public Node {
     public:
-        DataKnot(Data* _data, Knot* _knot);
-        ~DataKnot();
+        DataNode(Data* _data, Node* _Node);
+        ~DataNode();
 
-        Knot* insert(Data* data);
+        Node* insert(Data* data);
         Data* getData(void);
 
     private:
         Data* data;
-        Knot* next;
+        Node* next;
 
-        static unsigned short knotCount;
+        static unsigned short NodeCount;
 
     public:
-        Knot* getNext(void);
-        unsigned short getKnotCount(void);
+        Node* getNext(void);
+        unsigned short getNodeCount(void);
 };
 
 #endif // _BUFFER_H_
