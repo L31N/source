@@ -25,7 +25,13 @@ Knot* StartingKnot::insert(Data* data) {
     return this;
 }
 
-Data* StartingKnot::getData(void) { return next->getData(void); }
+Data* StartingKnot::getData(void) {
+    return next->getData(void);
+    /// Knoten nach auslesen der Daten wieder löschen ...
+    Knot* old = next;
+    next = next->getNext();
+    delete old;
+}
 
 /** CLASS ENDING KNOT **/
 EndingKnot::EndingKnot() {}
@@ -55,3 +61,5 @@ Knot* DataKnot::insert(Data* data) {
 }
 
 Data* DataKnot::getData(void) { return data; }
+
+Knot* DataKnot::getNext(void) { return next; }

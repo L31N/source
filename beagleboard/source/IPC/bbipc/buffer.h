@@ -9,7 +9,7 @@ class Data;
 
 class Buffer {
     public:
-        Buffer(unsigned short _maxElements = 0);
+        Buffer(unsigned short _maxElements = 5);
         ~Buffer();
 
         void insert(Data* data);
@@ -70,6 +70,9 @@ class DataKnot : public Knot {
     private:
         Data* data;
         Knot* next;
+
+    public:
+        Knot* getNext(void);
 };
 
 #endif // _BUFFER_H_
