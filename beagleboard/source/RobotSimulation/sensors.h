@@ -24,7 +24,8 @@ class BallSensor : public Sensor {
         BallSensor(Robot* _robot, Ball* _ball, Angle _angle);
         ~BallSensor();
 
-        int getValue();
+        int getValue(void);
+        Angle getAngle(void);
 
     private:
         Ball* ball;

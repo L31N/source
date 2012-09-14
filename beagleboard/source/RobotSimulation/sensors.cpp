@@ -20,3 +20,7 @@ int BallSensor::getValue() {
 
     return 0;
 }
+
+Angle BallSensor::getAngle(void) {
+    return angle;
+}
