@@ -12,8 +12,8 @@ class Angle {
 
     public:
         void setValue(int _value) {
-            if (_value >= 0 && value <= 360) value = _value;
-            else value = -1;
+            if (_value < 0) _value *= -1;
+            value = _value%360;
         }
 
         int getValue(void) { return value; }

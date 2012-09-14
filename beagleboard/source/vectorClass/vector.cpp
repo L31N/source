@@ -5,7 +5,7 @@
     Diese Methode erzeugt einen neuen Vector. Da kein Vektor angegeben wurde
     wir er als Nullvektor initialisier.
 */
-vector::vector()
+Vector::Vector()
 {
     x = 0;
     y = 0;
@@ -15,7 +15,7 @@ vector::vector()
 /*
     Diese Methode erzeugt einen neuen Vector mit den Koordinaten (px, py)
 */
-vector::vector(double px, double py)
+Vector::Vector(double px, double py)
 {
     x = px;
     y = py;
@@ -25,7 +25,7 @@ vector::vector(double px, double py)
 /*
     Diese Methode gibt den vector im Format ( x | y ) aus
 */
-void vector::print()
+void Vector::print()
 {
     cout << "( " << x << " | " << y << ")";
 }
@@ -34,7 +34,7 @@ void vector::print()
 /*
     Diese Methode gibt die X-Koordinate zurück
 */
-double vector::getX()
+double Vector::getX()
 {
     return x;
 }
@@ -43,7 +43,7 @@ double vector::getX()
 /*
     Diese Methode gibt die Y-Koordinate zurück
 */
-double vector::getY()
+double Vector::getY()
 {
     return y;
 }
@@ -52,7 +52,7 @@ double vector::getY()
 /*
     Setzt X
 */
-void vector::setX(double px)
+void Vector::setX(double px)
 {
     x = px;
     return;
@@ -62,7 +62,7 @@ void vector::setX(double px)
 /*
     Setzt Y
 */
-void vector::setY(double py)
+void Vector::setY(double py)
 {
     y = py;
     return;
@@ -72,9 +72,9 @@ void vector::setY(double py)
 /*
     Setzt die Länge auf l
 */
-void vector::setLenght(double l)
+void Vector::setLenght(double l)
 {
-    vector tmp = this->getUnitVector()*l;
+    Vector tmp = this->getUnitVector()*l;
     (*this) = tmp;
 }
 
@@ -86,7 +86,7 @@ void vector::setLenght(double l)
 /*
     Diese Methode Addiert das Objekt und den vector sum
 */
-vector vector::operator+(vector sum)
+Vector Vector::operator+(Vector sum)
 {
     x += sum.getX();
     y += sum.getY();
@@ -98,7 +98,7 @@ vector vector::operator+(vector sum)
 /*
     Diese Methode Addiert das Objekt und den vector sum
 */
-vector vector::operator+=(vector sum)
+Vector Vector::operator+=(Vector sum)
 {
     x += sum.getX();
     y += sum.getY();
@@ -110,7 +110,7 @@ vector vector::operator+=(vector sum)
 /*
     Diese Methode Subtrahiert das Objekt und den vector sum
 */
-vector vector::operator-(vector sum)
+Vector Vector::operator-(Vector sum)
 {
     x -= sum.getX();
     y -= sum.getY();
@@ -122,7 +122,7 @@ vector vector::operator-(vector sum)
 /*
     Diese Methode Subtrahiert das Objekt und den vector sum
 */
-vector vector::operator-=(vector sum)
+Vector Vector::operator-=(Vector sum)
 {
     x -= sum.getX();
     y -= sum.getY();
@@ -134,9 +134,9 @@ vector vector::operator-=(vector sum)
 /*
     Diese Methode verlängert das Objekt um l
 */
-vector vector::operator+(double l)
+Vector Vector::operator+(double l)
 {
-    vector tmp = this->getUnitVector()*l;
+    Vector tmp = this->getUnitVector()*l;
     (*this) += tmp;
 
     return *this;
@@ -146,9 +146,9 @@ vector vector::operator+(double l)
 /*
     Diese Methode verlängert das Objekt um l
 */
-vector vector::operator+=(double l)
+Vector Vector::operator+=(double l)
 {
-    vector tmp = this->getUnitVector()*l;
+    Vector tmp = this->getUnitVector()*l;
     (*this) += tmp;
 
     return *this;
@@ -158,9 +158,9 @@ vector vector::operator+=(double l)
 /*
     Diese Methode verkürzt das Objekt um l
 */
-vector vector::operator-(double l)
+Vector Vector::operator-(double l)
 {
-    vector tmp = this->getUnitVector()*l;
+    Vector tmp = this->getUnitVector()*l;
     (*this) -= tmp;
 
     return *this;
@@ -170,9 +170,9 @@ vector vector::operator-(double l)
 /*
     Diese Methode verkürzt das Objekt um l
 */
-vector vector::operator-=(double l)
+Vector Vector::operator-=(double l)
 {
-    vector tmp = this->getUnitVector()*l;
+    Vector tmp = this->getUnitVector()*l;
     (*this) -= tmp;
 
     return *this;
@@ -182,7 +182,7 @@ vector vector::operator-=(double l)
 /*
     Diese Methode weist dem Objekt die Koordinaten von sum zu
 */
-vector vector::operator=(vector sum)
+Vector Vector::operator=(Vector sum)
 {
     x = sum.getX();
     y = sum.getY();
@@ -194,7 +194,7 @@ vector vector::operator=(vector sum)
 /*
     Diese Methode Multipliziert das Objekt und den Faktor factor
 */
-vector vector::operator*(double factor)
+Vector Vector::operator*(double factor)
 {
     x *= factor;
     y *= factor;
@@ -206,7 +206,7 @@ vector vector::operator*(double factor)
 /*
     Diese Methode Multipliziert das Objekt und den Faktor factor
 */
-vector vector::operator*=(double factor)
+Vector Vector::operator*=(double factor)
 {
     x *= factor;
     y *= factor;
@@ -218,7 +218,7 @@ vector vector::operator*=(double factor)
 /*
     Diese Methode Dividiert das Objekt durch den Faktor factor
 */
-vector vector::operator/(double factor)
+Vector Vector::operator/(double factor)
 {
     x /= factor;
     y /= factor;
@@ -230,7 +230,7 @@ vector vector::operator/(double factor)
 /*
     Diese Methode Dividiert das Objekt durch den Faktor factor
 */
-vector vector::operator/=(double factor)
+Vector Vector::operator/=(double factor)
 {
     x /= factor;
     y /= factor;
@@ -242,7 +242,7 @@ vector vector::operator/=(double factor)
 /*
     Diese Prüft ob das Objekt gleich vector vect ist, wenn ja dann true
 */
-bool vector::operator==(vector vect)
+bool Vector::operator==(Vector vect)
 {
     if(x==vect.getX() && y==vect.getY())
     {
@@ -258,7 +258,7 @@ bool vector::operator==(vector vect)
 /*
     Diese Prüft ob das Objekt ungleich vector vect ist, wenn ja dann true
 */
-bool vector::operator!=(vector vect)
+bool Vector::operator!=(Vector vect)
 {
     if(x!=vect.getX() || y!=vect.getY())
     {
@@ -274,7 +274,7 @@ bool vector::operator!=(vector vect)
 /*
     Gibt das Skalarprodukt des Objekts und von vect zurück
 */
-double vector::operator*(vector vect)
+double Vector::operator*(Vector vect)
 {
 	return x*vect.getX()+y*vect.getY();
 }
@@ -283,7 +283,7 @@ double vector::operator*(vector vect)
 /*
     Erhöht den Betrag um 1
 */
-vector vector::operator++()
+Vector Vector::operator++()
 {
 	*this += this->getUnitVector();
 	return *this;
@@ -293,9 +293,9 @@ vector vector::operator++()
 /*
     Erhöht den Betrag um 1
 */
-vector vector::operator++(int)
+Vector Vector::operator++(int)
 {
-	vector tmp = *this;
+	Vector tmp = *this;
 	*this += this->getUnitVector();
 	return tmp;
 }
@@ -304,7 +304,7 @@ vector vector::operator++(int)
 /*
     Rediziert den Betrag um 1
 */
-vector vector::operator--()
+Vector Vector::operator--()
 {
 	*this -= this->getUnitVector();
 	return *this;
@@ -314,9 +314,9 @@ vector vector::operator--()
 /*
     Reduziert den Betrag um 1
 */
-vector vector::operator--(int)
+Vector Vector::operator--(int)
 {
-	vector tmp = *this;
+	Vector tmp = *this;
 	*this -= this->getUnitVector();
 	return tmp;
 }
@@ -325,7 +325,7 @@ vector vector::operator--(int)
 /*
     vergleicht die Beträge
 */
-bool vector::operator<(vector vect)
+bool Vector::operator<(Vector vect)
 {
     if(this->abs()<vect.abs())
     {
@@ -341,7 +341,7 @@ bool vector::operator<(vector vect)
 /*
     vergleicht die Beträge
 */
-bool vector::operator<=(vector vect)
+bool Vector::operator<=(Vector vect)
 {
     if(this->abs()<=vect.abs())
     {
@@ -357,7 +357,7 @@ bool vector::operator<=(vector vect)
 /*
     vergleicht die Beträge
 */
-bool vector::operator>(vector vect)
+bool Vector::operator>(Vector vect)
 {
     if(this->abs()>vect.abs())
     {
@@ -373,7 +373,7 @@ bool vector::operator>(vector vect)
 /*
     vergleicht die Beträge
 */
-bool vector::operator>=(vector vect)
+bool Vector::operator>=(Vector vect)
 {
     if(this->abs()>=vect.abs())
     {
@@ -389,9 +389,9 @@ bool vector::operator>=(vector vect)
 /*
     gibt den Gegenvektor zurück
 */
-vector vector::operator!()
+Vector Vector::operator!()
 {
-    vector tmp = *this;
+    Vector tmp = *this;
     tmp *= -1;
     return tmp;
 }
@@ -402,7 +402,7 @@ vector vector::operator!()
 /*
     Gibt den Betrag des Vektors zurück
 */
-double vector::abs()
+double Vector::abs()
 {
 	return sqrt(x*x+y*y);
 }
@@ -411,9 +411,9 @@ double vector::abs()
 /*
     Gibt den Einheitsvektor zurück
 */
-vector vector::getUnitVector()
+Vector Vector::getUnitVector()
 {
-	vector tmp = *this;
+	Vector tmp = *this;
 	tmp /= tmp.abs();
 	return tmp;
 }
@@ -422,7 +422,7 @@ vector vector::getUnitVector()
 /*
     Gibt den Winkel zwischen this und dem Vektor v(0,1) zurück
 */
-double vector::getAngle(bool deg)
+double Vector::getAngle(bool deg)
 {
     double angleV1;
 
@@ -468,7 +468,7 @@ double vector::getAngle(bool deg)
 /*
     Gibt den Winkel zwischen this und dem Vektor vect zurück
 */
-double vector::getAngle(vector vect, bool deg)
+double Vector::getAngle(Vector vect, bool deg)
 {
     double angleV1 = this->getAngle(deg);
     double angleV2 = vect.getAngle(deg);

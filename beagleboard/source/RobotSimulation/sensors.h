@@ -6,6 +6,8 @@
 #include "angle.h"
 #include "robot.h"
 
+#include "vector.hpp"
+
 /** deklaration of abstract base class SENSOR **/
 class Sensor {
     public:
