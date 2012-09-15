@@ -12,7 +12,7 @@ const unsigned int NUM_OF_BALL_SENSORS = 30;
 
 int main () {
 
-    Ball ball(Point(-10, 0));
+    Ball ball(Point(0, 1));
     Robot robot(Point(0, 0), Angle(0));
     BallSensor* ballSensors[int(NUM_OF_BALL_SENSORS)];
     for (int i = 0; i < int(NUM_OF_BALL_SENSORS); i++) { ballSensors[i] = new BallSensor(&robot, &ball, i*(360/NUM_OF_BALL_SENSORS)); }

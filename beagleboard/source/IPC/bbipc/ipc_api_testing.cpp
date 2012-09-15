@@ -2,39 +2,30 @@
 #include <iostream>
 #include <string>
 
+#include "buffer.h"
 #include "ipc_connection.h"
 
 #include <stdlib.h>
 
 using namespace std;
 
+const string UDS_FILE_PATH = "/tmp/ipcserver_module.uds";
+
 int main () {
-    ipcConnection* connection = new ipcConnection(49, 49, "/tmp/ipcserver_module.uds");
-    if (connection->getLastError() != 0) {
-        cout << "error in constructor of Connection: " << strerror(connection->getLastError()) << endl;
-    }
+    ipcReceivingConnection* receivingConnection = new ipcReceivingConnection(UDS_FILE_PATH, 49);
+    ipcSendingConnection* sendingConnection1 = new ipcSendingConnection(UDS_FILE_PATH, 50, 49);
+    ipcSendingConnection* sendingConnection2 = new ipcSendingConnection(UDS_FILE_PATH, 51, 49);
 
+    sendingConnection1->sendData("data_from_sending_connection_1");
+    sendingConnection2->sendData("data_from_sending_connection_2");
 
-    ipcConnection* connection2 = new ipcConnection(50, 49, "/tmp/ipcserver_module.uds");
-    if (connection2->getLastError() != 0) {
-        cout << "error in constructor of Connection2: " << strerror(connection->getLastError()) << endl;
-    }
+    Data* data = receivingConnection->readDataFromBuffer();
 
-    for(int i = 0; i < 5; i++) {
+    cout << "data: " << data->getData() << "\t| senderID: " << data->getSenderID() << endl;
 
-        if (!connection2->sendData("hello123")) {
-            cout << "error while sending data: " << strerror(connection->getLastError());
-        }
-    }
-
-    delete connection2;
-
-
-    connection2 = new ipcConnection(60, 49, "/tmp/ipcserver_module.uds");
-    connection2->sendData("hellofromsecondconnection");
-
-    delete connection2;
-    delete connection;
+    delete receivingConnection;
+    delete sendingConnection1;
+    delete sendingConnection2;
 
     return 0;
 }

@@ -1,14 +1,21 @@
 # depslib dependency file v1.0
-1347095363 source:/home/l31n/Ubuntu One/Programming/robotics2013/source/beagleboard/source/IPC/bbipc/ipc_api_testing.cpp
+1347662861 source:/home/l31n/Ubuntu One/Programming/robotics2013/source/beagleboard/source/IPC/bbipc/ipc_api_testing.cpp
 	<iostream>
 	<string>
 	"ipc_connection.h"
 	<stdlib.h>
 
-1347094384 /home/l31n/Ubuntu One/Programming/robotics2013/source/beagleboard/source/IPC/bbipc/ipc_connection.h
+1347662089 /home/l31n/Ubuntu One/Programming/robotics2013/source/beagleboard/source/IPC/bbipc/ipc_connection.h
 	<string>
 	<sys/socket.h>
 	<sys/types.h>
 	<sys/un.h>
 	<sys/errno.h>
+	<pthread.h>
+	<semaphore.h>
+	<stdlib.h>
+	"buffer.h"
+
+1347662553 /home/l31n/Ubuntu One/Programming/robotics2013/source/beagleboard/source/IPC/bbipc/buffer.h
+	<string>
 

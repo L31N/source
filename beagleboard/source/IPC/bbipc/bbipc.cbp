@@ -26,14 +26,17 @@
 				<Option compiler="gcc" />
 				<Option createDefFile="1" />
 				<Compiler>
-					<Add option="-Wall" />
 					<Add option="-O2" />
+					<Add option="-Wall" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
 				</Linker>
 			</Target>
 		</Build>
+		<Compiler>
+			<Add option="-fpermissive" />
+		</Compiler>
 		<Unit filename="bbipc.cpp" />
 		<Unit filename="bbipc.h" />
 		<Unit filename="buffer.cpp" />

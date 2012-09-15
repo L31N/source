@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="bbipc.cpp" open="1" top="0" tabpos="3">
+	<File name="bbipc.cpp" open="1" top="0" tabpos="2">
 		<Cursor position="21" topLine="0" />
 	</File>
 	<File name="bbipc.h" open="1" top="0" tabpos="1">
 		<Cursor position="154" topLine="0" />
 	</File>
 	<File name="buffer.cpp" open="1" top="0" tabpos="6">
-		<Cursor position="325" topLine="0" />
+		<Cursor position="1714" topLine="0" />
 	</File>
 	<File name="buffer.h" open="1" top="1" tabpos="5">
-		<Cursor position="1194" topLine="27" />
+		<Cursor position="57" topLine="0" />
 	</File>
 	<File name="ipc_connection.cpp" open="1" top="0" tabpos="4">
-		<Cursor position="3831" topLine="90" />
+		<Cursor position="3947" topLine="116" />
 	</File>
-	<File name="ipc_connection.h" open="1" top="0" tabpos="2">
-		<Cursor position="911" topLine="5" />
+	<File name="ipc_connection.h" open="1" top="0" tabpos="3">
+		<Cursor position="1411" topLine="34" />
 	</File>
 </CodeBlocks_layout_file>

@@ -29,6 +29,10 @@ class Data {
     private:
         std::string data;
         short senderID;
+
+    public:
+        std::string getData(void);
+        short getSenderID(void);
 };
 
 class Node {

@@ -11,6 +11,9 @@
 #include <sys/errno.h>
 
 #include <pthread.h>
+#include <semaphore.h>
+
+#include <stdlib.h>
 
 #include "buffer.h"
 
@@ -64,7 +67,9 @@ class ipcReceivingConnection : public ipcConnection {
             Buffer* _buffer;
         };
 
-        static void* saveReceivedData_threaded(thread_data* arg);
+        static void* saveReceivedData_threaded(void* arg);
+
+        sem_t sem;
 
         Buffer* dataBuffer;
 };

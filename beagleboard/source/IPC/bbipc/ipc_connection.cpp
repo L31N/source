@@ -127,27 +127,35 @@ ipcReceivingConnection::ipcReceivingConnection(const std::string _UDS_FILE_PATH,
 
     pthread_t listeningThread;
 
-    struct thread_data* data = new struct thread_data;
+    struct thread_data* data = (thread_data*)malloc(sizeof(thread_data));
+    if (data == NULL) {
+        _errno = errno;
+        return;
+    }
     data->_sock = sock;
     data->_buffer = dataBuffer;
 
+    sem_init(&sem, 0, 0);
 
-    if(pthread_create(&listeningThread, NULL, &saveReceivedData_threaded, &data) != 0) {
+    if(pthread_create(&listeningThread, NULL, saveReceivedData_threaded, NULL) != 0) {
          cout << "Konnte Thread nicht erzeugen: " << strerror(errno) << endl;
          _errno = errno;
          return;
     }
+    else pthread_detach(listeningThread);   /// dtaches the thread ... now it will run independent to the main-thread ...
 
 }
 
-ipcReceivingConnection::~ipcReceivingConnection() { delete dataBuffer; }
+ipcReceivingConnection::~ipcReceivingConnection() {
+    delete dataBuffer;
+    sem_destroy(&sem);
+}
 
 Data* ipcReceivingConnection::readDataFromBuffer() {
     return dataBuffer->getLastData();
 }
 
-/// This is the function which is executed as a new thread
-void ipcReceivingConnection::saveReceivedData_threaded(thread_data* arg) {
-
+void* ipcReceivingConnection::saveReceivedData_threaded(void* arg) {
+    cout << "this was wirtten from out a new thread ..." << endl;
+    return NULL;
 }
-

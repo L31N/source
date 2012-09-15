@@ -20,6 +20,9 @@ Data* Buffer::getLastData(void) { return start->getData(); }
 Data::Data() {}
 Data::~Data() {}
 
+std::string Data::getData(void) { return data; }
+short Data::getSenderID(void) { return senderID; }
+
 /** CLASS STARTING Node **/
 StartingNode::StartingNode() { next = new EndingNode; }
 StartingNode::~StartingNode() { delete next; }
@@ -63,6 +66,9 @@ Data* EndingNode::getData(void) { return NULL; }
 Node* EndingNode::getNext(void) { return NULL; }
 
 /** CLASS DATA Node **/
+
+unsigned short DataNode::NodeCount = 0;
+
 DataNode::DataNode(Data* _data, Node* _Node) {
     data = _data;
     next = _Node;
@@ -74,7 +80,7 @@ DataNode::~DataNode() {
     delete data;
     delete next;
 
-    NodeCount--;
+    DataNode::NodeCount--;
 }
 
 Node* DataNode::insert(Data* data) {

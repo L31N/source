@@ -9,5 +9,6 @@
 #include <string>
 
 #include "ipc_connection.h"
+#include "buffer.h"
 
 #endif // _BB_IPC_H_

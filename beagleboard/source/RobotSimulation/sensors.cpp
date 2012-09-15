@@ -42,7 +42,7 @@ int BallSensor::getValue() {
 
     /// calculate sensor intensity
 
-    return (double(360*10) - double(angleDifference*10))/double(distanceToBall);
+    return (double(360*19) - double(angleDifference*19))/double(distanceToBall*7);
 }
 
 Angle BallSensor::getAngle(void) { return angle; }
