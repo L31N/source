@@ -2,7 +2,10 @@
 #include "buffer.h"
 
 /** CLASS BUFFER **/
-Buffer::Buffer(unsigned short _maxElements) { maxElements = _maxElements; }
+Buffer::Buffer(unsigned short _maxElements) {
+    maxElements = _maxElements;
+    start = new StartingNode;
+}
 Buffer::~Buffer() {}
 
 void Buffer::insert(Data* data) {
@@ -17,7 +20,10 @@ void Buffer::insert(Data* data) {
 Data* Buffer::getLastData(void) { return start->getData(); }
 
 /** CLASS DATA **/
-Data::Data() {}
+Data::Data(std::string _data, short _senderID) {
+    data = _data;
+    senderID = _senderID;
+}
 Data::~Data() {}
 
 std::string Data::getData(void) { return data; }
@@ -34,7 +40,7 @@ Node* StartingNode::insert(Data* data) {
 
 Data* StartingNode::getData(void) {
     return next->getData();
-    /// Nodeen nach auslesen der Daten wieder löschen ...
+    /// Nodes nach auslesen der Daten wieder löschen ...
     Node* old = next;
     next = next->getNext();
     delete old;
@@ -69,9 +75,9 @@ Node* EndingNode::getNext(void) { return NULL; }
 
 unsigned short DataNode::NodeCount = 0;
 
-DataNode::DataNode(Data* _data, Node* _Node) {
+DataNode::DataNode(Data* _data, Node* _next) {
     data = _data;
-    next = _Node;
+    next = _next;
 
     NodeCount++;
 }

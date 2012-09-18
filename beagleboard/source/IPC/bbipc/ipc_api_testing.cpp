@@ -21,7 +21,11 @@ int main () {
 
     Data* data = receivingConnection->readDataFromBuffer();
 
-    cout << "data: " << data->getData() << "\t| senderID: " << data->getSenderID() << endl;
+    while(data != NULL) {
+        cout << "data: " << data->getData() << "   from senderID: " << data->getSenderID() << endl;
+        data = NULL;
+        data = receivingConnection->readDataFromBuffer();
+    }
 
     delete receivingConnection;
     delete sendingConnection1;

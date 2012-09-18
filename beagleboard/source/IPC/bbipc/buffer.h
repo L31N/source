@@ -23,7 +23,7 @@ class Buffer {
 
 class Data {
     public:
-        Data();
+        Data(std::string _data, short senderID);
         ~Data();
 
     private:
@@ -81,7 +81,7 @@ class EndingNode : public Node {
 
 class DataNode : public Node {
     public:
-        DataNode(Data* _data, Node* _Node);
+        DataNode(Data* _data, Node* _next);
         ~DataNode();
 
         Node* insert(Data* data);
