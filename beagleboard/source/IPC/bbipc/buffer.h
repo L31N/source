@@ -3,7 +3,39 @@
 #define _BUFFER_H_
 
 #include <string>
+#include <vector>
 
+class Data;
+
+class Buffer {
+    public:
+        Buffer(unsigned short _maxElements = 5);
+        ~Buffer();
+
+        void insert(Data* data);
+        Data* getLastData(void);
+
+    private:
+        unsigned short maxElements;
+
+        std::vector<Data> vector;
+};
+
+class Data {
+    public:
+        Data(std::string _data, short _senderID);
+        ~Data();
+
+    private:
+        std::string data;
+        short senderID;
+
+    public:
+        std::string getData(void);
+        short getSenderID(void);
+};
+
+/*
 class StartingNode;
 class Data;
 
@@ -97,5 +129,7 @@ class DataNode : public Node {
         Node* getNext(void);
         unsigned short getNodeCount(void);
 };
+
+*/
 
 #endif // _BUFFER_H_

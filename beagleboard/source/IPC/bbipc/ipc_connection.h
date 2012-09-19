@@ -65,11 +65,13 @@ class ipcReceivingConnection : public ipcConnection {
         struct thread_data {
             int _sock;
             Buffer* _buffer;
+            sem_t* _sem;
         };
 
         static void* saveReceivedData_threaded(void* arg);
 
         sem_t sem;
+        pthread_t listeningThread;
 
         Buffer* dataBuffer;
 };

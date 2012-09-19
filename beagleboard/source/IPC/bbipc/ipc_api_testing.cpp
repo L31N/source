@@ -16,12 +16,21 @@ int main () {
     ipcSendingConnection* sendingConnection1 = new ipcSendingConnection(UDS_FILE_PATH, 50, 49);
     ipcSendingConnection* sendingConnection2 = new ipcSendingConnection(UDS_FILE_PATH, 51, 49);
 
-    sendingConnection1->sendData("data_from_sending_connection_1");
+    //sendingConnection1->sendData("data_from_sending_connection_1");
     sendingConnection2->sendData("data_from_sending_connection_2");
+    sendingConnection1->sendData("data_from_sending_connection_1");
+    for (int i = 0; i < 10; i++) {
+        sendingConnection1->sendData("data in for");
+    }
 
     Data* data = receivingConnection->readDataFromBuffer();
 
-    cout << "data: " << data->getData() << "\t| senderID: " << data->getSenderID() << endl;
+    int i = 0;
+    while(data != NULL) {
+        i++;
+        cout << "data: " << data->getData() << "\t| senderID: " << data->getSenderID() << endl;
+        data = receivingConnection->readDataFromBuffer();
+    }
 
     delete receivingConnection;
     delete sendingConnection1;
