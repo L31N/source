@@ -25,8 +25,16 @@ int main () {
 
     Data* data = receivingConnection->readDataFromBuffer();
 
+<<<<<<< HEAD
+    int i = 0;
     while(data != NULL) {
+        i++;
         cout << "data: " << data->getData() << "\t| senderID: " << data->getSenderID() << endl;
+=======
+    while(data != NULL) {
+        cout << "data: " << data->getData() << "   from senderID: " << data->getSenderID() << endl;
+        data = NULL;
+>>>>>>> ipc_api_development_stl
         data = receivingConnection->readDataFromBuffer();
     }
 

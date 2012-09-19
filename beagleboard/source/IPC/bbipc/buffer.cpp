@@ -1,15 +1,8 @@
 
 #include "buffer.h"
 
-#include <iostream>
-
 /** CLASS BUFFER **/
-Buffer::Buffer(unsigned short _maxElements) : maxElements(_maxElements) {
-    /*vector.resize(_maxElements, Data("", -1));
-    std::cout << "the buffer size is now: " << vector.size() << std::endl;
-    std::cout << "the buffer max-size is now: " << vector.max_size() << std::endl;*/
-}
-
+Buffer::Buffer(unsigned short _maxElements) : maxElements(_maxElements) {}
 Buffer::~Buffer() {}
 
 void Buffer::insert(Data* data) {
@@ -30,7 +23,7 @@ Data* Buffer::getLastData(void) {
 Data::Data(std::string _data, short _senderID) {
     data = _data;
     senderID = _senderID;
-};
+}
 
 Data::~Data() {}
 

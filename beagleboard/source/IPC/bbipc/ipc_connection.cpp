@@ -7,10 +7,11 @@ using namespace std;
 
 /** CLASS IPC_CONNECTION **/
 
-ipcConnection::ipcConnection(const std::string _UDS_FILE_PATH) { UDS_FILE_PATH = _UDS_FILE_PATH;
+ipcConnection::ipcConnection(const std::string _UDS_FILE_PATH) {
     _errno = 0;
+    UDS_FILE_PATH = _UDS_FILE_PATH;
 
-     /// Connect to the server and hold connection ...
+    /// Connect to the server and hold connection ...
     addr.sun_family = AF_UNIX;
     strcpy(addr.sun_path, UDS_FILE_PATH.c_str());
 
@@ -26,7 +27,6 @@ ipcConnection::ipcConnection(const std::string _UDS_FILE_PATH) { UDS_FILE_PATH =
         cout << "error in function connect(): " << strerror(errno) << endl;
         return;
     }
-
 }
 
 ipcConnection::~ipcConnection() { close(sock); }
@@ -161,7 +161,6 @@ ipcReceivingConnection::ipcReceivingConnection(const std::string _UDS_FILE_PATH,
     /// Setting up the data-buffer
     dataBuffer = new Buffer;
 
-
     /// --> Here we have to set a new thread to listen for incoming data and fill the buffer ...
 
     struct thread_data* data = (thread_data*)malloc(sizeof(thread_data));
@@ -200,39 +199,30 @@ Data* ipcReceivingConnection::readDataFromBuffer() {
 }
 
 void* ipcReceivingConnection::saveReceivedData_threaded(void* arg) {
-    cout << "this was wirtten from out a new thread ..." << endl;
+    struct thread_data *tdata = (struct thread_data *)arg;
+    /// read to socket ...
+    char data[1024];
 
-
-    struct thread_data* tdata = (struct thread_data*)arg;
-
-    /// read for incomming data
     while(true) {
-        char buf[1024];
-        bzero(buf, 1024);
-        if (tdata == NULL) {
-            cout << "data is invalid pointer ..." << endl;
-            return NULL;
-        }
-        int retval = read(tdata->_sock, buf, 1024);
+        int retval = read(tdata->_sock, data, 1024);
         if (retval == 0) {
-            cout << "server closed receiving connection ..." << endl;
+            cout << "connection closed ..." << endl;
             continue;
         }
         else if (retval == -1) {
-            cout << "error while reading ... " << strerror(errno) << endl;
+            cout << "error occured: " << strerror(errno) << endl;
             continue;
         }
-        else {
-            short senderID = *buf;
-            std::string dataStr = buf;
-            dataStr.erase(0, 1);
+        else {  /// read successfull ...
+            /// extract sender ID from string
+            std::string dataString = data;
+            short senderID = data[0];
+            dataString.erase(0,1);
 
-            /** critical code section --> use semaphores to synchronize the thread with main-thread while accessing buffer **/
-            sem_wait(tdata->_sem);
-            tdata->_buffer->insert(new Data(dataStr, senderID));
-            sem_post(tdata->_sem);
+            Data* data = new Data(dataString, senderID);
+            tdata->_buffer->insert(data);
+            cout << "inserted data into buffer ..." << endl;
         }
     }
-
     return NULL;
 }
