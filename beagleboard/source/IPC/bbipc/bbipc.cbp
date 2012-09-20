@@ -41,6 +41,8 @@
 		<Unit filename="bbipc.h" />
 		<Unit filename="buffer.cpp" />
 		<Unit filename="buffer.h" />
+		<Unit filename="ipc_config.cpp" />
+		<Unit filename="ipc_config.h" />
 		<Unit filename="ipc_connection.cpp" />
 		<Unit filename="ipc_connection.h" />
 		<Extensions>

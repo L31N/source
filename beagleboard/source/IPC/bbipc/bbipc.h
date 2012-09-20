@@ -10,8 +10,6 @@
 
 #include "ipc_connection.h"
 #include "buffer.h"
-
-class ipcSendingConnection;
-class ipcReceivingConnection;
+#include "ipc_config.h"
 
 #endif // _BB_IPC_H_

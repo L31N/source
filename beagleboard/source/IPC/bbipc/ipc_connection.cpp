@@ -46,9 +46,19 @@ ipcSendingConnection::ipcSendingConnection (const std::string _UDS_FILE_PATH, sh
     endpointID = _endpointID;
 
     /// register connection at the server
+    stringstream ss_sender;
+    stringstream ss_endpoint;
+    char csender;
+    char cendpoint;
     std::string idPackage = "";
-    idPackage += char(senderID);
-    idPackage += char(endpointID);
+
+    ss_sender << senderID;
+    ss_sender >> csender;
+    ss_endpoint << endpointID;
+    ss_endpoint >> cendpoint;
+
+    idPackage += csender;
+    idPackage += cendpoint;
 
     if (write(sock, idPackage.c_str(), 2) < 0) {
         _errno = errno;
@@ -122,9 +132,15 @@ ipcReceivingConnection::ipcReceivingConnection(const std::string _UDS_FILE_PATH,
     endpointID = _connID;
 
     /// register connection at the server
+    stringstream ss;
+    char cid;
     std::string idPackage = "";
-    idPackage += char(senderID);
-    idPackage += char(endpointID);
+    ss << senderID;
+    ss >> cid;
+    idPackage += cid;
+    idPackage += cid;
+
+    cout << "ID PACKAGE : " << idPackage << endl;
 
     if (write(sock, idPackage.c_str(), 2) < 0) {
         _errno = errno;
@@ -199,6 +215,8 @@ Data* ipcReceivingConnection::readDataFromBuffer() {
 }
 
 void* ipcReceivingConnection::saveReceivedData_threaded(void* arg) {
+    cout << "from thread ..." << endl;
+
     struct thread_data *tdata = (struct thread_data *)arg;
     /// read to socket ...
     char data[1024];
@@ -219,8 +237,14 @@ void* ipcReceivingConnection::saveReceivedData_threaded(void* arg) {
         else {  /// read successfull ...
             /// extract sender ID from string
             std::string dataString = data;
-            short senderID = data[0];
+            stringstream ss;
+            ss << data[0];
+            short senderID;
+            ss >> senderID;
             dataString.erase(0,1);
+
+            cout << "senderID: " << senderID << endl;
+            cout << "data: " << dataString << endl;
 
             Data* data = new Data(dataString, senderID);
             tdata->_buffer->insert(data);

@@ -2,44 +2,36 @@
 #include <iostream>
 #include <string>
 
-#include "buffer.h"
-#include "ipc_connection.h"
+#include "bbipc.h"
 
 #include <stdlib.h>
 
 using namespace std;
 
-const string UDS_FILE_PATH = "/tmp/ipcserver_module.uds";
+//const string UDS_FILE_PATH = "/tmp/ipcserver_module.uds";
 
 int main () {
-    ipcReceivingConnection* receivingConnection = new ipcReceivingConnection(UDS_FILE_PATH, 49);
-    ipcSendingConnection* sendingConnection1 = new ipcSendingConnection(UDS_FILE_PATH, 50, 49);
-    ipcSendingConnection* sendingConnection2 = new ipcSendingConnection(UDS_FILE_PATH, 51, 49);
 
-    /*ipcReceivingConnection* receivingConnection = new ipcReceivingConnection(UDS_FILE_PATH, 49);
-    ipcSendingConnection* sendingConnection1 = new ipcSendingConnection(UDS_FILE_PATH, 50, 49);
-    ipcSendingConnection* sendingConnection2 = new ipcSendingConnection(UDS_FILE_PATH, 51, 49);
+    ipcConfig ipcconfig("../../../../../etc/ipc.conf");
 
-    //sendingConnection1->sendData("data_from_sending_connection_1");
-    sendingConnection2->sendData("data_from_sending_connection_2");
-    sendingConnection1->sendData("data_from_sending_connection_1");
-    for (int i = 0; i < 10; i++) {
-        sendingConnection1->sendData("data in for");
-    }
+    ipcReceivingConnection* receivingConnection = new ipcReceivingConnection(ipcconfig.getUDS_FILE_PATH(), ipcconfig.getIpcIDToProcessSyn("SENSOR_DATA_MODULE"));
+    ipcSendingConnection* sendingConnection1 = new ipcSendingConnection(ipcconfig.getUDS_FILE_PATH(), ipcconfig.getIpcIDToProcessSyn("TACTIC_MODULE"), ipcconfig.getIpcIDToProcessSyn("SENSOR_DATA_MODULE"));
+    ipcSendingConnection* sendingConnection2 = new ipcSendingConnection(ipcconfig.getUDS_FILE_PATH(), ipcconfig.getIpcIDToProcessSyn("TCP_MODULE"), ipcconfig.getIpcIDToProcessSyn("SENSOR_DATA_MODULE"));
+
+    sendingConnection1->sendData("datafromsendingconnection1");
+    sendingConnection2->sendData("fromSC2");
+
+    sleep(1);
 
     Data* data = receivingConnection->readDataFromBuffer();
-
-    while(data != NULL) {
-        cout << "data: " << data->getData() << "\t| senderID: " << data->getSenderID() << endl;
-        cout << "data: " << data << endl;
+    while(data != 0) {
+        cout << data->getData() << "  from:  " << data->getSenderID() << endl;
         data = receivingConnection->readDataFromBuffer();
     }
 
     delete receivingConnection;
     delete sendingConnection1;
-    delete sendingConnection2;*/
-
-    delete receivingConnection;
+    delete sendingConnection2;
 
     return 0;
 }

@@ -189,10 +189,21 @@ int main () {
                         if (strlen(buf) == 2) {
 
                             /// check for an receiving connection
-                            if (short(buf[0]) == short(buf[1])) {   /// its a receiving connection
+
+                            /// conversion to short
+                            short byte0;
+                            short byte1;
+                            stringstream ss_0;
+                            stringstream ss_1;
+                            ss_0 << buf[0];
+                            ss_0 >> byte0;
+                            ss_1 << buf[1];
+                            ss_1 >> byte1;
+
+                            if (byte0 == byte1) {   /// its a receiving connection
                                 bool con_exists = false;
                                 for (int j = 0; j < max_connections; j++) {   /// check weather the receiving-connection already exists
-                                    if (short(buf[0]) == client_IDs[j] || short(buf[1]) == endpoint_IDs[j]) {   /// the receiving-connections already exists
+                                    if (byte0 == client_IDs[j] || byte1 == endpoint_IDs[j]) {   /// the receiving-connections already exists
                                         con_exists = true;
                                         if (write(com_sock, (char*)&callback_receiving_connection_already_exists, 1) < 0) {
                                             perror("could not send callback to client --> function write()");
@@ -203,17 +214,17 @@ int main () {
 
                                 }
                                 if (!con_exists) {      /// receiving-connections do not exist, so set it here
-                                    client_IDs[com_sock] = short(buf[0]);
-                                    endpoint_IDs[com_sock] = short(buf[1]);
+                                    client_IDs[com_sock] = byte0;
+                                    endpoint_IDs[com_sock] = byte1;
                                     cout << "new receiving connection set ..." << endl;
                                 }
                                 else continue;
                             }
                             else {  /// check weather the endpoint is already known
                                 for (int j = 0; j < max_connections; j++) {
-                                    if (client_IDs[j] == short(buf[1])) {   /// endpoint already known -> setup IDs
-                                        client_IDs[com_sock] = short(buf[0]);
-                                        endpoint_IDs[com_sock] = short(buf[1]);
+                                    if (client_IDs[j] == byte1) {   /// endpoint already known -> setup IDs
+                                        client_IDs[com_sock] = byte0;
+                                        endpoint_IDs[com_sock] = byte0;
                                     }
                                 }
                             }
@@ -241,11 +252,23 @@ int main () {
                         }
                     }
                     else {  /// work with received data
-                        cout << "received data from sender: " << char(client_IDs[com_sock]) << " with endpoint: " << char(endpoint_IDs[com_sock]) << endl;
+                        stringstream ss_client_incom;
+                        stringstream ss_endpoint_incom;
+                        char cclient;
+                        char cendpoint;
+                        ss_client_incom << client_IDs[com_sock];
+                        ss_client_incom >> cclient;
+                        ss_endpoint_incom << endpoint_IDs[com_sock];
+                        ss_endpoint_incom >> cendpoint;
+                        cout << "received data from sender: " << cclient << " with endpoint: " << cendpoint << endl;
 
                         /// create new string with right formatting to send it to the endpoint
                         string data_for_endpoint = buf;
-                        data_for_endpoint.insert(0, 1, char(client_IDs[com_sock]));
+                        stringstream ss_endpoint;
+                        char csender;
+                        ss_endpoint << client_IDs[com_sock];
+                        ss_endpoint >> csender;
+                        data_for_endpoint.insert(0, 1, csender);
                         cout << "the output string will look like this: " << data_for_endpoint << endl;
 
                         int endpoint_sock = -1;
