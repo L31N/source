@@ -216,7 +216,7 @@ int main () {
                                 if (!con_exists) {      /// receiving-connections do not exist, so set it here
                                     client_IDs[com_sock] = byte0;
                                     endpoint_IDs[com_sock] = byte1;
-                                    cout << "new receiving connection set ..." << endl;
+                                    cout << "new receiving connection set ... [" << client_IDs[com_sock] << "] [" << endpoint_IDs[com_sock] << "]" << endl;
                                 }
                                 else continue;
                             }
@@ -224,7 +224,7 @@ int main () {
                                 for (int j = 0; j < max_connections; j++) {
                                     if (client_IDs[j] == byte1) {   /// endpoint already known -> setup IDs
                                         client_IDs[com_sock] = byte0;
-                                        endpoint_IDs[com_sock] = byte0;
+                                        endpoint_IDs[com_sock] = byte1;
                                     }
                                 }
                             }
