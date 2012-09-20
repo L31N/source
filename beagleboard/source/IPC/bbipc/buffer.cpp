@@ -14,9 +14,13 @@ void Buffer::insert(Data* data) {
 
 Data* Buffer::getLastData(void) {
     /// erstes element im container auslesen und anschliessend löschen
-    Data* data = &(vector.front());
-    vector.erase(vector.begin());
-    return data;
+    //Data* data = &(vector.front());
+    if (vector.size() > 0) {
+        Data* data = new Data(vector.front());
+        vector.erase(vector.begin());
+        return data;
+    }
+    else return NULL;
 }
 
 /** CLASS DATA **/

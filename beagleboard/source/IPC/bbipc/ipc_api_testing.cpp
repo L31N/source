@@ -26,7 +26,9 @@ int main () {
     Data* data = receivingConnection->readDataFromBuffer();
 
     while(data != NULL) {
+    //for (int i = 0; i < 11; i++) {
         cout << "data: " << data->getData() << "\t| senderID: " << data->getSenderID() << endl;
+        cout << "data: " << data << endl;
         data = receivingConnection->readDataFromBuffer();
     }
 

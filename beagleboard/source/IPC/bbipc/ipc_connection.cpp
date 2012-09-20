@@ -204,6 +204,9 @@ void* ipcReceivingConnection::saveReceivedData_threaded(void* arg) {
     char data[1024];
 
     while(true) {
+
+        bzero(data, 1024);
+
         int retval = read(tdata->_sock, data, 1024);
         if (retval == 0) {
             cout << "connection closed ..." << endl;
