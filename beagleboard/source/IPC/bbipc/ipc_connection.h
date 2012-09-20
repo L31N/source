@@ -56,7 +56,7 @@ class ipcSendingConnection : public ipcConnection {
 
 class ipcReceivingConnection : public ipcConnection {
     public:
-        ipcReceivingConnection(const std::string _UDS_FILE_PATH, short _senderID);
+        ipcReceivingConnection(const std::string _UDS_FILE_PATH, short _senderID, size_t _bufferSize = 5);
         ~ipcReceivingConnection();
 
         Data* readDataFromBuffer();

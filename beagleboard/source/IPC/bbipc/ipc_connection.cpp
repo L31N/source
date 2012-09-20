@@ -117,7 +117,7 @@ bool ipcSendingConnection::sendData(const std::string data) {
 
 /** CLASS IPC_RECEIVING_CONNECTION **/
 
-ipcReceivingConnection::ipcReceivingConnection(const std::string _UDS_FILE_PATH, short _connID) : ipcConnection(_UDS_FILE_PATH) {
+ipcReceivingConnection::ipcReceivingConnection(const std::string _UDS_FILE_PATH, short _connID, size_t _bufferSize) : ipcConnection(_UDS_FILE_PATH) {
     senderID = _connID;
     endpointID = _connID;
 
@@ -159,7 +159,7 @@ ipcReceivingConnection::ipcReceivingConnection(const std::string _UDS_FILE_PATH,
     }
 
     /// Setting up the data-buffer
-    dataBuffer = new Buffer;
+    dataBuffer = new Buffer(_bufferSize);
 
     /// --> Here we have to set a new thread to listen for incoming data and fill the buffer ...
 

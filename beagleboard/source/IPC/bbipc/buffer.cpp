@@ -8,7 +8,7 @@ Buffer::~Buffer() {}
 void Buffer::insert(Data* data) {
     vector.push_back(*data);
     /// aeltestes element loeschen, falls maxElements erreicht
-    //if (vector.size() > size_t(maxElements)) vector.erase(vector.begin());
+    if (vector.size() > size_t(maxElements)) vector.erase(vector.begin());
     return;
 }
 
