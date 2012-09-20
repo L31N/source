@@ -91,6 +91,8 @@ int main () {
 
     /// the main-loop
     while(true) {
+        bool released_connections = false;
+
         /// check weather new data or new connections were recived
         *readable_sockets = *all_sockets;
 
@@ -144,7 +146,7 @@ int main () {
 
                 /// read the data from client
                 bzero (buf, sizeof(buf));
-                if ((rval = read(com_sock, buf, 1024)) < 0) perror("reading stream message");
+                if ((rval = read(com_sock, buf, 1024)) < 0) { perror("reading stream message"); cout << "com_sock: " << com_sock << endl; }
                 else if (rval == 0) {
                     close(com_sock);
                     FD_CLR(com_sock, all_sockets);
@@ -168,11 +170,18 @@ int main () {
                                             perror("could not send callback to client --> function write()");
                                         }*/
                                         /// release IDs for this connection
+                                        /*cout << "delte dependend connection: " << endl;
+                                        cout << "\tclient_IDs: " << client_IDs[client_socks[k]] << endl;
+                                        cout << "\t endpoint_IDs: "  << endpoint_IDs[client_socks[k]] << endl;
+                                        cout << "\t client_socks: " << client_socks[k] << endl;*/
+
                                         client_IDs[client_socks[k]] = -1;
                                         endpoint_IDs[client_socks[k]] = -1;
 
                                         close(client_socks[k]);
                                         FD_CLR(client_socks[k], all_sockets);
+
+                                        released_connections = true;
                                     }
                                     //cout << "sent callback (endpoint_not_longer_available) to client: " << client_socks[k] << endl;
                                 }
@@ -269,7 +278,7 @@ int main () {
                         ss_endpoint << client_IDs[com_sock];
                         ss_endpoint >> csender;
                         data_for_endpoint.insert(0, 1, csender);
-                        cout << "the output string will look like this: " << data_for_endpoint << endl;
+                        cout << "the output string will look like this: " << data_for_endpoint << "  |" << endl;
 
                         int endpoint_sock = -1;
                         /// find the right socket-descriptor for endpoint
@@ -285,7 +294,7 @@ int main () {
                             }
                         }
 
-                        cout << "endpoint filedescriptor: " << endpoint_sock << endl;
+                        //cout << "endpoint filedescriptor: " << endpoint_sock << endl;
 
                         if (endpoint_sock != -1) {      /// the socket-descriptor for the right endpoint was found
                             if (write(endpoint_sock, data_for_endpoint.c_str(), data_for_endpoint.length()) < 0) {
@@ -311,6 +320,7 @@ int main () {
                 /// check for more ready descriptors
                 if (--ready <= 0) break;    //seems not so
             }
+            if (released_connections) break;    /// break and start from beginning to load the sock-lists again ...
         }
     } /// while(true)
 
