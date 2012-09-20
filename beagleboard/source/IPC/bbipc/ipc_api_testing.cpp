@@ -16,6 +16,10 @@ int main () {
     ipcSendingConnection* sendingConnection1 = new ipcSendingConnection(UDS_FILE_PATH, 50, 49);
     ipcSendingConnection* sendingConnection2 = new ipcSendingConnection(UDS_FILE_PATH, 51, 49);
 
+    /*ipcReceivingConnection* receivingConnection = new ipcReceivingConnection(UDS_FILE_PATH, 49);
+    ipcSendingConnection* sendingConnection1 = new ipcSendingConnection(UDS_FILE_PATH, 50, 49);
+    ipcSendingConnection* sendingConnection2 = new ipcSendingConnection(UDS_FILE_PATH, 51, 49);
+
     //sendingConnection1->sendData("data_from_sending_connection_1");
     sendingConnection2->sendData("data_from_sending_connection_2");
     sendingConnection1->sendData("data_from_sending_connection_1");
@@ -27,12 +31,15 @@ int main () {
 
     while(data != NULL) {
         cout << "data: " << data->getData() << "\t| senderID: " << data->getSenderID() << endl;
+        cout << "data: " << data << endl;
         data = receivingConnection->readDataFromBuffer();
     }
 
     delete receivingConnection;
     delete sendingConnection1;
-    delete sendingConnection2;
+    delete sendingConnection2;*/
+
+    delete receivingConnection;
 
     return 0;
 }

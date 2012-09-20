@@ -22,7 +22,7 @@ int main () {
 
     const short callback_error_by_setting_up_connection = 0;        /// callback which is sent for an error while setting up a new connection
     const short callback_connection_setup_seccessful = 1;           /// callback which is sent after a successful setup of the connection
-    const short callback_endpoint_not_longer_available = 2;         /// callback which is sent when an endpoint of the connection is not longer available
+    //const short callback_endpoint_not_longer_available = 2;         /// callback which is sent when an endpoint of the connection is not longer available
     const short callback_data_delivered_successfully = 3;           /// callback which is sent when the sent data-package is delivered successfully to the endpoint
     const short callback_error_while_sending_data_package = 4;      /// callback which is sent for an error while sending a data-package to an endpoint
     const short callback_wrong_data_format_for_identification = 5;  /// callback which is sent for receiving a wrong data format for the identification-package
@@ -158,26 +158,29 @@ int main () {
                     if (client_IDs[com_sock] == endpoint_IDs[com_sock]) { /// connection was a receiving-connection
                         for (int j = 0; j < max_connections; j++) {
                             //cout << "client_socks[" << j << "]: " << client_socks[j] << " client_IDs[" << j << "]: " << client_IDs[j] << " endpoint_IDs[" << j << "]: " << endpoint_IDs[j] << endl;
-                            if (endpoint_IDs[j] == client_IDs[com_sock]) {  /// connections found with endpoint to closed receiving connection
+                            if (endpoint_IDs[j] == client_IDs[com_sock] && client_IDs[j] != client_IDs[com_sock]) {  /// connections found with endpoint to closed receiving connection but not the receiving connection self
                                 /// write back a callback to client which have to close communication
                                     /// find socket-descriptor which contains the connection which should be closed
                                 for (int k = 0; k < max_sock + 1; k++) {
                                     if (client_socks[k] == j) {     /// socket-descriptor which contains the right connection found
-                                        if (write(client_socks[k], (char*)&callback_endpoint_not_longer_available, 1) < 0) {
+                                        /// i do not wirte a ending callback, anymore, because this caused crashes if socket is not longer available ...
+                                        /*if (write(client_socks[k], (char*)&callback_endpoint_not_longer_available, 1) < 0) {
                                             perror("could not send callback to client --> function write()");
-                                        }
+                                        }*/
                                         /// release IDs for this connection
                                         client_IDs[client_socks[k]] = -1;
                                         endpoint_IDs[client_socks[k]] = -1;
+
+                                        close(client_socks[k]);
+                                        FD_CLR(client_socks[k], all_sockets);
                                     }
                                     //cout << "sent callback (endpoint_not_longer_available) to client: " << client_socks[k] << endl;
                                 }
-
                                 cout << "closed connection to released endpoint" << endl;
                             }
                         }
                     }
-                    /// release IDs for the connections which closed client
+                    /// release IDs for the connections from closed receiving connection
                     client_IDs[com_sock] = -1;
                     endpoint_IDs[com_sock] = -1;
                 }
@@ -225,7 +228,7 @@ int main () {
                                 if (write(com_sock, (char*)&callback_connection_setup_seccessful, 1) < 0) {
                                     perror("could not send callback to client --> function write()");
                                 }
-                                cout << "connection was successfully set ..." << endl;
+                                //cout << "connection was successfully set ..." << endl;
                             }
                         }
                         else {  /// wrong data format
@@ -287,6 +290,8 @@ int main () {
             }
         }
     } /// while(true)
+
+    cout << "after while(true) --> strange !!!" << endl;
 
 
     for (i = 0; i < max; i++) {

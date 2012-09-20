@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
+<<<<<<< HEAD
 	<File name="ipc_api_testing.cpp" open="1" top="0" tabpos="7">
 		<Cursor position="1036" topLine="0" />
+=======
+	<File name="ipc_api_testing.cpp" open="1" top="0" tabpos="1">
+		<Cursor position="1506" topLine="0" />
+>>>>>>> ipc_api_development_stl
 	</File>
 </CodeBlocks_layout_file>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="ipc_mserver.cpp" open="1" top="1" tabpos="1">
-		<Cursor position="6985" topLine="138" />
+	<File name="ipc_mserver.cpp" open="1" top="1" tabpos="0">
+		<Cursor position="1909" topLine="3" />
 	</File>
 </CodeBlocks_layout_file>
