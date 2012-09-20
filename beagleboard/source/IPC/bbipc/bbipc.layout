@@ -7,16 +7,16 @@
 	<File name="bbipc.h" open="1" top="0" tabpos="1">
 		<Cursor position="154" topLine="0" />
 	</File>
-	<File name="buffer.cpp" open="1" top="1" tabpos="6">
-		<Cursor position="338" topLine="0" />
+	<File name="buffer.cpp" open="1" top="0" tabpos="6">
+		<Cursor position="270" topLine="0" />
 	</File>
 	<File name="buffer.h" open="1" top="0" tabpos="5">
-		<Cursor position="577" topLine="0" />
+		<Cursor position="472" topLine="3" />
 	</File>
 	<File name="ipc_connection.cpp" open="1" top="0" tabpos="4">
-		<Cursor position="5774" topLine="152" />
+		<Cursor position="4753" topLine="150" />
 	</File>
 	<File name="ipc_connection.h" open="1" top="0" tabpos="3">
-		<Cursor position="1344" topLine="24" />
+		<Cursor position="1175" topLine="36" />
 	</File>
 </CodeBlocks_layout_file>
