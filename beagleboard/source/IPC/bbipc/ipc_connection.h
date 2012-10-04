@@ -3,7 +3,7 @@
 #define _CONNECTION_H_
 
 #include <string>
-#include <sstream>
+//#include <sstream>
 
 #include <sys/socket.h>
 #include <sys/types.h>

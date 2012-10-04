@@ -200,14 +200,14 @@ int main () {
                             /// check for an receiving connection
 
                             /// conversion to short
-                            short byte0;
-                            short byte1;
-                            stringstream ss_0;
+                            short byte0 = buf[0];
+                            short byte1 = buf[1];
+                            /*stringstream ss_0;
                             stringstream ss_1;
                             ss_0 << buf[0];
                             ss_0 >> byte0;
                             ss_1 << buf[1];
-                            ss_1 >> byte1;
+                            ss_1 >> byte1;*/
 
                             if (byte0 == byte1) {   /// its a receiving connection
                                 bool con_exists = false;
@@ -261,23 +261,23 @@ int main () {
                         }
                     }
                     else {  /// work with received data
-                        stringstream ss_client_incom;
+                        /*stringstream ss_client_incom;
                         stringstream ss_endpoint_incom;
                         char cclient;
                         char cendpoint;
                         ss_client_incom << client_IDs[com_sock];
                         ss_client_incom >> cclient;
                         ss_endpoint_incom << endpoint_IDs[com_sock];
-                        ss_endpoint_incom >> cendpoint;
-                        cout << "received data from sender: " << cclient << " with endpoint: " << cendpoint << endl;
+                        ss_endpoint_incom >> cendpoint;*/
+                        cout << "received data from sender: " << client_IDs[com_sock] << " with endpoint: " << endpoint_IDs[com_sock] << endl;
 
                         /// create new string with right formatting to send it to the endpoint
                         string data_for_endpoint = buf;
-                        stringstream ss_endpoint;
+                        /*stringstream ss_endpoint;
                         char csender;
                         ss_endpoint << client_IDs[com_sock];
-                        ss_endpoint >> csender;
-                        data_for_endpoint.insert(0, 1, csender);
+                        ss_endpoint >> csender;*/
+                        data_for_endpoint.insert(0, 1, client_IDs[com_sock]);
                         cout << "the output string will look like this: " << data_for_endpoint << "  |" << endl;
 
                         int endpoint_sock = -1;

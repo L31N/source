@@ -48,9 +48,11 @@ short ipcConfig::getIpcIDToProcessSyn(std::string processSyn) {
             line.copy(cIPC_ID, 1, doublePoint+1);
             line.resize(doublePoint);
 
-            std::stringstream ss;
+            /*std::stringstream ss;
             ss << *cIPC_ID;
-            ss >> ID;
+            ss >> ID;*/
+
+            ID = *cIPC_ID;
 
             syn = line;
 
@@ -77,9 +79,11 @@ std::string ipcConfig::getProcessSynToIpcID(short ipcID) {
             line.copy(cIPC_ID, 1, doublePoint+1);
             line.resize(doublePoint);
 
-            std::stringstream ss;
+            /*std::stringstream ss;
             ss << *cIPC_ID;
-            ss >> ID;
+            ss >> ID;*/
+
+            ID = *cIPC_ID;
 
             syn = line;
 
