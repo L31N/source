@@ -46,7 +46,7 @@ ipcSendingConnection::ipcSendingConnection (const std::string _UDS_FILE_PATH, sh
     endpointID = _endpointID;
 
     /// register connection at the server
-    stringstream ss_sender;
+    /*stringstream ss_sender;
     stringstream ss_endpoint;
     char csender;
     char cendpoint;
@@ -55,10 +55,12 @@ ipcSendingConnection::ipcSendingConnection (const std::string _UDS_FILE_PATH, sh
     ss_sender << senderID;
     ss_sender >> csender;
     ss_endpoint << endpointID;
-    ss_endpoint >> cendpoint;
+    ss_endpoint >> cendpoint; */
 
-    idPackage += csender;
-    idPackage += cendpoint;
+    std::string idPackage = "";
+
+    idPackage += senderID;
+    idPackage += endpointID;
 
     if (write(sock, idPackage.c_str(), 2) < 0) {
         _errno = errno;
@@ -132,13 +134,16 @@ ipcReceivingConnection::ipcReceivingConnection(const std::string _UDS_FILE_PATH,
     endpointID = _connID;
 
     /// register connection at the server
-    stringstream ss;
+    /*stringstream ss;
     char cid;
     std::string idPackage = "";
     ss << senderID;
-    ss >> cid;
-    idPackage += cid;
-    idPackage += cid;
+    ss >> cid; */
+
+    std::string idPackage = "";
+
+    idPackage += senderID;
+    idPackage += senderID;
 
     cout << "ID PACKAGE : " << idPackage << endl;
 
@@ -237,10 +242,13 @@ void* ipcReceivingConnection::saveReceivedData_threaded(void* arg) {
         else {  /// read successfull ...
             /// extract sender ID from string
             std::string dataString = data;
-            stringstream ss;
+            short senderID = data[0];
+
+            /*stringstream ss;
             ss << data[0];
             short senderID;
-            ss >> senderID;
+            ss >> senderID;*/
+
             dataString.erase(0,1);
 
             cout << "senderID: " << senderID << endl;
