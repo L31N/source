@@ -20,7 +20,13 @@ void DebugController::pushBack(std::string dbg_string) {
 }
 
 bool DebugController::checkObjectForDebug(short objectID) {
-    std::ifstream ifs("")
+    std::ifstream ifs("etc/debug.conf");
+
+    while(!ifs.eof()) {
+        std::string debugChecklistLine = ifs.get_line();
+
+        if (!debugChecklistLine.find(0, ) == std::string::npos)
+    }
 }
 
 void DebugController::send() {

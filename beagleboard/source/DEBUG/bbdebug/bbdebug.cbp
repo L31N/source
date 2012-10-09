@@ -38,6 +38,8 @@
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
 		<Unit filename="bbdebug.hpp" />
+		<Unit filename="debugConfig.cpp" />
+		<Unit filename="debugConfig.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
