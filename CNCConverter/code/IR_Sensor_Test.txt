@@ -1,0 +1,13 @@
+T1; Fiducial; Dia=3.0mm; Depth=2.5mm; Dive=3.0mm/sec; Work=3.0mm/sec
+T2; Drill; Dia=0.81mm; Depth=2.0mm; Dive=1.11mm/sec; Work=1.11mm/sec
+T3; Drill; Dia=1.02mm; Depth=2.0mm; Dive=1.23mm/sec; Work=1.23mm/sec
+T4; Drill; Dia=0.8mm; Depth=2.0mm; Dive=1.1mm/sec; Work=1.1mm/sec
+T5; Drill; Dia=0.91mm; Depth=2.0mm; Dive=1.17mm/sec; Work=1.17mm/sec
+T6; Drill; Dia=1.09mm; Depth=2.0mm; Dive=1.27mm/sec; Work=1.27mm/sec
+T7; Drill; Dia=4.0mm; Depth=2.0mm; Dive=3.0mm/sec; Work=3.0mm/sec
+T8; Drill; Dia=0.64mm; Depth=2.0mm; Dive=1.0mm/sec; Work=1.0mm/sec
+T9; Drill; Dia=3.0mm; Depth=2.0mm; Dive=2.41mm/sec; Work=2.41mm/sec
+T10; Mill; Dia=0.3mm; Depth=1.2mm; Dive=0.3mm/sec; Work=0.3mm/sec
+T11; Isolate; Dia=0.6mm; Depth=0.3mm; Dive=0.3mm/sec; Work=0.3mm/sec
+T12; Rubout; Dia=2.0mm; Depth=0.3mm; Dive=2.0mm/sec; Work=3.0mm/sec
+T13; Flip; Dia=0.0mm; Depth=0.0mm; Dive=0.0mm/sec; Work=0.0mm/sec

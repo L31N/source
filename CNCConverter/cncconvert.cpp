@@ -29,7 +29,8 @@ int main (int argc, char* argv[]) {
     std::cout << "\n#############################\n" << std::endl;
 
     while(!input_eof()) {
-        if (lookupInConfig(getLineFromInput(INPUT_FILE_PATH), text, command, argument)) {
+        std::string inputLine = getLineFromInput(INPUT_FILE_PATH);
+        if (lookupInConfig(inputLine, text, command, argument)) {
             if (command == "replace") {
                 insert(argument);
                 std::cout << "line " << input_line << ": replaced: \"" << text << "\" with \"" << argument << "\"" << std::endl;
@@ -44,20 +45,24 @@ int main (int argc, char* argv[]) {
                 std::cout << "line " << input_line << ": replaced: \"" << text << "\" with \"" << output_str << "\"" << std::endl;
             }
             else {
-                std::cout << "WARNING: unknown command in line: " << config_line << " [" << command << "]" << std::endl;
-                warnings_count ++;
+                if (inputLine != "") {
+                    std::cout << "WARNING: unknown command in line: " << config_line << " [" << command << "]" << std::endl;
+                    warnings_count ++;
+                }
             }
         }
         else {
-            std::cout << "WARNING: line " << input_line << ": not found in config-file." << std::endl;
-            warnings_count ++;
+            if (inputLine != "") {
+                std::cout << "WARNING: line " << input_line << ": not found in config-file." << std::endl;
+                warnings_count ++;
+            }
         }
     }
 
     std::cout << "\n#############################" << std::endl;
     std::cout << "reached end of inputfile ..." << std::endl;
     std::cout << warnings_count << " Warning(s)" << std::endl;
-    std::cout << "new script was created: " << OUTPUT_FILE_PATH << std::endl;
+    std::cout << "new script was created: " << OUTPUT_FILE_PATH << "\n" << std::endl;
 
     return 0;
 }
@@ -114,7 +119,7 @@ bool lookupInConfig(std::string inputLine, std::string& text, std::string& comma
             getline(conffs, iLine);
         } while(iLine.find(inputLine, 0) == std::string::npos && !conffs.eof());
 
-        if (iLine != "") {
+        if (iLine != "" && iLine[0] != '#') {
 
             text = getLineBeforeCommand(iLine);
             command = getCommand(iLine);
@@ -124,7 +129,7 @@ bool lookupInConfig(std::string inputLine, std::string& text, std::string& comma
             return true;
         }
         else {
-            std::cout << "string not found in config ..." << std::endl;
+            //std::cout << "string not found in config ..." << std::endl;
             conffs.close();
             return false;
         }

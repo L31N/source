@@ -11,6 +11,7 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
+				<Option host_application="CNCConverter inputfile.txt outputfile.txt" />
 				<Compiler>
 					<Add option="-g" />
 				</Compiler>
@@ -31,6 +32,10 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="cnc.conf" />
+		<Unit filename="cncconvert.cpp" />
+		<Unit filename="cncconvert.h" />
+		<Unit filename="inputfile.txt" />
 		<Extensions>
 			<code_completion />
 			<envvars />
