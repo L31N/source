@@ -8,6 +8,7 @@
 
 const std::string CONFIG_FILE_PATH = "cnc.conf";
 int eekg = 0;
+int conf_eekg = 0;
 size_t input_line = 0;
 size_t config_line = 0;
 
@@ -18,11 +19,15 @@ std::string getCommand(std::string _line);
 std::string getArgument(std::string _line);
 
 std::string getLineFromInput(std::string _INPUT_FILE_PATH);
+std::string getLineFromConfig();
 bool lookupInConfig(std::string inputLine, std::string& text, std::string& command, std::string& argument);
 
 void insert(std::string _insertion);
 void clearOutputFile();
 
 bool input_eof();
+bool config_eof();
+
+bool getNextXCommand(std::string& xtext, std::string& xcommand, std::string& xargument);
 
 #endif // _CNC_CONVERT_H_

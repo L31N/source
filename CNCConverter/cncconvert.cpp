@@ -51,11 +51,36 @@ int main (int argc, char* argv[]) {
                 }
             }
         }
-        else {
-            if (inputLine != "") {
-                std::cout << "WARNING: line " << input_line << ": not found in config-file." << std::endl;
-                warnings_count ++;
+        else if (inputLine != "") {
+            /// check line for x-command
+            std::string xtext = "";
+            std::string xcommand = "";
+            std::string xargument = "";
+            while(xcommand != "") {
+
+                if (getNextXCommand(xtext, xcommand, xargument)) {
+                    std::cout << "x-command found !" << std::endl;
+                    if (xcommand == "&replace") {
+
+                    }
+                    else if (xcommand == "&delete") {
+
+                    }
+                    else if (xcommand == "&attach") {
+
+                    }
+                    else {
+                        std::cout << "WARNING: unknown xcommand in line: " << config_line << " [" << xcommand << "]" << std::endl;
+                        warnings_count ++;
+                    }
+                }
+
+
+
             }
+
+            std::cout << "WARNING: line " << input_line << ": not found in config-file." << std::endl;
+            warnings_count ++;
         }
     }
 
@@ -119,7 +144,7 @@ bool lookupInConfig(std::string inputLine, std::string& text, std::string& comma
             getline(conffs, iLine);
         } while(iLine.find(inputLine, 0) == std::string::npos && !conffs.eof());
 
-        if (iLine != "" && iLine[0] != '#') {
+        if (iLine != "" && iLine[0] != '#' && !conffs.eof()) {
 
             text = getLineBeforeCommand(iLine);
             command = getCommand(iLine);
@@ -152,16 +177,46 @@ void clearOutputFile() {
 }
 
 bool input_eof() {
-    /*std::ifstream ifs(INPUT_FILE_PATH.c_str(), std::ios_base::in);
-    ifs.seekg(eekg);
-    if (ifs.eof()) {
-        ifs.close();
-        return true;
-    }
-    else {
-        ifs.close();
-        return false;
-    }*/
     if (eekg == -1) return true;
     else return false;
+}
+
+bool config_eof() {
+    if (conf_eekg == -1) return true;
+    else return false;
+}
+
+std::string getLineFromConfig() {
+    std::ifstream ifs(CONFIG_FILE_PATH.c_str(), std::ios_base::in);
+    if (ifs.is_open()) {
+        ifs.seekg(conf_eekg);
+        std::string buffer = "";
+        while(!ifs.eof()) {
+            config_line ++;
+            getline(ifs, buffer);
+            if (!buffer.empty()) {
+                conf_eekg = ifs.tellg();
+                ifs.close();
+                return buffer;
+            }
+        }
+        conf_eekg = -1;
+    }
+    return "";
+}
+
+
+bool getNextXCommand(std::string& xtext, std::string& xcommand, std::string& xargument) {
+    while(!config_eof()) {
+        std::string buffer = getLineFromConfig();
+        if (getCommand(buffer)[0] == '&') {
+
+            xtext = getLineBeforeCommand(buffer);
+            xcommand = getCommand(buffer);
+            xargument = getArgument(buffer);
+
+            return true;
+        }
+    }
+    return false;
 }
