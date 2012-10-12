@@ -1,0 +1,9 @@
+# depslib dependency file v1.0
+1350046450 source:/home/l31n/Ubuntu One/Programming/robotics2013/source/CNCConverter/cncconvert.cpp
+	"cncconvert.h"
+
+1350045791 /home/l31n/Ubuntu One/Programming/robotics2013/source/CNCConverter/cncconvert.h
+	<iostream>
+	<fstream>
+	<string>
+

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Debug" />
+	<File name="RobotSimulation.cpp" open="1" top="0" tabpos="12">
+		<Cursor position="189" topLine="0" />
+	</File>
+	<File name="angle.cpp" open="1" top="0" tabpos="10">
+		<Cursor position="63" topLine="0" />
+	</File>
+	<File name="angle.h" open="1" top="0" tabpos="9">
+		<Cursor position="320" topLine="0" />
+	</File>
+	<File name="ball.cpp" open="1" top="0" tabpos="4">
+		<Cursor position="36" topLine="0" />
+	</File>
+	<File name="ball.h" open="1" top="0" tabpos="3">
+		<Cursor position="99" topLine="0" />
+	</File>
+	<File name="point.cpp" open="1" top="0" tabpos="5">
+		<Cursor position="97" topLine="0" />
+	</File>
+	<File name="point.h" open="1" top="0" tabpos="6">
+		<Cursor position="112" topLine="0" />
+	</File>
+	<File name="robot.cpp" open="1" top="0" tabpos="8">
+		<Cursor position="120" topLine="0" />
+	</File>
+	<File name="robot.h" open="1" top="0" tabpos="7">
+		<Cursor position="209" topLine="0" />
+	</File>
+	<File name="sensors.cpp" open="1" top="1" tabpos="2">
+		<Cursor position="794" topLine="5" />
+	</File>
+	<File name="sensors.h" open="1" top="0" tabpos="1">
+		<Cursor position="553" topLine="0" />
+	</File>
+</CodeBlocks_layout_file>

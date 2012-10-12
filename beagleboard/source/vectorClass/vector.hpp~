@@ -1,0 +1,145 @@
+#ifndef VECTOR_HPP_INCLUDED
+#define VECTOR_HPP_INCLUDED
+
+#include <iostream>
+<<<<<<< HEAD
+#include <cmath>
+=======
+>>>>>>> 3dee279cc767b3b7f4b0a4da7a3d5da120e1f981
+
+using namespace std;
+
+class vector
+{
+    public:
+        vector();
+        vector(double px, double  py);
+
+    private:
+        double x;
+        double y;
+
+    public:
+        void print();
+
+        double getX();
+<<<<<<< HEAD
+        double getY();
+
+        void setX(double px);
+        void setY(double py);
+
+		//***********************************
+=======
+        double getY();
+>>>>>>> 3dee279cc767b3b7f4b0a4da7a3d5da120e1f981
+
+        vector operator+(vector sum);
+        vector operator+=(vector sum);
+
+        vector operator-(vector sum);
+        vector operator-=(vector sum);
+
+        vector operator=(vector sum);
+
+        vector operator*(double factor);
+        vector operator*=(double factor);
+
+        vector operator/(double factor);
+        vector operator/=(double factor);
+
+        bool operator==(vector vect);
+        bool operator!=(vector vect);
+
+<<<<<<< HEAD
+        double operator*(vector vect);
+
+		vector operator++();
+		vector operator++(int);
+
+		vector operator--();
+		vector operator--(int);
+
+		bool operator<(vector vect);
+		bool operator<=(vector vect);
+
+		bool operator>(vector vect);
+		bool operator>=(vector vect);
+
+		vector operator!();
+
+		//***********************************
+
+		double abs();
+		vector getUnitVector();
+
+=======
+>>>>>>> 3dee279cc767b3b7f4b0a4da7a3d5da120e1f981
+};
+
+
+
+
+
+#endif // VECTOR_HPP_INCLUDED
+
+
+/* Operators to Implement
+
++ done
++= done
+
+- done
+-= done
+
+= done
+
+* double
+*= double
+
+/ double
+/= double
+
+== done
+!=  done
+
+<<<<<<< HEAD
+* vector Skalarprodukt done
+=======
+* vector Skalrprodukt
+>>>>>>> 3dee279cc767b3b7f4b0a4da7a3d5da120e1f981
+*= vector isn't possile
+
+/ vector nothing for moment
+/= vector nothing for moment
+
+<<<<<<< HEAD
+++ |vektor| ++ done
+-- |vektor| -- done
+
+< |vektor| < |vektor| done
+<= |vektor| <= |vektor| done
+
+> |vektor| > |vektor| done
+>= |vektor| >= |vektor| done
+
+! -vektor done
+=======
+++ |vektor| ++
+-- |vektor| --
+
+< |vektor| < |vektor|
+<= |vektor| <= |vektor|
+
+> |vektor| > |vektor|
+>= |vektor| >= |vektor|
+
+! -vektor
+>>>>>>> 3dee279cc767b3b7f4b0a4da7a3d5da120e1f981
+% doen't make sense
+
+
+
+
+
+*/
