@@ -36,11 +36,7 @@ int main (int argc, char* argv[]) {
                 std::cout << "line " << input_line << ": replaced: \"" << text << "\" with \"" << argument << "\"" << std::endl;
             }
             else if (command == "delete") {
-<<<<<<< HEAD
                 std::cout << "line " << input_line << ": deleted: \"" << text << "\"" << std::endl;
-=======
-                std::cout << "line " << input_line << ": deleted: \"" << text << std::endl;
->>>>>>> 4098b29cc155587c9189a4ac407c7cf0ae11ce06
             }
             else if (command == "attach") {
                 std::string output_str (text);
@@ -50,11 +46,7 @@ int main (int argc, char* argv[]) {
             }
             else {
                 if (inputLine != "") {
-<<<<<<< HEAD
                     std::cout << "WARNING: line " << config_line << ": unknown command: [" << command << "]" << std::endl;
-=======
-                    std::cout << "WARNING: unknown command in line: " << config_line << " [" << command << "]" << std::endl;
->>>>>>> 4098b29cc155587c9189a4ac407c7cf0ae11ce06
                     warnings_count ++;
                 }
             }
@@ -64,7 +56,6 @@ int main (int argc, char* argv[]) {
             std::string xtext = "";
             std::string xcommand = "";
             std::string xargument = "";
-<<<<<<< HEAD
 
             bool fXcom = false;
             config_line = 0;
@@ -86,42 +77,46 @@ int main (int argc, char* argv[]) {
                     }
                     else if (xcommand == "&attach") {
                         std::string output_str = inputLine + xargument;
+                        insert(output_str);
                         std::cout << "line " << input_line << ": replaced \"" << inputLine << "\" with \"" << output_str << "\"" << std::endl;
-=======
-            while(xcommand != "") {
-
-                if (getNextXCommand(xtext, xcommand, xargument)) {
-                    std::cout << "x-command found !" << std::endl;
-                    if (xcommand == "&replace") {
-
                     }
-                    else if (xcommand == "&delete") {
 
-                    }
-                    else if (xcommand == "&attach") {
+                    else if (xcommand == "%replace") {
+                        std::string output_str = inputLine;
+                        size_t tmppos = output_str.find(xtext, 0);
+                        output_str.replace(tmppos, xtext.length(), xargument);
+                        insert(output_str);
 
->>>>>>> 4098b29cc155587c9189a4ac407c7cf0ae11ce06
+                        std::cout << "line " << input_line << ": replaced \"" << inputLine << "\" with \"" << output_str << "\"" << std::endl;
                     }
+                    else if (xcommand == "%delete") {
+                        std::string output_str = inputLine;
+                        size_t tmppos = output_str.find(xtext, 0);
+                        output_str.erase(tmppos, xtext.length());
+                        insert(output_str);
+
+                        std::cout << "line " << input_line << ": replaced \"" << inputLine << "\" with \"" << output_str << "\"" << std::endl;
+                    }
+                    else if (xcommand == "%attach") {
+                        std::string output_str = inputLine;
+                        size_t tmppos = output_str.find(xtext, 0);
+                        output_str.insert(tmppos, xargument);
+                        insert(output_str);
+
+                        std::cout << "line " << input_line << ": replaced \"" << inputLine << "\" with \"" << output_str << "\"" << std::endl;
+                    }
+
+
                     else {
                         std::cout << "WARNING: unknown xcommand in line: " << config_line << " [" << xcommand << "]" << std::endl;
                         warnings_count ++;
                     }
                 }
-<<<<<<< HEAD
             }
             if (!fXcom) {
                 std::cout << "WARNING: line " << input_line << ": not found in config-file." << std::endl;
                 warnings_count ++;
             }
-=======
-
-
-
-            }
-
-            std::cout << "WARNING: line " << input_line << ": not found in config-file." << std::endl;
-            warnings_count ++;
->>>>>>> 4098b29cc155587c9189a4ac407c7cf0ae11ce06
         }
     }
 
@@ -235,11 +230,7 @@ std::string getLineFromConfig() {
         while(!ifs.eof()) {
             config_line ++;
             getline(ifs, buffer);
-<<<<<<< HEAD
             if (!buffer.empty() && buffer[0] != '#') {
-=======
-            if (!buffer.empty()) {
->>>>>>> 4098b29cc155587c9189a4ac407c7cf0ae11ce06
                 conf_eekg = ifs.tellg();
                 ifs.close();
                 return buffer;
@@ -247,6 +238,7 @@ std::string getLineFromConfig() {
         }
         conf_eekg = -1;
     }
+    ifs.close();
     return "";
 }
 
@@ -254,7 +246,7 @@ std::string getLineFromConfig() {
 bool getNextXCommand(std::string& xtext, std::string& xcommand, std::string& xargument) {
     while(!config_eof()) {
         std::string buffer = getLineFromConfig();
-        if (getCommand(buffer)[0] == '&') {
+        if (getCommand(buffer)[0] == '&' || getCommand(buffer)[0] == '%') {
 
             xtext = getLineBeforeCommand(buffer);
             xcommand = getCommand(buffer);
