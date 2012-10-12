@@ -12,6 +12,7 @@ L21
 M06
 
 M20 hallo
+<<<<<<< HEAD
 
 A01 XY
 
@@ -22,3 +23,5 @@ M03
 M20 halihalo T19
 
 M03
+=======
+>>>>>>> 4098b29cc155587c9189a4ac407c7cf0ae11ce06
