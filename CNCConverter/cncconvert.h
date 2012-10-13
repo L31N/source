@@ -6,7 +6,7 @@
 #include <fstream>
 #include <string>
 
-const std::string CONFIG_FILE_PATH = "cnc.conf";
+std::string CONFIG_FILE_PATH = "cnc.conf";
 int eekg = 0;
 int conf_eekg = 0;
 size_t input_line = 0;

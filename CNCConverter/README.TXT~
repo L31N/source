@@ -1,0 +1,11 @@
+    text[replace]argument        --> wenn text die ganze zeile darstellt, dann wird diese durch arument ersetzt
+    text[delete]                 --> wenn text die ganze zeile darstellt, dann wird diese geloescht
+    text[attach]argument         --> wenn text die ganze zeile darstellt, dann wird dieser argument angehaengt
+
+    text[&replace]argument       --> wenn text in der zeile enthalten ist, wird die gesamte zeile durch argument ersetzt
+    text[&delete]                --> wenn text in der zeile enthalten ist, wird die gesamte zeile geloescht
+    text[&attach]argument        --> wenn text in der zeile enthalten ist, wird an die gesamte zeile argument angehaengt
+
+    text[%replace]argument       --> wenn text in der zeile enthalten ist, wird text durch argument ersetzt (rest wird beibehalten)
+    text[%delete]                --> wenn text in der zeile enthalten ist, wird nur text aus dieser geloescht
+    text[%attach]argument        --> wenn text in der zeile enthalten ist, wird nach text argument angehaengt

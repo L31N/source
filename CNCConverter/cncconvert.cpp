@@ -14,11 +14,22 @@ int main (int argc, char* argv[]) {
         std::cout << "\nUsage: " << argv[0] << " [INPUT_FILE_PATH] [OUTPUT_FILE_PATH]\n" << std::endl;
         return 0;
     }
-    /*else {
-        std::cout << "\ninputfile: "; std::cin >> INPUT_FILE_PATH;
-        std::cout << "outputfile: "; std::cin >> OUTPUT_FILE_PATH;
-    }*/
 
+    /// check for config-file ...
+    std::ifstream checkfs(CONFIG_FILE_PATH.c_str(), std::ios_base::in);
+    if (!checkfs.is_open()) {
+        checkfs.close();
+        bool fConfigFileCorrect = false;
+
+        while(!fConfigFileCorrect) {
+            std::cout << "\nno cnc.conf found...\nplease insert an availiable filepath to the config-file: ";
+            std::cin >> CONFIG_FILE_PATH;
+            std::cout << "\n" << std::endl;
+            std::ifstream checkfs(CONFIG_FILE_PATH.c_str(), std::ios_base::in);
+            if (checkfs.is_open()) fConfigFileCorrect = true;
+            checkfs.close();
+        }
+    }
 
     clearOutputFile();
 

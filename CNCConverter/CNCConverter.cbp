@@ -32,6 +32,7 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="README.TXT" />
 		<Unit filename="cnc.conf" />
 		<Unit filename="cncconvert.cpp" />
 		<Unit filename="cncconvert.h" />
