@@ -774,16 +774,26 @@ bool Converter::processZComs() {
 
         if (getZComToLine(iline, text, command, argument)) {
             if (command == "[*replace]") {
-
+                cout << "WARNING: line " << iline_num << ": command: \"" << command << "\" not implemented yet" << endl;
             }
             else if (command == "[*delete]") {
-
+                cout << "WARNING: line " << iline_num << ": command: \"" << command << "\" not implemented yet" << endl;
             }
             else if (command == "[*attach]") {
-
+                string* zargs;
+                int zarg_elements;
+                splitZArgument(argument, zargs, zarg_elements);
             }
         }
     }
     return true;
 }
 
+
+void Converter::splitZArgument(string zarg, string*, int& elements) {
+    size_t pos[32] = {0};
+    int i = 0;
+    while(zarg.find('|', pos[i]) != string::npos) {
+        pos[i] = zarg.find('|', pos[i])
+    }
+}

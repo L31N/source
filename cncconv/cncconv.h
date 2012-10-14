@@ -196,6 +196,8 @@ class Converter {
         bool getXComToLine(string line, string& text, string& command, string& argument);
         bool getYComToLine(string line, string& text, string& command, string& argument);
         bool getZComToLine(string line, string& text, string& command, string& argument);
+
+        void splitZArgument(string zarg, string*, int& elements);
 };
 
 #endif // _CNC_CONV_H_
