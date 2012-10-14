@@ -347,6 +347,7 @@ bool Config::checkFileForNoneCommands() {
         line ++;
         getline(ifs, buffer);
         if (!buffer.empty() &&
+            buffer[0] != '#' &&
             buffer.find("[?") == string::npos &&
             buffer.find("[&") == string::npos &&
             buffer.find("[%") == string::npos &&
@@ -388,6 +389,7 @@ IOLine::IOLine() {
 IOLine::~IOLine() {}
 
 string IOLine::getLine() { return ioline; }
+string* IOLine::getLineReference() { return &ioline; }
 int IOLine::getLineNumber() { return linenum; }
 
 
@@ -471,22 +473,27 @@ Output::Output(string _OUTPUT_FILE_PATH) {
 
 Output::~Output() {}
 
-void Output::addNewOutline(string outline) {
+void Output::addNewOutline(IOLine outline) {
     vector.push_back(outline);
 }
 
-string Output::getNextLine() {
+bool Output::getNextLine(string& oline, int& line_number) {
     if (line < int(vector.size())) {
-        return vector[line];
+        oline = vector[line].getLine();
+        line_number = vector[line].getLineNumber();
+
+        return true;
     }
-    else return "";
+    else return false;
 }
 
-string Output::getLine(int number) {
+bool Output::getLine(int number, string& oline, int& line_number) {
     if (number < int(vector.size())) {
-        return vector[number];
+        oline = vector[number].getLine();
+        line_number = vector[number].getLineNumber();
+        return true;
     }
-    else return "";
+    else return false;
 }
 
 void Output::createOutputFile() {
@@ -497,16 +504,25 @@ void Output::createOutputFile() {
     }
 
     for (int i = 0; i < int(vector.size()); i++) {
-        ofs << vector[i] << endl;
+        ofs << vector[i].getLine() << endl;
     }
 
     ofs.close();
 }
 
+void Output::attachToOutline(int number, string attachment) {
+    string* tmp = vector[number].getLineReference();
+    *tmp += attachment;
+}
+
+int Output::getElements() { return vector.size(); }
+
 /** CLASS CONVERTER **/
 Converter::Converter(string _CONFIG_FILE_PATH, string _INPUT_FILE_PATH, string _OUTPUT_FILE_PATH) {
 
     cout << "\n#################################################\n" << endl;
+
+    z_line_num = 0;
 
     CONFIG_FILE_PATH = _CONFIG_FILE_PATH;
     INPUT_FILE_PATH = _INPUT_FILE_PATH;
@@ -528,6 +544,7 @@ Converter::Converter(string _CONFIG_FILE_PATH, string _INPUT_FILE_PATH, string _
 
     cout << "\n#################################################" << endl;
     cout << num_of_warnings << " warning(s)" << endl;
+    cout << "output was created: " << OUTPUT_FILE_PATH << "\n" << endl;
 }
 
 Converter::~Converter() {
@@ -682,7 +699,7 @@ bool Converter::processFComs() {
         if (getFComToLine(iline, text, command, argument)) {
             /// found fcom to this line ...
             if (command == "[?replace]") {
-                op->addNewOutline(argument);
+                op->addNewOutline(IOLine(argument, i));
                 cout << "line " << iline_num << ": replaced: \"" << iline << "\" with \"" << argument << "\"" << endl;
             }
             else if (command == "[?delete]") {
@@ -690,7 +707,7 @@ bool Converter::processFComs() {
             }
             else if (command == "[?attach]") {
                 string output_str = iline + argument;
-                op->addNewOutline(output_str);
+                op->addNewOutline(IOLine(output_str, i));
                 cout << "line " << iline_num << ": replaced: \"" << iline << "\" with \"" << output_str << "\"" << endl;
             }
         }
@@ -708,7 +725,7 @@ bool Converter::processXComs() {
         if (getXComToLine(iline, text, command, argument)) {
             /// found xcom to this line ...
             if (command == "[&replace]") {
-                op->addNewOutline(argument);
+                op->addNewOutline(IOLine(argument, i));
                 cout << "line " << iline_num << ": replaced: \"" << iline << "\" with \"" << argument << "\"" << endl;
             }
             else if (command == "[&delete]") {
@@ -716,7 +733,7 @@ bool Converter::processXComs() {
             }
             else if (command == "[&attach]") {
                 string output_str = iline + argument;
-                op->addNewOutline(output_str);
+                op->addNewOutline(IOLine(output_str, i));
                 cout << "line " << iline_num << ": replaced: \"" << iline << "\" with \"" << output_str << "\"" << endl;
             }
         }
@@ -738,7 +755,7 @@ bool Converter::processYComs() {
                 size_t tmppos = output_str.find(text, 0);
                 output_str.replace(tmppos, text.length(), argument);
 
-                op->addNewOutline(output_str);
+                op->addNewOutline(IOLine(output_str, i));
 
                 cout << "line " << iline_num << ": replaced: \"" << iline << "\" with \"" << output_str << "\"" << endl;
             }
@@ -747,7 +764,7 @@ bool Converter::processYComs() {
                 size_t tmppos = output_str.find(text, 0);
                 output_str.erase(tmppos, text.length());
 
-                op->addNewOutline(output_str);
+                op->addNewOutline(IOLine(output_str, i));
 
                 cout << "line " << iline_num << ": replaced: \"" << iline << "\" with \"" << output_str << "\"" << endl;
             }
@@ -756,7 +773,7 @@ bool Converter::processYComs() {
                 size_t tmppos = output_str.find(text, 0);
                 output_str.insert(tmppos, argument);
 
-                op->addNewOutline(output_str);
+                op->addNewOutline(IOLine(output_str, i));
 
                 cout << "line " << iline_num << ": replaced: \"" << iline << "\" with \"" << output_str << "\"" << endl;
             }
@@ -768,6 +785,7 @@ bool Converter::processYComs() {
 bool Converter::processZComs() {
     for (int i = 0; i < ip->getElements(); i++) {
         string iline, text, command, argument;
+        string oline;
         int iline_num;
 
         ip->getLine(i, iline, iline_num);
@@ -780,9 +798,36 @@ bool Converter::processZComs() {
                 cout << "WARNING: line " << iline_num << ": command: \"" << command << "\" not implemented yet" << endl;
             }
             else if (command == "[*attach]") {
-                string* zargs;
+                /*string* zargs;
                 int zarg_elements;
-                splitZArgument(argument, zargs, zarg_elements);
+                splitZArgument(argument, zargs, zarg_elements);*/
+                /// I WILL HARDCODE IT HERE ... BECAUSE IT IS MORE EASY ... MAYBE THERE WILL BE A NEWER DYNAMIC VERSION SOON
+                string parameter = iline;
+                parameter.erase(0, text.length());
+                /// find next line with G01 || G02
+                int oline_number;
+                for (int j = z_line_num; j < op->getElements(); j++) {
+                    //cout << "in for() j:" << j << endl;
+                    string output_str;
+                    op->getLine(j, oline, oline_number);
+                    //cout << "oline: " << oline << endl;
+                    if (oline.find("G00") != string::npos) {
+                        output_str = oline + parameter;
+                        op->attachToOutline(j, parameter);
+                        cout << "line " << iline_num << ": replaced: \"" << oline << "\" with \"" << output_str << "\"" << endl;
+                        z_line_num = j+1;
+                        break;
+                    }
+                    else if (oline.find("G01") != string::npos) {
+                        output_str = oline + parameter;
+                        op->attachToOutline(j, parameter);
+                        cout << "line " << iline_num << ": replaced: \"" << oline << "\" with \"" << output_str << "\"" << endl;
+                        z_line_num = j+1;
+                        break;
+                    }
+                    //else { cout << "in else" << endl; break; }
+                    //cout << "replaced: \"" << oline << "\" with \"" << output_str << "\"" << endl;
+                }
             }
         }
     }
@@ -790,10 +835,10 @@ bool Converter::processZComs() {
 }
 
 
-void Converter::splitZArgument(string zarg, string*, int& elements) {
+/*void Converter::splitZArgument(string zarg, string*, int& elements) {
     size_t pos[32] = {0};
     int i = 0;
     while(zarg.find('|', pos[i]) != string::npos) {
-        pos[i] = zarg.find('|', pos[i])
+        pos[i] = zarg.find('|', pos[i]);
     }
-}
+}*/

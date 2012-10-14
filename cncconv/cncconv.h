@@ -113,6 +113,7 @@ class IOLine {
 
     public:
         string getLine();
+        string* getLineReference();
         int getLineNumber();
 };
 
@@ -148,17 +149,21 @@ class Output {
         Output(string _OUTPUT_FILE_PATH);
         ~Output();
 
-        void addNewOutline(string outline);
+        void addNewOutline(IOLine outline);
 
-        string getNextLine(void);
-        string getLine(int number);
+        bool getNextLine(string& oline, int& line_number);
+        bool getLine(int number, string& oline, int& line_number);
 
-        void createOutputFile();
+        void attachToOutline(int number, string attachment);
+
+        void createOutputFile(void);
+
+        int getElements(void);
 
     private:
         string OUTPUT_FILE_PATH;
 
-        std::vector<std::string> vector;
+        std::vector<IOLine> vector;
 
         int line;
 
@@ -180,6 +185,8 @@ class Converter {
         Input* ip;
         Output* op;
 
+        int z_line_num;
+
         size_t num_of_warnings;
 
         // ---------------------- //
@@ -197,7 +204,7 @@ class Converter {
         bool getYComToLine(string line, string& text, string& command, string& argument);
         bool getZComToLine(string line, string& text, string& command, string& argument);
 
-        void splitZArgument(string zarg, string*, int& elements);
+        //void splitZArgument(string zarg, string*, int& elements);
 };
 
 #endif // _CNC_CONV_H_
