@@ -520,6 +520,10 @@ Converter::Converter(string _CONFIG_FILE_PATH, string _INPUT_FILE_PATH, string _
     checkForInputNotInConfig();
 
     processFComs();
+    processXComs();
+    processYComs();
+    processZComs();
+
     op->createOutputFile();
 
     cout << "\n#################################################" << endl;
@@ -677,7 +681,18 @@ bool Converter::processFComs() {
 
         if (getFComToLine(iline, text, command, argument)) {
             /// found fcom to this line ...
-            op->addNewOutline(argument);
+            if (command == "[?replace]") {
+                op->addNewOutline(argument);
+                cout << "line " << iline_num << ": replaced: \"" << iline << "\" with \"" << argument << "\"" << endl;
+            }
+            else if (command == "[?delete]") {
+                cout << "line " << iline_num << ": deleted: \"" << iline << "\"" << endl;
+            }
+            else if (command == "[?attach]") {
+                string output_str = iline + argument;
+                op->addNewOutline(output_str);
+                cout << "line " << iline_num << ": replaced: \"" << iline << "\" with \"" << output_str << "\"" << endl;
+            }
         }
     }
     return true;
@@ -692,7 +707,81 @@ bool Converter::processXComs() {
 
         if (getXComToLine(iline, text, command, argument)) {
             /// found xcom to this line ...
-            op->addNewOutline(argument);
+            if (command == "[&replace]") {
+                op->addNewOutline(argument);
+                cout << "line " << iline_num << ": replaced: \"" << iline << "\" with \"" << argument << "\"" << endl;
+            }
+            else if (command == "[&delete]") {
+                cout << "line " << iline_num << ": deleted: \"" << iline << "\"" << endl;
+            }
+            else if (command == "[&attach]") {
+                string output_str = iline + argument;
+                op->addNewOutline(output_str);
+                cout << "line " << iline_num << ": replaced: \"" << iline << "\" with \"" << output_str << "\"" << endl;
+            }
+        }
+    }
+    return true;
+}
+
+bool Converter::processYComs() {
+    for (int i = 0; i < ip->getElements(); i++) {
+        string iline, text, command, argument;
+        int iline_num;
+
+        ip->getLine(i, iline, iline_num);
+
+        if (getYComToLine(iline, text, command, argument)) {
+            /// found ycom to this line...
+            if (command == "[%replace]") {
+                string output_str = iline;
+                size_t tmppos = output_str.find(text, 0);
+                output_str.replace(tmppos, text.length(), argument);
+
+                op->addNewOutline(output_str);
+
+                cout << "line " << iline_num << ": replaced: \"" << iline << "\" with \"" << output_str << "\"" << endl;
+            }
+            else if (command == "[%delete]") {
+                string output_str = iline;
+                size_t tmppos = output_str.find(text, 0);
+                output_str.erase(tmppos, text.length());
+
+                op->addNewOutline(output_str);
+
+                cout << "line " << iline_num << ": replaced: \"" << iline << "\" with \"" << output_str << "\"" << endl;
+            }
+            else if (command == "[%attach]") {
+                string output_str = iline;
+                size_t tmppos = output_str.find(text, 0);
+                output_str.insert(tmppos, argument);
+
+                op->addNewOutline(output_str);
+
+                cout << "line " << iline_num << ": replaced: \"" << iline << "\" with \"" << output_str << "\"" << endl;
+            }
+        }
+    }
+    return true;
+}
+
+bool Converter::processZComs() {
+    for (int i = 0; i < ip->getElements(); i++) {
+        string iline, text, command, argument;
+        int iline_num;
+
+        ip->getLine(i, iline, iline_num);
+
+        if (getZComToLine(iline, text, command, argument)) {
+            if (command == "[*replace]") {
+
+            }
+            else if (command == "[*delete]") {
+
+            }
+            else if (command == "[*attach]") {
+
+            }
         }
     }
     return true;
