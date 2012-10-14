@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Debug" />
+	<File name="cnc.conf" open="1" top="0" tabpos="5">
+		<Cursor position="192" topLine="0" />
+	</File>
+	<File name="cncconv.cpp" open="1" top="1" tabpos="2">
+		<Cursor position="18150" topLine="657" />
+	</File>
+	<File name="cncconv.h" open="1" top="0" tabpos="1">
+		<Cursor position="4391" topLine="158" />
+	</File>
+	<File name="input.txt" open="1" top="0" tabpos="4">
+		<Cursor position="0" topLine="0" />
+	</File>
+	<File name="main.cpp" open="1" top="0" tabpos="3">
+		<Cursor position="50" topLine="0" />
+	</File>
+</CodeBlocks_layout_file>
