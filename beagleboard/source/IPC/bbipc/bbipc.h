@@ -3,6 +3,7 @@
 #define _BB_IPC_H_
 
 //#define USE_DEBUG_OUTPUT
+//#define USE_IPC_CONFIG_DEBUG
 
 #include <sys/socket.h>
 #include <sys/types.h>

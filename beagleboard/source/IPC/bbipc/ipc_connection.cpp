@@ -85,7 +85,9 @@ ipcSendingConnection::ipcSendingConnection (const std::string _UDS_FILE_PATH, sh
                 _errno = -1;
                 break;
             case 1:
-                cout << "connection was set successfully ..." << endl;
+                #ifdef DEBUG
+                    cout << "connection was set successfully ..." << endl;
+                #endif
                 break;
             case 6:
                 cout << "receiving connetion already exists ..." << endl;
@@ -119,7 +121,7 @@ bool ipcSendingConnection::sendData(const std::string data) {
                 _errno = -1;
                 break;
             case 3:
-                #ifdef USE_DEBUG_OUTPUT
+                #ifdef DEBUG
                     cout << "data-package successfully delivered ..." << endl;
                 #endif
                 break;
@@ -147,7 +149,7 @@ ipcReceivingConnection::ipcReceivingConnection(const std::string _UDS_FILE_PATH,
     idPackage += senderID;
     idPackage += senderID;
 
-    #ifdef USE_DEBUG_OUTPUT
+    #ifdef DEBUG
         cout << "ID PACKAGE : " << idPackage << endl;
     #endif
 
@@ -174,7 +176,7 @@ ipcReceivingConnection::ipcReceivingConnection(const std::string _UDS_FILE_PATH,
                 _errno = -1;
                 break;
             case 1:
-                #ifdef USE_DEBUG_OUTPUT
+                #ifdef DEBUG
                     cout << "connection was set successfully ..." << endl;
                 #endif
                 break;
@@ -226,7 +228,7 @@ Data* ipcReceivingConnection::readDataFromBuffer() {
 }
 
 void* ipcReceivingConnection::saveReceivedData_threaded(void* arg) {
-    #ifdef USE_DEBUG_OUTPUT
+    #ifdef DEBUG
         cout << "from thread ..." << endl;
     #endif
 
@@ -240,7 +242,7 @@ void* ipcReceivingConnection::saveReceivedData_threaded(void* arg) {
 
         int retval = read(tdata->_sock, data, 1024);
         if (retval == 0) {
-            #ifdef USE_DEBUG_OUTPUT
+            #ifdef DEBUG
                 cout << "connection closed ..." << endl;
             #endif
             continue;
@@ -261,14 +263,14 @@ void* ipcReceivingConnection::saveReceivedData_threaded(void* arg) {
 
             dataString.erase(0,1);
 
-            #ifdef USE_DEBUG_OUTPUT
+            #ifdef DEBUG
                 cout << "senderID: " << senderID << endl;
                 cout << "data: " << dataString << endl;
             #endif
 
             Data* data = new Data(dataString, senderID);
             tdata->_buffer->insert(data);
-            #ifdef USE_DEBUG_OUTPUT
+            #ifdef DEBUG
                 cout << "inserted data into buffer ..." << endl;
             #endif
         }

@@ -32,12 +32,23 @@ std::string ipcConfig::getIPC_CONFIG_FILE(void) { return IPC_CONFIG_FILE; }
 std::string ipcConfig::getUDS_FILE_PATH(void) { return UDS_FILE_PATH; }
 
 short ipcConfig::getIpcIDToProcessSyn(std::string processSyn) {
+
+    #ifdef DEBUG
+        std::cout << "in ipcConfig::getIpcIDToProcessSyn() " << std::endl;
+    #endif
+
     short ID = -1;
     std::string syn = "";
 
+    ifConfig->clear();
     ifConfig->seekg(0);
     while(ifConfig->eof() == false) {
-       char cline[256];
+
+        #ifdef DEBUG
+            std::cout << "in while: eof():" << ifConfig->eof() << std::endl;
+        #endif
+
+        char cline[256];
         ifConfig->getline(cline, 256);
         std::string line(cline);
 
@@ -66,13 +77,14 @@ std::string ipcConfig::getProcessSynToIpcID(short ipcID) {
     short ID = -1;
     std::string syn = "";
 
+    ifConfig->clear();
     ifConfig->seekg(0);
     while(ifConfig->eof() == false) {
        char cline[256];
         ifConfig->getline(cline, 256);
         std::string line(cline);
 
-        if (line[0] == '-') { /// ignore this line --> it starts with an '#'
+        if (line[0] == '-') { /// '-' found --> this line could contain the information
             line.erase(0,1);
             size_t doublePoint = line.find_first_of(':');
             char cIPC_ID[1];
