@@ -35,3 +35,39 @@
 	<iostream>
 	<fstream>
 
+1351351487 source:/home/lukas/source/beagleboard/source/IPC/bbipc/ipc_api_testing.cpp
+	<iostream>
+	<string>
+	"bbipc.h"
+	<stdlib.h>
+
+1351457426 /home/lukas/source/beagleboard/source/IPC/bbipc/bbipc.h
+	<sys/socket.h>
+	<sys/types.h>
+	<sys/un.h>
+	<string>
+	"ipc_connection.h"
+	"buffer.h"
+	"ipc_config.h"
+
+1351457426 /home/lukas/source/beagleboard/source/IPC/bbipc/ipc_connection.h
+	<string>
+	<sys/socket.h>
+	<sys/types.h>
+	<sys/un.h>
+	<unistd.h>
+	<sys/errno.h>
+	<pthread.h>
+	<semaphore.h>
+	<stdlib.h>
+	"buffer.h"
+
+1351351487 /home/lukas/source/beagleboard/source/IPC/bbipc/buffer.h
+	<string>
+	<vector>
+
+1351351487 /home/lukas/source/beagleboard/source/IPC/bbipc/ipc_config.h
+	<string>
+	<iostream>
+	<fstream>
+
