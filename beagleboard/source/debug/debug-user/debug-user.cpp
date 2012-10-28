@@ -14,14 +14,20 @@ int main(int argc, char* argv[])
     }
 
     int *showTable = new int[argc-1];
+    int showTableCount = 0;
     bool showAll = false;
+    bool invalid = false;
 
     ipcConfig ipcconfig("../../../../../etc/ipc.conf");
 
     //parameter durchsuchen
     for(int i = 0; i < argc-1; i++)
     {
+            cout << i << endl;
+
             string tmp(argv[i+1]);
+
+            cout << tmp << endl;
 
             if(!tmp.compare("-a"))
             {
@@ -31,13 +37,24 @@ int main(int argc, char* argv[])
             }
             else
             {
-                //showTable[i]=ipcconfig.get
-            }
+                showTable[i]=ipcconfig.getIpcIDToProcessSyn(tmp);
 
-            cout << tmp << endl;
+                cout << showTable[i] << endl;
+                //if(showTable[i]==-1)
+                //{
+                //    cout << "Invalid Process Syn!: " << tmp << endl;
+                //    invalid=true;
+                //}
+                //showTableCount++;
+            }
     }
 
-
+    //Invalide Parameter abbrechen
+    if(invalid)
+    {
+        cout << "Invalid Process Syns found!" << endl;
+        return -2;
+    }
 
 
     ipcReceivingConnection receivingConnection(ipcconfig.getUDS_FILE_PATH(), ipcconfig.getIpcIDToProcessSyn("DEBUG"), 10);
