@@ -35,10 +35,12 @@
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="-m32" />
 			<Add directory="../../../include" />
 		</Compiler>
 		<Linker>
 			<Add option="-lbbipc" />
+			<Add option="-m32" />
 			<Add directory="../../../lib" />
 		</Linker>
 		<Unit filename="bbdebug.cpp" />
