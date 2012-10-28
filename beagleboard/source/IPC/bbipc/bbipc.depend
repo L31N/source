@@ -1,23 +1,45 @@
 # depslib dependency file v1.0
-1347104945 source:/home/l31n/Ubuntu One/Programming/robotics2013/source/beagleboard/source/IPC/bbipc/bbipc.cpp
+1350403147 source:/home/l31n/Ubuntu One/Programming/robotics2013/source/beagleboard/source/IPC/bbipc/bbipc.cpp
 	"bbipc.h"
 
-1347104945 /home/l31n/Ubuntu One/Programming/robotics2013/source/beagleboard/source/IPC/bbipc/bbipc.h
+1350403141 /home/l31n/Ubuntu One/Programming/robotics2013/source/beagleboard/source/IPC/bbipc/bbipc.h
 	<sys/socket.h>
 	<sys/types.h>
 	<sys/un.h>
 	<string>
 	"ipc_connection.h"
+	"buffer.h"
+	"ipc_config.h"
 
-1347104945 /home/l31n/Ubuntu One/Programming/robotics2013/source/beagleboard/source/IPC/bbipc/ipc_connection.h
+1350403141 /home/l31n/Ubuntu One/Programming/robotics2013/source/beagleboard/source/IPC/bbipc/ipc_connection.h
 	<string>
 	<sys/socket.h>
 	<sys/types.h>
 	<sys/un.h>
 	<sys/errno.h>
+	<pthread.h>
+	<semaphore.h>
+	<stdlib.h>
+	"buffer.h"
 
-1347087347 source:/home/l31n/Ubuntu One/Programming/robotics2013/source/beagleboard/source/IPC/bbipc/ipc_connection.cpp
+1350403148 source:/home/l31n/Ubuntu One/Programming/robotics2013/source/beagleboard/source/IPC/bbipc/ipc_connection.cpp
 	"ipc_connection.h"
+	<iostream>
+
+1350403143 /home/l31n/Ubuntu One/Programming/robotics2013/source/beagleboard/source/IPC/bbipc/buffer.h
+	<string>
+	<vector>
+
+1350403145 /home/l31n/Ubuntu One/Programming/robotics2013/source/beagleboard/source/IPC/bbipc/ipc_config.h
+	<string>
+	<iostream>
+	<fstream>
+
+1350403146 source:/home/l31n/Ubuntu One/Programming/robotics2013/source/beagleboard/source/IPC/bbipc/buffer.cpp
+	"buffer.h"
+
+1350403143 source:/home/l31n/Ubuntu One/Programming/robotics2013/source/beagleboard/source/IPC/bbipc/ipc_config.cpp
+	"ipc_config.h"
 
 1351252135 source:/home/lukas/source/beagleboard/source/IPC/bbipc/bbipc.cpp
 	"bbipc.h"
