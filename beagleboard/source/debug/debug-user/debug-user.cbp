@@ -30,9 +30,16 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
-			<Add option="-fexceptions" />
+			<Add option="-fexceptions -m32" />
+			<Add directory="../../../include" />
 		</Compiler>
-		<Unit filename="main.cpp" />
+		<Linker>
+			<Add option="-lpthread" />
+			<Add option="-lbbipc" />
+			<Add option="-m32" />
+			<Add directory="../../../lib" />
+		</Linker>
+		<Unit filename="debug-user.cpp" />
 		<Extensions>
 			<envvars />
 			<code_completion />
