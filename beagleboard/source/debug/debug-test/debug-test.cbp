@@ -30,13 +30,14 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
-			<Add option="-fexceptions" />
+			<Add option="-fexceptions -m32" />
 			<Add directory="../../../include" />
 		</Compiler>
 		<Linker>
 			<Add option="-lbbdebug" />
 			<Add option="-lbbipc" />
 			<Add option="-lpthread" />
+			<Add option="-m32" />
 			<Add directory="../../../lib" />
 		</Linker>
 		<Unit filename="main.cpp" />
