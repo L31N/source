@@ -613,7 +613,8 @@ bool Converter::checkForInputNotInConfig() {
         ip->getLine(i, line, line_number);
 
         if (checkLineNotInConfig(line)) {
-            cout << "WARNING: line " << line_number << ": not found in config-file: \"" << line << "\"" << endl;
+            op->addNewOutline(IOLine(line, -1));
+            cout << "WtestARNING: line " << line_number << ": not found in config-file: \"" << line << "\"" << endl;
             num_of_warnings ++;
             retval = true;
         }
@@ -812,14 +813,14 @@ bool Converter::processZComs() {
                     op->getLine(j, oline, oline_number);
                     //cout << "oline: " << oline << endl;
                     if (oline.find("G00") != string::npos) {
-                        output_str = oline + parameter;
+                        output_str = oline + " F" + parameter;
                         op->attachToOutline(j, parameter);
                         cout << "line " << iline_num << ": replaced: \"" << oline << "\" with \"" << output_str << "\"" << endl;
                         z_line_num = j+1;
                         break;
                     }
                     else if (oline.find("G01") != string::npos) {
-                        output_str = oline + parameter;
+                        output_str = oline + " F" + parameter;
                         op->attachToOutline(j, parameter);
                         cout << "line " << iline_num << ": replaced: \"" << oline << "\" with \"" << output_str << "\"" << endl;
                         z_line_num = j+1;
