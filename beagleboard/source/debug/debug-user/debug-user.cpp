@@ -34,11 +34,10 @@ int main(int argc, char* argv[])
             }
             else
             {
-                //showTable[i]=ipcconfig.getIpcIDToProcessSyn(tmp);
+                showTable[i]=ipcconfig.getIpcIDToProcessSyn(tmp);
 
-                showTable[i]=atoi(tmp.c_str());
+                //showTable[i]=atoi(tmp.c_str());
 
-                cout << showTable[i] << endl;
                 if(showTable[i]==-1)
                 {
                     cout << "Invalid Process Syn!: " << tmp << endl;
