@@ -34,9 +34,15 @@
 				</Linker>
 			</Target>
 		</Build>
-		<Unit filename="main.c">
-			<Option compilerVar="CC" />
-		</Unit>
+		<Compiler>
+			<Add directory="../../../include" />
+		</Compiler>
+		<Linker>
+			<Add option="-lbbipc" />
+			<Add directory="../../../lib" />
+		</Linker>
+		<Unit filename="bbdebug.cpp" />
+		<Unit filename="bbdebug.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
