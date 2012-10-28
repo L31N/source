@@ -147,7 +147,9 @@ ipcReceivingConnection::ipcReceivingConnection(const std::string _UDS_FILE_PATH,
     idPackage += senderID;
     idPackage += senderID;
 
-    cout << "ID PACKAGE : " << idPackage << endl;
+    #ifdef USE_DEBUG_OUTPUT
+        cout << "ID PACKAGE : " << idPackage << endl;
+    #endif
 
     if (write(sock, idPackage.c_str(), 2) < 0) {
         _errno = errno;
