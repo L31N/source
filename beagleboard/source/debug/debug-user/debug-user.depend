@@ -1,0 +1,36 @@
+# depslib dependency file v1.0
+1351431310 source:/home/lukas/source/beagleboard/source/debug/debug-user/debug-user.cpp
+	<iostream>
+	<ipc/bbipc.h>
+
+1351252135 /home/lukas/source/beagleboard/include/ipc/bbipc.h
+	<sys/socket.h>
+	<sys/types.h>
+	<sys/un.h>
+	<string>
+	"ipc_connection.h"
+	"buffer.h"
+	"ipc_config.h"
+
+1351252135 /home/lukas/source/beagleboard/include/ipc/ipc_connection.h
+	<string>
+	<sstream>
+	<sys/socket.h>
+	<sys/types.h>
+	<sys/un.h>
+	<sys/errno.h>
+	<pthread.h>
+	<semaphore.h>
+	<stdlib.h>
+	"buffer.h"
+
+1351252135 /home/lukas/source/beagleboard/include/ipc/buffer.h
+	<string>
+	<vector>
+
+1351252135 /home/lukas/source/beagleboard/include/ipc/ipc_config.h
+	<string>
+	<iostream>
+	<fstream>
+	<sstream>
+
