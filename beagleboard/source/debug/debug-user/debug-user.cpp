@@ -20,14 +20,11 @@ int main(int argc, char* argv[])
 
     ipcConfig ipcconfig("../../../../../etc/ipc.conf");
 
-    /*//parameter durchsuchen
+    //parameter durchsuchen
     for(int i = 0; i < argc-1; i++)
     {
-            cout << i << endl;
 
             string tmp(argv[i+1]);
-
-            cout << tmp << endl;
 
             if(!tmp.compare("-a"))
             {
@@ -37,7 +34,9 @@ int main(int argc, char* argv[])
             }
             else
             {
-                showTable[i]=ipcconfig.getIpcIDToProcessSyn(tmp);
+                //showTable[i]=ipcconfig.getIpcIDToProcessSyn(tmp);
+
+                showTable[i]=atoi(tmp.c_str());
 
                 cout << showTable[i] << endl;
                 if(showTable[i]==-1)
@@ -54,13 +53,30 @@ int main(int argc, char* argv[])
     {
         cout << "Invalid Process Syns found!" << endl;
         return -2;
-    }*/
+    }
 
 
     ipcReceivingConnection receivingConnection(ipcconfig.getUDS_FILE_PATH(), ipcconfig.getIpcIDToProcessSyn("DEBUG"), 10);
 
-    /*while(true)
+    while(true)
     {
+        Data *data = receivingConnection.readDataFromBuffer();
+        if(data != NULL)
+        {
+            int senderId = data->getSenderID();
+            string message = data->getData();
+            bool transfer = false;
 
-    }*/
+            for(int i = 0; i < showTableCount; i++)
+            {
+                cout << "test weather " << showTable[i] << " is equal to " << senderId;
+                if(showTable[i]==senderId)
+                {
+                    transfer = true;
+                    break;
+                }
+            }
+
+        }
+    }
 }
