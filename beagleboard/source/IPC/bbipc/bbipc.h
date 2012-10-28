@@ -2,6 +2,8 @@
 #ifndef _BB_IPC_H_
 #define _BB_IPC_H_
 
+//#define USE_DEBUG_OUTPUT
+
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <sys/un.h>

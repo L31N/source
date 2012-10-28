@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
+<<<<<<< HEAD
 	<ActiveTarget name="Release" />
 	<File name="bbipc.cpp" open="1" top="0" tabpos="3">
 		<Cursor position="21" topLine="0" />
 	</File>
 	<File name="bbipc.h" open="1" top="0" tabpos="2">
 		<Cursor position="220" topLine="0" />
+=======
+	<ActiveTarget name="Debug" />
+	<File name="bbipc.cpp" open="1" top="0" tabpos="4">
+		<Cursor position="20" topLine="0" />
+	</File>
+	<File name="bbipc.h" open="1" top="1" tabpos="3">
+		<Cursor position="42" topLine="0" />
+>>>>>>> af8410534e056dd4e9fe122c71cc67a2480aa2bd
 	</File>
 	<File name="buffer.cpp" open="1" top="0" tabpos="7">
 		<Cursor position="270" topLine="0" />
@@ -13,11 +22,19 @@
 	<File name="buffer.h" open="1" top="0" tabpos="6">
 		<Cursor position="104" topLine="9" />
 	</File>
+<<<<<<< HEAD
 	<File name="ipc_config.cpp" open="1" top="1" tabpos="8">
 		<Cursor position="0" topLine="30" />
 	</File>
 	<File name="ipc_connection.cpp" open="1" top="0" tabpos="5">
 		<Cursor position="4753" topLine="39" />
+=======
+	<File name="ipc_config.cpp" open="1" top="0" tabpos="9">
+		<Cursor position="1032" topLine="51" />
+	</File>
+	<File name="ipc_connection.cpp" open="1" top="0" tabpos="6">
+		<Cursor position="7777" topLine="232" />
+>>>>>>> af8410534e056dd4e9fe122c71cc67a2480aa2bd
 	</File>
 	<File name="ipc_connection.h" open="1" top="0" tabpos="4">
 		<Cursor position="105" topLine="0" />

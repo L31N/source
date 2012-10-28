@@ -119,7 +119,9 @@ bool ipcSendingConnection::sendData(const std::string data) {
                 _errno = -1;
                 break;
             case 3:
-                cout << "data-package successfully delivered ..." << endl;
+                #ifdef USE_DEBUG_OUTPUT
+                    cout << "data-package successfully delivered ..." << endl;
+                #endif
                 break;
         }
     }
@@ -170,7 +172,9 @@ ipcReceivingConnection::ipcReceivingConnection(const std::string _UDS_FILE_PATH,
                 _errno = -1;
                 break;
             case 1:
-                cout << "connection was set successfully ..." << endl;
+                #ifdef USE_DEBUG_OUTPUT
+                    cout << "connection was set successfully ..." << endl;
+                #endif
                 break;
             case 6:
                 cout << "receiving connetion already exists ..." << endl;
@@ -220,7 +224,9 @@ Data* ipcReceivingConnection::readDataFromBuffer() {
 }
 
 void* ipcReceivingConnection::saveReceivedData_threaded(void* arg) {
-    cout << "from thread ..." << endl;
+    #ifdef USE_DEBUG_OUTPUT
+        cout << "from thread ..." << endl;
+    #endif
 
     struct thread_data *tdata = (struct thread_data *)arg;
     /// read to socket ...
@@ -232,7 +238,9 @@ void* ipcReceivingConnection::saveReceivedData_threaded(void* arg) {
 
         int retval = read(tdata->_sock, data, 1024);
         if (retval == 0) {
-            cout << "connection closed ..." << endl;
+            #ifdef USE_DEBUG_OUTPUT
+                cout << "connection closed ..." << endl;
+            #endif
             continue;
         }
         else if (retval == -1) {
@@ -251,12 +259,16 @@ void* ipcReceivingConnection::saveReceivedData_threaded(void* arg) {
 
             dataString.erase(0,1);
 
-            cout << "senderID: " << senderID << endl;
-            cout << "data: " << dataString << endl;
+            #ifdef USE_DEBUG_OUTPUT
+                cout << "senderID: " << senderID << endl;
+                cout << "data: " << dataString << endl;
+            #endif
 
             Data* data = new Data(dataString, senderID);
             tdata->_buffer->insert(data);
-            cout << "inserted data into buffer ..." << endl;
+            #ifdef USE_DEBUG_OUTPUT
+                cout << "inserted data into buffer ..." << endl;
+            #endif
         }
     }
     return NULL;
