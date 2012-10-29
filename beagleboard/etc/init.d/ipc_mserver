@@ -13,13 +13,13 @@
 # Aktionen
 case "$1" in
     start)
-        /source/beagleboard/bin/ipc_mserver start
+        /home/l31n/source/beagleboard/bin/ipc_mserver start
         ;;
     stop)
-        /source/beagleboard/bin/ipc_mserver stop
+        /home/l31n/source/beagleboard/bin/ipc_mserver stop
         ;;
     restart)
-        /source/beagleboard/bin/ipc_mserver restart
+        /home/l31n/source/beagleboard/bin/ipc_mserver restart
         ;;
 esac
 
