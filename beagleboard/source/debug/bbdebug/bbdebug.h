@@ -3,6 +3,10 @@
 #ifndef _BB_DEBUG_H_
 #define _BB_DEBUG_H_
 
+#ifdef DEBUG
+    #include <iostream>
+#endif
+
 #include <string>
 
 #include <stdio.h>

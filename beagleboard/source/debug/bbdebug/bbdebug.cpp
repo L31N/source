@@ -3,7 +3,13 @@
 #include "bbdebug.h"
 
 Debug::Debug(std::string moduleName) {
+    #ifdef DEBUG
+        std::cout << "Debug::Debug --> ipcConfig()" << std::endl;
+    #endif
     ipcconf = new ipcConfig("../../../etc/");
+    #ifdef DEBUG
+        std::cout << "Debug::Debug --> ipcSendingConnection()" << std::endl;
+    #endif
     senCon = new ipcSendingConnection(ipcconf->getUDS_FILE_PATH(), ipcconf->getIpcIDToProcessSyn(moduleName), ipcconf->getIpcIDToProcessSyn("DEBUG"));
 }
 
