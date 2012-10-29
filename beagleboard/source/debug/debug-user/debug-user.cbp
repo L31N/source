@@ -35,8 +35,8 @@
 		</Compiler>
 		<Linker>
 			<Add option="-lpthread" />
-			<Add option="-lbbipc-debug" />
-			<Add option="-lpthread" />
+			<Add option="-lbbipc" />
+			<Add option="-lbbdebug" />
 			<Add option="-m32" />
 			<Add directory="../../../lib" />
 		</Linker>

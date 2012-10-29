@@ -57,7 +57,7 @@ int main(int argc, char* argv[])
 
     while(true)
     {
-        Data *data = NULL;// = receivingConnection.readDataFromBuffer();
+        Data *data = receivingConnection.readDataFromBuffer();
         if(data != NULL)
         {
             int senderId = data->getSenderID();
