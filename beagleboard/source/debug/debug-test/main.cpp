@@ -7,16 +7,15 @@ using namespace std;
 
 int main()
 {
-    Debug debug("TACTIC_MODULE");
+    //Debug debug("TACTIC_MODULE");
 
     while(true)
     {
-        std::string input;
+        string input;
         cin >> input;
-        //debug.send("%s", input.c_str());
-        debug.send("test");
+        cout << "sent: " << input << endl;
+        debug.send("%s", input.c_str());
     }
-
 
     return 0;
 }

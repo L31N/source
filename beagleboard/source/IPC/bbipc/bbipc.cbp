@@ -37,6 +37,7 @@
 		<Compiler>
 			<Add option="-fpermissive" />
 			<Add option="-m32" />
+			<Add option="-DDEBUG" />
 		</Compiler>
 		<Linker>
 			<Add option="-m32" />

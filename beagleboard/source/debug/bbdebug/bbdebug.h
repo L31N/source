@@ -19,7 +19,7 @@ class Debug {
         Debug(std::string moduleName);
         ~Debug();
 
-        void send(char* format, ...);
+        void send(const char* format, ...);
 
     private:
         ipcConfig* ipcconf;

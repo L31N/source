@@ -36,6 +36,7 @@
 		</Build>
 		<Compiler>
 			<Add option="-m32" />
+			<Add option="-DDEBUG" />
 			<Add directory="../../../include" />
 		</Compiler>
 		<Linker>

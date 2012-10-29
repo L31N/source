@@ -36,8 +36,6 @@ int main(int argc, char* argv[])
             {
                 showTable[i]=ipcconfig.getIpcIDToProcessSyn(tmp);
 
-                //showTable[i]=atoi(tmp.c_str());
-
                 if(showTable[i]==-1)
                 {
                     cout << "Invalid Process Syn!: " << tmp << endl;
@@ -59,16 +57,18 @@ int main(int argc, char* argv[])
 
     while(true)
     {
-        Data *data = receivingConnection.readDataFromBuffer();
+        Data *data = NULL;// = receivingConnection.readDataFromBuffer();
         if(data != NULL)
         {
             int senderId = data->getSenderID();
             string message = data->getData();
             bool transfer = false;
 
+            cout << "received info" << endl;
+
             for(int i = 0; i < showTableCount; i++)
             {
-                cout << "test weather " << showTable[i] << " is equal to " << senderId;
+                cout << " test weather " << showTable[i] << " is equal to " << senderId;
                 if(showTable[i]==senderId)
                 {
                     transfer = true;
