@@ -95,17 +95,6 @@ do_reload() {
 }
 
 case "$1" in
-<<<<<<< HEAD
-    start)
-        /home/l31n/source/beagleboard/bin/ipc_mserver start
-        ;;
-    stop)
-        /home/l31n/source/beagleboard/bin/ipc_mserver stop
-        ;;
-    restart)
-        /home/l31n/source/beagleboard/bin/ipc_mserver restart
-        ;;
-=======
   start)
 	[ "$VERBOSE" != no ] && log_daemon_msg "Starting $DESC" "$NAME"
 	do_start
@@ -161,7 +150,6 @@ case "$1" in
 	echo "Usage: $SCRIPTNAME {start|stop|status|restart|force-reload}" >&2
 	exit 3
 	;;
->>>>>>> b4794e1e1e5600a2c03e1b5b99da8e6028d38b6d
 esac
 
 :
