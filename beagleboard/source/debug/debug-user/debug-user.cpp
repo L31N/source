@@ -57,7 +57,7 @@ int main(int argc, char* argv[])
 
     while(true)
     {
-        Data *data;// = receivingConnection.readDataFromBuffer();
+        Data *data = NULL;// = receivingConnection.readDataFromBuffer();
         if(data != NULL)
         {
             int senderId = data->getSenderID();
@@ -66,7 +66,7 @@ int main(int argc, char* argv[])
 
             /*for(int i = 0; i < showTableCount; i++)
             {
-                cout << "test weather " << showTable[i] << " is equal to " << senderId;
+                cout << " test weather " << showTable[i] << " is equal to " << senderId;
                 if(showTable[i]==senderId)
                 {
                     transfer = true;

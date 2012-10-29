@@ -45,7 +45,7 @@ short ipcConfig::getIpcIDToProcessSyn(std::string processSyn) {
     while(ifConfig->eof() == false) {
 
         #ifdef DEBUG
-            std::cout << "in while: eof():" << ifConfig->eof() << std::endl;
+            //std::cout << "in while: eof():" << ifConfig->eof() << std::endl;
         #endif
 
         char cline[256];
