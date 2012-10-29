@@ -64,7 +64,9 @@ int main(int argc, char* argv[])
             string message = data->getData();
             bool transfer = false;
 
-            /*for(int i = 0; i < showTableCount; i++)
+            cout << "received info" << endl;
+
+            for(int i = 0; i < showTableCount; i++)
             {
                 cout << " test weather " << showTable[i] << " is equal to " << senderId;
                 if(showTable[i]==senderId)
@@ -72,7 +74,7 @@ int main(int argc, char* argv[])
                     transfer = true;
                     break;
                 }
-            }*/
+            }
 
         }
     }
