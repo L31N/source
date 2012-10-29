@@ -6,7 +6,7 @@ Debug::Debug(std::string moduleName) {
     #ifdef DEBUG
         std::cout << "Debug::Debug --> ipcConfig()" << std::endl;
     #endif
-    ipcconf = new ipcConfig("../../../../../etc/");
+    ipcconf = new ipcConfig("../../../../../etc/ipc.conf");
     #ifdef DEBUG
         std::cout << "Debug::Debug --> ipcSendingConnection()" << std::endl;
     #endif

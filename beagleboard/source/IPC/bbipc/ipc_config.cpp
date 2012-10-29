@@ -10,12 +10,22 @@ ipcConfig::ipcConfig(std::string _IPC_CONFIG_FILE) : IPC_CONFIG_FILE(_IPC_CONFIG
 
     /// setup uds-file-path --> search for line beginning with '+'
     UDS_FILE_PATH = "";
+    ifConfig->clear();
     while(!ifConfig->eof()) {
+        #ifdef DEBUG
+            std::cout << "in ipcConfig::ipcConfig --> while(!ifConfig->eof())" << std::endl;
+        #endif
         char cline[256];
         ifConfig->getline(cline, 256);
-        std::string line(cline);
+        std::string line (cline);
+        #ifdef DEBUG
+            std::cout << "line: " << line << std::endl;
+        #endif
 
         if (line[0] == '+') {   /// line containing file-path found
+            #ifdef DEBUG
+                std::cout << "UDS_FILE_PATH in config-file found ..." << std::endl;
+            #endif
             line.erase(0,1);
             UDS_FILE_PATH = line;
             break;

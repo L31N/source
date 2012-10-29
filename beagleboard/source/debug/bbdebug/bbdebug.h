@@ -5,7 +5,7 @@
 
 #ifdef DEBUG
     #include <iostream>
-#endif
+#endif // DEBUG
 
 #include <string>
 
