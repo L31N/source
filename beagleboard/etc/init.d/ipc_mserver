@@ -14,7 +14,7 @@
 # Do NOT "set -e"
 
 # PATH should only include /usr/* if it runs after the mountnfs.sh script
-PATH=/home/l31n/source/beagleboard/bin
+PATH=/sbin:/usr/sbin:/bin:/usr/bin
 DESC="ipc_mserver is needed for working ipc_connection based on libbbipc"
 NAME=ipc_mserver
 DAEMON=/home/l31n/source/beagleboard/bin/$NAME
