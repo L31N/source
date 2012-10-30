@@ -1,12 +1,12 @@
 #! /bin/sh
 ### BEGIN INIT INFO
-# Provides:          ipc_mserver
-# Required-Start:    $remote_fs $syslog $network
-# Required-Stop:     $remote_fs $syslog $network
+# Provides:          controlscript
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
-# Short-Description: ipc_mserver init-script
-# Description:       the init-script for the ipc_mserver (necessary for the ipc-communication using libbbipc)
+# Short-Description: controlscript init-script
+# Description:       the init-script for the controlscript
 ### END INIT INFO
 
 # Author: Daniel Belles <daniel.belles@web.de>
@@ -15,9 +15,9 @@
 
 # PATH should only include /usr/* if it runs after the mountnfs.sh script
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
-DESC="ipc_mserver is needed for working ipc_connection based on libbbipc"
-NAME=ipc_mserver
-DAEMON=/home/l31n/robotics.git/source/beagleboard/bin/$NAME
+DESC="controlscript is monitoring all important processes and restarts them if necessary"
+NAME=controlscript
+DAEMON=/home/l31n/robotics.git/source/beagleboard/etc/$NAME
 DAEMON_ARGS=""
 PIDFILE=/var/run/$NAME.pid
 SCRIPTNAME=/etc/init.d/$NAME

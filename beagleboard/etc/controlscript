@@ -6,16 +6,16 @@ deamon_count=1
 deamon[0]="ipc_mserver"
 
 # write all processes here ...
-process_count=1
+process_count=0
 
 #process name eg. helloworld
-process_name[0]="helloworld"
+#process_name[0]="helloworld"
 
 #process paths eg. /source/beagleboard/bin/helloworld
-process_path[0]="/home/l31n/robotics.git/source/beagleboard/bin/helloworld"
+#process_path[0]="/home/l31n/robotics.git/source/beagleboard/bin/helloworld"
 
 # other settings here ...
-logfile="./controlscript.log"
+logfile="/home/l31n/robotics.git/source/beagleboard/etc/controlscript.log"
 
 ###########################################################
 

@@ -1,14 +1,1 @@
-Tue Oct 30 16:19:03 CET 2012: restart ../bin/hello_world
-Tue Oct 30 16:19:49 CET 2012: restart /home/l31n/robotics.git/source/beagleboard/bin/helloworld
-Tue Oct 30 16:20:38 CET 2012: restart /home/l31n/robotics.git/source/beagleboard/bin/helloworld
-Tue Oct 30 16:37:23 CET 2012: restart /home/l31n/robotics.git/source/beagleboard/bin/helloworld
-Tue Oct 30 16:38:01 CET 2012: restart /home/l31n/robotics.git/source/beagleboard/bin/helloworld
-Tue Oct 30 16:39:10 CET 2012: restart /home/l31n/robotics.git/source/beagleboard/bin/helloworld
-Tue Oct 30 16:40:19 CET 2012: restart /home/l31n/robotics.git/source/beagleboard/bin/helloworld
-Tue Oct 30 16:44:29 CET 2012: restart 
-Tue Oct 30 16:46:05 CET 2012: restart /home/l31n/robotics.git/source/beagleboard/bin/helloworld
-Tue Oct 30 16:51:03 CET 2012: restart ipc_mserver
-Tue Oct 30 16:51:09 CET 2012: restart ipc_mserver
-Tue Oct 30 16:52:32 CET 2012: restart ipc_mserver
-Tue Oct 30 16:53:07 CET 2012: restart ipc_mserver
-Tue Oct 30 16:54:09 CET 2012: restart ipc_mserver
+Tue Oct 30 18:20:56 CET 2012: restart ipc_mserver
