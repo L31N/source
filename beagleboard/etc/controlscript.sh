@@ -1,10 +1,13 @@
 #!/bin/bash
 while true
 do
-    prozesstest=`/bin/ps -A | /bin/grep ipc_mserver`
-    if  [ $prozesstest = `` ]
+    if  [ $(ps -A | grep -c ipc_mserver) = 0 ]
     then
-              service ipc_mserver start
+              echo restart ipc_mserver
+              service ipc_mserver restart
+    else
+        echo ipc_mserver is already running
     fi
+    sleep 5
 done
 

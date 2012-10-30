@@ -17,7 +17,7 @@
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
 DESC="ipc_mserver is needed for working ipc_connection based on libbbipc"
 NAME=ipc_mserver
-DAEMON=/home/l31n/source/beagleboard/bin/$NAME
+DAEMON=/home/l31n/robotics.git/source/beagleboard/bin/$NAME
 DAEMON_ARGS=""
 PIDFILE=/var/run/$NAME.pid
 SCRIPTNAME=/etc/init.d/$NAME
