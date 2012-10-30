@@ -1,6 +1,6 @@
 #!/bin/bash
 
-while [true]
+while true
 do
     if [/bin/ps -A | /usr/bin/grep ipc_mserver = '']
     then
