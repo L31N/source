@@ -167,8 +167,8 @@ int main () {
                                     if (client_socks[k] == j) {     /// socket-descriptor which contains the right connection found
                                         /// i do not wirte a ending callback, anymore, because this caused crashes if socket is not longer available ...
                                         //if (write(client_socks[k], (char*)&callback_endpoint_not_longer_available, 1) < 0) {
-                                            perror("could not send callback to client --> function write()");
-                                        }
+                                            //perror("could not send callback to client --> function write()");
+                                        //}
                                         /// release IDs for this connection
                                         //cout << "delte dependend connection: " << endl;
                                         //cout << "\tclient_IDs: " << client_IDs[client_socks[k]] << endl;
