@@ -13,18 +13,18 @@ ipcConfig::ipcConfig(std::string _IPC_CONFIG_FILE) : IPC_CONFIG_FILE(_IPC_CONFIG
     ifConfig->clear();
     while(!ifConfig->eof()) {
         #ifdef DEBUG
-            std::cout << "in ipcConfig::ipcConfig --> while(!ifConfig->eof())" << std::endl;
+        //    std::cout << "in ipcConfig::ipcConfig --> while(!ifConfig->eof())" << std::endl;
         #endif
         char cline[256];
         ifConfig->getline(cline, 256);
         std::string line (cline);
         #ifdef DEBUG
-            std::cout << "line: " << line << std::endl;
+        //    std::cout << "line: " << line << std::endl;
         #endif
 
         if (line[0] == '+') {   /// line containing file-path found
             #ifdef DEBUG
-                std::cout << "UDS_FILE_PATH in config-file found ..." << std::endl;
+            //    std::cout << "UDS_FILE_PATH in config-file found ..." << std::endl;
             #endif
             line.erase(0,1);
             UDS_FILE_PATH = line;
@@ -44,7 +44,7 @@ std::string ipcConfig::getUDS_FILE_PATH(void) { return UDS_FILE_PATH; }
 short ipcConfig::getIpcIDToProcessSyn(std::string processSyn) {
 
     #ifdef DEBUG
-        std::cout << "in ipcConfig::getIpcIDToProcessSyn() " << std::endl;
+    //    std::cout << "in ipcConfig::getIpcIDToProcessSyn() " << std::endl;
     #endif
 
     short ID = -1;

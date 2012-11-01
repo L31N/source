@@ -242,7 +242,7 @@ int main () {
                                 if (write(com_sock, (char*)&callback_error_by_setting_up_connection, 1) < 0) {
                                     perror("could not send callback to client --> function write()");
                                 }
-                                cout << "received unknown endpoint ..." << endl;
+                                cout << "received unknown endpoint: [" << byte1 << "]" << endl;
                             }
                             else {  /// setting up connection was successful (callback 1)
                                 if (write(com_sock, (char*)&callback_connection_setup_seccessful, 1) < 0) {

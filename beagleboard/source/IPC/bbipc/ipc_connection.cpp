@@ -127,6 +127,7 @@ bool ipcSendingConnection::sendData(const std::string data) {
                 return true;
         }
     }
+    return false;
 }
 
 bool ipcSendingConnection::reconnect(void) {

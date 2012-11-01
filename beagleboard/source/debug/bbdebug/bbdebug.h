@@ -11,19 +11,25 @@
 
 #include <stdio.h>
 #include <stdarg.h>
+#include <fstream>
 
 #include "ipc/bbipc.h"
+
+const std::string DEBUG_TMP_FILE_PATH = "../../../../../etc/debug.tmp";
+const std::string IPC_CONFIG_FILE_PATH = "../../../../../etc/ipc.conf";
 
 class Debug {
     public:
         Debug(std::string moduleName);
         ~Debug();
 
-        void send(const char* format, ...);
+        bool send(const char* format, ...);
 
     private:
         ipcConfig* ipcconf;
         ipcSendingConnection* senCon;
+
+        std::ifstream* dif;
 };
 
 #endif // _BB_DEBUG_H_
