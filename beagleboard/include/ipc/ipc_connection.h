@@ -3,11 +3,13 @@
 #define _CONNECTION_H_
 
 #include <string>
-#include <sstream>
+//#include <sstream>
 
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <sys/un.h>
+
+#include <unistd.h>
 
 #include <sys/errno.h>
 
@@ -50,6 +52,8 @@ class ipcSendingConnection : public ipcConnection {
         ipcSendingConnection(const std::string _UDS_FILE_PATH, short _senderID, short _endpointID);
 
         bool sendData(const std::string data);
+
+        bool reconnect(void);       /// tries to reconnect a broken connection
 
     private:
         short endpointID;

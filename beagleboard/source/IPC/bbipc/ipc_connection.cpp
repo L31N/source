@@ -119,7 +119,7 @@ bool ipcSendingConnection::sendData(const std::string data) {
             case 4:
                 cout << "error while sending data package ..." << endl;
                 _errno = -1;
-                break;
+                return false;
             case 3:
                 #ifdef DEBUG
                     cout << "data-package successfully delivered ..." << endl;
@@ -127,7 +127,48 @@ bool ipcSendingConnection::sendData(const std::string data) {
                 break;
         }
     }
+    return true;
+}
 
+bool ipcSendingConnection::reconnect(void) {
+    std::string idPackage = "";
+
+    idPackage += senderID;
+    idPackage += endpointID;
+
+    if (write(sock, idPackage.c_str(), 2) < 0) {
+        _errno = errno;
+        cout << "error in function write(): " << strerror(errno) << endl;
+        return false;
+    }
+    char callback[1];
+    int retval = read(sock, callback, 1);
+    if (retval < 0) {
+        _errno = errno;
+        cout << "error while reading data: " << strerror(errno) << endl;
+        return false;
+    }
+    else if (retval == 0) {
+        cout << "error: server closed communication ..." << endl;
+        return false;
+    }
+    else {
+        switch (short(callback[0])) {
+            case 0:
+                cout << "error while setting up connection ..." << endl;
+                _errno = -1;
+                return false;
+            case 1:
+                #ifdef DEBUG
+                    cout << "connection was set successfully ..." << endl;
+                #endif
+                break;
+            case 6:
+                cout << "receiving connetion already exists ..." << endl;
+                _errno = -2;
+                break;
+        }
+    }
     return true;
 }
 

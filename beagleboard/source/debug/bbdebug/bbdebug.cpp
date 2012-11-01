@@ -26,5 +26,10 @@ void Debug::send(const char* format, ...) {
 
     std::string str(buffer);
 
-    senCon->sendData(str);
+    if (!senCon->sendData(str)) {
+        senCon->reconnect();
+        senCon->sendData(str);
+    }
+
+    return;
 }

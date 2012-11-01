@@ -53,6 +53,8 @@ class ipcSendingConnection : public ipcConnection {
 
         bool sendData(const std::string data);
 
+        bool reconnect(void);       /// tries to reconnect a broken connection
+
     private:
         short endpointID;
 };
