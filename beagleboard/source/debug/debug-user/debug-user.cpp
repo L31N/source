@@ -35,7 +35,6 @@ int main(int argc, char* argv[])
             else
             {
                 showTable[i]=ipcconfig.getIpcIDToProcessSyn(tmp);
-
                 if(showTable[i]==-1)
                 {
                     cout << "Invalid Process Syn!: " << tmp << endl;
@@ -53,7 +52,7 @@ int main(int argc, char* argv[])
     }
 
 
-    ipcReceivingConnection receivingConnection(ipcconfig.getUDS_FILE_PATH(), ipcconfig.getIpcIDToProcessSyn("DEBUG"), 10);
+    ipcReceivingConnection receivingConnection(ipcconfig.getUDS_FILE_PATH(), ipcconfig.getIpcIDToProcessSyn("DEBUG"), 500);
 
     while(true)
     {
@@ -64,11 +63,8 @@ int main(int argc, char* argv[])
             string message = data->getData();
             bool transfer = false;
 
-            cout << "received info" << endl;
-
             for(int i = 0; i < showTableCount; i++)
             {
-                cout << " test weather " << showTable[i] << " is equal to " << senderId;
                 if(showTable[i]==senderId)
                 {
                     transfer = true;
@@ -76,6 +72,13 @@ int main(int argc, char* argv[])
                 }
             }
 
+            if(transfer || showAll)
+            {
+                cout << "[" << ipcconfig.getProcessSynToIpcID(senderId) << "] " << message << endl;
+            }
+
         }
+
+        usleep(1000);
     }
 }
