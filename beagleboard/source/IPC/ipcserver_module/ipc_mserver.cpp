@@ -157,7 +157,7 @@ int main () {
 
                     cout << "client closed communication" << endl;
 
-                    /*if (client_IDs[com_sock] == endpoint_IDs[com_sock]) { /// connection was a receiving-connection
+                    if (client_IDs[com_sock] == endpoint_IDs[com_sock]) { /// connection was a receiving-connection
                         for (int j = 0; j < max_connections; j++) {
                             //cout << "client_socks[" << j << "]: " << client_socks[j] << " client_IDs[" << j << "]: " << client_IDs[j] << " endpoint_IDs[" << j << "]: " << endpoint_IDs[j] << endl;
                             if (endpoint_IDs[j] == client_IDs[com_sock] && client_IDs[j] != client_IDs[com_sock]) {  /// connections found with endpoint to closed receiving connection but not the receiving connection self
@@ -188,7 +188,7 @@ int main () {
                                 cout << "closed connection to released endpoint" << endl;
                             }
                         }
-                    }*/
+                    }
                     /// release IDs for the connections from closed receiving connection
                     client_IDs[com_sock] = -1;
                     endpoint_IDs[com_sock] = -1;
