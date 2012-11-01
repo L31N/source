@@ -43,9 +43,6 @@ bool Debug::send(const char* format, ...) {
         std::cout << "debug_status: " << debug_status << std::endl;
     #endif
     if (debug_status == '1') {
-        //if (!senCon->sendData(str)) {
-            //senCon->reconnect();
-            //senCon->sendData(str);
             senCon->reconnect();
             if (senCon->sendData(str)) return true;
             else return false;

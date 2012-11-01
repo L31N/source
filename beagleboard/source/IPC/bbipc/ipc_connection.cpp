@@ -131,6 +131,25 @@ bool ipcSendingConnection::sendData(const std::string data) {
 }
 
 bool ipcSendingConnection::reconnect(void) {
+
+    close(sock);
+
+    addr.sun_family = AF_UNIX;
+    strcpy(addr.sun_path, UDS_FILE_PATH.c_str());
+
+    sock = socket(AF_UNIX, SOCK_STREAM, 0);
+    if (socket < 0) {
+        _errno = errno;
+        cout << "error in function socket(): " << strerror(errno) << endl;
+        return false;
+    }
+
+    if (connect(sock, (sockaddr*)&addr, sizeof(sockaddr_un)) == -1) {
+        _errno = errno;
+        cout << "error in function connect(): " << strerror(errno) << endl;
+        return false;
+    }
+
     std::string idPackage = "";
 
     idPackage += senderID;
