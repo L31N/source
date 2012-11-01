@@ -157,7 +157,7 @@ int main () {
 
                     cout << "client closed communication" << endl;
 
-                    if (client_IDs[com_sock] == endpoint_IDs[com_sock]) { /// connection was a receiving-connection
+                    /*if (client_IDs[com_sock] == endpoint_IDs[com_sock]) { /// connection was a receiving-connection
                         for (int j = 0; j < max_connections; j++) {
                             //cout << "client_socks[" << j << "]: " << client_socks[j] << " client_IDs[" << j << "]: " << client_IDs[j] << " endpoint_IDs[" << j << "]: " << endpoint_IDs[j] << endl;
                             if (endpoint_IDs[j] == client_IDs[com_sock] && client_IDs[j] != client_IDs[com_sock]) {  /// connections found with endpoint to closed receiving connection but not the receiving connection self
@@ -166,14 +166,14 @@ int main () {
                                 for (int k = 0; k < max_sock + 1; k++) {
                                     if (client_socks[k] == j) {     /// socket-descriptor which contains the right connection found
                                         /// i do not wirte a ending callback, anymore, because this caused crashes if socket is not longer available ...
-                                        /*if (write(client_socks[k], (char*)&callback_endpoint_not_longer_available, 1) < 0) {
+                                        //if (write(client_socks[k], (char*)&callback_endpoint_not_longer_available, 1) < 0) {
                                             perror("could not send callback to client --> function write()");
-                                        }*/
+                                        }
                                         /// release IDs for this connection
-                                        /*cout << "delte dependend connection: " << endl;
-                                        cout << "\tclient_IDs: " << client_IDs[client_socks[k]] << endl;
-                                        cout << "\t endpoint_IDs: "  << endpoint_IDs[client_socks[k]] << endl;
-                                        cout << "\t client_socks: " << client_socks[k] << endl;*/
+                                        //cout << "delte dependend connection: " << endl;
+                                        //cout << "\tclient_IDs: " << client_IDs[client_socks[k]] << endl;
+                                        //cout << "\t endpoint_IDs: "  << endpoint_IDs[client_socks[k]] << endl;
+                                        //cout << "\t client_socks: " << client_socks[k] << endl;
 
                                         client_IDs[client_socks[k]] = -1;
                                         endpoint_IDs[client_socks[k]] = -1;
@@ -188,7 +188,7 @@ int main () {
                                 cout << "closed connection to released endpoint" << endl;
                             }
                         }
-                    }
+                    }*/
                     /// release IDs for the connections from closed receiving connection
                     client_IDs[com_sock] = -1;
                     endpoint_IDs[com_sock] = -1;
