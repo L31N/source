@@ -124,10 +124,9 @@ bool ipcSendingConnection::sendData(const std::string data) {
                 #ifdef DEBUG
                     cout << "data-package successfully delivered ..." << endl;
                 #endif
-                break;
+                return true;
         }
     }
-    return true;
 }
 
 bool ipcSendingConnection::reconnect(void) {
