@@ -185,7 +185,7 @@ bool ipcSendingConnection::reconnect(void) {
             case 6:
                 cout << "receiving connetion already exists ..." << endl;
                 _errno = -2;
-                break;
+                return false;
         }
     }
     return true;

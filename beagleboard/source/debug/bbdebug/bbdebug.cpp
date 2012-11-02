@@ -3,6 +3,8 @@
 #include "bbdebug.h"
 
 Debug::Debug(std::string moduleName) {
+    fNeedsReconnect = false;
+
     #ifdef DEBUG
     //    std::cout << "Debug::Debug --> ipcConfig()" << std::endl;
     #endif
@@ -43,10 +45,14 @@ bool Debug::send(const char* format, ...) {
         std::cout << "debug_status: " << debug_status << std::endl;
     #endif
     if (debug_status == '1') {
-            senCon->reconnect();
+            if (fNeedsReconnect) {
+                senCon->reconnect();
+                fNeedsReconnect = false;
+            }
             if (senCon->sendData(str)) return true;
             else return false;
-
     }
-    else return false;
+    else fNeedsReconnect = true;
+
+    return true;
 }
