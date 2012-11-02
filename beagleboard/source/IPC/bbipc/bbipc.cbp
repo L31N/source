@@ -16,6 +16,7 @@
 				<Compiler>
 					<Add option="-Wall" />
 					<Add option="-g" />
+					<Add option="-DDEBUG" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -37,7 +38,6 @@
 		<Compiler>
 			<Add option="-fpermissive" />
 			<Add option="-m32" />
-			<Add option="-DDEBUG" />
 		</Compiler>
 		<Linker>
 			<Add option="-m32" />
