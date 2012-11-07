@@ -35,7 +35,7 @@ int main()
     loc_addr.rc_bdaddr = bt_bdaddr_any;
     loc_addr.rc_channel = (uint8_t) 1;
     if (!bind(s, (struct sockaddr *)&loc_addr, sizeof(loc_addr))) {
-        perrer("cannot bind socket");
+        perror("cannot bind socket");
         return -1;
     }
     else cout << "socket bound ..." << endl;
