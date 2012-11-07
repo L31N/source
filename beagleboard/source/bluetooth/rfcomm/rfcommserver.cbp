@@ -31,6 +31,10 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Linker>
+			<Add option="-lbluetooth" />
+		</Linker>
+		<Unit filename="rfcommServer.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

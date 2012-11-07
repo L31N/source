@@ -17,7 +17,8 @@ int main(int argc, char **argv)
 
     // allocate a socket
     s = socket(AF_BLUETOOTH, SOCK_STREAM, BTPROTO_RFCOMM);
-    cout << "registerd socket ... " << endl;
+    if (s < 0) { perror("cannot register socket"); return -1; }
+    else cout << "registerd socket ... " << endl;
 
     // set the connection parameters (who to connect to)
     addr.rc_family = AF_BLUETOOTH;
@@ -26,7 +27,8 @@ int main(int argc, char **argv)
 
     // connect to server
     status = connect(s, (struct sockaddr *)&addr, sizeof(addr));
-    cout << "connected to server ..." << endl;
+    if (status < 0) { perror("cannot connect to server"); return -1; }
+    else cout << "connected to server ..." << endl;
 
     // send a message
     if( status == 0 ) {
@@ -36,7 +38,7 @@ int main(int argc, char **argv)
         status = write(s, data, 1024);
     }
 
-    if( status < 0 ) perror("uh oh\n");
+    if( status < 0 ) { perror("cannot write data to server"); return -1; }
     else cout << "sent successfull ... " << endl;
 
     close(s);

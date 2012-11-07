@@ -4,6 +4,10 @@
 #include <bluetooth/bluetooth.h>
 #include <bluetooth/rfcomm.h>
 
+#include <iostream>
+
+using namespace std;
+
 static const bdaddr_t bt_bdaddr_any   = {{0, 0, 0, 0, 0, 0}};
 
 int main()
@@ -18,6 +22,11 @@ int main()
     // allocate socket
     printf("allocate socket ...\n");
     s = socket(AF_BLUETOOTH, SOCK_STREAM, BTPROTO_RFCOMM);
+    if (s < 0) {
+        perror("cannot register socket");
+        return -1;
+    }
+    else cout << "socket registered ..." << endl;
 
     // bind socket to port 1 of the first available
     // local bluetooth adapter
@@ -25,7 +34,11 @@ int main()
     loc_addr.rc_family = AF_BLUETOOTH;
     loc_addr.rc_bdaddr = bt_bdaddr_any;
     loc_addr.rc_channel = (uint8_t) 1;
-    bind(s, (struct sockaddr *)&loc_addr, sizeof(loc_addr));
+    if (!bind(s, (struct sockaddr *)&loc_addr, sizeof(loc_addr))) {
+        perrer("cannot bind socket");
+        return -1;
+    }
+    else cout << "socket bound ..." << endl;
 
     while(1) {
     // put socket into listening mode
@@ -35,6 +48,7 @@ int main()
     // accept one connection
     printf("accept connections ...\n");
     client = accept(s, (struct sockaddr *)&rem_addr, &opt);
+    cout << "accepted connection ... " << endl;
 
     ba2str( &rem_addr.rc_bdaddr, buf );
     fprintf(stderr, "accepted connection from %s\n", buf);
