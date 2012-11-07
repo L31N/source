@@ -28,13 +28,14 @@ int main(int argc, char **argv)
 
     // send a message
     if( status == 0 ) {
-        string data;
+        char data[1024];
         cout << "please insert message to send: ";
         cin >> data;
-        status = write(s, data, 6);
+        status = write(s, data, 1024);
     }
 
-    if( status < 0 ) perror("uh oh");
+    if( status < 0 ) perror("uh oh\n");
+    else cout << "sent successfull ... " << endl;
 
     close(s);
     return 0;
