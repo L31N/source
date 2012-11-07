@@ -34,7 +34,7 @@ int main()
     loc_addr.rc_family = AF_BLUETOOTH;
     loc_addr.rc_bdaddr = bt_bdaddr_any;
     loc_addr.rc_channel = (uint8_t) 1;
-    if (!bind(s, (struct sockaddr *)&loc_addr, sizeof(loc_addr))) {
+    if (bind(s, (struct sockaddr *)&loc_addr, sizeof(loc_addr)) != 0) {
         perror("cannot bind socket");
         return -1;
     }
