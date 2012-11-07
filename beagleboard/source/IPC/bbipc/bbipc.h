@@ -15,4 +15,6 @@
 #include "buffer.h"
 #include "ipc_config.h"
 
+const std::string IPC_CONFIG_FILE_PATH = "../../../../../etc/ipc.conf";
+
 #endif // _BB_IPC_H_
