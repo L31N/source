@@ -17,6 +17,7 @@ int main(int argc, char **argv)
 
     // allocate a socket
     s = socket(AF_BLUETOOTH, SOCK_STREAM, BTPROTO_RFCOMM);
+    cout << "registerd socket ... " << endl;
 
     // set the connection parameters (who to connect to)
     addr.rc_family = AF_BLUETOOTH;
@@ -25,6 +26,7 @@ int main(int argc, char **argv)
 
     // connect to server
     status = connect(s, (struct sockaddr *)&addr, sizeof(addr));
+    cout << "connected to server ..." << endl;
 
     // send a message
     if( status == 0 ) {
