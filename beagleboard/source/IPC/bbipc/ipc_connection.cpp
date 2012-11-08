@@ -1,5 +1,6 @@
 
 #include "ipc_connection.h"
+#include "bbipc.h"
 
 #include <iostream>
 
@@ -10,6 +11,8 @@ using namespace std;
 ipcConnection::ipcConnection(const std::string _UDS_FILE_PATH) {
     _errno = 0;
     UDS_FILE_PATH = _UDS_FILE_PATH;
+
+    ipcconfig = new ipcConfig(IPC_CONFIG_FILE_PATH);
 
     /// Connect to the server and hold connection ...
     addr.sun_family = AF_UNIX;
@@ -45,7 +48,7 @@ int ipcConnection::getLastError(void) { return _errno; }
 
 
 /** CLASS IPC_SENDING_CONNECTION **/
-ipcSendingConnection::ipcSendingConnection (const std::string _UDS_FILE_PATH, short _senderID, short _endpointID) : ipcConnection(_UDS_FILE_PATH) {
+ipcSendingConnection::ipcSendingConnection (const std::string _UDS_FILE_PATH, short _senderID, short _endpointID, short host) : ipcConnection(_UDS_FILE_PATH) {
     senderID = _senderID;
     endpointID = _endpointID;
 
@@ -54,32 +57,51 @@ ipcSendingConnection::ipcSendingConnection (const std::string _UDS_FILE_PATH, sh
     idPackage += senderID;
     idPackage += endpointID;
 
+    init();
+}
+
+ipcSendingConnection::ipcSendingConnection(const std::string _senderSyn, const std::string _endpointSyn, short host) {
+    if (host == IPC_LOCAL) {
+        senderID = ipcconfig->getIpcIDToProcessSyn(_senderSyn);
+        endpointID = ipcconfig->getIpcIDToProcessSyn(_endpointSyn);
+    }
+    else if (host == IPC_BLUETOOTH) {
+        btEndpointID = ipcconfig->getIpcIDToProcessSyn(_endpointSyn);
+        senderID = ipcconfig->getIpcIDToProcessSyn(_senderSyn);
+        endpointID = ipcconfig->IpcIDToProcessSyn("BLUETOOTH_MODULE");
+    }
+    else if (host == IPC_SHARED) {
+
+    }
+    else {
+        std::cerr << "error: unknwon host type: " << host << endl;
+        return;
+    }
+}
+
+bool ipcSendingConnection::init() {
     if (write(sock, idPackage.c_str(), 2) < 0) {
         _errno = errno;
         cout << "error in function write(): " << strerror(errno) << endl;
-        f_is_open = false;
-        return;
+        return false;
     }
     char callback[1];
     int retval = read(sock, callback, 1);
     if (retval < 0) {
         _errno = errno;
         cout << "error while reading data: " << strerror(errno) << endl;
-        f_is_open = false;
-        return;
+        return false;
     }
     else if (retval == 0) {
         cout << "error: server closed communication ..." << endl;
-        f_is_open = false;
-        return;
+        return false;
     }
     else {
         switch (short(callback[0])) {
             case 0:
                 cout << "error while setting up connection ..." << endl;
                 _errno = -1;
-                f_is_open = false;
-                break;
+                return false;
             case 1:
                 #ifdef DEBUG
                     cout << "connection was set successfully ..." << endl;
@@ -89,10 +111,10 @@ ipcSendingConnection::ipcSendingConnection (const std::string _UDS_FILE_PATH, sh
             case 6:
                 cout << "receiving connetion already exists ..." << endl;
                 _errno = -2;
-                f_is_open = false;
-                break;
+                return false;
         }
     }
+    return true;
 }
 
 bool ipcSendingConnection::sendData(const std::string data) {

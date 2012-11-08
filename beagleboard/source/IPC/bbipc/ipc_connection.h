@@ -19,6 +19,9 @@
 #include <stdlib.h>
 
 #include "buffer.h"
+#include "ipc_config.h"
+
+enum {IPC_LOCAL, IPC_BLUETOOTH, IPC_SHARED};
 
 class ipcConnection {
     public:
@@ -35,6 +38,8 @@ class ipcConnection {
         struct sockaddr_un addr;
 
         std::string UDS_FILE_PATH;
+
+        ipcConfig* ipcconfig;
 
         int _errno;
 
@@ -53,7 +58,8 @@ class ipcConnection {
 
 class ipcSendingConnection : public ipcConnection {
     public:
-        ipcSendingConnection(const std::string _UDS_FILE_PATH, short _senderID, short _endpointID);
+        ipcSendingConnection(const std::string _UDS_FILE_PATH, short _senderID, short _endpointID, short host = IPC_LOCAL);
+        ipcSendingConnection(const std::string _senderSyn, const std::string _endpointSyn, short host = IPC_LOCAL);
 
         bool sendData(const std::string data);
 
@@ -63,6 +69,11 @@ class ipcSendingConnection : public ipcConnection {
 
     private:
         short endpointID;
+        bool local;
+
+        short btEndpointID;
+
+        bool init();
 };
 
 class ipcReceivingConnection : public ipcConnection {
