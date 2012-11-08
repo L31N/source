@@ -19,17 +19,21 @@ ipcConnection::ipcConnection(const std::string _UDS_FILE_PATH) {
     if (socket < 0) {
         _errno = errno;
         cout << "error in function socket(): " << strerror(errno) << endl;
+        f_is_open = false;
         return;
     }
 
     if (connect(sock, (sockaddr*)&addr, sizeof(sockaddr_un)) == -1) {
         _errno = errno;
         cout << "error in function connect(): " << strerror(errno) << endl;
+        f_is_open = false;
         return;
     }
 }
 
 ipcConnection::~ipcConnection() { close(sock); }
+
+bool ipcConnection::is_open() { return f_is_open; }
 
 void ipcConnection::setEndpointID(short _endpointID) { endpointID = _endpointID; }
 void ipcConnection::setSenderID(short _senderID) { senderID = _senderID; }
@@ -45,18 +49,6 @@ ipcSendingConnection::ipcSendingConnection (const std::string _UDS_FILE_PATH, sh
     senderID = _senderID;
     endpointID = _endpointID;
 
-    /// register connection at the server
-    /*stringstream ss_sender;
-    stringstream ss_endpoint;
-    char csender;
-    char cendpoint;
-    std::string idPackage = "";
-
-    ss_sender << senderID;
-    ss_sender >> csender;
-    ss_endpoint << endpointID;
-    ss_endpoint >> cendpoint; */
-
     std::string idPackage = "";
 
     idPackage += senderID;
@@ -65,6 +57,7 @@ ipcSendingConnection::ipcSendingConnection (const std::string _UDS_FILE_PATH, sh
     if (write(sock, idPackage.c_str(), 2) < 0) {
         _errno = errno;
         cout << "error in function write(): " << strerror(errno) << endl;
+        f_is_open = false;
         return;
     }
     char callback[1];
@@ -72,10 +65,12 @@ ipcSendingConnection::ipcSendingConnection (const std::string _UDS_FILE_PATH, sh
     if (retval < 0) {
         _errno = errno;
         cout << "error while reading data: " << strerror(errno) << endl;
+        f_is_open = false;
         return;
     }
     else if (retval == 0) {
         cout << "error: server closed communication ..." << endl;
+        f_is_open = false;
         return;
     }
     else {
@@ -83,15 +78,18 @@ ipcSendingConnection::ipcSendingConnection (const std::string _UDS_FILE_PATH, sh
             case 0:
                 cout << "error while setting up connection ..." << endl;
                 _errno = -1;
+                f_is_open = false;
                 break;
             case 1:
                 #ifdef DEBUG
                     cout << "connection was set successfully ..." << endl;
                 #endif
+                f_is_open = true;
                 break;
             case 6:
                 cout << "receiving connetion already exists ..." << endl;
                 _errno = -2;
+                f_is_open = false;
                 break;
         }
     }
@@ -198,11 +196,6 @@ ipcReceivingConnection::ipcReceivingConnection(const std::string _UDS_FILE_PATH,
     endpointID = _connID;
 
     /// register connection at the server
-    /*stringstream ss;
-    char cid;
-    std::string idPackage = "";
-    ss << senderID;
-    ss >> cid; */
 
     std::string idPackage = "";
 
