@@ -69,6 +69,7 @@ short ipcConfig::getIpcIDToProcessSyn(std::string processSyn) {
             if (syn == processSyn) return ID;
         }
     }
+    std::cerr << "ERROR: used unknown ProcessSyn: " << processSyn << std::endl;
     return -1;
 }
 

@@ -73,9 +73,24 @@ int ipcConnection::getLastError(void) { return _errno; }
 
 /** CLASS IPC_SENDING_CONNECTION **/
 ipcSendingConnection::ipcSendingConnection (const std::string _UDS_FILE_PATH, short _senderID, short _endpointID, HOST_TYPE _host) : ipcConnection(_UDS_FILE_PATH) {
-    senderID = _senderID;
-    endpointID = _endpointID;
     host = _host;
+
+    if (host == IPC_LOCAL) {
+        senderID = _senderID;
+        endpointID = _endpointID;
+    }
+    else if (host == IPC_BLUETOOTH) {
+        btEndpointID = _endpointID;
+        senderID = _senderID;
+        endpointID = ipcconfig->getIpcIDToProcessSyn("BLUETOOTH_MODULE");
+    }
+    /*else if (host == IPC_SHARED) {
+
+    }*/
+    else {
+        std::cerr << "error: unknwon host type: " << host << endl;
+        return;
+    }
 
     std::string idPackage = "";
 
@@ -87,7 +102,9 @@ ipcSendingConnection::ipcSendingConnection (const std::string _UDS_FILE_PATH, sh
 
 ipcSendingConnection::ipcSendingConnection(const std::string _senderSyn, const std::string _endpointSyn, HOST_TYPE _host) {
     host = _host;
+
     if (host == IPC_LOCAL) {
+        std::cout << "HOST_TYPE = LOCAL " << std::endl;
         senderID = ipcconfig->getIpcIDToProcessSyn(_senderSyn);
         endpointID = ipcconfig->getIpcIDToProcessSyn(_endpointSyn);
     }
@@ -103,6 +120,12 @@ ipcSendingConnection::ipcSendingConnection(const std::string _senderSyn, const s
         std::cerr << "error: unknwon host type: " << host << endl;
         return;
     }
+
+    std::string idPackage = "";
+    idPackage += senderID;
+    idPackage += endpointID;
+
+    init(idPackage);
 }
 
 bool ipcSendingConnection::init(std::string idPackage) {
@@ -145,12 +168,14 @@ bool ipcSendingConnection::init(std::string idPackage) {
 }
 
 bool ipcSendingConnection::sendData(const std::string data) {
+
     std::string data_to_send(data);
-    if (host == IPC_BLUETOOTH) {
-        data_to_send.insert(0,1,1);
+    if (host == IPC_LOCAL) {
+        data_to_send.insert(0,1,'0');
     }
-    else if (host == IPC_LOCAL) {
-        data_to_send.insert(0,1,0);
+    else if (host == IPC_BLUETOOTH) {
+        data_to_send.insert(0,1,'1');
+        data_to_send.insert(2,1,btEndpointID);
     }
 
 

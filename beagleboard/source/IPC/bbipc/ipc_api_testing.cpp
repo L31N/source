@@ -17,17 +17,18 @@ int main () {
 
     //ipcConfig ipcconfig("../../../../../etc/ipc.conf");
 
-    //ipcReceivingConnection rc (ipcconfig.getUDS_FILE_PATH(), ipcconfig.getIpcIDToProcessSyn("SENSOR_DATA_MODULE"));
-    ipcReceivingConnection rc("SENSOR_DATA_MODULE2");
-    //ipcSendingConnection sc ("TACTIC_MODULE", "DEBUG_MODULE");
+    ipcReceivingConnection rc("DEBUG");
+    ipcReceivingConnection btrc("BLUETOOTH_MODULE");
 
-    /*sc.sendData("teststring");
+    ipcSendingConnection sc ("TACTIC_MODULE", "DEBUG", IPC_BLUETOOTH);
+
+    sc.sendData("teststring");
 
     Data* data = rc.readDataFromBuffer();
-    cout << "data: " << data->getData() << endl;*/
+    cout << "data: " << data->getData() << endl;
 
-    /*
 
+/*
     ipcReceivingConnection* receivingConnection = new ipcReceivingConnection(ipcconfig.getUDS_FILE_PATH(), ipcconfig.getIpcIDToProcessSyn("TACTIC_MODULE"), 50);
     ipcSendingConnection* sendingConnection = new ipcSendingConnection(ipcconfig.getUDS_FILE_PATH(), ipcconfig.getIpcIDToProcessSyn("SENSOR_DATA_MODULE"), ipcconfig.getIpcIDToProcessSyn("TACTIC_MODULE"));
     sendingConnection->sendData("before, killing receiving");
