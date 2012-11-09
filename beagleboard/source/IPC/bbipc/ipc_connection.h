@@ -43,12 +43,16 @@ class ipcConnection {
 
         int _errno;
 
+        bool f_is_open;
+
     public:
         void setSenderID(short _senderID);
         void setEndpointID(short _endpointID);
 
         short getSenderID(void);
         short getEndpointID(void);
+
+        bool is_open();
 
 };
 
@@ -60,6 +64,8 @@ class ipcSendingConnection : public ipcConnection {
         bool sendData(const std::string data);
 
         bool reconnect(void);       /// tries to reconnect a broken connection
+
+        bool is_open();
 
     private:
         short endpointID;
@@ -77,6 +83,8 @@ class ipcReceivingConnection : public ipcConnection {
 
         Data* readDataFromBuffer();
 
+        bool is_open();
+
     private:
         struct thread_data {
             int _sock;
@@ -90,6 +98,7 @@ class ipcReceivingConnection : public ipcConnection {
         pthread_t listeningThread;
 
         Buffer* dataBuffer;
+
 };
 
 #endif // _CONNECTION_H_
