@@ -43,20 +43,12 @@ std::string ipcConfig::getUDS_FILE_PATH(void) { return UDS_FILE_PATH; }
 
 short ipcConfig::getIpcIDToProcessSyn(std::string processSyn) {
 
-    #ifdef DEBUG
-    //    std::cout << "in ipcConfig::getIpcIDToProcessSyn() " << std::endl;
-    #endif
-
     short ID = -1;
     std::string syn = "";
 
     ifConfig->clear();
     ifConfig->seekg(0);
     while(ifConfig->eof() == false) {
-
-        #ifdef DEBUG
-            //std::cout << "in while: eof():" << ifConfig->eof() << std::endl;
-        #endif
 
         char cline[256];
         ifConfig->getline(cline, 256);
@@ -65,17 +57,14 @@ short ipcConfig::getIpcIDToProcessSyn(std::string processSyn) {
         if (line[0] == '-') {
             line.erase(0,1);
             size_t doublePoint = line.find_first_of(':');
-            char cIPC_ID[1];
-            line.copy(cIPC_ID, 1, doublePoint+1);
-            line.resize(doublePoint);
+            size_t id_length = line.length() - doublePoint-1;
 
-            /*std::stringstream ss;
-            ss << *cIPC_ID;
-            ss >> ID;*/
+            std::string id_str = line.substr(doublePoint + 1, id_length);
+            syn = line.substr(0, doublePoint);
 
-            ID = *cIPC_ID;
-
-            syn = line;
+            std::stringstream ss;
+            ss << id_str;
+            ss >> ID;
 
             if (syn == processSyn) return ID;
         }
@@ -97,17 +86,14 @@ std::string ipcConfig::getProcessSynToIpcID(short ipcID) {
         if (line[0] == '-') { /// '-' found --> this line could contain the information
             line.erase(0,1);
             size_t doublePoint = line.find_first_of(':');
-            char cIPC_ID[1];
-            line.copy(cIPC_ID, 1, doublePoint+1);
-            line.resize(doublePoint);
+            size_t id_length = line.length() - doublePoint-1;
 
-            /*std::stringstream ss;
-            ss << *cIPC_ID;
-            ss >> ID;*/
+            std::string id_str = line.substr(doublePoint + 1, id_length);
+            syn = line.substr(0, doublePoint);
 
-            ID = *cIPC_ID;
-
-            syn = line;
+            std::stringstream ss;
+            ss << id_str;
+            ss >> ID;
 
             if (ID == ipcID) return syn;
         }

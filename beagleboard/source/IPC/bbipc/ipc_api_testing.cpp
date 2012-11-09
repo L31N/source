@@ -2,7 +2,8 @@
 #include <iostream>
 #include <string>
 
-#include "bbipc.h"
+//#include "bbipc.h"
+#include "ipc_config.h"
 
 #include <stdlib.h>
 
@@ -12,7 +13,14 @@ using namespace std;
 
 int main () {
 
-    ipcConfig ipcconfig("../../../../../etc/ipc.conf");
+
+
+    ipcConfig ipcconfig("../../../etc/ipc.conf");
+
+    cout << ipcconfig.getIpcIDToProcessSyn("TACTIC_MODULE") << endl;
+    cout << ipcconfig.getProcessSynToIpcID(135);
+
+    /*
 
     ipcReceivingConnection* receivingConnection = new ipcReceivingConnection(ipcconfig.getUDS_FILE_PATH(), ipcconfig.getIpcIDToProcessSyn("TACTIC_MODULE"), 50);
     ipcSendingConnection* sendingConnection = new ipcSendingConnection(ipcconfig.getUDS_FILE_PATH(), ipcconfig.getIpcIDToProcessSyn("SENSOR_DATA_MODULE"), ipcconfig.getIpcIDToProcessSyn("TACTIC_MODULE"));
@@ -31,7 +39,7 @@ int main () {
     delete sendingConnection;
 
 
-    cout << "end is here ............" << endl;
+    cout << "end is here ............" << endl;*/
 
 
     return 0;

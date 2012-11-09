@@ -79,3 +79,49 @@
 1351252135 source:/home/lukas/source/beagleboard/source/IPC/bbipc/ipc_config.cpp
 	"ipc_config.h"
 
+1351856115 source:/home/l31n/robotics.git/source/beagleboard/source/IPC/bbipc/bbipc.cpp
+	"bbipc.h"
+
+1352390857 /home/l31n/robotics.git/source/beagleboard/source/IPC/bbipc/bbipc.h
+	<sys/socket.h>
+	<sys/types.h>
+	<sys/un.h>
+	<string>
+
+1352390401 source:/home/l31n/robotics.git/source/beagleboard/source/IPC/bbipc/buffer.cpp
+	"buffer.h"
+	"bbipc.h"
+
+1352390795 /home/l31n/robotics.git/source/beagleboard/source/IPC/bbipc/buffer.h
+	<string>
+	<vector>
+	"bbipc.h"
+
+1352486573 source:/home/l31n/robotics.git/source/beagleboard/source/IPC/bbipc/ipc_config.cpp
+	"ipc_config.h"
+
+1352484784 /home/l31n/robotics.git/source/beagleboard/source/IPC/bbipc/ipc_config.h
+	<string>
+	<iostream>
+	<fstream>
+	<sstream>
+
+1352391294 source:/home/l31n/robotics.git/source/beagleboard/source/IPC/bbipc/ipc_connection.cpp
+	"ipc_connection.h"
+	"bbipc.h"
+	<iostream>
+
+1352391236 /home/l31n/robotics.git/source/beagleboard/source/IPC/bbipc/ipc_connection.h
+	<string>
+	<sys/socket.h>
+	<sys/types.h>
+	<sys/un.h>
+	<unistd.h>
+	<sys/errno.h>
+	<pthread.h>
+	<semaphore.h>
+	<stdlib.h>
+	"buffer.h"
+	"ipc_config.h"
+	"bbipc.h"
+

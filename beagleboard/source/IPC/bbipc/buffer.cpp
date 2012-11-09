@@ -1,6 +1,8 @@
 
 #include "buffer.h"
 
+#include "bbipc.h"
+
 /** CLASS BUFFER **/
 Buffer::Buffer(unsigned short _maxElements) : maxElements(_maxElements) {}
 Buffer::~Buffer() {}
@@ -24,12 +26,14 @@ Data* Buffer::getLastData(void) {
 }
 
 /** CLASS DATA **/
-Data::Data(std::string _data, short _senderID) {
+Data::Data(std::string _data, short _senderID, bool _host) {
     data = _data;
     senderID = _senderID;
+    host = _host;
 }
 
 Data::~Data() {}
 
 std::string Data::getData(void) { return data; }
 short Data::getSenderID(void) { return senderID; }
+bool Data::getHost(void) { return host; }

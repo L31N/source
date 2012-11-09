@@ -32,6 +32,30 @@ ipcConnection::ipcConnection(const std::string _UDS_FILE_PATH) {
     }
 }
 
+ipcConnection::ipcConnection(void) {
+    _errno = 0;
+
+    ipcconfig = new ipcConfig(IPC_CONFIG_FILE_PATH);
+    UDS_FILE_PATH = ipcconfig->getUDS_FILE_PATH();
+
+    /// Connect to the server and hold connection ...
+    addr.sun_family = AF_UNIX;
+    strcpy(addr.sun_path, UDS_FILE_PATH.c_str());
+
+    sock = socket(AF_UNIX, SOCK_STREAM, 0);
+    if (socket < 0) {
+        _errno = errno;
+        cout << "error in function socket(): " << strerror(errno) << endl;
+        return;
+    }
+
+    if (connect(sock, (sockaddr*)&addr, sizeof(sockaddr_un)) == -1) {
+        _errno = errno;
+        cout << "error in function connect(): " << strerror(errno) << endl;
+        return;
+    }
+}
+
 ipcConnection::~ipcConnection() { close(sock); }
 
 void ipcConnection::setEndpointID(short _endpointID) { endpointID = _endpointID; }
@@ -44,19 +68,21 @@ int ipcConnection::getLastError(void) { return _errno; }
 
 
 /** CLASS IPC_SENDING_CONNECTION **/
-ipcSendingConnection::ipcSendingConnection (const std::string _UDS_FILE_PATH, short _senderID, short _endpointID, short host) : ipcConnection(_UDS_FILE_PATH) {
+ipcSendingConnection::ipcSendingConnection (const std::string _UDS_FILE_PATH, short _senderID, short _endpointID, HOST_TYPE _host) : ipcConnection(_UDS_FILE_PATH) {
     senderID = _senderID;
     endpointID = _endpointID;
+    host = _host;
 
     std::string idPackage = "";
 
     idPackage += senderID;
     idPackage += endpointID;
 
-    init();
+    init(idPackage);
 }
 
-ipcSendingConnection::ipcSendingConnection(const std::string _senderSyn, const std::string _endpointSyn, short host) {
+ipcSendingConnection::ipcSendingConnection(const std::string _senderSyn, const std::string _endpointSyn, HOST_TYPE _host) {
+    host = _host;
     if (host == IPC_LOCAL) {
         senderID = ipcconfig->getIpcIDToProcessSyn(_senderSyn);
         endpointID = ipcconfig->getIpcIDToProcessSyn(_endpointSyn);
@@ -64,18 +90,18 @@ ipcSendingConnection::ipcSendingConnection(const std::string _senderSyn, const s
     else if (host == IPC_BLUETOOTH) {
         btEndpointID = ipcconfig->getIpcIDToProcessSyn(_endpointSyn);
         senderID = ipcconfig->getIpcIDToProcessSyn(_senderSyn);
-        endpointID = ipcconfig->IpcIDToProcessSyn("BLUETOOTH_MODULE");
+        endpointID = ipcconfig->getIpcIDToProcessSyn("BLUETOOTH_MODULE");
     }
-    else if (host == IPC_SHARED) {
+    /*else if (host == IPC_SHARED) {
 
-    }
+    }*/
     else {
         std::cerr << "error: unknwon host type: " << host << endl;
         return;
     }
 }
 
-bool ipcSendingConnection::init() {
+bool ipcSendingConnection::init(std::string idPackage) {
     if (write(sock, idPackage.c_str(), 2) < 0) {
         _errno = errno;
         cout << "error in function write(): " << strerror(errno) << endl;
@@ -113,7 +139,16 @@ bool ipcSendingConnection::init() {
 }
 
 bool ipcSendingConnection::sendData(const std::string data) {
-    if (write(sock, data.c_str(), data.length()) < 0) {
+    std::string data_to_send(data);
+    if (host == IPC_BLUETOOTH) {
+        data_to_send.insert(0,1,1);
+    }
+    else if (host == IPC_LOCAL) {
+        data_to_send.insert(0,1,0);
+    }
+
+
+    if (write(sock, data_to_send.c_str(), data_to_send.length()) < 0) {
         _errno = errno;
         return false;
     }
@@ -211,13 +246,6 @@ bool ipcSendingConnection::reconnect(void) {
 ipcReceivingConnection::ipcReceivingConnection(const std::string _UDS_FILE_PATH, short _connID, size_t _bufferSize) : ipcConnection(_UDS_FILE_PATH) {
     senderID = _connID;
     endpointID = _connID;
-
-    /// register connection at the server
-    /*stringstream ss;
-    char cid;
-    std::string idPackage = "";
-    ss << senderID;
-    ss >> cid; */
 
     std::string idPackage = "";
 
@@ -330,20 +358,17 @@ void* ipcReceivingConnection::saveReceivedData_threaded(void* arg) {
             /// extract sender ID from string
             std::string dataString = data;
             short senderID = data[0];
+            bool host = data[1];
 
-            /*stringstream ss;
-            ss << data[0];
-            short senderID;
-            ss >> senderID;*/
-
-            dataString.erase(0,1);
+            dataString.erase(0,2);
 
             #ifdef DEBUG
                 cout << "senderID: " << senderID << endl;
                 cout << "data: " << dataString << endl;
+                cout << "host: " << host << endl;
             #endif
 
-            Data* data = new Data(dataString, senderID);
+            Data* data = new Data(dataString, senderID, host);
             tdata->_buffer->insert(data);
             #ifdef DEBUG
                 cout << "inserted data into buffer ..." << endl;
