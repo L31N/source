@@ -106,6 +106,7 @@ ipcSendingConnection::ipcSendingConnection(const std::string _senderSyn, const s
 }
 
 bool ipcSendingConnection::init(std::string idPackage) {
+
     if (write(sock, idPackage.c_str(), 2) < 0) {
         _errno = errno;
         cout << "error in function write(): " << strerror(errno) << endl;
@@ -252,32 +253,51 @@ ipcReceivingConnection::ipcReceivingConnection(const std::string _UDS_FILE_PATH,
     senderID = _connID;
     endpointID = _connID;
 
-
-    /// register connection at the server
     std::string idPackage = "";
 
     idPackage += senderID;
     idPackage += senderID;
 
-    #ifdef DEBUG
-        cout << "ID PACKAGE : " << idPackage << endl;
-    #endif
+    init(idPackage, _bufferSize);
+
+}
+
+ipcReceivingConnection::ipcReceivingConnection(const std::string connSyn, size_t _bufferSize) {
+    senderID = ipcconfig->getIpcIDToProcessSyn(connSyn);
+    endpointID = senderID;
+
+    std::string idPackage = "";
+
+    idPackage += senderID;
+    idPackage += senderID;
+
+    init(idPackage, _bufferSize);
+}
+
+ipcReceivingConnection::~ipcReceivingConnection() {
+    pthread_cancel(listeningThread);
+    sem_wait(&sem);
+    delete dataBuffer;
+    sem_destroy(&sem);
+}
+
+bool ipcReceivingConnection::init(std::string idPackage, size_t _bufferSize) {
 
     if (write(sock, idPackage.c_str(), 2) < 0) {
         _errno = errno;
         cout << "error in function write(): " << strerror(errno) << endl;
-        return;
+        return false;
     }
     char callback[1];
     int retval = read(sock, callback, 1);
     if (retval < 0) {
         _errno = errno;
         cout << "error while reading data: " << strerror(errno) << endl;
-        return;
+        return false;
     }
     else if (retval == 0) {
         cout << "error: server closed communication ..." << endl;
-        return;
+        return false;
     }
     else {
         switch (short(callback[0])) {
@@ -305,7 +325,7 @@ ipcReceivingConnection::ipcReceivingConnection(const std::string _UDS_FILE_PATH,
     struct thread_data* data = (thread_data*)malloc(sizeof(thread_data));
     if (data == NULL) {
         _errno = errno;
-        return;
+        return false;
     }
     data->_sock = sock;
     data->_buffer = dataBuffer;
@@ -316,17 +336,11 @@ ipcReceivingConnection::ipcReceivingConnection(const std::string _UDS_FILE_PATH,
     if(pthread_create(&listeningThread, NULL, saveReceivedData_threaded, data) != 0) {
          cout << "Konnte Thread nicht erzeugen: " << strerror(errno) << endl;
          _errno = errno;
-         return;
+         return false;
     }
     else pthread_detach(listeningThread);   /// dtaches the thread ... now it will run independent to the main-thread ...
 
-}
-
-ipcReceivingConnection::~ipcReceivingConnection() {
-    pthread_cancel(listeningThread);
-    sem_wait(&sem);
-    delete dataBuffer;
-    sem_destroy(&sem);
+    return true;
 }
 
 Data* ipcReceivingConnection::readDataFromBuffer() {

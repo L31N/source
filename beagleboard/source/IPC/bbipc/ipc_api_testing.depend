@@ -71,10 +71,11 @@
 	<iostream>
 	<fstream>
 
-1352485411 source:/home/l31n/robotics.git/source/beagleboard/source/IPC/bbipc/ipc_api_testing.cpp
+1352490139 source:/home/l31n/robotics.git/source/beagleboard/source/IPC/bbipc/ipc_api_testing.cpp
 	<iostream>
 	<string>
 	"ipc_config.h"
+	"ipc_connection.h"
 	<stdlib.h>
 
 1352484784 /home/l31n/robotics.git/source/beagleboard/source/IPC/bbipc/ipc_config.h
@@ -82,4 +83,29 @@
 	<iostream>
 	<fstream>
 	<sstream>
+
+1352489603 /home/l31n/robotics.git/source/beagleboard/source/IPC/bbipc/ipc_connection.h
+	<string>
+	<sys/socket.h>
+	<sys/types.h>
+	<sys/un.h>
+	<unistd.h>
+	<sys/errno.h>
+	<pthread.h>
+	<semaphore.h>
+	<stdlib.h>
+	"buffer.h"
+	"ipc_config.h"
+	"bbipc.h"
+
+1352390795 /home/l31n/robotics.git/source/beagleboard/source/IPC/bbipc/buffer.h
+	<string>
+	<vector>
+	"bbipc.h"
+
+1352490163 /home/l31n/robotics.git/source/beagleboard/source/IPC/bbipc/bbipc.h
+	<sys/socket.h>
+	<sys/types.h>
+	<sys/un.h>
+	<string>
 

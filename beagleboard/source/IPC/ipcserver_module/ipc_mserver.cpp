@@ -195,7 +195,7 @@ int main () {
                 }
                 else {      /// recived data from client
                     if (client_IDs[com_sock] == -1) {   /// read identification and save it to client_IDs[]
-                        if (strlen(buf) == 2) {
+                        if (strlen(buf) == 2 && buf[0] >= 0 && buf[1] >= 0) {
 
                             /// check for an receiving connection
 
@@ -257,6 +257,7 @@ int main () {
                             }
 
                             cout << "error: received wrong data format, expected ID-package (2byte)" << endl;
+                            if (buf[0] < 0 || buf[1] < 0) cout << "IDs MUST NOT BE SMALLER THAN NULL !!!" << endl;
                             continue;
                         }
                     }

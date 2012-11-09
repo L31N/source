@@ -78,7 +78,8 @@ class ipcSendingConnection : public ipcConnection {
 
 class ipcReceivingConnection : public ipcConnection {
     public:
-        ipcReceivingConnection(const std::string _UDS_FILE_PATH, short _senderID, size_t _bufferSize = 5);
+        ipcReceivingConnection(const std::string _UDS_FILE_PATH, short _connID, size_t _bufferSize = 5);
+        ipcReceivingConnection(const std::string connSyn, size_t _bufferSize = 5);
         ~ipcReceivingConnection();
 
         Data* readDataFromBuffer();
@@ -98,6 +99,8 @@ class ipcReceivingConnection : public ipcConnection {
         pthread_t listeningThread;
 
         Buffer* dataBuffer;
+
+        bool init(std::string idPackage, size_t _bufferSize);
 
 };
 

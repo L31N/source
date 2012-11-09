@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <string>
+#include <sstream>
 
 using namespace std;
 
@@ -48,6 +49,7 @@ int main (int argc, char** argv) {
 
     while(true) {
         string data;
+
         cout << "please enter message to send: "; cin >> data;
 
         if (write(sock, data.c_str(), data.length()) < 0) {

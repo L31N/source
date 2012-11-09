@@ -2,8 +2,8 @@
 #include <iostream>
 #include <string>
 
-//#include "bbipc.h"
 #include "ipc_config.h"
+#include "ipc_connection.h"
 
 #include <stdlib.h>
 
@@ -15,10 +15,16 @@ int main () {
 
 
 
-    ipcConfig ipcconfig("../../../etc/ipc.conf");
+    //ipcConfig ipcconfig("../../../../../etc/ipc.conf");
 
-    cout << ipcconfig.getIpcIDToProcessSyn("TACTIC_MODULE") << endl;
-    cout << ipcconfig.getProcessSynToIpcID(135);
+    //ipcReceivingConnection rc (ipcconfig.getUDS_FILE_PATH(), ipcconfig.getIpcIDToProcessSyn("SENSOR_DATA_MODULE"));
+    ipcReceivingConnection rc("SENSOR_DATA_MODULE2");
+    //ipcSendingConnection sc ("TACTIC_MODULE", "DEBUG_MODULE");
+
+    /*sc.sendData("teststring");
+
+    Data* data = rc.readDataFromBuffer();
+    cout << "data: " << data->getData() << endl;*/
 
     /*
 
