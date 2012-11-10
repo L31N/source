@@ -24,7 +24,6 @@
 
 class ipcConnection {
     public:
-        ipcConnection (const std::string _UDS_FILE_PATH);
         ipcConnection (void);
         ~ipcConnection(void);
 
@@ -58,7 +57,7 @@ class ipcConnection {
 
 class ipcSendingConnection : public ipcConnection {
     public:
-        ipcSendingConnection(const std::string _UDS_FILE_PATH, short _senderID, short _endpointID, HOST_TYPE _host = IPC_LOCAL);
+        ipcSendingConnection(short _senderID, short _endpointID, HOST_TYPE _host = IPC_LOCAL);
         ipcSendingConnection(const std::string _senderSyn, const std::string _endpointSyn, HOST_TYPE _host = IPC_LOCAL);
 
         bool sendData(const std::string data);
@@ -78,7 +77,7 @@ class ipcSendingConnection : public ipcConnection {
 
 class ipcReceivingConnection : public ipcConnection {
     public:
-        ipcReceivingConnection(const std::string _UDS_FILE_PATH, short _connID, size_t _bufferSize = 5);
+        ipcReceivingConnection(short _connID, size_t _bufferSize = 5);
         ipcReceivingConnection(const std::string connSyn, size_t _bufferSize = 5);
         ~ipcReceivingConnection();
 

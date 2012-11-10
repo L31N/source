@@ -8,32 +8,6 @@ using namespace std;
 
 /** CLASS IPC_CONNECTION **/
 
-ipcConnection::ipcConnection(const std::string _UDS_FILE_PATH) {
-    _errno = 0;
-    UDS_FILE_PATH = _UDS_FILE_PATH;
-
-    ipcconfig = new ipcConfig(IPC_CONFIG_FILE_PATH);
-
-    /// Connect to the server and hold connection ...
-    addr.sun_family = AF_UNIX;
-    strcpy(addr.sun_path, UDS_FILE_PATH.c_str());
-
-    sock = socket(AF_UNIX, SOCK_STREAM, 0);
-    if (socket < 0) {
-        _errno = errno;
-        cout << "error in function socket(): " << strerror(errno) << endl;
-        f_is_open = false;
-        return;
-    }
-
-    if (connect(sock, (sockaddr*)&addr, sizeof(sockaddr_un)) == -1) {
-        _errno = errno;
-        cout << "error in function connect(): " << strerror(errno) << endl;
-        f_is_open = false;
-        return;
-    }
-}
-
 ipcConnection::ipcConnection(void) {
     _errno = 0;
 
@@ -72,7 +46,7 @@ int ipcConnection::getLastError(void) { return _errno; }
 
 
 /** CLASS IPC_SENDING_CONNECTION **/
-ipcSendingConnection::ipcSendingConnection (const std::string _UDS_FILE_PATH, short _senderID, short _endpointID, HOST_TYPE _host) : ipcConnection(_UDS_FILE_PATH) {
+ipcSendingConnection::ipcSendingConnection (short _senderID, short _endpointID, HOST_TYPE _host) {
     host = _host;
 
     if (host == IPC_LOCAL) {
@@ -274,7 +248,7 @@ bool ipcSendingConnection::reconnect(void) {
 
 /** CLASS IPC_RECEIVING_CONNECTION **/
 
-ipcReceivingConnection::ipcReceivingConnection(const std::string _UDS_FILE_PATH, short _connID, size_t _bufferSize) : ipcConnection(_UDS_FILE_PATH) {
+ipcReceivingConnection::ipcReceivingConnection(short _connID, size_t _bufferSize) {
     senderID = _connID;
     endpointID = _connID;
 
