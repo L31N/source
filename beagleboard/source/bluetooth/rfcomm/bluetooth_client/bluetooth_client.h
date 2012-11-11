@@ -9,8 +9,8 @@
 #include <string>
 #include <fstream>
 
-const std::string BLUETOOTH_CONFIG_FILE_PATH = "../../../../../etc/bluetooth.conf";
-
+//const std::string BLUETOOTH_CONFIG_FILE_PATH = "../../../../../etc/bluetooth.conf";
+const std::string BLUETOOTH_CONFIG_FILE_PATH = "../etc/bluetooth.conf";
 
 class BluetoothClient {
     public:
