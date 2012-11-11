@@ -15,6 +15,8 @@ int main () {
             std::cout << "\n" << std::endl;
 
             data = ipc_rcon.readDataFromBuffer();
+
+            usleep(10000);
         }
     }
 }

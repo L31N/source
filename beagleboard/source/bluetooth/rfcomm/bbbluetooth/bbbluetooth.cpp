@@ -81,6 +81,7 @@ BluetoothClientSocket::~BluetoothClientSocket() {
 }
 
 bool BluetoothClientSocket::bt_connect() {
+    close(sock);
     int status = connect(sock, (struct sockaddr *)&addr, sizeof(addr));
     if (status < 0) { perror("cannot connect to server"); return false; }
     else return true;
