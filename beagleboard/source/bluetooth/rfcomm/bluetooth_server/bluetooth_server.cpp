@@ -17,7 +17,6 @@ BluetoothServer::~BluetoothServer() {
 
 void BluetoothServer::loop() {
     std::string str;
-    std::cout << "waiting to accept" << std::endl;
     bt_ssock->bt_accept();
     std::cout << "accepted connection" << std::endl;
 
@@ -32,16 +31,11 @@ void BluetoothServer::loop() {
         data.insert(0,1,senderID);
 
         /// pipe the data to the correct endpoint
-        std::cout << "read BLUETOOTH_MODULE_ID" << std::endl;
         ipcConfig ipcconfig(IPC_CONFIG_FILE_PATH);
         short ipc_bt_id = ipcconfig.getIpcIDToProcessSyn("BLUETOOTH_MODULE");
 
-        std::cout << "BLUETOOTH_MODULE_ID: " << ipc_bt_id << std::endl;
-
         ipcSendingConnection ipc_scon(ipc_bt_id, endpointID, IPC_LOCAL);
         ipc_scon.sendData(data);
-
-        std::cout << "close client now ..." << std::endl;
 
         usleep(2000);
     }
