@@ -16,7 +16,6 @@ BluetoothClient::BluetoothClient() {
 
     ipc_rcon = new ipcReceivingConnection("DEBUG", 50);
 
-    loop();
 }
 
 BluetoothClient::~BluetoothClient() {
@@ -44,15 +43,17 @@ void BluetoothClient::loop() {
     Data* data = NULL;
     while(true) {
         data = ipc_rcon->readDataFromBuffer();
-        if (data != NULL) {     /// new data in buffer
+        while (data != NULL) {     /// new data in buffer
             short senderID = data->getSenderID();
             std::string str = data->getData();
 
             str.insert(0, 1, senderID);
 
             bt_csock->bt_send(str);
+
+            data = ipc_rcon->readDataFromBuffer();
         }
 
-        usleep(1000);
+        usleep(2000);
     }
 }

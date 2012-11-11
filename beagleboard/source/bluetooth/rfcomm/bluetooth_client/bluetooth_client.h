@@ -17,13 +17,13 @@ class BluetoothClient {
         BluetoothClient();
         ~BluetoothClient();
 
+        void loop(void);
+
     private:
         std::string readDestinationFromCfg(const std::string BLUETOOTH_CONFIG_FILE_PATH);
 
         BluetoothClientSocket* bt_csock;
         ipcReceivingConnection* ipc_rcon;
-
-        void loop(void);
 };
 
 #endif // _BLUETOOTH_CLIENT_H_

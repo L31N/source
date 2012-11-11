@@ -14,7 +14,7 @@ class BluetoothServer {
         BluetoothServer();
         ~BluetoothServer();
 
-
+        void loop(void);
 
     private:
         BluetoothServerSocket* bt_ssock;

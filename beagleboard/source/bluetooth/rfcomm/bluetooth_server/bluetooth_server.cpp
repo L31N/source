@@ -9,5 +9,28 @@ BluetoothServer::BluetoothServer() {
     bt_ssock->bt_bind();
     bt_ssock->bt_listen();
 
-    bt_ssock->bt
+}
+
+BluetoothServer::~BluetoothServer() {
+    delete bt_ssock;
+}
+
+void BluetoothServer::loop() {
+    bt_ssock->bt_accept();
+    std::string str;
+
+    while(true) {
+        str = bt_ssock->bt_recv();
+
+        /// extract the information from string
+        short senderID = str[0];
+        char host = str[1];
+        short endpointID = str[2];
+        std::string data = str.substr(3, std::string::npos);
+
+        std::cout << "senderID: " << senderID << std::endl;
+        std::cout << "host: " << host << std::endl;
+        std::cout << "endpointID: " << endpointID << std::endl;
+        std::cout << "data: " << data << std::endl;
+    }
 }
