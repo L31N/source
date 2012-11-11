@@ -5,7 +5,7 @@
 #include <string>
 #include <iostream>
 #include <fstream>
-//#include <sstream>
+#include <sstream>
 
 class ipcConfig {
     public:

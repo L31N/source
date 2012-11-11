@@ -55,7 +55,7 @@ int main()
     memset(buf, 0, sizeof(buf));
 
     // read data from the client
-    printf("read data form the client ...\n");
+    printf("read data from the client ...\n");
     bytes_read = read(client, buf, sizeof(buf));
     if( bytes_read > 0 ) {
         printf("received [%s]\n", buf);

@@ -78,7 +78,6 @@ ipcSendingConnection::ipcSendingConnection(const std::string _senderSyn, const s
     host = _host;
 
     if (host == IPC_LOCAL) {
-        std::cout << "HOST_TYPE = LOCAL " << std::endl;
         senderID = ipcconfig->getIpcIDToProcessSyn(_senderSyn);
         endpointID = ipcconfig->getIpcIDToProcessSyn(_endpointSyn);
     }
@@ -143,15 +142,11 @@ bool ipcSendingConnection::init(std::string idPackage) {
 
 bool ipcSendingConnection::sendData(const std::string data) {
 
-    std::string data_to_send(data);
-    if (host == IPC_LOCAL) {
-        data_to_send.insert(0,1,'0');
-    }
-    else if (host == IPC_BLUETOOTH) {
-        data_to_send.insert(0,1,'1');
-        data_to_send.insert(2,1,btEndpointID);
-    }
+    std::string data_to_send = data;
 
+    if (host == IPC_BLUETOOTH) {
+        data_to_send.insert(0,1,btEndpointID);
+    }
 
     if (write(sock, data_to_send.c_str(), data_to_send.length()) < 0) {
         _errno = errno;
@@ -377,15 +372,25 @@ void* ipcReceivingConnection::saveReceivedData_threaded(void* arg) {
         else {  /// read successfull ...
             /// extract sender ID from string
             std::string dataString = data;
-            short senderID = data[0];
-            bool host = data[1];
+            short senderID = dataString[0];
+            HOST_TYPE host;
 
-            dataString.erase(0,2);
+            ipcConfig ipcconf(IPC_CONFIG_FILE_PATH);
+
+            /// decide weather the data were form local or bluetooth
+            if (senderID == ipcconf.getIpcIDToProcessSyn("BLUETOOTH_MODULE")) { /// BLUETOOTH
+                host = IPC_BLUETOOTH;
+                senderID = data[1];
+                dataString.erase(0,2);
+            }
+            else {
+                host = IPC_LOCAL;
+                dataString.erase(0,1);
+            }
 
             #ifdef DEBUG
                 cout << "senderID: " << senderID << endl;
                 cout << "data: " << dataString << endl;
-                cout << "host: " << host << endl;
             #endif
 
             Data* data = new Data(dataString, senderID, host);

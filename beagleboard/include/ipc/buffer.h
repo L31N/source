@@ -5,6 +5,8 @@
 #include <string>
 #include <vector>
 
+#include "bbipc.h"
+
 class Data;
 
 class Buffer {
@@ -23,16 +25,18 @@ class Buffer {
 
 class Data {
     public:
-        Data(std::string _data, short _senderID);
+        Data(std::string _data, short _senderID, HOST_TYPE _host = IPC_LOCAL);
         ~Data();
 
     private:
         std::string data;
         short senderID;
+        HOST_TYPE host;
 
     public:
         std::string getData(void);
         short getSenderID(void);
+        HOST_TYPE getHost(void);
 };
 
 /*
