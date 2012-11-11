@@ -17,11 +17,11 @@ BluetoothServer::~BluetoothServer() {
 
 void BluetoothServer::loop() {
     std::string str;
+    std::cout << "waiting to accept" << std::endl;
+    bt_ssock->bt_accept();
+    std::cout << "accepted connection" << std::endl;
 
     while(true) {
-        std::cout << "waiting to accept" << std::endl;
-        bt_ssock->bt_accept();
-        std::cout << "accepted connection" << std::endl;
         str = bt_ssock->bt_recv();
         std::cout << "received data" << std::endl;
 
@@ -42,7 +42,6 @@ void BluetoothServer::loop() {
         ipc_scon.sendData(data);
 
         std::cout << "close client now ..." << std::endl;
-        bt_ssock->bt_close_client();
 
         usleep(2000);
     }

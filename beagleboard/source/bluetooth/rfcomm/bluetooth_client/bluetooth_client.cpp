@@ -38,6 +38,8 @@ std::string BluetoothClient::readDestinationFromCfg(const std::string BLUETOOTH_
 }
 
 void BluetoothClient::loop() {
+    bt_csock->bt_connect();
+
     Data* data = NULL;
     while(true) {
         data = ipc_rcon->readDataFromBuffer();
@@ -47,7 +49,6 @@ void BluetoothClient::loop() {
 
             str.insert(0, 1, senderID);
 
-            bt_csock->bt_connect();
             bt_csock->bt_send(str);
 
             data = ipc_rcon->readDataFromBuffer();

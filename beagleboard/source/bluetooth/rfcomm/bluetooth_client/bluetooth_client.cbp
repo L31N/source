@@ -30,7 +30,6 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
-			<Add directory="/home/l31n/robotics.git/source/beagleboard/source/bluetooth/rfcomm/bbbluetooth/" />
 			<Add directory="/home/l31n/robotics.git/source/beagleboard/include/" />
 		</Compiler>
 		<Linker>
