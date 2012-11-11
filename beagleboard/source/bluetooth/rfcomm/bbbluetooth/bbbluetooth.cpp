@@ -52,9 +52,9 @@ bool BluetoothServerSocket::bt_accept() {
 }
 
 std::string BluetoothServerSocket::bt_recv() {
-    memset(buf, 0, sizeof(buf));
+    memset(buf, 0, 1024);
 
-    if (read(client_sock, buf, sizeof(buf)) <= 0) { perror("error: cannot receive data from client"); return ""; }
+    if (read(client_sock, buf, 1024) <= 0) { perror("error: cannot receive data from client"); return ""; }
     else return std::string(buf);
 }
 

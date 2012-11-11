@@ -30,7 +30,20 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
+			<Add directory="/home/l31n/robotics.git/source/beagleboard/source/bluetooth/rfcomm/bbbluetooth/" />
+			<Add directory="/home/l31n/robotics.git/source/beagleboard/include/" />
 		</Compiler>
+		<Linker>
+			<Add option="-lbbbluetooth" />
+			<Add option="-lbbipc" />
+			<Add option="-lbluetooth" />
+			<Add option="-lpthread" />
+			<Add directory="/home/l31n/robotics.git/source/beagleboard/source/bluetooth/rfcomm/bbbluetooth/" />
+			<Add directory="/home/l31n/robotics.git/source/beagleboard/lib/" />
+		</Linker>
+		<Unit filename="bluetooth_client.cpp" />
+		<Unit filename="bluetooth_client.h" />
+		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

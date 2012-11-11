@@ -31,6 +31,8 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="bluetooth_server.cpp" />
+		<Unit filename="bluetooth_server.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

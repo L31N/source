@@ -31,6 +31,12 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Linker>
+			<Add option="-L." />
+			<Add option="-lbbbluetooth" />
+			<Add option="-lbluetooth" />
+		</Linker>
+		<Unit filename="bluetooth_testing_client.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />
