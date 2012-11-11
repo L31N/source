@@ -376,10 +376,22 @@ void* ipcReceivingConnection::saveReceivedData_threaded(void* arg) {
         else {  /// read successfull ...
             /// extract sender ID from string
             std::string dataString = data;
-            short senderID = data[0];
             bool host = data[1];
+            short senderID = -1;
 
-            dataString.erase(0,2);
+            /// decide weather the data were form local or bluetooth
+            if (host == '0') { /// LOCAL
+                senderID = data[0];
+                dataString.erase(0,2);
+            }
+            else if (host == '1') {  /// BLUETOOTH
+                senderID = data[2];
+                dataString.erase(0,3);
+            }
+            else {      /// UNKNOWN
+                std::cerr << "unknown host_type" << std::endl;
+            }
+
 
             #ifdef DEBUG
                 cout << "senderID: " << senderID << endl;

@@ -31,6 +31,7 @@ class BluetoothServerSocket : BluetoothSocket {
         bool bt_listen();
         bool bt_accept();
         std::string bt_recv(void);
+        void bt_close_client();
 
     private:
         struct sockaddr_rc rem_addr;

@@ -3,7 +3,6 @@
 #define _CONNECTION_H_
 
 #include <string>
-//#include <sstream>
 
 #include <sys/socket.h>
 #include <sys/types.h>
@@ -19,11 +18,14 @@
 #include <stdlib.h>
 
 #include "buffer.h"
+#include "ipc_config.h"
+
+#include "bbipc.h"
 
 class ipcConnection {
     public:
-        ipcConnection (const std::string _UDS_FILE_PATH);
-        ~ipcConnection();
+        ipcConnection (void);
+        ~ipcConnection(void);
 
         int getLastError(void);
 
@@ -36,7 +38,11 @@ class ipcConnection {
 
         std::string UDS_FILE_PATH;
 
+        ipcConfig* ipcconfig;
+
         int _errno;
+
+        bool f_is_open;
 
     public:
         void setSenderID(short _senderID);
@@ -45,26 +51,39 @@ class ipcConnection {
         short getSenderID(void);
         short getEndpointID(void);
 
+        bool is_open();
+
 };
 
 class ipcSendingConnection : public ipcConnection {
     public:
-        ipcSendingConnection(const std::string _UDS_FILE_PATH, short _senderID, short _endpointID);
+        ipcSendingConnection(short _senderID, short _endpointID, HOST_TYPE _host = IPC_LOCAL);
+        ipcSendingConnection(const std::string _senderSyn, const std::string _endpointSyn, HOST_TYPE _host = IPC_LOCAL);
 
         bool sendData(const std::string data);
 
         bool reconnect(void);       /// tries to reconnect a broken connection
 
+        bool is_open();
+
     private:
         short endpointID;
+        HOST_TYPE host;
+
+        short btEndpointID;
+
+        bool init(std::string idPackage);
 };
 
 class ipcReceivingConnection : public ipcConnection {
     public:
-        ipcReceivingConnection(const std::string _UDS_FILE_PATH, short _senderID, size_t _bufferSize = 5);
+        ipcReceivingConnection(short _connID, size_t _bufferSize = 5);
+        ipcReceivingConnection(const std::string connSyn, size_t _bufferSize = 5);
         ~ipcReceivingConnection();
 
         Data* readDataFromBuffer();
+
+        bool is_open();
 
     private:
         struct thread_data {
@@ -79,6 +98,9 @@ class ipcReceivingConnection : public ipcConnection {
         pthread_t listeningThread;
 
         Buffer* dataBuffer;
+
+        bool init(std::string idPackage, size_t _bufferSize);
+
 };
 
 #endif // _CONNECTION_H_
