@@ -78,7 +78,6 @@ ipcSendingConnection::ipcSendingConnection(const std::string _senderSyn, const s
     host = _host;
 
     if (host == IPC_LOCAL) {
-        std::cout << "HOST_TYPE = LOCAL " << std::endl;
         senderID = ipcconfig->getIpcIDToProcessSyn(_senderSyn);
         endpointID = ipcconfig->getIpcIDToProcessSyn(_endpointSyn);
     }
@@ -149,7 +148,7 @@ bool ipcSendingConnection::sendData(const std::string data) {
     }
     else if (host == IPC_BLUETOOTH) {
         data_to_send.insert(0,1,'1');
-        data_to_send.insert(2,1,btEndpointID);
+        data_to_send.insert(1,1,btEndpointID);
     }
 
 
