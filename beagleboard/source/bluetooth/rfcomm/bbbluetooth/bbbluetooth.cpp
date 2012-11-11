@@ -82,6 +82,15 @@ BluetoothClientSocket::~BluetoothClientSocket() {
 
 bool BluetoothClientSocket::bt_connect() {
     close(sock);
+    sock = socket(AF_BLUETOOTH, SOCK_STREAM, BTPROTO_RFCOMM);
+    if (sock < 0) {
+        perror("cannot register socket");
+        return false;
+    }
+
+    addr.rc_family = AF_BLUETOOTH;
+    addr.rc_channel = (uint8_t) 1;
+
     int status = connect(sock, (struct sockaddr *)&addr, sizeof(addr));
     if (status < 0) { perror("cannot connect to server"); return false; }
     else return true;
