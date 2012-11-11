@@ -142,6 +142,8 @@ bool ipcSendingConnection::init(std::string idPackage) {
 
 bool ipcSendingConnection::sendData(const std::string data) {
 
+    std::string data_to_send = data;
+
     if (host == IPC_BLUETOOTH) {
         data_to_send.insert(0,1,btEndpointID);
     }
@@ -371,22 +373,24 @@ void* ipcReceivingConnection::saveReceivedData_threaded(void* arg) {
             /// extract sender ID from string
             std::string dataString = data;
             short senderID = dataString[0];
+            HOST_TYPE host;
 
             ipcConfig ipcconf(IPC_CONFIG_FILE_PATH);
 
             /// decide weather the data were form local or bluetooth
             if (senderID == ipcconf.getIpcIDToProcessSyn("BLUETOOTH_MODULE")) { /// BLUETOOTH
+                host = IPC_BLUETOOTH;
                 senderID = data[1];
                 dataString.erase(0,2);
             }
             else {
+                host = IPC_LOCAL;
                 dataString.erase(0,1);
             }
 
             #ifdef DEBUG
                 cout << "senderID: " << senderID << endl;
                 cout << "data: " << dataString << endl;
-                cout << "host: " << host << endl;
             #endif
 
             Data* data = new Data(dataString, senderID, host);

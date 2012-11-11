@@ -25,18 +25,18 @@ class Buffer {
 
 class Data {
     public:
-        Data(std::string _data, short _senderID, bool _host = IPC_LOCAL);
+        Data(std::string _data, short _senderID, HOST_TYPE _host = IPC_LOCAL);
         ~Data();
 
     private:
         std::string data;
         short senderID;
-        bool host;
+        HOST_TYPE host;
 
     public:
         std::string getData(void);
         short getSenderID(void);
-        bool getHost(void);
+        HOST_TYPE getHost(void);
 };
 
 /*
