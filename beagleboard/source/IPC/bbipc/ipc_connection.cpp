@@ -142,15 +142,9 @@ bool ipcSendingConnection::init(std::string idPackage) {
 
 bool ipcSendingConnection::sendData(const std::string data) {
 
-    std::string data_to_send(data);
-    if (host == IPC_LOCAL) {
-        data_to_send.insert(0,1,'0');
+    if (host == IPC_BLUETOOTH) {
+        data_to_send.insert(0,1,btEndpointID);
     }
-    else if (host == IPC_BLUETOOTH) {
-        data_to_send.insert(0,1,'1');
-        data_to_send.insert(1,1,btEndpointID);
-    }
-
 
     if (write(sock, data_to_send.c_str(), data_to_send.length()) < 0) {
         _errno = errno;
@@ -376,22 +370,18 @@ void* ipcReceivingConnection::saveReceivedData_threaded(void* arg) {
         else {  /// read successfull ...
             /// extract sender ID from string
             std::string dataString = data;
-            bool host = data[1];
-            short senderID = -1;
+            short senderID = dataString[0];
+
+            ipcConfig ipcconf(IPC_CONFIG_FILE_PATH);
 
             /// decide weather the data were form local or bluetooth
-            if (host == '0') { /// LOCAL
-                senderID = data[0];
+            if (senderID == ipcconf.getIpcIDToProcessSyn("BLUETOOTH_MODULE")) { /// BLUETOOTH
+                senderID = data[1];
                 dataString.erase(0,2);
             }
-            else if (host == '1') {  /// BLUETOOTH
-                senderID = data[2];
-                dataString.erase(0,3);
+            else {
+                dataString.erase(0,1);
             }
-            else {      /// UNKNOWN
-                std::cerr << "unknown host_type" << std::endl;
-            }
-
 
             #ifdef DEBUG
                 cout << "senderID: " << senderID << endl;

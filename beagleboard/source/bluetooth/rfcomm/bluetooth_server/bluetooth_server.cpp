@@ -24,9 +24,9 @@ void BluetoothServer::loop() {
 
         /// extract the information from string
         short senderID = str[0];
-        short endpointID = str[2];
-        std::string data = str.substr(3, std::string::npos);
-        data.insert(0, 1, senderID);
+        short endpointID = str[1];
+        std::string data = str.substr(2, std::string::npos);
+        data.insert(0,1,senderID);
 
         /*std::cout << "senderID: " << senderID << std::endl;
         std::cout << "host: " << host << std::endl;
@@ -34,7 +34,10 @@ void BluetoothServer::loop() {
         std::cout << "data: " << data << std::endl;*/
 
         /// pipe the data to the correct endpoint
-        ipcSendingConnection ipc_scon(senderID, endpointID, IPC_LOCAL);
+        ipcConfig ipcconfig(IPC_CONFIG_FILE_PATH);
+        short ipc_bt_id = ipcconfig.getIpcIDToProcessSyn("BLUETOOTH_MODULE");
+
+        ipcSendingConnection ipc_scon(ipc_bt_id, endpointID, IPC_LOCAL);
         ipc_scon.sendData(data);
 
 
