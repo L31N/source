@@ -14,7 +14,7 @@ BluetoothClient::BluetoothClient() {
     bt_csock = new BluetoothClientSocket(dest);
     bt_csock->bt_connect();
 
-    ipc_rcon = new ipcReceivingConnection("DEBUG", 50);
+    ipc_rcon = new ipcReceivingConnection("BLUETOOTH_MODULE", 50);
 
 }
 
