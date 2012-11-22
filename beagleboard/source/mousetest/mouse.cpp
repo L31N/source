@@ -7,7 +7,6 @@ using namespace std;
 
 int main(int argc, char* argv[]) {
 
-    int uid = getuid();
 
     FILE* fmouse;
     char b[3];
@@ -17,11 +16,6 @@ int main(int argc, char* argv[]) {
         argvstr[i] = string(argv[i]);
     }
 
-    if(uid != 0)
-    {
-        printf("This Programm requires to be root. Please log in as root or use sudo\n\n");
-        return -1;
-    }
 
 	if (argc < 2) {printf("invalid count of arguments ...\ntype mouse --help for more information...\n\n"); return -1;}
 	else if (argvstr[1] == "--help") {
@@ -61,7 +55,11 @@ int main(int argc, char* argv[]) {
 		absx += xd;
 		absy += yd;
 
-		printf("%lld\t%lld\n", absx, absy);
+		float sxd = (absx/392.6);
+		float syd = (absy/392.6);
+
+        printf("%f cm\t%f cm\n", sxd, syd);
+		//printf("%lld\t%lld\n", absx, absy);
 
 
 		//printf("hs=%d,vs=%d,lb=%d rm=%d mb=%d xo=%d yo=%d xd=%d yd=%d\n",hs,vs,lb,rb,mb,xo,yo,xd,yd);

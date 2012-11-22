@@ -1,8 +1,0 @@
-# depslib dependency file v1.0
-1352304478 source:/home/l31n/robotics.git/source/beagleboard/source/bluetooth/rfcomm/rfcommServer.c
-	<stdio.h>
-	<unistd.h>
-	<sys/socket.h>
-	<bluetooth/bluetooth.h>
-	<bluetooth/rfcomm.h>
-

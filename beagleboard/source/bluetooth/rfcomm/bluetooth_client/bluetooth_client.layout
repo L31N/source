@@ -2,7 +2,11 @@
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Release" />
 	<File name="bluetooth_client.cpp" open="1" top="0" tabpos="3">
+<<<<<<< HEAD
 		<Cursor position="469" topLine="12" />
+=======
+		<Cursor position="1318" topLine="8" />
+>>>>>>> 68e4082d1090c7f6a414d61cb521369ef2210ad5
 	</File>
 	<File name="bluetooth_client.h" open="1" top="0" tabpos="2">
 		<Cursor position="641" topLine="0" />
