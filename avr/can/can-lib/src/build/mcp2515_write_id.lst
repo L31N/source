@@ -1,0 +1,136 @@
+   1               		.file	"mcp2515_write_id.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__ = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+  15               	.Ltext0:
+  16               	.global	mcp2515_write_id
+  18               	mcp2515_write_id:
+  19               	.LFB20:
+  20               	.LM1:
+  21               	.LVL0:
+  22 0000 CF93      		push r28
+  23 0002 DF93      		push r29
+  24               	/* prologue: function */
+  25               	/* frame size = 0 */
+  26               	/* stack size = 2 */
+  27               	.L__stack_usage = 2
+  28 0004 EC01      		movw r28,r24
+  29               	.LM2:
+  30 0006 6623      		tst r22
+  31 0008 01F0      		breq .L2
+  32               	.LM3:
+  33 000a 8A81      		ldd r24,Y+2
+  34 000c 9B81      		ldd r25,Y+3
+  35               	.LVL1:
+  36 000e 35E0      		ldi r19,5
+  37 0010 9695      	1:	lsr r25
+  38 0012 8795      		ror r24
+  39 0014 3A95      		dec r19
+  40 0016 01F4      		brne 1b
+  41               	.LBB10:
+  42               	.LBB11:
+  43               	.LM4:
+  44 0018 8EBD      		out 78-32,r24
+  45               	.LBE11:
+  46               	.LBE10:
+  47               	.LM5:
+  48 001a 9A81      		ldd r25,Y+2
+  49 001c 892F      		mov r24,r25
+  50 001e 880F      		lsl r24
+  51 0020 880F      		lsl r24
+  52 0022 880F      		lsl r24
+  53 0024 807E      		andi r24,lo8(-32)
+  54               	.LVL2:
+  55               	.LM6:
+  56 0026 8860      		ori r24,lo8(8)
+  57               	.LVL3:
+  58               	.LM7:
+  59 0028 9370      		andi r25,lo8(3)
+  60 002a 892B      		or r24,r25
+  61               	.LVL4:
+  62               	.L3:
+  63               	.LBB12:
+  64               	.LBB13:
+  65               	.LM8:
+  66 002c 0DB4      		in __tmp_reg__,77-32
+  67 002e 07FE      		sbrs __tmp_reg__,7
+  68 0030 00C0      		rjmp .L3
+  69               	.LM9:
+  70 0032 9EB5      		in r25,78-32
+  71               	.LBE13:
+  72               	.LBE12:
+  73               	.LM10:
+  74 0034 0E94 0000 		call spi_putc
+  75               	.LVL5:
+  76               	.LM11:
+  77 0038 8981      		ldd r24,Y+1
+  78 003a 0E94 0000 		call spi_putc
+  79               	.LM12:
+  80 003e 8881      		ld r24,Y
+  81 0040 00C0      		rjmp .L8
+  82               	.LVL6:
+  83               	.L2:
+  84               	.LM13:
+  85 0042 8881      		ld r24,Y
+  86 0044 9981      		ldd r25,Y+1
+  87 0046 23E0      		ldi r18,3
+  88 0048 9695      	1:	lsr r25
+  89 004a 8795      		ror r24
+  90 004c 2A95      		dec r18
+  91 004e 01F4      		brne 1b
+  92               	.LBB14:
+  93               	.LBB15:
+  94               	.LM14:
+  95 0050 8EBD      		out 78-32,r24
+  96               	.LBE15:
+  97               	.LBE14:
+  98               	.LM15:
+  99 0052 8881      		ld r24,Y
+ 100 0054 8295      		swap r24
+ 101 0056 880F      		lsl r24
+ 102 0058 807E      		andi r24,lo8(-32)
+ 103               	.LVL7:
+ 104               	.L5:
+ 105               	.LBB16:
+ 106               	.LBB17:
+ 107               	.LM16:
+ 108 005a 0DB4      		in __tmp_reg__,77-32
+ 109 005c 07FE      		sbrs __tmp_reg__,7
+ 110 005e 00C0      		rjmp .L5
+ 111               	.LM17:
+ 112 0060 9EB5      		in r25,78-32
+ 113               	.LBE17:
+ 114               	.LBE16:
+ 115               	.LM18:
+ 116 0062 0E94 0000 		call spi_putc
+ 117               	.LVL8:
+ 118               	.LM19:
+ 119 0066 80E0      		ldi r24,lo8(0)
+ 120 0068 0E94 0000 		call spi_putc
+ 121               	.LM20:
+ 122 006c 80E0      		ldi r24,lo8(0)
+ 123               	.L8:
+ 124 006e 0E94 0000 		call spi_putc
+ 125               	/* epilogue start */
+ 126               	.LM21:
+ 127 0072 DF91      		pop r29
+ 128 0074 CF91      		pop r28
+ 129               	.LVL9:
+ 130 0076 0895      		ret
+ 131               	.LFE20:
+ 157               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 mcp2515_write_id.c
+     /tmp/ccHlfdDl.s:2      *ABS*:0000003f __SREG__
+     /tmp/ccHlfdDl.s:3      *ABS*:0000003e __SP_H__
+     /tmp/ccHlfdDl.s:4      *ABS*:0000003d __SP_L__
+     /tmp/ccHlfdDl.s:5      *ABS*:00000034 __CCP__
+     /tmp/ccHlfdDl.s:6      *ABS*:00000000 __tmp_reg__
+     /tmp/ccHlfdDl.s:7      *ABS*:00000001 __zero_reg__
+     /tmp/ccHlfdDl.s:18     .text:00000000 mcp2515_write_id
+
+UNDEFINED SYMBOLS
+spi_putc

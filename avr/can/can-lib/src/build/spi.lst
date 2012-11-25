@@ -1,0 +1,62 @@
+   1               		.file	"spi.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__ = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+  15               	.Ltext0:
+  16               	.global	mcp2515_spi_init
+  18               	mcp2515_spi_init:
+  19               	.LFB18:
+  20               	.LM1:
+  21               	/* prologue: function */
+  22               	/* frame size = 0 */
+  23               	/* stack size = 0 */
+  24               	.L__stack_usage = 0
+  25               	.LM2:
+  26 0000 81E5      		ldi r24,lo8(81)
+  27 0002 8CBD      		out 76-32,r24
+  28               	.LM3:
+  29 0004 81E0      		ldi r24,lo8(1)
+  30 0006 8DBD      		out 77-32,r24
+  31               	/* epilogue start */
+  32               	.LM4:
+  33 0008 0895      		ret
+  34               	.LFE18:
+  36               	.global	spi_putc
+  38               	spi_putc:
+  39               	.LFB19:
+  40               	.LM5:
+  41               	.LVL0:
+  42               	/* prologue: function */
+  43               	/* frame size = 0 */
+  44               	/* stack size = 0 */
+  45               	.L__stack_usage = 0
+  46               	.LM6:
+  47 000a 8EBD      		out 78-32,r24
+  48               	.L3:
+  49               	.LM7:
+  50 000c 0DB4      		in __tmp_reg__,77-32
+  51 000e 07FE      		sbrs __tmp_reg__,7
+  52 0010 00C0      		rjmp .L3
+  53               	.LM8:
+  54 0012 8EB5      		in r24,78-32
+  55               	.LVL1:
+  56               	/* epilogue start */
+  57               	.LM9:
+  58 0014 0895      		ret
+  59               	.LFE19:
+  93               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 spi.c
+     /tmp/ccwSm4bv.s:2      *ABS*:0000003f __SREG__
+     /tmp/ccwSm4bv.s:3      *ABS*:0000003e __SP_H__
+     /tmp/ccwSm4bv.s:4      *ABS*:0000003d __SP_L__
+     /tmp/ccwSm4bv.s:5      *ABS*:00000034 __CCP__
+     /tmp/ccwSm4bv.s:6      *ABS*:00000000 __tmp_reg__
+     /tmp/ccwSm4bv.s:7      *ABS*:00000001 __zero_reg__
+     /tmp/ccwSm4bv.s:18     .text:00000000 mcp2515_spi_init
+     /tmp/ccwSm4bv.s:38     .text:0000000a spi_putc
+
+NO UNDEFINED SYMBOLS

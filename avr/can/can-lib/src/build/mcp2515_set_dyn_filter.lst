@@ -1,0 +1,273 @@
+   1               		.file	"mcp2515_set_dyn_filter.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__ = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+  15               	.Ltext0:
+  16               	.global	can_set_filter
+  18               	can_set_filter:
+  19               	.LFB18:
+  20               	.LM1:
+  21               	.LVL0:
+  22 0000 EF92      		push r14
+  23 0002 FF92      		push r15
+  24 0004 0F93      		push r16
+  25 0006 1F93      		push r17
+  26 0008 CF93      		push r28
+  27 000a DF93      		push r29
+  28               	/* prologue: function */
+  29               	/* frame size = 0 */
+  30               	/* stack size = 6 */
+  31               	.L__stack_usage = 6
+  32 000c F82E      		mov r15,r24
+  33 000e EB01      		movw r28,r22
+  34               	.LVL1:
+  35               	.LM2:
+  36 0010 8EE0      		ldi r24,lo8(14)
+  37               	.LVL2:
+  38 0012 0E94 0000 		call mcp2515_read_register
+  39               	.LVL3:
+  40 0016 E82E      		mov r14,r24
+  41               	.LVL4:
+  42               	.LM3:
+  43 0018 8F2D      		mov r24,r15
+  44               	.LVL5:
+  45 001a 8630      		cpi r24,lo8(6)
+  46 001c 00F0      		brlo .+2
+  47 001e 00C0      		rjmp .L15
+  48               	.LVL6:
+  49               	.LBB10:
+  50               	.LBB11:
+  51               	.LM4:
+  52 0020 8FE0      		ldi r24,lo8(15)
+  53 0022 60EE      		ldi r22,lo8(-32)
+  54 0024 40E8      		ldi r20,lo8(-128)
+  55 0026 0E94 0000 		call mcp2515_bit_modify
+  56               	.LM5:
+  57 002a 00E8      		ldi r16,lo8(128)
+  58 002c 10E0      		ldi r17,hi8(128)
+  59               	.L3:
+  60 002e 8EE0      		ldi r24,lo8(14)
+  61 0030 0E94 0000 		call mcp2515_read_register
+  62 0034 282F      		mov r18,r24
+  63 0036 30E0      		ldi r19,lo8(0)
+  64 0038 207E      		andi r18,lo8(224)
+  65 003a 3070      		andi r19,hi8(224)
+  66 003c 2017      		cp r18,r16
+  67 003e 3107      		cpc r19,r17
+  68 0040 01F4      		brne .L3
+  69               	.LBE11:
+  70               	.LBE10:
+  71               	.LM6:
+  72 0042 FF20      		tst r15
+  73 0044 01F4      		brne .L4
+  74               	.LVL7:
+  75               	.LM7:
+  76 0046 8885      		ldd r24,Y+8
+  77 0048 8C70      		andi r24,lo8(12)
+  78 004a 8C30      		cpi r24,lo8(12)
+  79 004c 01F4      		brne .L5
+  80               	.LM8:
+  81 004e 80E6      		ldi r24,lo8(96)
+  82 0050 60E4      		ldi r22,lo8(64)
+  83 0052 00C0      		rjmp .L19
+  84               	.L5:
+  85               	.LM9:
+  86 0054 8830      		cpi r24,lo8(8)
+  87 0056 01F4      		brne .L7
+  88               	.LM10:
+  89 0058 80E6      		ldi r24,lo8(96)
+  90 005a 60E2      		ldi r22,lo8(32)
+  91               	.L19:
+  92 005c 0E94 0000 		call mcp2515_write_register
+  93               	.LM11:
+  94 0060 00E2      		ldi r16,lo8(32)
+  95 0062 00C0      		rjmp .L6
+  96               	.L7:
+  97               	.LM12:
+  98 0064 80E6      		ldi r24,lo8(96)
+  99 0066 60E0      		ldi r22,lo8(0)
+ 100 0068 00C0      		rjmp .L19
+ 101               	.LVL8:
+ 102               	.L4:
+ 103               	.LM13:
+ 104 006a 8F2D      		mov r24,r15
+ 105 006c 8230      		cpi r24,lo8(2)
+ 106 006e 01F4      		brne .L8
+ 107               	.LVL9:
+ 108               	.LM14:
+ 109 0070 8885      		ldd r24,Y+8
+ 110 0072 8C70      		andi r24,lo8(12)
+ 111 0074 8C30      		cpi r24,lo8(12)
+ 112 0076 01F4      		brne .L9
+ 113               	.LM15:
+ 114 0078 80E7      		ldi r24,lo8(112)
+ 115 007a 60E4      		ldi r22,lo8(64)
+ 116 007c 00C0      		rjmp .L20
+ 117               	.L9:
+ 118               	.LM16:
+ 119 007e 8830      		cpi r24,lo8(8)
+ 120 0080 01F4      		brne .L10
+ 121               	.LM17:
+ 122 0082 80E7      		ldi r24,lo8(112)
+ 123 0084 60E2      		ldi r22,lo8(32)
+ 124 0086 00C0      		rjmp .L20
+ 125               	.L10:
+ 126               	.LM18:
+ 127 0088 80E7      		ldi r24,lo8(112)
+ 128 008a 60E0      		ldi r22,lo8(0)
+ 129               	.L20:
+ 130 008c 0E94 0000 		call mcp2515_write_register
+ 131               	.LM19:
+ 132 0090 04E2      		ldi r16,lo8(36)
+ 133               	.LVL10:
+ 134               	.L6:
+ 135               	.LM20:
+ 136 0092 2C98      		cbi 37-32,4
+ 137               	.LM21:
+ 138 0094 82E0      		ldi r24,lo8(2)
+ 139 0096 0E94 0000 		call spi_putc
+ 140               	.LM22:
+ 141 009a 802F      		mov r24,r16
+ 142 009c 0E94 0000 		call spi_putc
+ 143               	.LM23:
+ 144 00a0 9E01      		movw r18,r28
+ 145 00a2 2C5F      		subi r18,lo8(-(4))
+ 146 00a4 3F4F      		sbci r19,hi8(-(4))
+ 147 00a6 8885      		ldd r24,Y+8
+ 148 00a8 8C70      		andi r24,lo8(12)
+ 149 00aa 61E0      		ldi r22,lo8(1)
+ 150 00ac 8830      		cpi r24,lo8(8)
+ 151 00ae 01F4      		brne .L11
+ 152 00b0 60E0      		ldi r22,lo8(0)
+ 153               	.L11:
+ 154 00b2 C901      		movw r24,r18
+ 155 00b4 0E94 0000 		call mcp2515_write_id
+ 156               	.LM24:
+ 157 00b8 2C9A      		sbi 37-32,4
+ 158               	.LVL11:
+ 159               	.LBB12:
+ 160               	.LBB13:
+ 161               	.LM25:
+ 162 00ba 85E0      		 ldi r24,lo8(5)
+ 163 00bc 8A95      	    1:dec r24
+ 164 00be 01F4      	    brne 1b
+ 165 00c0 0000      		nop
+ 166               	.LVL12:
+ 167               	.L8:
+ 168               	.LBE13:
+ 169               	.LBE12:
+ 170               	.LM26:
+ 171 00c2 8F2D      		mov r24,r15
+ 172 00c4 8330      		cpi r24,lo8(3)
+ 173 00c6 00F0      		brlo .L16
+ 174               	.LM27:
+ 175 00c8 8DEF      		ldi r24,lo8(-3)
+ 176 00ca F80E      		add r15,r24
+ 177               	.LVL13:
+ 178               	.LM28:
+ 179 00cc 00E1      		ldi r16,lo8(16)
+ 180 00ce 00C0      		rjmp .L12
+ 181               	.LVL14:
+ 182               	.L16:
+ 183               	.LM29:
+ 184 00d0 00E0      		ldi r16,lo8(0)
+ 185               	.L12:
+ 186               	.LVL15:
+ 187               	.LM30:
+ 188 00d2 2C98      		cbi 37-32,4
+ 189               	.LM31:
+ 190 00d4 82E0      		ldi r24,lo8(2)
+ 191 00d6 0E94 0000 		call spi_putc
+ 192               	.LM32:
+ 193 00da 8F2D      		mov r24,r15
+ 194 00dc 880F      		lsl r24
+ 195 00de 880F      		lsl r24
+ 196 00e0 802B      		or r24,r16
+ 197 00e2 0E94 0000 		call spi_putc
+ 198               	.LM33:
+ 199 00e6 8885      		ldd r24,Y+8
+ 200 00e8 8C70      		andi r24,lo8(12)
+ 201 00ea 61E0      		ldi r22,lo8(1)
+ 202 00ec 8830      		cpi r24,lo8(8)
+ 203 00ee 01F4      		brne .L13
+ 204 00f0 60E0      		ldi r22,lo8(0)
+ 205               	.L13:
+ 206 00f2 CE01      		movw r24,r28
+ 207 00f4 0E94 0000 		call mcp2515_write_id
+ 208               	.LM34:
+ 209 00f8 2C9A      		sbi 37-32,4
+ 210               	.LVL16:
+ 211               	.LBB14:
+ 212               	.LBB15:
+ 213               	.LM35:
+ 214 00fa 85E0      		 ldi r24,lo8(5)
+ 215 00fc 8A95      	    1:dec r24
+ 216 00fe 01F4      	    brne 1b
+ 217 0100 0000      		nop
+ 218               	.LVL17:
+ 219               	.LBE15:
+ 220               	.LBE14:
+ 221               	.LBB16:
+ 222               	.LBB17:
+ 223               	.LM36:
+ 224 0102 8FE0      		ldi r24,lo8(15)
+ 225 0104 60EE      		ldi r22,lo8(-32)
+ 226 0106 4E2D      		mov r20,r14
+ 227 0108 0E94 0000 		call mcp2515_bit_modify
+ 228               	.LM37:
+ 229 010c CE2D      		mov r28,r14
+ 230               	.LVL18:
+ 231 010e D0E0      		ldi r29,lo8(0)
+ 232               	.L14:
+ 233 0110 8EE0      		ldi r24,lo8(14)
+ 234 0112 0E94 0000 		call mcp2515_read_register
+ 235 0116 90E0      		ldi r25,lo8(0)
+ 236 0118 8C27      		eor r24,r28
+ 237 011a 9D27      		eor r25,r29
+ 238 011c 807E      		andi r24,lo8(224)
+ 239 011e 9070      		andi r25,hi8(224)
+ 240 0120 0097      		sbiw r24,0
+ 241 0122 01F4      		brne .L14
+ 242               	.LM38:
+ 243 0124 81E0      		ldi r24,lo8(1)
+ 244 0126 00C0      		rjmp .L2
+ 245               	.LVL19:
+ 246               	.L15:
+ 247               	.LBE17:
+ 248               	.LBE16:
+ 249               	.LM39:
+ 250 0128 80E0      		ldi r24,lo8(0)
+ 251               	.LVL20:
+ 252               	.L2:
+ 253               	/* epilogue start */
+ 254               	.LM40:
+ 255 012a DF91      		pop r29
+ 256 012c CF91      		pop r28
+ 257 012e 1F91      		pop r17
+ 258 0130 0F91      		pop r16
+ 259 0132 FF90      		pop r15
+ 260               	.LVL21:
+ 261 0134 EF90      		pop r14
+ 262               	.LVL22:
+ 263 0136 0895      		ret
+ 264               	.LFE18:
+ 290               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 mcp2515_set_dyn_filter.c
+     /tmp/ccTrEOXh.s:2      *ABS*:0000003f __SREG__
+     /tmp/ccTrEOXh.s:3      *ABS*:0000003e __SP_H__
+     /tmp/ccTrEOXh.s:4      *ABS*:0000003d __SP_L__
+     /tmp/ccTrEOXh.s:5      *ABS*:00000034 __CCP__
+     /tmp/ccTrEOXh.s:6      *ABS*:00000000 __tmp_reg__
+     /tmp/ccTrEOXh.s:7      *ABS*:00000001 __zero_reg__
+     /tmp/ccTrEOXh.s:18     .text:00000000 can_set_filter
+
+UNDEFINED SYMBOLS
+mcp2515_read_register
+mcp2515_bit_modify
+mcp2515_write_register
+spi_putc
+mcp2515_write_id

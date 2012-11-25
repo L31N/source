@@ -1,0 +1,167 @@
+   1               		.file	"mcp2515_get_message.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__ = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+  15               	.Ltext0:
+  16               	.global	can_get_message
+  18               	can_get_message:
+  19               	.LFB18:
+  20               	.LM1:
+  21               	.LVL0:
+  22 0000 DF92      		push r13
+  23 0002 EF92      		push r14
+  24 0004 FF92      		push r15
+  25 0006 0F93      		push r16
+  26 0008 1F93      		push r17
+  27 000a CF93      		push r28
+  28 000c DF93      		push r29
+  29               	/* prologue: function */
+  30               	/* frame size = 0 */
+  31               	/* stack size = 7 */
+  32               	.L__stack_usage = 7
+  33 000e EC01      		movw r28,r24
+  34               	.LM2:
+  35 0010 80EB      		ldi r24,lo8(-80)
+  36               	.LVL1:
+  37 0012 0E94 0000 		call mcp2515_read_status
+  38 0016 D82E      		mov r13,r24
+  39               	.LVL2:
+  40               	.LM3:
+  41 0018 082F      		mov r16,r24
+  42 001a 10E0      		ldi r17,lo8(0)
+  43 001c 80E4      		ldi r24,lo8(64)
+  44 001e E82E      		mov r14,r24
+  45 0020 F12C      		mov r15,__zero_reg__
+  46               	.LVL3:
+  47 0022 E022      		and r14,r16
+  48 0024 F122      		and r15,r17
+  49 0026 D6FC      		sbrc r13,6
+  50 0028 00C0      		rjmp .L9
+  51               	.LM4:
+  52 002a D7FE      		sbrs r13,7
+  53 002c 00C0      		rjmp .L10
+  54               	.LM5:
+  55 002e 84E9      		ldi r24,lo8(-108)
+  56 0030 00C0      		rjmp .L2
+  57               	.L9:
+  58               	.LM6:
+  59 0032 80E9      		ldi r24,lo8(-112)
+  60               	.L2:
+  61               	.LVL4:
+  62               	.LM7:
+  63 0034 2C98      		cbi 37-32,4
+  64               	.LM8:
+  65 0036 0E94 0000 		call spi_putc
+  66               	.LVL5:
+  67               	.LM9:
+  68 003a CE01      		movw r24,r28
+  69 003c 0E94 0000 		call mcp2515_read_id
+  70               	.LVL6:
+  71               	.LM10:
+  72 0040 8170      		andi r24,lo8(1)
+  73               	.LVL7:
+  74 0042 880F      		lsl r24
+  75 0044 9C81      		ldd r25,Y+4
+  76 0046 9D7F      		andi r25,lo8(-3)
+  77 0048 982B      		or r25,r24
+  78 004a 9C83      		std Y+4,r25
+  79               	.LM11:
+  80 004c 8FEF      		ldi r24,lo8(-1)
+  81 004e 0E94 0000 		call spi_putc
+  82               	.LVL8:
+  83               	.LM12:
+  84 0052 21E0      		ldi r18,lo8(1)
+  85 0054 03FF      		sbrs r16,3
+  86 0056 20E0      		ldi r18,lo8(0)
+  87               	.L4:
+  88 0058 9C81      		ldd r25,Y+4
+  89 005a 9E7F      		andi r25,lo8(-2)
+  90 005c 922B      		or r25,r18
+  91 005e 9C83      		std Y+4,r25
+  92               	.LM13:
+  93 0060 182F      		mov r17,r24
+  94 0062 1F70      		andi r17,lo8(15)
+  95               	.LVL9:
+  96               	.LM14:
+  97 0064 1D83      		std Y+5,r17
+  98               	.LVL10:
+  99               	.LM15:
+ 100 0066 2696      		adiw r28,6
+ 101               	.LVL11:
+ 102               	.LBB2:
+ 103               	.LM16:
+ 104 0068 00E0      		ldi r16,lo8(0)
+ 105 006a 00C0      		rjmp .L5
+ 106               	.LVL12:
+ 107               	.L6:
+ 108               	.LM17:
+ 109 006c 8FEF      		ldi r24,lo8(-1)
+ 110 006e 0E94 0000 		call spi_putc
+ 111 0072 8993      		st Y+,r24
+ 112               	.LM18:
+ 113 0074 0F5F      		subi r16,lo8(-(1))
+ 114               	.LVL13:
+ 115               	.L5:
+ 116               	.LM19:
+ 117 0076 0117      		cp r16,r17
+ 118 0078 00F0      		brlo .L6
+ 119               	.LBE2:
+ 120               	.LM20:
+ 121 007a 2C9A      		sbi 37-32,4
+ 122               	.LM21:
+ 123 007c E114      		cp r14,__zero_reg__
+ 124 007e F104      		cpc r15,__zero_reg__
+ 125 0080 01F0      		breq .L7
+ 126               	.LM22:
+ 127 0082 8CE2      		ldi r24,lo8(44)
+ 128 0084 61E0      		ldi r22,lo8(1)
+ 129 0086 00C0      		rjmp .L11
+ 130               	.L7:
+ 131               	.LM23:
+ 132 0088 8CE2      		ldi r24,lo8(44)
+ 133 008a 62E0      		ldi r22,lo8(2)
+ 134               	.L11:
+ 135 008c 40E0      		ldi r20,lo8(0)
+ 136 008e 0E94 0000 		call mcp2515_bit_modify
+ 137               	.LM24:
+ 138 0092 8D2D      		mov r24,r13
+ 139 0094 8770      		andi r24,lo8(7)
+ 140 0096 8F5F      		subi r24,lo8(-(1))
+ 141 0098 00C0      		rjmp .L3
+ 142               	.LVL14:
+ 143               	.L10:
+ 144               	.LM25:
+ 145 009a 80E0      		ldi r24,lo8(0)
+ 146               	.LVL15:
+ 147               	.L3:
+ 148               	/* epilogue start */
+ 149               	.LM26:
+ 150 009c DF91      		pop r29
+ 151 009e CF91      		pop r28
+ 152 00a0 1F91      		pop r17
+ 153 00a2 0F91      		pop r16
+ 154 00a4 FF90      		pop r15
+ 155 00a6 EF90      		pop r14
+ 156 00a8 DF90      		pop r13
+ 157               	.LVL16:
+ 158 00aa 0895      		ret
+ 159               	.LFE18:
+ 185               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 mcp2515_get_message.c
+     /tmp/cc6AWZMb.s:2      *ABS*:0000003f __SREG__
+     /tmp/cc6AWZMb.s:3      *ABS*:0000003e __SP_H__
+     /tmp/cc6AWZMb.s:4      *ABS*:0000003d __SP_L__
+     /tmp/cc6AWZMb.s:5      *ABS*:00000034 __CCP__
+     /tmp/cc6AWZMb.s:6      *ABS*:00000000 __tmp_reg__
+     /tmp/cc6AWZMb.s:7      *ABS*:00000001 __zero_reg__
+     /tmp/cc6AWZMb.s:18     .text:00000000 can_get_message
+
+UNDEFINED SYMBOLS
+mcp2515_read_status
+spi_putc
+mcp2515_read_id
+mcp2515_bit_modify

@@ -1,0 +1,189 @@
+   1               		.file	"mcp2515_read_id.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__ = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+  15               	.Ltext0:
+  16               	.global	mcp2515_read_id
+  18               	mcp2515_read_id:
+  19               	.LFB18:
+  20               	.LM1:
+  21               	.LVL0:
+  22 0000 1F93      		push r17
+  23 0002 CF93      		push r28
+  24 0004 DF93      		push r29
+  25               	/* prologue: function */
+  26               	/* frame size = 0 */
+  27               	/* stack size = 3 */
+  28               	.L__stack_usage = 3
+  29 0006 EC01      		movw r28,r24
+  30               	.LM2:
+  31 0008 8FEF      		ldi r24,lo8(-1)
+  32               	.LVL1:
+  33 000a 0E94 0000 		call spi_putc
+  34 000e 182F      		mov r17,r24
+  35               	.LVL2:
+  36               	.LM3:
+  37 0010 8FEF      		ldi r24,lo8(-1)
+  38               	.LVL3:
+  39 0012 0E94 0000 		call spi_putc
+  40               	.LVL4:
+  41 0016 212F      		mov r18,r17
+  42 0018 30E0      		ldi r19,lo8(0)
+  43               	.LM4:
+  44 001a 83FF      		sbrs r24,3
+  45 001c 00C0      		rjmp .L2
+  46               	.LVL5:
+  47               	.LBB18:
+  48               	.LBB19:
+  49               	.LM5:
+  50 001e 9FEF      		ldi r25,lo8(-1)
+  51 0020 9EBD      		out 78-32,r25
+  52               	.LBE19:
+  53               	.LBE18:
+  54               	.LM6:
+  55 0022 45E0      		ldi r20,5
+  56 0024 220F      	1:	lsl r18
+  57 0026 331F      		rol r19
+  58 0028 4A95      		dec r20
+  59 002a 01F4      		brne 1b
+  60 002c 3B83      		std Y+3,r19
+  61 002e 2A83      		std Y+2,r18
+  62               	.L3:
+  63               	.LBB20:
+  64               	.LBB21:
+  65               	.LM7:
+  66 0030 0DB4      		in __tmp_reg__,77-32
+  67 0032 07FE      		sbrs __tmp_reg__,7
+  68 0034 00C0      		rjmp .L3
+  69               	.LM8:
+  70 0036 9EB5      		in r25,78-32
+  71               	.LBE21:
+  72               	.LBE20:
+  73               	.LM9:
+  74 0038 9983      		std Y+1,r25
+  75               	.LVL6:
+  76               	.LBB22:
+  77               	.LBB23:
+  78               	.LM10:
+  79 003a 9FEF      		ldi r25,lo8(-1)
+  80 003c 9EBD      		out 78-32,r25
+  81               	.LBE23:
+  82               	.LBE22:
+  83               	.LM11:
+  84 003e 982F      		mov r25,r24
+  85 0040 9370      		andi r25,lo8(3)
+  86               	.LM12:
+  87 0042 2A81      		ldd r18,Y+2
+  88 0044 922B      		or r25,r18
+  89 0046 8695      		lsr r24
+  90 0048 8695      		lsr r24
+  91 004a 8695      		lsr r24
+  92               	.LVL7:
+  93 004c 8C71      		andi r24,lo8(28)
+  94               	.LM13:
+  95 004e 982B      		or r25,r24
+  96 0050 9A83      		std Y+2,r25
+  97               	.L4:
+  98               	.LBB24:
+  99               	.LBB25:
+ 100               	.LM14:
+ 101 0052 0DB4      		in __tmp_reg__,77-32
+ 102 0054 07FE      		sbrs __tmp_reg__,7
+ 103 0056 00C0      		rjmp .L4
+ 104               	.LM15:
+ 105 0058 8EB5      		in r24,78-32
+ 106               	.LBE25:
+ 107               	.LBE24:
+ 108               	.LM16:
+ 109 005a 8883      		st Y,r24
+ 110               	.LM17:
+ 111 005c 81E0      		ldi r24,lo8(1)
+ 112 005e 00C0      		rjmp .L5
+ 113               	.LVL8:
+ 114               	.L2:
+ 115               	.LBB26:
+ 116               	.LBB27:
+ 117               	.LM18:
+ 118 0060 9FEF      		ldi r25,lo8(-1)
+ 119 0062 9EBD      		out 78-32,r25
+ 120               	.LBE27:
+ 121               	.LBE26:
+ 122               	.LM19:
+ 123 0064 1B82      		std Y+3,__zero_reg__
+ 124               	.LM20:
+ 125 0066 1A82      		std Y+2,__zero_reg__
+ 126               	.LM21:
+ 127 0068 93E0      		ldi r25,3
+ 128 006a 220F      	1:	lsl r18
+ 129 006c 331F      		rol r19
+ 130 006e 9A95      		dec r25
+ 131 0070 01F4      		brne 1b
+ 132 0072 3983      		std Y+1,r19
+ 133 0074 2883      		st Y,r18
+ 134               	.L6:
+ 135               	.LBB28:
+ 136               	.LBB29:
+ 137               	.LM22:
+ 138 0076 0DB4      		in __tmp_reg__,77-32
+ 139 0078 07FE      		sbrs __tmp_reg__,7
+ 140 007a 00C0      		rjmp .L6
+ 141               	.LM23:
+ 142 007c 9EB5      		in r25,78-32
+ 143               	.LVL9:
+ 144               	.LBE29:
+ 145               	.LBE28:
+ 146               	.LBB30:
+ 147               	.LBB31:
+ 148               	.LM24:
+ 149 007e 9FEF      		ldi r25,lo8(-1)
+ 150 0080 9EBD      		out 78-32,r25
+ 151               	.LBE31:
+ 152               	.LBE30:
+ 153               	.LM25:
+ 154 0082 8295      		swap r24
+ 155               	.LVL10:
+ 156 0084 8695      		lsr r24
+ 157 0086 8770      		andi r24,lo8(7)
+ 158 0088 9881      		ld r25,Y
+ 159 008a 982B      		or r25,r24
+ 160 008c 9883      		st Y,r25
+ 161               	.L7:
+ 162               	.LBB32:
+ 163               	.LBB33:
+ 164               	.LM26:
+ 165 008e 0DB4      		in __tmp_reg__,77-32
+ 166 0090 07FE      		sbrs __tmp_reg__,7
+ 167 0092 00C0      		rjmp .L7
+ 168               	.LM27:
+ 169 0094 8EB5      		in r24,78-32
+ 170               	.LBE33:
+ 171               	.LBE32:
+ 172               	.LM28:
+ 173 0096 80E0      		ldi r24,lo8(0)
+ 174               	.LVL11:
+ 175               	.L5:
+ 176               	/* epilogue start */
+ 177               	.LM29:
+ 178 0098 DF91      		pop r29
+ 179 009a CF91      		pop r28
+ 180               	.LVL12:
+ 181 009c 1F91      		pop r17
+ 182               	.LVL13:
+ 183 009e 0895      		ret
+ 184               	.LFE18:
+ 210               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 mcp2515_read_id.c
+     /tmp/ccIQBpUo.s:2      *ABS*:0000003f __SREG__
+     /tmp/ccIQBpUo.s:3      *ABS*:0000003e __SP_H__
+     /tmp/ccIQBpUo.s:4      *ABS*:0000003d __SP_L__
+     /tmp/ccIQBpUo.s:5      *ABS*:00000034 __CCP__
+     /tmp/ccIQBpUo.s:6      *ABS*:00000000 __tmp_reg__
+     /tmp/ccIQBpUo.s:7      *ABS*:00000001 __zero_reg__
+     /tmp/ccIQBpUo.s:18     .text:00000000 mcp2515_read_id
+
+UNDEFINED SYMBOLS
+spi_putc
