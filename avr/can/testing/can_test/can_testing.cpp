@@ -7,7 +7,7 @@
 #include "can_testing.h"
 
 void init_leds() {
-    DDRB = 0b00000011;
+    DDRB = 0b00000011;  // set pins for LEDs as output
     return;
 }
 
