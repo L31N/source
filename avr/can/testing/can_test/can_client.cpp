@@ -20,7 +20,8 @@ int main () {
 
     can_t msg;
 
-    msg.id = 0x0234567C;
+    //msg.id = 0x0234567C;
+    msg.id = 0x0234567F;
     msg.flags.rtr = 0;
     msg.flags.extended = 1;
 
@@ -37,9 +38,9 @@ int main () {
     while(true) {
         if (can_send_message(&msg)) {
             led(true, false);
-            _delay_ms(500);
+            _delay_ms(100);
             led(false, false);
-            _delay_ms(500);
+            _delay_ms(100);
         }
         else {
             led(false, true);

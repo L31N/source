@@ -3,8 +3,6 @@
 #include <util/delay.h>
 #include <avr/pgmspace.h>
 
-#include <stdint.h>
-
 #include "can.h"
 #include "can_testing.h"
 
@@ -23,6 +21,8 @@ prog_uint8_t can_filter[] = {
 	MCP2515_FILTER(0),				// Mask 0 (for group 0)
 	MCP2515_FILTER_EXTENDED(0),		// Mask 1 (for group 1)
 };
+
+ volatile uint8_t can_iflag = 0;
 
 int main () {
     init_leds();
@@ -66,7 +66,8 @@ int main () {
     can_set_filter(4, &filterX);
     can_set_filter(5, &filterX);
 
-    while(true) {
+
+   while(true) {
         if (can_check_message()) {
             can_t msg;
             if (can_get_message(&msg)) {
