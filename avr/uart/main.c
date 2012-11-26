@@ -8,40 +8,25 @@ int main(void)
 {
     DDRB |= (1 << 0);
 
-    uart_init(9600);
+    uart_init(57600);
+
+    uart_putstr("\r\nTestprogramm für den UART von Soctronic.de\r\n");
+
+    unsigned char c;
 
     while(1)
     {
-        uart_putc('a');
-        _delay_ms(500);
-    }
+        c = uart_getc();
 
-    /*unsigned char c;
-
-    for(c = 0 ; c < 50 ; c++)
-    {
-        if(uart_putc('a') != 0)
+        if(c == 'e')
         {
-            //PORTB |= (1 << 0);
+            PORTB |= (1 << 0);
         }
-        _delay_ms(1000);
+        else if(c == 'a')
+        {
+            PORTB &= ~(1 << 0);
+        }
     }
-
-/*
-    _delay_ms(500);
-
-    for(c = 0 ; c < 80 ; c++)
-    {
-        uart_putc('a');
-    }
-
-    while(1);
-    /*{
-        PORTB |= (1 << 0);
-        _delay_ms(500);
-        PORTB &= ~(1 << 0);
-        _delay_ms(500);
-    }*/
 
     return 0;
 }

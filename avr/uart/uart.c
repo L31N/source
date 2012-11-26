@@ -6,7 +6,6 @@ ISR(USART_UDRE_vect)
 {
     if(uart_tx_read == uart_tx_write)
     {
-        PORTB |= (1 << 0);
         UCSRB &= ~(1 << 5);
         return;
     }
@@ -58,7 +57,7 @@ void uart_init(long baud)
     sei();
 
     //Empfangsinterrupt aktivieren
-    UCSRB |= (1 << 5);
+    UCSRB |= (1 << 7);
 
     //Bufferzeiger setzen
     uart_tx_read = 0;
@@ -122,12 +121,6 @@ unsigned char uart_putstr(char str[])
     }
 
     return 0;
-}
-
-
-uart_getstr(short count)
-{
-
 }
 
 

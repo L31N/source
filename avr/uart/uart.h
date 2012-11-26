@@ -15,10 +15,14 @@ volatile short uart_rx_write;
 volatile short uart_rx_read;
 
 ISR(USART_UDRE_vect);
+ISR(USART_RXC_vect);
 
 void uart_init(long baud);
 
 unsigned char uart_putc(char c);
+unsigned char uart_getc();
+
+unsigned char uart_putstr(char str[]);
 
 
 
