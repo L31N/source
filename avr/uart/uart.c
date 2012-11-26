@@ -72,15 +72,14 @@ unsigned char uart_putc(char c)
     }
 
     uart_tx_buffer[uart_tx_write] = c;
-
-    UCSRB |= 1 << 5;
-
-    uart_tx_write++;
+	uart_tx_write++;
 
     if(uart_tx_write >= UART_BUFFER_SIZE)
     {
         uart_tx_write = 0;
     }
+	
+	UCSRB |= 1 << 5;
 
     return 0;
 }
