@@ -1,0 +1,350 @@
+   1               		.file	"mcp2515_read_id.c"
+   2               	__SP_H__ = 0x3e
+   3               	__SP_L__ = 0x3d
+   4               	__SREG__ = 0x3f
+   5               	__tmp_reg__ = 0
+   6               	__zero_reg__ = 1
+   7               		.text
+   8               	.Ltext0:
+   9               	.global	mcp2515_read_id
+  11               	mcp2515_read_id:
+  12               	.LFB19:
+  13               		.file 1 "mcp2515_read_id.c"
+   1:mcp2515_read_id.c **** // ----------------------------------------------------------------------------
+   2:mcp2515_read_id.c **** /*
+   3:mcp2515_read_id.c ****  * Copyright (c) 2007 Fabian Greif, Roboterclub Aachen e.V.
+   4:mcp2515_read_id.c ****  *  All rights reserved.
+   5:mcp2515_read_id.c ****  *
+   6:mcp2515_read_id.c ****  * Redistribution and use in source and binary forms, with or without
+   7:mcp2515_read_id.c ****  * modification, are permitted provided that the following conditions
+   8:mcp2515_read_id.c ****  * are met:
+   9:mcp2515_read_id.c ****  * 1. Redistributions of source code must retain the above copyright
+  10:mcp2515_read_id.c ****  *    notice, this list of conditions and the following disclaimer.
+  11:mcp2515_read_id.c ****  * 2. Redistributions in binary form must reproduce the above copyright
+  12:mcp2515_read_id.c ****  *    notice, this list of conditions and the following disclaimer in the
+  13:mcp2515_read_id.c ****  *    documentation and/or other materials provided with the distribution.
+  14:mcp2515_read_id.c ****  *
+  15:mcp2515_read_id.c ****  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
+  16:mcp2515_read_id.c ****  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  17:mcp2515_read_id.c ****  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  18:mcp2515_read_id.c ****  * ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
+  19:mcp2515_read_id.c ****  * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+  20:mcp2515_read_id.c ****  * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+  21:mcp2515_read_id.c ****  * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+  22:mcp2515_read_id.c ****  * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+  23:mcp2515_read_id.c ****  * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+  24:mcp2515_read_id.c ****  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+  25:mcp2515_read_id.c ****  * SUCH DAMAGE.
+  26:mcp2515_read_id.c ****  *
+  27:mcp2515_read_id.c ****  * $Id: mcp2515_read_id.c 7224 2009-01-25 20:19:32Z fabian $
+  28:mcp2515_read_id.c ****  */
+  29:mcp2515_read_id.c **** // ----------------------------------------------------------------------------
+  30:mcp2515_read_id.c **** 
+  31:mcp2515_read_id.c **** #include "mcp2515_private.h"
+  32:mcp2515_read_id.c **** #ifdef	SUPPORT_FOR_MCP2515__
+  33:mcp2515_read_id.c **** 
+  34:mcp2515_read_id.c **** // ----------------------------------------------------------------------------
+  35:mcp2515_read_id.c **** // Liest eine ID aus dem Registern des MCP2515 (siehe auch mcp2515_write_id())
+  36:mcp2515_read_id.c **** 
+  37:mcp2515_read_id.c **** #if	SUPPORT_EXTENDED_CANID
+  38:mcp2515_read_id.c **** 
+  39:mcp2515_read_id.c **** uint8_t mcp2515_read_id(uint32_t *id)
+  40:mcp2515_read_id.c **** {
+  14               		.loc 1 40 0
+  15               	.LVL0:
+  16 0000 1F93      		push r17
+  17               	.LCFI0:
+  18 0002 CF93      		push r28
+  19               	.LCFI1:
+  20 0004 DF93      		push r29
+  21               	.LCFI2:
+  22               	/* prologue: function */
+  23               	/* frame size = 0 */
+  24               	/* stack size = 3 */
+  25               	.L__stack_usage = 3
+  26 0006 EC01      		movw r28,r24
+  41:mcp2515_read_id.c **** 	uint8_t first;
+  42:mcp2515_read_id.c **** 	uint8_t tmp;
+  43:mcp2515_read_id.c **** 	
+  44:mcp2515_read_id.c **** 	first = spi_putc(0xff);
+  27               		.loc 1 44 0
+  28 0008 8FEF      		ldi r24,lo8(-1)
+  29               	.LVL1:
+  30 000a 0E94 0000 		call spi_putc
+  31               	.LVL2:
+  32 000e 182F      		mov r17,r24
+  33               	.LVL3:
+  45:mcp2515_read_id.c **** 	tmp   = spi_putc(0xff);
+  34               		.loc 1 45 0
+  35 0010 8FEF      		ldi r24,lo8(-1)
+  36 0012 0E94 0000 		call spi_putc
+  37               	.LVL4:
+  38               	.LBB18:
+  39               	.LBB19:
+  40               		.file 2 "spi.h"
+   1:spi.h         **** // coding: utf-8
+   2:spi.h         **** // ----------------------------------------------------------------------------
+   3:spi.h         **** /*
+   4:spi.h         ****  * Copyright (c) 2007 Fabian Greif, Roboterclub Aachen e.V.
+   5:spi.h         ****  *  All rights reserved.
+   6:spi.h         ****  *
+   7:spi.h         ****  * Redistribution and use in source and binary forms, with or without
+   8:spi.h         ****  * modification, are permitted provided that the following conditions
+   9:spi.h         ****  * are met:
+  10:spi.h         ****  * 1. Redistributions of source code must retain the above copyright
+  11:spi.h         ****  *    notice, this list of conditions and the following disclaimer.
+  12:spi.h         ****  * 2. Redistributions in binary form must reproduce the above copyright
+  13:spi.h         ****  *    notice, this list of conditions and the following disclaimer in the
+  14:spi.h         ****  *    documentation and/or other materials provided with the distribution.
+  15:spi.h         ****  *
+  16:spi.h         ****  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
+  17:spi.h         ****  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  18:spi.h         ****  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  19:spi.h         ****  * ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
+  20:spi.h         ****  * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+  21:spi.h         ****  * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+  22:spi.h         ****  * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+  23:spi.h         ****  * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+  24:spi.h         ****  * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+  25:spi.h         ****  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+  26:spi.h         ****  * SUCH DAMAGE.
+  27:spi.h         ****  *
+  28:spi.h         ****  * $Id: spi.h 6910 2008-11-30 21:13:14Z fabian $
+  29:spi.h         ****  */
+  30:spi.h         **** // ----------------------------------------------------------------------------
+  31:spi.h         **** 
+  32:spi.h         **** #ifndef	SPI_H
+  33:spi.h         **** #define	SPI_H
+  34:spi.h         **** 
+  35:spi.h         **** #include "can_private.h"
+  36:spi.h         **** 
+  37:spi.h         **** // ----------------------------------------------------------------------------
+  38:spi.h         **** // load some default values
+  39:spi.h         **** 
+  40:spi.h         **** #ifndef SPI_PRESCALER
+  41:spi.h         **** 	#define	SPI_PRESCALER			8
+  42:spi.h         **** #endif
+  43:spi.h         **** 
+  44:spi.h         **** // ----------------------------------------------------------------------------
+  45:spi.h         **** /**
+  46:spi.h         ****  * \brief	Initialize SPI interface
+  47:spi.h         ****  */
+  48:spi.h         **** extern void mcp2515_spi_init(void);
+  49:spi.h         **** 
+  50:spi.h         **** // ----------------------------------------------------------------------------
+  51:spi.h         **** /**
+  52:spi.h         ****  * \brief	Write/read one byte of the SPI interface
+  53:spi.h         ****  *
+  54:spi.h         ****  * \param	data	Data to be written
+  55:spi.h         ****  * \return	Data read from the slave
+  56:spi.h         ****  */
+  57:spi.h         **** extern uint8_t spi_putc(uint8_t data);
+  58:spi.h         **** 
+  59:spi.h         **** // ----------------------------------------------------------------------------
+  60:spi.h         **** #ifdef USE_SOFTWARE_SPI
+  61:spi.h         **** 
+  62:spi.h         **** static uint8_t usi_interface_spi_temp;
+  63:spi.h         **** 
+  64:spi.h         **** extern __attribute__ ((gnu_inline)) inline void spi_start(uint8_t data) {
+  65:spi.h         **** 	usi_interface_spi_temp = spi_putc(data);
+  66:spi.h         **** }
+  67:spi.h         **** 
+  68:spi.h         **** extern __attribute__ ((gnu_inline)) inline uint8_t spi_wait(void) {
+  69:spi.h         **** 	return usi_interface_spi_temp;
+  70:spi.h         **** }
+  71:spi.h         **** 
+  72:spi.h         **** #else
+  73:spi.h         **** 
+  74:spi.h         **** extern __attribute__ ((gnu_inline)) inline void spi_start(uint8_t data) {
+  75:spi.h         **** 	SPDR = data;
+  41               		.loc 2 75 0
+  42 0016 9FEF      		ldi r25,lo8(-1)
+  43 0018 9EBD      		out 0x2e,r25
+  44               	.LBE19:
+  45               	.LBE18:
+  46:mcp2515_read_id.c **** 	
+  47:mcp2515_read_id.c **** 	if (tmp & (1 << IDE)) {
+  46               		.loc 1 47 0
+  47 001a 83FF      		sbrs r24,3
+  48 001c 00C0      		rjmp .L2
+  49               	.LVL5:
+  48:mcp2515_read_id.c **** 		spi_start(0xff);
+  49:mcp2515_read_id.c **** 		
+  50:mcp2515_read_id.c **** 		*((uint16_t *) id + 1)  = (uint16_t) first << 5;
+  50               		.loc 1 50 0
+  51 001e 90E2      		ldi r25,lo8(32)
+  52 0020 199F      		mul r17,r25
+  53 0022 9001      		movw r18,r0
+  54 0024 1124      		clr __zero_reg__
+  55 0026 3B83      		std Y+3,r19
+  56 0028 2A83      		std Y+2,r18
+  57               	.L3:
+  58               	.LBB20:
+  59               	.LBB21:
+  76:spi.h         **** }
+  77:spi.h         **** 
+  78:spi.h         **** extern __attribute__ ((gnu_inline)) inline uint8_t spi_wait(void) {
+  79:spi.h         **** 	// warten bis der vorherige Werte geschrieben wurde
+  80:spi.h         **** 	while(!(SPSR & (1<<SPIF)))
+  60               		.loc 2 80 0
+  61 002a 0DB4      		in __tmp_reg__,0x2d
+  62 002c 07FE      		sbrs __tmp_reg__,7
+  63 002e 00C0      		rjmp .L3
+  81:spi.h         **** 		;
+  82:spi.h         **** 	
+  83:spi.h         **** 	return SPDR;
+  64               		.loc 2 83 0
+  65 0030 9EB5      		in r25,0x2e
+  66               	.LBE21:
+  67               	.LBE20:
+  51:mcp2515_read_id.c **** 		*((uint8_t *)  id + 1)  = spi_wait();
+  68               		.loc 1 51 0
+  69 0032 9983      		std Y+1,r25
+  70               	.LVL6:
+  71               	.LBB22:
+  72               	.LBB23:
+  75:spi.h         **** 	SPDR = data;
+  73               		.loc 2 75 0
+  74 0034 9FEF      		ldi r25,lo8(-1)
+  75 0036 9EBD      		out 0x2e,r25
+  76               	.LBE23:
+  77               	.LBE22:
+  52:mcp2515_read_id.c **** 		spi_start(0xff);
+  53:mcp2515_read_id.c **** 		
+  54:mcp2515_read_id.c **** 		*((uint8_t *)  id + 2) |= (tmp >> 3) & 0x1C;
+  55:mcp2515_read_id.c **** 		*((uint8_t *)  id + 2) |=  tmp & 0x03;
+  78               		.loc 1 55 0
+  79 0038 982F      		mov r25,r24
+  80 003a 9370      		andi r25,lo8(3)
+  54:mcp2515_read_id.c **** 		*((uint8_t *)  id + 2) |= (tmp >> 3) & 0x1C;
+  81               		.loc 1 54 0
+  82 003c 2A81      		ldd r18,Y+2
+  83 003e 922B      		or r25,r18
+  84 0040 8695      		lsr r24
+  85 0042 8695      		lsr r24
+  86 0044 8695      		lsr r24
+  87               	.LVL7:
+  88 0046 8C71      		andi r24,lo8(28)
+  89               		.loc 1 55 0
+  90 0048 982B      		or r25,r24
+  91 004a 9A83      		std Y+2,r25
+  92               	.L4:
+  93               	.LBB24:
+  94               	.LBB25:
+  80:spi.h         **** 	while(!(SPSR & (1<<SPIF)))
+  95               		.loc 2 80 0
+  96 004c 0DB4      		in __tmp_reg__,0x2d
+  97 004e 07FE      		sbrs __tmp_reg__,7
+  98 0050 00C0      		rjmp .L4
+  99               		.loc 2 83 0
+ 100 0052 8EB5      		in r24,0x2e
+ 101               	.LBE25:
+ 102               	.LBE24:
+  56:mcp2515_read_id.c **** 		
+  57:mcp2515_read_id.c **** 		*((uint8_t *)  id)      = spi_wait();
+ 103               		.loc 1 57 0
+ 104 0054 8883      		st Y,r24
+  58:mcp2515_read_id.c **** 		
+  59:mcp2515_read_id.c **** 		return TRUE;
+ 105               		.loc 1 59 0
+ 106 0056 81E0      		ldi r24,lo8(1)
+ 107 0058 00C0      		rjmp .L5
+ 108               	.LVL8:
+ 109               	.L2:
+  60:mcp2515_read_id.c **** 	}
+  61:mcp2515_read_id.c **** 	else {
+  62:mcp2515_read_id.c **** 		spi_start(0xff);
+  63:mcp2515_read_id.c **** 		
+  64:mcp2515_read_id.c **** 		*((uint8_t *)  id + 3) = 0;
+ 110               		.loc 1 64 0
+ 111 005a 1B82      		std Y+3,__zero_reg__
+  65:mcp2515_read_id.c **** 		*((uint8_t *)  id + 2) = 0;
+ 112               		.loc 1 65 0
+ 113 005c 1A82      		std Y+2,__zero_reg__
+  66:mcp2515_read_id.c **** 		
+  67:mcp2515_read_id.c **** 		*((uint16_t *) id) = (uint16_t) first << 3;
+ 114               		.loc 1 67 0
+ 115 005e 98E0      		ldi r25,lo8(8)
+ 116 0060 199F      		mul r17,r25
+ 117 0062 9001      		movw r18,r0
+ 118 0064 1124      		clr __zero_reg__
+ 119 0066 3983      		std Y+1,r19
+ 120 0068 2883      		st Y,r18
+ 121               	.L6:
+ 122               	.LBB26:
+ 123               	.LBB27:
+  80:spi.h         **** 	while(!(SPSR & (1<<SPIF)))
+ 124               		.loc 2 80 0
+ 125 006a 0DB4      		in __tmp_reg__,0x2d
+ 126 006c 07FE      		sbrs __tmp_reg__,7
+ 127 006e 00C0      		rjmp .L6
+ 128               		.loc 2 83 0
+ 129 0070 9EB5      		in r25,0x2e
+ 130               	.LVL9:
+ 131               	.LBE27:
+ 132               	.LBE26:
+ 133               	.LBB28:
+ 134               	.LBB29:
+  75:spi.h         **** 	SPDR = data;
+ 135               		.loc 2 75 0
+ 136 0072 9FEF      		ldi r25,lo8(-1)
+ 137 0074 9EBD      		out 0x2e,r25
+ 138               	.LBE29:
+ 139               	.LBE28:
+  68:mcp2515_read_id.c **** 		
+  69:mcp2515_read_id.c **** 		spi_wait();
+  70:mcp2515_read_id.c **** 		spi_start(0xff);
+  71:mcp2515_read_id.c **** 		
+  72:mcp2515_read_id.c **** 		*((uint8_t *) id) |= tmp >> 5;
+ 140               		.loc 1 72 0
+ 141 0076 8295      		swap r24
+ 142               	.LVL10:
+ 143 0078 8695      		lsr r24
+ 144 007a 8770      		andi r24,lo8(7)
+ 145 007c 9881      		ld r25,Y
+ 146 007e 982B      		or r25,r24
+ 147 0080 9883      		st Y,r25
+ 148               	.L7:
+ 149               	.LBB30:
+ 150               	.LBB31:
+  80:spi.h         **** 	while(!(SPSR & (1<<SPIF)))
+ 151               		.loc 2 80 0
+ 152 0082 0DB4      		in __tmp_reg__,0x2d
+ 153 0084 07FE      		sbrs __tmp_reg__,7
+ 154 0086 00C0      		rjmp .L7
+ 155               		.loc 2 83 0
+ 156 0088 8EB5      		in r24,0x2e
+ 157               	.LBE31:
+ 158               	.LBE30:
+  73:mcp2515_read_id.c **** 		
+  74:mcp2515_read_id.c **** 		spi_wait();
+  75:mcp2515_read_id.c **** 		
+  76:mcp2515_read_id.c **** 		return FALSE;
+ 159               		.loc 1 76 0
+ 160 008a 80E0      		ldi r24,0
+ 161               	.LVL11:
+ 162               	.L5:
+ 163               	/* epilogue start */
+  77:mcp2515_read_id.c **** 	}
+  78:mcp2515_read_id.c **** }
+ 164               		.loc 1 78 0
+ 165 008c DF91      		pop r29
+ 166 008e CF91      		pop r28
+ 167               	.LVL12:
+ 168 0090 1F91      		pop r17
+ 169               	.LVL13:
+ 170 0092 0895      		ret
+ 171               	.LFE19:
+ 217               	.Letext0:
+ 218               		.file 3 "/usr/lib/gcc/avr/4.7.0/../../../avr/include/stdint.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 mcp2515_read_id.c
+     /tmp/ccDJ7KUd.s:2      *ABS*:0000003e __SP_H__
+     /tmp/ccDJ7KUd.s:3      *ABS*:0000003d __SP_L__
+     /tmp/ccDJ7KUd.s:4      *ABS*:0000003f __SREG__
+     /tmp/ccDJ7KUd.s:5      *ABS*:00000000 __tmp_reg__
+     /tmp/ccDJ7KUd.s:6      *ABS*:00000001 __zero_reg__
+     /tmp/ccDJ7KUd.s:11     .text:00000000 mcp2515_read_id
+
+UNDEFINED SYMBOLS
+spi_putc

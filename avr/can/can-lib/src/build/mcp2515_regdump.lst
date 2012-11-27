@@ -1,0 +1,562 @@
+   1               		.file	"mcp2515_regdump.c"
+   2               	__SP_H__ = 0x3e
+   3               	__SP_L__ = 0x3d
+   4               	__SREG__ = 0x3f
+   5               	__tmp_reg__ = 0
+   6               	__zero_reg__ = 1
+   7               		.text
+   8               	.Ltext0:
+   9               		.section	.rodata.str1.1,"aMS",@progbits,1
+  10               	.LC0:
+  11 0000 4D43 5032 		.string	"MCP2515 Regdump:\n"
+  11      3531 3520 
+  11      5265 6764 
+  11      756D 703A 
+  11      0A00 
+  12               	.LC1:
+  13 0012 2533 693A 		.string	"%3i: %02x   "
+  13      2025 3032 
+  13      7820 2020 
+  13      00
+  14               	.LC2:
+  15 001f 2533 693A 		.string	"%3i: %02x\n"
+  15      2025 3032 
+  15      780A 00
+  16               		.text
+  17               	.global	mcp2515_regdump
+  19               	mcp2515_regdump:
+  20               	.LFB20:
+  21               		.file 1 "mcp2515_regdump.c"
+   1:mcp2515_regdump.c **** // -----------------------------------------------------------------------------
+   2:mcp2515_regdump.c **** /*
+   3:mcp2515_regdump.c ****  * Copyright (c) 2007 Fabian Greif, Roboterclub Aachen e.V.
+   4:mcp2515_regdump.c ****  *  All rights reserved.
+   5:mcp2515_regdump.c ****  *
+   6:mcp2515_regdump.c ****  * Redistribution and use in source and binary forms, with or without
+   7:mcp2515_regdump.c ****  * modification, are permitted provided that the following conditions
+   8:mcp2515_regdump.c ****  * are met:
+   9:mcp2515_regdump.c ****  * 1. Redistributions of source code must retain the above copyright
+  10:mcp2515_regdump.c ****  *    notice, this list of conditions and the following disclaimer.
+  11:mcp2515_regdump.c ****  * 2. Redistributions in binary form must reproduce the above copyright
+  12:mcp2515_regdump.c ****  *    notice, this list of conditions and the following disclaimer in the
+  13:mcp2515_regdump.c ****  *    documentation and/or other materials provided with the distribution.
+  14:mcp2515_regdump.c ****  *
+  15:mcp2515_regdump.c ****  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
+  16:mcp2515_regdump.c ****  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  17:mcp2515_regdump.c ****  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  18:mcp2515_regdump.c ****  * ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
+  19:mcp2515_regdump.c ****  * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+  20:mcp2515_regdump.c ****  * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+  21:mcp2515_regdump.c ****  * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+  22:mcp2515_regdump.c ****  * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+  23:mcp2515_regdump.c ****  * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+  24:mcp2515_regdump.c ****  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+  25:mcp2515_regdump.c ****  * SUCH DAMAGE.
+  26:mcp2515_regdump.c ****  *
+  27:mcp2515_regdump.c ****  * $Id: mcp2515_regdump.c 6568 2008-06-16 13:56:26Z fabian $
+  28:mcp2515_regdump.c ****  */
+  29:mcp2515_regdump.c **** // -----------------------------------------------------------------------------
+  30:mcp2515_regdump.c **** 
+  31:mcp2515_regdump.c **** #include "mcp2515_private.h"
+  32:mcp2515_regdump.c **** #ifdef	SUPPORT_FOR_MCP2515__
+  33:mcp2515_regdump.c **** 
+  34:mcp2515_regdump.c **** #include <stdio.h>
+  35:mcp2515_regdump.c **** #include <avr/pgmspace.h>
+  36:mcp2515_regdump.c **** 
+  37:mcp2515_regdump.c **** // -----------------------------------------------------------------------------
+  38:mcp2515_regdump.c **** void mcp2515_regdump(void)
+  39:mcp2515_regdump.c **** {
+  22               		.loc 1 39 0
+  23 0000 CF92      		push r12
+  24               	.LCFI0:
+  25 0002 DF92      		push r13
+  26               	.LCFI1:
+  27 0004 EF92      		push r14
+  28               	.LCFI2:
+  29 0006 FF92      		push r15
+  30               	.LCFI3:
+  31 0008 0F93      		push r16
+  32               	.LCFI4:
+  33 000a 1F93      		push r17
+  34               	.LCFI5:
+  35 000c CF93      		push r28
+  36               	.LCFI6:
+  37 000e DF93      		push r29
+  38               	.LCFI7:
+  39               	/* prologue: function */
+  40               	/* frame size = 0 */
+  41               	/* stack size = 8 */
+  42               	.L__stack_usage = 8
+  40:mcp2515_regdump.c **** 	uint8_t mode = mcp2515_read_register( CANSTAT );
+  43               		.loc 1 40 0
+  44 0010 8EE0      		ldi r24,lo8(14)
+  45 0012 0E94 0000 		call mcp2515_read_register
+  46 0016 C82E      		mov r12,r24
+  47               	.LBB6:
+  48               	.LBB7:
+  49               		.file 2 "mcp2515_private.h"
+   1:mcp2515_private.h **** // ----------------------------------------------------------------------------
+   2:mcp2515_private.h **** /*
+   3:mcp2515_private.h ****  * Copyright (c) 2007 Fabian Greif, Roboterclub Aachen e.V.
+   4:mcp2515_private.h ****  *  All rights reserved.
+   5:mcp2515_private.h ****  *
+   6:mcp2515_private.h ****  * Redistribution and use in source and binary forms, with or without
+   7:mcp2515_private.h ****  * modification, are permitted provided that the following conditions
+   8:mcp2515_private.h ****  * are met:
+   9:mcp2515_private.h ****  * 1. Redistributions of source code must retain the above copyright
+  10:mcp2515_private.h ****  *    notice, this list of conditions and the following disclaimer.
+  11:mcp2515_private.h ****  * 2. Redistributions in binary form must reproduce the above copyright
+  12:mcp2515_private.h ****  *    notice, this list of conditions and the following disclaimer in the
+  13:mcp2515_private.h ****  *    documentation and/or other materials provided with the distribution.
+  14:mcp2515_private.h ****  *
+  15:mcp2515_private.h ****  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
+  16:mcp2515_private.h ****  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  17:mcp2515_private.h ****  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  18:mcp2515_private.h ****  * ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
+  19:mcp2515_private.h ****  * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+  20:mcp2515_private.h ****  * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+  21:mcp2515_private.h ****  * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+  22:mcp2515_private.h ****  * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+  23:mcp2515_private.h ****  * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+  24:mcp2515_private.h ****  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+  25:mcp2515_private.h ****  * SUCH DAMAGE.
+  26:mcp2515_private.h ****  *
+  27:mcp2515_private.h ****  * $Id: mcp2515_private.h 6910 2008-11-30 21:13:14Z fabian $
+  28:mcp2515_private.h ****  */
+  29:mcp2515_private.h **** // ----------------------------------------------------------------------------
+  30:mcp2515_private.h **** 
+  31:mcp2515_private.h **** #ifndef	MCP2515_PRIVATE_H
+  32:mcp2515_private.h **** #define	MCP2515_PRIVATE_H
+  33:mcp2515_private.h **** 
+  34:mcp2515_private.h **** // ----------------------------------------------------------------------------
+  35:mcp2515_private.h **** /**
+  36:mcp2515_private.h ****  * \brief	defines only used inside the library
+  37:mcp2515_private.h ****  *
+  38:mcp2515_private.h ****  * \author	Fabian Greif <fabian.greif@rwth-aachen.de>
+  39:mcp2515_private.h ****  * \version	$Id: mcp2515_private.h 6910 2008-11-30 21:13:14Z fabian $
+  40:mcp2515_private.h ****  *
+  41:mcp2515_private.h ****  * \todo	MCP2515_TXRTSn Pins nutzbar machen.
+  42:mcp2515_private.h ****  */
+  43:mcp2515_private.h **** // ----------------------------------------------------------------------------
+  44:mcp2515_private.h **** 
+  45:mcp2515_private.h **** #include <avr/io.h>
+  46:mcp2515_private.h **** #include <avr/pgmspace.h>
+  47:mcp2515_private.h **** #include <inttypes.h>
+  48:mcp2515_private.h **** #include <stdbool.h>
+  49:mcp2515_private.h **** 
+  50:mcp2515_private.h **** #include "can.h"
+  51:mcp2515_private.h **** #include "utils.h"
+  52:mcp2515_private.h **** 
+  53:mcp2515_private.h **** #include "can_private.h"
+  54:mcp2515_private.h **** #include "spi.h"
+  55:mcp2515_private.h **** 
+  56:mcp2515_private.h **** // ----------------------------------------------------------------------------
+  57:mcp2515_private.h **** 
+  58:mcp2515_private.h **** #if (BUILD_FOR_MCP2515 == 1)
+  59:mcp2515_private.h **** 	#if defined(__AVR_ATmega16__) || defined(__AVR_ATmega32__) || defined(__AVR_ATmega644__)
+  60:mcp2515_private.h **** 		#define	P_MOSI	B,5
+  61:mcp2515_private.h **** 		#define	P_MISO	B,6
+  62:mcp2515_private.h **** 		#define	P_SCK	B,7
+  63:mcp2515_private.h **** 		#define	SUPPORT_FOR_MCP2515__
+  64:mcp2515_private.h **** 	#elif defined(__AVR_ATmega8__)  || defined(__AVR_ATmega48__) || \
+  65:mcp2515_private.h **** 		  defined(__AVR_ATmega88__) || defined(__AVR_ATmega168__)
+  66:mcp2515_private.h **** 		#define	P_MOSI	B,3
+  67:mcp2515_private.h **** 		#define	P_MISO	B,4
+  68:mcp2515_private.h **** 		#define	P_SCK	B,5
+  69:mcp2515_private.h **** 		#define	SUPPORT_FOR_MCP2515__
+  70:mcp2515_private.h **** 	#elif defined(__AVR_ATmega128__)
+  71:mcp2515_private.h **** 		#define	P_MOSI	B,2
+  72:mcp2515_private.h **** 		#define	P_MISO	B,3
+  73:mcp2515_private.h **** 		#define	P_SCK	B,1
+  74:mcp2515_private.h **** 		#define	SUPPORT_FOR_MCP2515__
+  75:mcp2515_private.h **** 	#elif defined(__AVR_ATtiny45__) || defined(__AVR_ATtiny85__)
+  76:mcp2515_private.h **** 		#define	P_MOSI	B,0
+  77:mcp2515_private.h **** 		#define	P_MISO	B,1
+  78:mcp2515_private.h **** 		#define	P_SCK	B,2
+  79:mcp2515_private.h **** 		
+  80:mcp2515_private.h **** 		#define	USE_SOFTWARE_SPI		1
+  81:mcp2515_private.h **** 		#define	SUPPORT_FOR_MCP2515__
+  82:mcp2515_private.h **** 	#else
+  83:mcp2515_private.h **** 		#error	choosen AVR-type is not supported yet!
+  84:mcp2515_private.h **** 	#endif
+  85:mcp2515_private.h **** #endif
+  86:mcp2515_private.h **** 
+  87:mcp2515_private.h **** 
+  88:mcp2515_private.h **** #ifdef  SUPPORT_FOR_MCP2515__
+  89:mcp2515_private.h **** 
+  90:mcp2515_private.h **** // ----------------------------------------------------------------------------
+  91:mcp2515_private.h **** // load some default values
+  92:mcp2515_private.h **** 
+  93:mcp2515_private.h **** #ifndef	MCP2515_CLKOUT_PRESCALER
+  94:mcp2515_private.h **** 	#define	MCP2515_CLKOUT_PRESCALER	0
+  95:mcp2515_private.h **** #endif
+  96:mcp2515_private.h **** #ifndef	MCP2515_INTERRUPTS
+  97:mcp2515_private.h **** 	#define	MCP2515_INTERRUPTS			(1<<RX1IE)|(1<<RX0IE)
+  98:mcp2515_private.h **** #endif
+  99:mcp2515_private.h **** 
+ 100:mcp2515_private.h **** // ----------------------------------------------------------------------------
+ 101:mcp2515_private.h **** // TODO: this file is imcompatible with the at90can
+ 102:mcp2515_private.h **** #include "mcp2515_defs.h"
+ 103:mcp2515_private.h **** 
+ 104:mcp2515_private.h **** #ifndef	MCP2515_CS
+ 105:mcp2515_private.h **** 	#error	MCP2515_CS ist nicht definiert!
+ 106:mcp2515_private.h **** #endif
+ 107:mcp2515_private.h **** 
+ 108:mcp2515_private.h **** #if defined(MCP2515_RX0BF) && !defined(MCP2515_RX1BF)
+ 109:mcp2515_private.h **** 	#warning	only MCP2515_RX0BF but not MCP2515_RX1BF defined!
+ 110:mcp2515_private.h **** #elif !defined(MCP2515_RX0BF) && defined(MCP2515_RX1BF)
+ 111:mcp2515_private.h **** 	#warning	only MCP2515_RX1BF but not MCP2515_RX0BF defined!
+ 112:mcp2515_private.h **** #elif defined(MCP2515_RX0BF) && defined(MCP2515_RX1BF)
+ 113:mcp2515_private.h **** 	#define	RXnBF_FUNKTION
+ 114:mcp2515_private.h **** #endif
+ 115:mcp2515_private.h **** 
+ 116:mcp2515_private.h **** // -------------------------------------------------------------------------
+ 117:mcp2515_private.h **** /**
+ 118:mcp2515_private.h ****  * \brief	Beschreiben von internen Registern
+ 119:mcp2515_private.h ****  */
+ 120:mcp2515_private.h **** extern void mcp2515_write_register( uint8_t adress, uint8_t data );
+ 121:mcp2515_private.h **** 
+ 122:mcp2515_private.h **** // -------------------------------------------------------------------------
+ 123:mcp2515_private.h **** /**
+ 124:mcp2515_private.h ****  * \brief	Lesen der internen Register
+ 125:mcp2515_private.h ****  */
+ 126:mcp2515_private.h **** extern uint8_t mcp2515_read_register(uint8_t adress);
+ 127:mcp2515_private.h **** 
+ 128:mcp2515_private.h **** extern uint8_t mcp2515_read_status(uint8_t type);
+ 129:mcp2515_private.h **** 
+ 130:mcp2515_private.h **** // -------------------------------------------------------------------------
+ 131:mcp2515_private.h **** /**
+ 132:mcp2515_private.h ****  * \brief	Setzten/loeschen einzelner Bits
+ 133:mcp2515_private.h ****  *
+ 134:mcp2515_private.h ****  * Diese Funktionen laesst sich nur auf die Register BFPCTRL, 
+ 135:mcp2515_private.h ****  * TXRTSCTRL, CANCTRL, CNF1, CNF2, CNF3, CANINTE, CANINTF, EFLG,
+ 136:mcp2515_private.h ****  * TXB0CTRL, TXB1CTRL, TXB2CTRL, RXB0CTRL und RXB1CTRL anwenden.
+ 137:mcp2515_private.h ****  *
+ 138:mcp2515_private.h ****  * \see		Datenblatt des MCP2515, Registerbersichtstabelle
+ 139:mcp2515_private.h ****  */
+ 140:mcp2515_private.h **** extern void mcp2515_bit_modify(uint8_t adress, uint8_t mask, uint8_t data);
+ 141:mcp2515_private.h **** 
+ 142:mcp2515_private.h **** // -------------------------------------------------------------------------
+ 143:mcp2515_private.h **** extern __attribute__ ((gnu_inline)) inline void mcp2515_change_operation_mode(uint8_t mode)
+ 144:mcp2515_private.h **** {
+ 145:mcp2515_private.h **** 	mcp2515_bit_modify(CANCTRL, 0xe0, mode);
+  50               		.loc 2 145 0
+  51 0018 40E8      		ldi r20,lo8(-128)
+  52 001a 60EE      		ldi r22,lo8(-32)
+  53 001c 8FE0      		ldi r24,lo8(15)
+  54 001e 0E94 0000 		call mcp2515_bit_modify
+  55               	.L2:
+ 146:mcp2515_private.h **** 	while ((mcp2515_read_register(CANSTAT) & 0xe0) != (mode & 0xe0))
+  56               		.loc 2 146 0
+  57 0022 8EE0      		ldi r24,lo8(14)
+  58 0024 0E94 0000 		call mcp2515_read_register
+  59               	.LBE7:
+  60 0028 8058      		subi r24,lo8(-(-128))
+  61 002a 807E      		andi r24,lo8(-32)
+  62               	.LBB8:
+  63 002c 01F4      		brne .L2
+  64               	.LBE8:
+  65               	.LBE6:
+  41:mcp2515_regdump.c **** 	
+  42:mcp2515_regdump.c **** 	// change to configuration mode
+  43:mcp2515_regdump.c **** 	mcp2515_change_operation_mode( (1<<REQOP2) );
+  44:mcp2515_regdump.c **** 	
+  45:mcp2515_regdump.c **** 	printf_P("MCP2515 Regdump:\n");
+  66               		.loc 1 45 0
+  67 002e 20E0      		ldi r18,lo8(.LC0)
+  68 0030 30E0      		ldi r19,hi8(.LC0)
+  69 0032 3F93      		push r19
+  70               	.LCFI8:
+  71 0034 2F93      		push r18
+  72               	.LCFI9:
+  73 0036 0E94 0000 		call printf_P
+  74 003a 0F90      		pop __tmp_reg__
+  75 003c 0F90      		pop __tmp_reg__
+  76               	.LCFI10:
+  77 003e C0E1      		ldi r28,lo8(16)
+  78 0040 D0E0      		ldi r29,0
+  46:mcp2515_regdump.c **** 	uint8_t i;
+  47:mcp2515_regdump.c **** 	for (i=0; i < 16; i++) {
+  48:mcp2515_regdump.c **** 		printf_P("%3i: %02x   ", i, mcp2515_read_register(i));
+  79               		.loc 1 48 0
+  80 0042 00E0      		ldi r16,lo8(.LC1)
+  81 0044 10E0      		ldi r17,hi8(.LC1)
+  49:mcp2515_regdump.c **** 		printf_P("%3i: %02x   ", i+16*1, mcp2515_read_register(i+16*1));
+  50:mcp2515_regdump.c **** 		printf_P("%3i: %02x   ", i+16*2, mcp2515_read_register(i+16*2));
+  51:mcp2515_regdump.c **** 		printf_P("%3i: %02x   ", i+16*3, mcp2515_read_register(i+16*3));
+  52:mcp2515_regdump.c **** 		printf_P("%3i: %02x   ", i+16*4, mcp2515_read_register(i+16*4));
+  53:mcp2515_regdump.c **** 		printf_P("%3i: %02x   ", i+16*5, mcp2515_read_register(i+16*5));
+  54:mcp2515_regdump.c **** 		printf_P("%3i: %02x   ", i+16*6, mcp2515_read_register(i+16*6));
+  55:mcp2515_regdump.c **** 		printf_P("%3i: %02x\n", i+16*7, mcp2515_read_register(i+16*7));
+  82               		.loc 1 55 0
+  83 0046 80E0      		ldi r24,lo8(.LC2)
+  84 0048 E82E      		mov r14,r24
+  85 004a 80E0      		ldi r24,hi8(.LC2)
+  86 004c F82E      		mov r15,r24
+  87               	.L3:
+  48:mcp2515_regdump.c **** 		printf_P("%3i: %02x   ", i, mcp2515_read_register(i));
+  88               		.loc 1 48 0 discriminator 2
+  89 004e 8C2F      		mov r24,r28
+  90 0050 8051      		subi r24,lo8(-(-16))
+  91 0052 0E94 0000 		call mcp2515_read_register
+  92 0056 1F92      		push __zero_reg__
+  93               	.LCFI11:
+  94 0058 8F93      		push r24
+  95               	.LCFI12:
+  38:mcp2515_regdump.c **** void mcp2515_regdump(void)
+  96               		.loc 1 38 0 discriminator 2
+  97 005a 9E01      		movw r18,r28
+  98 005c 2051      		subi r18,16
+  99 005e 3109      		sbc r19,__zero_reg__
+  48:mcp2515_regdump.c **** 		printf_P("%3i: %02x   ", i, mcp2515_read_register(i));
+ 100               		.loc 1 48 0 discriminator 2
+ 101 0060 3F93      		push r19
+ 102               	.LCFI13:
+ 103 0062 2F93      		push r18
+ 104               	.LCFI14:
+ 105 0064 1F93      		push r17
+ 106               	.LCFI15:
+ 107 0066 0F93      		push r16
+ 108               	.LCFI16:
+ 109 0068 0E94 0000 		call printf_P
+  49:mcp2515_regdump.c **** 		printf_P("%3i: %02x   ", i+16*1, mcp2515_read_register(i+16*1));
+ 110               		.loc 1 49 0 discriminator 2
+ 111 006c 8C2F      		mov r24,r28
+ 112 006e 0E94 0000 		call mcp2515_read_register
+ 113 0072 1F92      		push __zero_reg__
+ 114               	.LCFI17:
+ 115 0074 8F93      		push r24
+ 116               	.LCFI18:
+ 117 0076 DF93      		push r29
+ 118               	.LCFI19:
+ 119 0078 CF93      		push r28
+ 120               	.LCFI20:
+ 121 007a 1F93      		push r17
+ 122               	.LCFI21:
+ 123 007c 0F93      		push r16
+ 124               	.LCFI22:
+ 125 007e 0E94 0000 		call printf_P
+  50:mcp2515_regdump.c **** 		printf_P("%3i: %02x   ", i+16*2, mcp2515_read_register(i+16*2));
+ 126               		.loc 1 50 0 discriminator 2
+ 127 0082 8C2F      		mov r24,r28
+ 128 0084 805F      		subi r24,lo8(-(16))
+ 129 0086 0E94 0000 		call mcp2515_read_register
+ 130 008a 1F92      		push __zero_reg__
+ 131               	.LCFI23:
+ 132 008c 8F93      		push r24
+ 133               	.LCFI24:
+  38:mcp2515_regdump.c **** void mcp2515_regdump(void)
+ 134               		.loc 1 38 0 discriminator 2
+ 135 008e 9E01      		movw r18,r28
+ 136 0090 205F      		subi r18,-16
+ 137 0092 3F4F      		sbci r19,-1
+  50:mcp2515_regdump.c **** 		printf_P("%3i: %02x   ", i+16*2, mcp2515_read_register(i+16*2));
+ 138               		.loc 1 50 0 discriminator 2
+ 139 0094 3F93      		push r19
+ 140               	.LCFI25:
+ 141 0096 2F93      		push r18
+ 142               	.LCFI26:
+ 143 0098 1F93      		push r17
+ 144               	.LCFI27:
+ 145 009a 0F93      		push r16
+ 146               	.LCFI28:
+ 147 009c 0E94 0000 		call printf_P
+  51:mcp2515_regdump.c **** 		printf_P("%3i: %02x   ", i+16*3, mcp2515_read_register(i+16*3));
+ 148               		.loc 1 51 0 discriminator 2
+ 149 00a0 8C2F      		mov r24,r28
+ 150 00a2 805E      		subi r24,lo8(-(32))
+ 151 00a4 0E94 0000 		call mcp2515_read_register
+ 152 00a8 1F92      		push __zero_reg__
+ 153               	.LCFI29:
+ 154 00aa 8F93      		push r24
+ 155               	.LCFI30:
+  38:mcp2515_regdump.c **** void mcp2515_regdump(void)
+ 156               		.loc 1 38 0 discriminator 2
+ 157 00ac 9E01      		movw r18,r28
+ 158 00ae 205E      		subi r18,-32
+ 159 00b0 3F4F      		sbci r19,-1
+  51:mcp2515_regdump.c **** 		printf_P("%3i: %02x   ", i+16*3, mcp2515_read_register(i+16*3));
+ 160               		.loc 1 51 0 discriminator 2
+ 161 00b2 3F93      		push r19
+ 162               	.LCFI31:
+ 163 00b4 2F93      		push r18
+ 164               	.LCFI32:
+ 165 00b6 1F93      		push r17
+ 166               	.LCFI33:
+ 167 00b8 0F93      		push r16
+ 168               	.LCFI34:
+ 169 00ba 0E94 0000 		call printf_P
+  52:mcp2515_regdump.c **** 		printf_P("%3i: %02x   ", i+16*4, mcp2515_read_register(i+16*4));
+ 170               		.loc 1 52 0 discriminator 2
+ 171 00be 8C2F      		mov r24,r28
+ 172 00c0 805D      		subi r24,lo8(-(48))
+ 173 00c2 0E94 0000 		call mcp2515_read_register
+ 174 00c6 1F92      		push __zero_reg__
+ 175               	.LCFI35:
+ 176 00c8 8F93      		push r24
+ 177               	.LCFI36:
+  38:mcp2515_regdump.c **** void mcp2515_regdump(void)
+ 178               		.loc 1 38 0 discriminator 2
+ 179 00ca 9E01      		movw r18,r28
+ 180 00cc 205D      		subi r18,-48
+ 181 00ce 3F4F      		sbci r19,-1
+  52:mcp2515_regdump.c **** 		printf_P("%3i: %02x   ", i+16*4, mcp2515_read_register(i+16*4));
+ 182               		.loc 1 52 0 discriminator 2
+ 183 00d0 3F93      		push r19
+ 184               	.LCFI37:
+ 185 00d2 2F93      		push r18
+ 186               	.LCFI38:
+ 187 00d4 1F93      		push r17
+ 188               	.LCFI39:
+ 189 00d6 0F93      		push r16
+ 190               	.LCFI40:
+ 191 00d8 0E94 0000 		call printf_P
+  53:mcp2515_regdump.c **** 		printf_P("%3i: %02x   ", i+16*5, mcp2515_read_register(i+16*5));
+ 192               		.loc 1 53 0 discriminator 2
+ 193 00dc 8C2F      		mov r24,r28
+ 194 00de 805C      		subi r24,lo8(-(64))
+ 195 00e0 0E94 0000 		call mcp2515_read_register
+ 196 00e4 1F92      		push __zero_reg__
+ 197               	.LCFI41:
+ 198 00e6 8F93      		push r24
+ 199               	.LCFI42:
+  38:mcp2515_regdump.c **** void mcp2515_regdump(void)
+ 200               		.loc 1 38 0 discriminator 2
+ 201 00e8 9E01      		movw r18,r28
+ 202 00ea 205C      		subi r18,-64
+ 203 00ec 3F4F      		sbci r19,-1
+  53:mcp2515_regdump.c **** 		printf_P("%3i: %02x   ", i+16*5, mcp2515_read_register(i+16*5));
+ 204               		.loc 1 53 0 discriminator 2
+ 205 00ee 3F93      		push r19
+ 206               	.LCFI43:
+ 207 00f0 2F93      		push r18
+ 208               	.LCFI44:
+ 209 00f2 1F93      		push r17
+ 210               	.LCFI45:
+ 211 00f4 0F93      		push r16
+ 212               	.LCFI46:
+ 213 00f6 0E94 0000 		call printf_P
+  54:mcp2515_regdump.c **** 		printf_P("%3i: %02x   ", i+16*6, mcp2515_read_register(i+16*6));
+ 214               		.loc 1 54 0 discriminator 2
+ 215 00fa 8DB7      		in r24,__SP_L__
+ 216 00fc 9EB7      		in r25,__SP_H__
+ 217 00fe 8496      		adiw r24,36
+ 218 0100 0FB6      		in __tmp_reg__,__SREG__
+ 219 0102 F894      		cli
+ 220 0104 9EBF      		out __SP_H__,r25
+ 221 0106 0FBE      		out __SREG__,__tmp_reg__
+ 222 0108 8DBF      		out __SP_L__,r24
+ 223               	.LCFI47:
+ 224 010a 8C2F      		mov r24,r28
+ 225 010c 805B      		subi r24,lo8(-(80))
+ 226 010e 0E94 0000 		call mcp2515_read_register
+ 227 0112 1F92      		push __zero_reg__
+ 228               	.LCFI48:
+ 229 0114 8F93      		push r24
+ 230               	.LCFI49:
+  38:mcp2515_regdump.c **** void mcp2515_regdump(void)
+ 231               		.loc 1 38 0 discriminator 2
+ 232 0116 9E01      		movw r18,r28
+ 233 0118 205B      		subi r18,-80
+ 234 011a 3F4F      		sbci r19,-1
+  54:mcp2515_regdump.c **** 		printf_P("%3i: %02x   ", i+16*6, mcp2515_read_register(i+16*6));
+ 235               		.loc 1 54 0 discriminator 2
+ 236 011c 3F93      		push r19
+ 237               	.LCFI50:
+ 238 011e 2F93      		push r18
+ 239               	.LCFI51:
+ 240 0120 1F93      		push r17
+ 241               	.LCFI52:
+ 242 0122 0F93      		push r16
+ 243               	.LCFI53:
+ 244 0124 0E94 0000 		call printf_P
+ 245               		.loc 1 55 0 discriminator 2
+ 246 0128 8C2F      		mov r24,r28
+ 247 012a 805A      		subi r24,lo8(-(96))
+ 248 012c 0E94 0000 		call mcp2515_read_register
+ 249 0130 1F92      		push __zero_reg__
+ 250               	.LCFI54:
+ 251 0132 8F93      		push r24
+ 252               	.LCFI55:
+  38:mcp2515_regdump.c **** void mcp2515_regdump(void)
+ 253               		.loc 1 38 0 discriminator 2
+ 254 0134 9E01      		movw r18,r28
+ 255 0136 205A      		subi r18,-96
+ 256 0138 3F4F      		sbci r19,-1
+ 257               		.loc 1 55 0 discriminator 2
+ 258 013a 3F93      		push r19
+ 259               	.LCFI56:
+ 260 013c 2F93      		push r18
+ 261               	.LCFI57:
+ 262 013e FF92      		push r15
+ 263               	.LCFI58:
+ 264 0140 EF92      		push r14
+ 265               	.LCFI59:
+ 266 0142 0E94 0000 		call printf_P
+ 267 0146 2196      		adiw r28,1
+  47:mcp2515_regdump.c **** 	for (i=0; i < 16; i++) {
+ 268               		.loc 1 47 0 discriminator 2
+ 269 0148 8DB7      		in r24,__SP_L__
+ 270 014a 9EB7      		in r25,__SP_H__
+ 271 014c 0C96      		adiw r24,12
+ 272 014e 0FB6      		in __tmp_reg__,__SREG__
+ 273 0150 F894      		cli
+ 274 0152 9EBF      		out __SP_H__,r25
+ 275 0154 0FBE      		out __SREG__,__tmp_reg__
+ 276 0156 8DBF      		out __SP_L__,r24
+ 277               	.LCFI60:
+ 278 0158 C032      		cpi r28,32
+ 279 015a D105      		cpc r29,__zero_reg__
+ 280 015c 01F0      		breq .+2
+ 281 015e 00C0      		rjmp .L3
+ 282               	.LBB9:
+ 283               	.LBB10:
+ 145:mcp2515_private.h **** 	mcp2515_bit_modify(CANCTRL, 0xe0, mode);
+ 284               		.loc 2 145 0
+ 285 0160 4C2D      		mov r20,r12
+ 286 0162 60EE      		ldi r22,lo8(-32)
+ 287 0164 8FE0      		ldi r24,lo8(15)
+ 288 0166 0E94 0000 		call mcp2515_bit_modify
+ 289               	.L4:
+ 290               		.loc 2 146 0
+ 291 016a 8EE0      		ldi r24,lo8(14)
+ 292 016c 0E94 0000 		call mcp2515_read_register
+ 293               	.LBE10:
+ 294 0170 8C25      		eor r24,r12
+ 295 0172 807E      		andi r24,lo8(-32)
+ 296               	.LBB11:
+ 297 0174 01F4      		brne .L4
+ 298               	/* epilogue start */
+ 299               	.LBE11:
+ 300               	.LBE9:
+  56:mcp2515_regdump.c **** 	}
+  57:mcp2515_regdump.c **** 	
+  58:mcp2515_regdump.c **** 	mcp2515_change_operation_mode( mode );
+  59:mcp2515_regdump.c **** }
+ 301               		.loc 1 59 0
+ 302 0176 DF91      		pop r29
+ 303 0178 CF91      		pop r28
+ 304 017a 1F91      		pop r17
+ 305 017c 0F91      		pop r16
+ 306 017e FF90      		pop r15
+ 307 0180 EF90      		pop r14
+ 308 0182 DF90      		pop r13
+ 309 0184 CF90      		pop r12
+ 310 0186 0895      		ret
+ 311               	.LFE20:
+ 599               	.Letext0:
+ 600               		.file 3 "/usr/lib/gcc/avr/4.7.0/../../../avr/include/stdint.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 mcp2515_regdump.c
+     /tmp/cch2xa0k.s:2      *ABS*:0000003e __SP_H__
+     /tmp/cch2xa0k.s:3      *ABS*:0000003d __SP_L__
+     /tmp/cch2xa0k.s:4      *ABS*:0000003f __SREG__
+     /tmp/cch2xa0k.s:5      *ABS*:00000000 __tmp_reg__
+     /tmp/cch2xa0k.s:6      *ABS*:00000001 __zero_reg__
+     /tmp/cch2xa0k.s:19     .text:00000000 mcp2515_regdump
+
+UNDEFINED SYMBOLS
+mcp2515_read_register
+mcp2515_bit_modify
+printf_P
+__do_copy_data
