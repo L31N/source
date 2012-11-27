@@ -2,6 +2,14 @@
 
 #include "uart.h"
 
+volatile char uart_tx_buffer[UART_BUFFER_SIZE];
+volatile short uart_tx_write;
+volatile short uart_tx_read;
+
+volatile char uart_rx_buffer[UART_BUFFER_SIZE];
+volatile short uart_rx_write;
+volatile short uart_rx_read;
+
 ISR(USART0_UDRE_vect)
 {
     if(uart_tx_read == uart_tx_write)
@@ -108,7 +116,7 @@ unsigned char uart_getc()
     return tmp;
 }
 
-unsigned char uart_putstr(char str[])
+unsigned char uart_putstr(const char str[])
 {
     unsigned short i;
 
