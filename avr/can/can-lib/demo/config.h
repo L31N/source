@@ -1,6 +1,8 @@
 #ifndef	CONFIG_H
 #define	CONFIG_H
 
+typedef uint8_t prog_uint8_t;
+
 // ----------------------------------------------------------------------------
 /* Global settings for building the can-lib and application program.
  *

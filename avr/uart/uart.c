@@ -6,7 +6,6 @@ ISR(USART_UDRE_vect)
 {
     if(uart_tx_read == uart_tx_write)
     {
-        PORTB |= (1 << 0);
         UCSRB &= ~(1 << 5);
         return;
     }
@@ -21,18 +20,24 @@ ISR(USART_UDRE_vect)
     }
 }
 
-/*
+
 ISR(USART_RXC_vect)
 {
-    *uart_rx_write = UDR;
-    uart_rx_write++;
-
-    //Pufferüberlauf
-    if(uart_rx_read == &uart_rx_buffer[UART_BUFFER_SIZE-1])
+    if(uart_rx_write + 1 == uart_rx_read || (uart_rx_read == 0 && uart_rx_write + 1 == UART_BUFFER_SIZE))
     {
-        uart_rx_read = uart_tx_buffer;
+        UDR;
+        return;
     }
-}*/
+
+    uart_rx_buffer[uart_rx_write] = UDR;
+	uart_rx_write++;
+
+    if(uart_rx_write >= UART_BUFFER_SIZE)
+    {
+        uart_rx_write = 0;
+    }
+}
+
 
 void uart_init(long baud)
 {
@@ -40,7 +45,7 @@ void uart_init(long baud)
     UCSRB |= (1 << 3);
 
     //Empfang aktivieren
-    //UCSRB |= (1 << 4);
+    UCSRB |= (1 << 4);
 
     //Baud setzen
     short UBRR = (F_CPU/(16*baud))-1;
@@ -52,7 +57,7 @@ void uart_init(long baud)
     sei();
 
     //Empfangsinterrupt aktivieren
-    //UCSRB |= (1 << 5);
+    UCSRB |= (1 << 7);
 
     //Bufferzeiger setzen
     uart_tx_read = 0;
@@ -72,15 +77,50 @@ unsigned char uart_putc(char c)
     }
 
     uart_tx_buffer[uart_tx_write] = c;
-
-    UCSRB |= 1 << 5;
-
-    uart_tx_write++;
+	uart_tx_write++;
 
     if(uart_tx_write >= UART_BUFFER_SIZE)
     {
         uart_tx_write = 0;
     }
 
+	UCSRB |= 1 << 5;
+
     return 0;
 }
+
+unsigned char uart_getc()
+{
+    if(uart_rx_read == uart_rx_write)
+    {
+        return 0;
+    }
+
+    unsigned char tmp = uart_rx_buffer[uart_rx_read];
+
+    uart_rx_read++;
+
+    if(uart_rx_read >= UART_BUFFER_SIZE)
+    {
+        uart_rx_read = 0;
+    }
+
+    return tmp;
+}
+
+unsigned char uart_putstr(char str[])
+{
+    unsigned short i;
+
+    for( i=0 ; str[i] != '\0' ; i++ )
+    {
+        if( uart_putc(str[i]) != 0 )
+        {
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
+
