@@ -1,4 +1,841 @@
    1               		.file	"mcp2515.c"
+<<<<<<< HEAD
+   2               	__SP_H__ = 0x3e
+   3               	__SP_L__ = 0x3d
+   4               	__SREG__ = 0x3f
+   5               	__tmp_reg__ = 0
+   6               	__zero_reg__ = 1
+   7               		.text
+   8               	.Ltext0:
+   9               	.global	mcp2515_write_register
+  11               	mcp2515_write_register:
+  12               	.LFB19:
+  13               		.file 1 "mcp2515.c"
+   1:mcp2515.c     **** // coding: utf-8
+   2:mcp2515.c     **** // ----------------------------------------------------------------------------
+   3:mcp2515.c     **** /*
+   4:mcp2515.c     ****  * Copyright (c) 2007 Fabian Greif, Roboterclub Aachen e.V.
+   5:mcp2515.c     ****  *  All rights reserved.
+   6:mcp2515.c     ****  *
+   7:mcp2515.c     ****  * Redistribution and use in source and binary forms, with or without
+   8:mcp2515.c     ****  * modification, are permitted provided that the following conditions
+   9:mcp2515.c     ****  * are met:
+  10:mcp2515.c     ****  * 1. Redistributions of source code must retain the above copyright
+  11:mcp2515.c     ****  *    notice, this list of conditions and the following disclaimer.
+  12:mcp2515.c     ****  * 2. Redistributions in binary form must reproduce the above copyright
+  13:mcp2515.c     ****  *    notice, this list of conditions and the following disclaimer in the
+  14:mcp2515.c     ****  *    documentation and/or other materials provided with the distribution.
+  15:mcp2515.c     ****  *
+  16:mcp2515.c     ****  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
+  17:mcp2515.c     ****  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  18:mcp2515.c     ****  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  19:mcp2515.c     ****  * ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
+  20:mcp2515.c     ****  * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+  21:mcp2515.c     ****  * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+  22:mcp2515.c     ****  * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+  23:mcp2515.c     ****  * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+  24:mcp2515.c     ****  * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+  25:mcp2515.c     ****  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+  26:mcp2515.c     ****  * SUCH DAMAGE.
+  27:mcp2515.c     ****  *
+  28:mcp2515.c     ****  * $Id: mcp2515.c 8086 2009-07-14 14:08:25Z fabian $
+  29:mcp2515.c     ****  */
+  30:mcp2515.c     **** // ----------------------------------------------------------------------------
+  31:mcp2515.c     **** /* ---- Beispiel zum Einstellen des Bit Timings ----
+  32:mcp2515.c     ****  *	
+  33:mcp2515.c     ****  *	Fosc		= 16MHz
+  34:mcp2515.c     ****  *	BRP			= 7
+  35:mcp2515.c     ****  *	TQ 			= 2 * (BRP + 1) / Fosc
+  36:mcp2515.c     ****  *				= 1 uS
+  37:mcp2515.c     ****  *
+  38:mcp2515.c     ****  *	Sync Seg	= 					= 1 TQ
+  39:mcp2515.c     ****  *	Prop Seg	= (PRSEG + 1) * TQ	= 1 TQ
+  40:mcp2515.c     ****  *	Phase Seg1	= (PHSEG1 + 1) * TQ	= 3 TQ
+  41:mcp2515.c     ****  *	Phase Seg2	= (PHSEG2 + 1) * TQ = 3 TQ
+  42:mcp2515.c     ****  *									--------
+  43:mcp2515.c     ****  *									  8 TQ
+  44:mcp2515.c     ****  *	
+  45:mcp2515.c     ****  *	Bus speed	= 1 / ((Total # of TQ) * TQ)
+  46:mcp2515.c     ****  *				= 1 / (8 * TQ) = 125 kHz
+  47:mcp2515.c     ****  */
+  48:mcp2515.c     **** // -------------------------------------------------------------------------
+  49:mcp2515.c     **** 
+  50:mcp2515.c     **** #include "mcp2515_private.h"
+  51:mcp2515.c     **** #ifdef	SUPPORT_FOR_MCP2515__
+  52:mcp2515.c     **** 
+  53:mcp2515.c     **** #ifndef	MCP2515_CLKOUT_PRESCALER
+  54:mcp2515.c     **** 	#error	MCP2515_CLKOUT_PRESCALER not defined!
+  55:mcp2515.c     **** #elif MCP2515_CLKOUT_PRESCALER == 0
+  56:mcp2515.c     **** 	#define	CLKOUT_PRESCALER_	0x0
+  57:mcp2515.c     **** #elif MCP2515_CLKOUT_PRESCALER == 1
+  58:mcp2515.c     **** 	#define	CLKOUT_PRESCALER_	0x4
+  59:mcp2515.c     **** #elif MCP2515_CLKOUT_PRESCALER == 2
+  60:mcp2515.c     **** 	#define	CLKOUT_PRESCALER_	0x5
+  61:mcp2515.c     **** #elif MCP2515_CLKOUT_PRESCALER == 4
+  62:mcp2515.c     **** 	#define	CLKOUT_PRESCALER_	0x6
+  63:mcp2515.c     **** #elif MCP2515_CLKOUT_PRESCALER == 8
+  64:mcp2515.c     **** 	#define	CLKOUT_PRESCALER_	0x7
+  65:mcp2515.c     **** #else
+  66:mcp2515.c     **** 	#error	invaild value of MCP2515_CLKOUT_PRESCALER
+  67:mcp2515.c     **** #endif
+  68:mcp2515.c     **** 
+  69:mcp2515.c     **** // -------------------------------------------------------------------------
+  70:mcp2515.c     **** void mcp2515_write_register( uint8_t adress, uint8_t data )
+  71:mcp2515.c     **** {
+  14               		.loc 1 71 0
+  15               	.LVL0:
+  16 0000 1F93      		push r17
+  17               	.LCFI0:
+  18 0002 CF93      		push r28
+  19               	.LCFI1:
+  20 0004 DF93      		push r29
+  21               	.LCFI2:
+  22 0006 1F92      		push __zero_reg__
+  23               	.LCFI3:
+  24 0008 CDB7      		in r28,__SP_L__
+  25 000a DEB7      		in r29,__SP_H__
+  26               	.LCFI4:
+  27               	/* prologue: function */
+  28               	/* frame size = 1 */
+  29               	/* stack size = 4 */
+  30               	.L__stack_usage = 4
+  31 000c 182F      		mov r17,r24
+  72:mcp2515.c     **** 	RESET(MCP2515_CS);
+  32               		.loc 1 72 0
+  33 000e 2C98      		cbi 0x5,4
+  73:mcp2515.c     **** 	
+  74:mcp2515.c     **** 	spi_putc(SPI_WRITE);
+  34               		.loc 1 74 0
+  35 0010 82E0      		ldi r24,lo8(2)
+  36               	.LVL1:
+  37 0012 6983      		std Y+1,r22
+  38 0014 0E94 0000 		call spi_putc
+  39               	.LVL2:
+  75:mcp2515.c     **** 	spi_putc(adress);
+  40               		.loc 1 75 0
+  41 0018 812F      		mov r24,r17
+  42 001a 0E94 0000 		call spi_putc
+  43               	.LVL3:
+  76:mcp2515.c     **** 	spi_putc(data);
+  44               		.loc 1 76 0
+  45 001e 6981      		ldd r22,Y+1
+  46 0020 862F      		mov r24,r22
+  47 0022 0E94 0000 		call spi_putc
+  48               	.LVL4:
+  77:mcp2515.c     **** 	
+  78:mcp2515.c     **** 	SET(MCP2515_CS);
+  49               		.loc 1 78 0
+  50 0026 2C9A      		sbi 0x5,4
+  51               	/* epilogue start */
+  79:mcp2515.c     **** }
+  52               		.loc 1 79 0
+  53 0028 0F90      		pop __tmp_reg__
+  54 002a DF91      		pop r29
+  55 002c CF91      		pop r28
+  56 002e 1F91      		pop r17
+  57               	.LVL5:
+  58 0030 0895      		ret
+  59               	.LFE19:
+  61               	.global	mcp2515_read_register
+  63               	mcp2515_read_register:
+  64               	.LFB20:
+  80:mcp2515.c     **** 
+  81:mcp2515.c     **** // -------------------------------------------------------------------------
+  82:mcp2515.c     **** uint8_t mcp2515_read_register(uint8_t adress)
+  83:mcp2515.c     **** {
+  65               		.loc 1 83 0
+  66               	.LVL6:
+  67 0032 CF93      		push r28
+  68               	.LCFI5:
+  69               	/* prologue: function */
+  70               	/* frame size = 0 */
+  71               	/* stack size = 1 */
+  72               	.L__stack_usage = 1
+  73 0034 C82F      		mov r28,r24
+  84:mcp2515.c     **** 	uint8_t data;
+  85:mcp2515.c     **** 	
+  86:mcp2515.c     **** 	RESET(MCP2515_CS);
+  74               		.loc 1 86 0
+  75 0036 2C98      		cbi 0x5,4
+  87:mcp2515.c     **** 	
+  88:mcp2515.c     **** 	spi_putc(SPI_READ);
+  76               		.loc 1 88 0
+  77 0038 83E0      		ldi r24,lo8(3)
+  78               	.LVL7:
+  79 003a 0E94 0000 		call spi_putc
+  80               	.LVL8:
+  89:mcp2515.c     **** 	spi_putc(adress);
+  81               		.loc 1 89 0
+  82 003e 8C2F      		mov r24,r28
+  83 0040 0E94 0000 		call spi_putc
+  84               	.LVL9:
+  90:mcp2515.c     **** 	
+  91:mcp2515.c     **** 	data = spi_putc(0xff);	
+  85               		.loc 1 91 0
+  86 0044 8FEF      		ldi r24,lo8(-1)
+  87 0046 0E94 0000 		call spi_putc
+  88               	.LVL10:
+  92:mcp2515.c     **** 	
+  93:mcp2515.c     **** 	SET(MCP2515_CS);
+  89               		.loc 1 93 0
+  90 004a 2C9A      		sbi 0x5,4
+  91               	/* epilogue start */
+  94:mcp2515.c     **** 	
+  95:mcp2515.c     **** 	return data;
+  96:mcp2515.c     **** }
+  92               		.loc 1 96 0
+  93 004c CF91      		pop r28
+  94               	.LVL11:
+  95 004e 0895      		ret
+  96               	.LFE20:
+  98               	.global	mcp2515_bit_modify
+ 100               	mcp2515_bit_modify:
+ 101               	.LFB21:
+  97:mcp2515.c     **** 
+  98:mcp2515.c     **** // -------------------------------------------------------------------------
+  99:mcp2515.c     **** void mcp2515_bit_modify(uint8_t adress, uint8_t mask, uint8_t data)
+ 100:mcp2515.c     **** {
+ 102               		.loc 1 100 0
+ 103               	.LVL12:
+ 104 0050 1F93      		push r17
+ 105               	.LCFI6:
+ 106 0052 CF93      		push r28
+ 107               	.LCFI7:
+ 108 0054 DF93      		push r29
+ 109               	.LCFI8:
+ 110 0056 00D0      		rcall .
+ 111               	.LCFI9:
+ 112 0058 CDB7      		in r28,__SP_L__
+ 113 005a DEB7      		in r29,__SP_H__
+ 114               	.LCFI10:
+ 115               	/* prologue: function */
+ 116               	/* frame size = 2 */
+ 117               	/* stack size = 5 */
+ 118               	.L__stack_usage = 5
+ 119 005c 182F      		mov r17,r24
+ 101:mcp2515.c     **** 	RESET(MCP2515_CS);
+ 120               		.loc 1 101 0
+ 121 005e 2C98      		cbi 0x5,4
+ 102:mcp2515.c     **** 	
+ 103:mcp2515.c     **** 	spi_putc(SPI_BIT_MODIFY);
+ 122               		.loc 1 103 0
+ 123 0060 85E0      		ldi r24,lo8(5)
+ 124               	.LVL13:
+ 125 0062 4A83      		std Y+2,r20
+ 126 0064 6983      		std Y+1,r22
+ 127 0066 0E94 0000 		call spi_putc
+ 128               	.LVL14:
+ 104:mcp2515.c     **** 	spi_putc(adress);
+ 129               		.loc 1 104 0
+ 130 006a 812F      		mov r24,r17
+ 131 006c 0E94 0000 		call spi_putc
+ 132               	.LVL15:
+ 105:mcp2515.c     **** 	spi_putc(mask);
+ 133               		.loc 1 105 0
+ 134 0070 6981      		ldd r22,Y+1
+ 135 0072 862F      		mov r24,r22
+ 136 0074 0E94 0000 		call spi_putc
+ 137               	.LVL16:
+ 106:mcp2515.c     **** 	spi_putc(data);
+ 138               		.loc 1 106 0
+ 139 0078 4A81      		ldd r20,Y+2
+ 140 007a 842F      		mov r24,r20
+ 141 007c 0E94 0000 		call spi_putc
+ 142               	.LVL17:
+ 107:mcp2515.c     **** 	
+ 108:mcp2515.c     **** 	SET(MCP2515_CS);
+ 143               		.loc 1 108 0
+ 144 0080 2C9A      		sbi 0x5,4
+ 145               	/* epilogue start */
+ 109:mcp2515.c     **** }
+ 146               		.loc 1 109 0
+ 147 0082 0F90      		pop __tmp_reg__
+ 148 0084 0F90      		pop __tmp_reg__
+ 149 0086 DF91      		pop r29
+ 150 0088 CF91      		pop r28
+ 151 008a 1F91      		pop r17
+ 152               	.LVL18:
+ 153 008c 0895      		ret
+ 154               	.LFE21:
+ 156               	.global	mcp2515_read_status
+ 158               	mcp2515_read_status:
+ 159               	.LFB22:
+ 110:mcp2515.c     **** 
+ 111:mcp2515.c     **** // ----------------------------------------------------------------------------
+ 112:mcp2515.c     **** uint8_t mcp2515_read_status(uint8_t type)
+ 113:mcp2515.c     **** {
+ 160               		.loc 1 113 0
+ 161               	.LVL19:
+ 162               	/* prologue: function */
+ 163               	/* frame size = 0 */
+ 164               	/* stack size = 0 */
+ 165               	.L__stack_usage = 0
+ 114:mcp2515.c     **** 	uint8_t data;
+ 115:mcp2515.c     **** 	
+ 116:mcp2515.c     **** 	RESET(MCP2515_CS);
+ 166               		.loc 1 116 0
+ 167 008e 2C98      		cbi 0x5,4
+ 117:mcp2515.c     **** 	
+ 118:mcp2515.c     **** 	spi_putc(type);
+ 168               		.loc 1 118 0
+ 169 0090 0E94 0000 		call spi_putc
+ 170               	.LVL20:
+ 119:mcp2515.c     **** 	data = spi_putc(0xff);
+ 171               		.loc 1 119 0
+ 172 0094 8FEF      		ldi r24,lo8(-1)
+ 173 0096 0E94 0000 		call spi_putc
+ 174               	.LVL21:
+ 120:mcp2515.c     **** 	
+ 121:mcp2515.c     **** 	SET(MCP2515_CS);
+ 175               		.loc 1 121 0
+ 176 009a 2C9A      		sbi 0x5,4
+ 122:mcp2515.c     **** 	
+ 123:mcp2515.c     **** 	return data;
+ 124:mcp2515.c     **** }
+ 177               		.loc 1 124 0
+ 178 009c 0895      		ret
+ 179               	.LFE22:
+ 181               	.global	can_init
+ 183               	can_init:
+ 184               	.LFB23:
+ 125:mcp2515.c     **** 
+ 126:mcp2515.c     **** // -------------------------------------------------------------------------
+ 127:mcp2515.c     **** 
+ 128:mcp2515.c     **** prog_uint8_t _mcp2515_cnf[8][3] = {
+ 129:mcp2515.c     **** 	// 10 kbps
+ 130:mcp2515.c     **** 	{	0x04,
+ 131:mcp2515.c     **** 		0xb6,
+ 132:mcp2515.c     **** 		0xe7
+ 133:mcp2515.c     **** 	},
+ 134:mcp2515.c     **** 	// 20 kbps
+ 135:mcp2515.c     **** 	{	0x04,
+ 136:mcp2515.c     **** 		0xb6,
+ 137:mcp2515.c     **** 		0xd3
+ 138:mcp2515.c     **** 	},
+ 139:mcp2515.c     **** 	// 50 kbps
+ 140:mcp2515.c     **** 	{	0x04,
+ 141:mcp2515.c     **** 		0xb6,
+ 142:mcp2515.c     **** 		0xc7
+ 143:mcp2515.c     **** 	},
+ 144:mcp2515.c     **** 	// 100 kbps
+ 145:mcp2515.c     **** 	{	0x04,
+ 146:mcp2515.c     **** 		0xb6,
+ 147:mcp2515.c     **** 		0xc3
+ 148:mcp2515.c     **** 	},
+ 149:mcp2515.c     **** 	// 125 kbps
+ 150:mcp2515.c     **** 	{	(1<<PHSEG21),					// CNF3
+ 151:mcp2515.c     **** 		(1<<BTLMODE)|(1<<PHSEG11),		// CNF2
+ 152:mcp2515.c     **** 		(1<<BRP2)|(1<<BRP1)|(1<<BRP0)	// CNF1
+ 153:mcp2515.c     **** 	},
+ 154:mcp2515.c     **** 	// 250 kbps
+ 155:mcp2515.c     **** 	{	0x03,
+ 156:mcp2515.c     **** 		0xac,
+ 157:mcp2515.c     **** 		0x81
+ 158:mcp2515.c     **** 	},
+ 159:mcp2515.c     **** 	// 500 kbps
+ 160:mcp2515.c     **** 	{	0x03,
+ 161:mcp2515.c     **** 		0xac,
+ 162:mcp2515.c     **** 		0x80
+ 163:mcp2515.c     **** 	},
+ 164:mcp2515.c     **** 	// 1 Mbps
+ 165:mcp2515.c     **** 	{	(1<<PHSEG21),
+ 166:mcp2515.c     **** 		(1<<BTLMODE)|(1<<PHSEG11),
+ 167:mcp2515.c     **** 		0
+ 168:mcp2515.c     **** 	}
+ 169:mcp2515.c     **** };
+ 170:mcp2515.c     **** 
+ 171:mcp2515.c     **** // -------------------------------------------------------------------------
+ 172:mcp2515.c     **** bool mcp2515_init(uint8_t bitrate)
+ 173:mcp2515.c     **** {
+ 185               		.loc 1 173 0
+ 186               	.LVL22:
+ 187 009e 0F93      		push r16
+ 188               	.LCFI11:
+ 189 00a0 1F93      		push r17
+ 190               	.LCFI12:
+ 191 00a2 CF93      		push r28
+ 192               	.LCFI13:
+ 193 00a4 DF93      		push r29
+ 194               	.LCFI14:
+ 195               	/* prologue: function */
+ 196               	/* frame size = 0 */
+ 197               	/* stack size = 4 */
+ 198               	.L__stack_usage = 4
+ 199 00a6 C82F      		mov r28,r24
+ 174:mcp2515.c     **** 	if (bitrate >= 8)
+ 200               		.loc 1 174 0
+ 201 00a8 8830      		cpi r24,lo8(8)
+ 202 00aa 00F0      		brlo .L6
+ 203               	.LVL23:
+ 204               	.L9:
+ 175:mcp2515.c     **** 		return false;
+ 205               		.loc 1 175 0
+ 206 00ac 80E0      		ldi r24,0
+ 207 00ae 00C0      		rjmp .L7
+ 208               	.LVL24:
+ 209               	.L6:
+ 176:mcp2515.c     **** 	
+ 177:mcp2515.c     **** 	SET(MCP2515_CS);
+ 210               		.loc 1 177 0
+ 211 00b0 2C9A      		sbi 0x5,4
+ 178:mcp2515.c     **** 	SET_OUTPUT(MCP2515_CS);
+ 212               		.loc 1 178 0
+ 213 00b2 249A      		sbi 0x4,4
+ 179:mcp2515.c     **** 	
+ 180:mcp2515.c     **** 	// Aktivieren der Pins fuer das SPI Interface
+ 181:mcp2515.c     **** 	RESET(P_SCK);
+ 214               		.loc 1 181 0
+ 215 00b4 2F98      		cbi 0x5,7
+ 182:mcp2515.c     **** 	RESET(P_MOSI);
+ 216               		.loc 1 182 0
+ 217 00b6 2D98      		cbi 0x5,5
+ 183:mcp2515.c     **** 	RESET(P_MISO);
+ 218               		.loc 1 183 0
+ 219 00b8 2E98      		cbi 0x5,6
+ 184:mcp2515.c     **** 	
+ 185:mcp2515.c     **** 	SET_OUTPUT(P_SCK);
+ 220               		.loc 1 185 0
+ 221 00ba 279A      		sbi 0x4,7
+ 186:mcp2515.c     **** 	SET_OUTPUT(P_MOSI);
+ 222               		.loc 1 186 0
+ 223 00bc 259A      		sbi 0x4,5
+ 187:mcp2515.c     **** 	SET_INPUT(P_MISO);
+ 224               		.loc 1 187 0
+ 225 00be 2698      		cbi 0x4,6
+ 188:mcp2515.c     **** 	
+ 189:mcp2515.c     **** 	// SPI Einstellung setzen
+ 190:mcp2515.c     **** 	mcp2515_spi_init();
+ 226               		.loc 1 190 0
+ 227 00c0 0E94 0000 		call mcp2515_spi_init
+ 228               	.LVL25:
+ 191:mcp2515.c     **** 	
+ 192:mcp2515.c     **** 	// MCP2515 per Software Reset zuruecksetzten,
+ 193:mcp2515.c     **** 	// danach ist er automatisch im Konfigurations Modus
+ 194:mcp2515.c     **** 	RESET(MCP2515_CS);
+ 229               		.loc 1 194 0
+ 230 00c4 2C98      		cbi 0x5,4
+ 195:mcp2515.c     **** 	spi_putc(SPI_RESET);
+ 231               		.loc 1 195 0
+ 232 00c6 80EC      		ldi r24,lo8(-64)
+ 233 00c8 0E94 0000 		call spi_putc
+ 234               	.LVL26:
+ 235               	.LBB9:
+ 236               	.LBB10:
+ 237               		.file 2 "/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h"
+   1:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** /* Copyright (c) 2002, Marek Michalkiewicz
+   2:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    Copyright (c) 2004,2005,2007 Joerg Wunsch
+   3:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    Copyright (c) 2007  Florin-Viorel Petrov
+   4:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    All rights reserved.
+   5:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+   6:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    Redistribution and use in source and binary forms, with or without
+   7:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    modification, are permitted provided that the following conditions are met:
+   8:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+   9:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    * Redistributions of source code must retain the above copyright
+  10:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****      notice, this list of conditions and the following disclaimer.
+  11:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+  12:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    * Redistributions in binary form must reproduce the above copyright
+  13:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****      notice, this list of conditions and the following disclaimer in
+  14:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****      the documentation and/or other materials provided with the
+  15:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****      distribution.
+  16:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+  17:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    * Neither the name of the copyright holders nor the names of
+  18:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****      contributors may be used to endorse or promote products derived
+  19:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****      from this software without specific prior written permission.
+  20:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+  21:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  22:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  23:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  24:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****   ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+  25:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****   LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+  26:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****   CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+  27:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****   SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+  28:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****   INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+  29:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****   CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+  30:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+  31:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****   POSSIBILITY OF SUCH DAMAGE. */
+  32:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+  33:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** /* $Id: delay.h.in 2251 2011-09-14 08:20:33Z joerg_wunsch $ */
+  34:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+  35:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** #ifndef _UTIL_DELAY_H_
+  36:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** #define _UTIL_DELAY_H_ 1
+  37:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+  38:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** #ifndef __HAS_DELAY_CYCLES
+  39:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** #define __HAS_DELAY_CYCLES 1
+  40:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** #endif
+  41:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+  42:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** #include <inttypes.h>
+  43:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** #include <util/delay_basic.h>
+  44:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** #include <math.h>
+  45:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+  46:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** /** \file */
+  47:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** /** \defgroup util_delay <util/delay.h>: Convenience functions for busy-wait delay loops
+  48:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     \code
+  49:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     #define F_CPU 1000000UL  // 1 MHz
+  50:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     //#define F_CPU 14.7456E6
+  51:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     #include <util/delay.h>
+  52:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     \endcode
+  53:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+  54:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     \note As an alternative method, it is possible to pass the
+  55:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     F_CPU macro down to the compiler from the Makefile.
+  56:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     Obviously, in that case, no \c \#define statement should be
+  57:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     used.
+  58:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+  59:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     The functions in this header file are wrappers around the basic
+  60:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     busy-wait functions from <util/delay_basic.h>.  They are meant as
+  61:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     convenience functions where actual time values can be specified
+  62:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     rather than a number of cycles to wait for.  The idea behind is
+  63:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     that compile-time constant expressions will be eliminated by
+  64:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     compiler optimization so floating-point expressions can be used
+  65:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     to calculate the number of delay cycles needed based on the CPU
+  66:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     frequency passed by the macro F_CPU.
+  67:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+  68:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     \note In order for these functions to work as intended, compiler
+  69:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     optimizations <em>must</em> be enabled, and the delay time
+  70:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     <em>must</em> be an expression that is a known constant at
+  71:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     compile-time.  If these requirements are not met, the resulting
+  72:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     delay will be much longer (and basically unpredictable), and
+  73:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     applications that otherwise do not use floating-point calculations
+  74:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     will experience severe code bloat by the floating-point library
+  75:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     routines linked into the application.
+  76:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+  77:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     The functions available allow the specification of microsecond, and
+  78:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     millisecond delays directly, using the application-supplied macro
+  79:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     F_CPU as the CPU clock frequency (in Hertz).
+  80:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+  81:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** */
+  82:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+  83:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** #if !defined(__DOXYGEN__)
+  84:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** static inline void _delay_us(double __us) __attribute__((always_inline));
+  85:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** static inline void _delay_ms(double __ms) __attribute__((always_inline));
+  86:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** #endif
+  87:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+  88:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** #ifndef F_CPU
+  89:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** /* prevent compiler error by supplying a default */
+  90:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** # warning "F_CPU not defined for <util/delay.h>"
+  91:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** # define F_CPU 1000000UL
+  92:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** #endif
+  93:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+  94:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** #ifndef __OPTIMIZE__
+  95:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** # warning "Compiler optimizations disabled; functions from <util/delay.h> won't work as designed"
+  96:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** #endif
+  97:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+  98:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** #if __HAS_DELAY_CYCLES && defined(__OPTIMIZE__) && \
+  99:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****   !defined(__DELAY_BACKWARD_COMPATIBLE__) &&	   \
+ 100:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****   __STDC_HOSTED__
+ 101:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** #  include <math.h>
+ 102:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** #endif
+ 103:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+ 104:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** /**
+ 105:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    \ingroup util_delay
+ 106:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+ 107:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    Perform a delay of \c __ms milliseconds, using _delay_loop_2().
+ 108:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+ 109:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    The macro F_CPU is supposed to be defined to a
+ 110:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    constant defining the CPU clock frequency (in Hertz).
+ 111:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+ 112:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    The maximal possible delay is 262.14 ms / F_CPU in MHz.
+ 113:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+ 114:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    When the user request delay which exceed the maximum possible one,
+ 115:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    _delay_ms() provides a decreased resolution functionality. In this
+ 116:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    mode _delay_ms() will work with a resolution of 1/10 ms, providing
+ 117:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    delays up to 6.5535 seconds (independent from CPU frequency).  The
+ 118:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    user will not be informed about decreased resolution.
+ 119:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+ 120:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    If the avr-gcc toolchain has __builtin_avr_delay_cycles(unsigned long)
+ 121:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    support, maximal possible delay is 4294967.295 ms/ F_CPU in MHz. For
+ 122:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    values greater than the maximal possible delay, overflows results in
+ 123:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    no delay i.e., 0ms.
+ 124:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+ 125:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    Conversion of __us into clock cycles may not always result in integer.
+ 126:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    By default, the clock cycles rounded up to next integer. This ensures that
+ 127:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    the user gets atleast __us microseconds of delay.
+ 128:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+ 129:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    Alternatively, user can define __DELAY_ROUND_DOWN__ and __DELAY_ROUND_CLOSEST__
+ 130:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    to round down and round to closest integer.
+ 131:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+ 132:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    Note: The new implementation of _delay_ms(double __ms) with 
+ 133:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     __builtin_avr_delay_cycles(unsigned long) support is not backward compatible. 
+ 134:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    User can define __DELAY_BACKWARD_COMPATIBLE__ to get a backward compatible delay.
+ 135:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    Also, the backward compatible
+ 136:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    algorithm will be chosen if the code is compiled in a <em>freestanding
+ 137:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    environment</em> (GCC option \c -ffreestanding), as the math functions
+ 138:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    required for rounding are not available to the compiler then.
+ 139:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+ 140:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****  */
+ 141:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** void
+ 142:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** _delay_ms(double __ms)
+ 143:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** {
+ 144:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 	uint16_t __ticks;
+ 145:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 	double __tmp ; 
+ 146:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** #if __HAS_DELAY_CYCLES && defined(__OPTIMIZE__) && \
+ 147:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****   !defined(__DELAY_BACKWARD_COMPATIBLE__) &&	   \
+ 148:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****   __STDC_HOSTED__
+ 149:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 	uint32_t __ticks_dc;
+ 150:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 	extern void __builtin_avr_delay_cycles(unsigned long);
+ 151:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 	__tmp = ((F_CPU) / 1e3) * __ms;
+ 152:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+ 153:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 	#if defined(__DELAY_ROUND_DOWN__)
+ 154:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 		__ticks_dc = (uint32_t)fabs(__tmp);
+ 155:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+ 156:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 	#elif defined(__DELAY_ROUND_CLOSEST__)
+ 157:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 		__ticks_dc = (uint32_t)(fabs(__tmp)+0.5);
+ 158:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+ 159:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 	#else
+ 160:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 		//round up by default
+ 161:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+ 162:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 	#endif
+ 163:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+ 164:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 	__builtin_avr_delay_cycles(__ticks_dc);
+ 238               		.loc 2 164 0
+ 239 00cc 8FE9      		ldi r24,lo8(3999)
+ 240 00ce 9FE0      		ldi r25,hi8(3999)
+ 241 00d0 0197      		1: sbiw r24,1
+ 242 00d2 01F4      		brne 1b
+ 243 00d4 00C0      		rjmp .
+ 244 00d6 0000      		nop
+ 245               	.LBE10:
+ 246               	.LBE9:
+ 196:mcp2515.c     **** 	
+ 197:mcp2515.c     **** 	_delay_ms(1);
+ 198:mcp2515.c     **** 	
+ 199:mcp2515.c     **** 	SET(MCP2515_CS);
+ 247               		.loc 1 199 0
+ 248 00d8 2C9A      		sbi 0x5,4
+ 249               	.LVL27:
+ 250               	.LBB11:
+ 251               	.LBB12:
+ 252               		.loc 2 164 0
+ 253 00da 8FE3      		ldi r24,lo8(-25537)
+ 254 00dc 9CE9      		ldi r25,hi8(-25537)
+ 255 00de 0197      		1: sbiw r24,1
+ 256 00e0 01F4      		brne 1b
+ 257 00e2 00C0      		rjmp .
+ 258 00e4 0000      		nop
+ 259               	.LBE12:
+ 260               	.LBE11:
+ 200:mcp2515.c     **** 	
+ 201:mcp2515.c     **** 	// ein bisschen warten bis der MCP2515 sich neu gestartet hat
+ 202:mcp2515.c     **** 	_delay_ms(10);
+ 203:mcp2515.c     **** 	
+ 204:mcp2515.c     **** 	// CNF1..3 Register laden (Bittiming)
+ 205:mcp2515.c     **** 	RESET(MCP2515_CS);
+ 261               		.loc 1 205 0
+ 262 00e6 2C98      		cbi 0x5,4
+ 206:mcp2515.c     **** 	spi_putc(SPI_WRITE);
+ 263               		.loc 1 206 0
+ 264 00e8 82E0      		ldi r24,lo8(2)
+ 265 00ea 0E94 0000 		call spi_putc
+ 266               	.LVL28:
+ 207:mcp2515.c     **** 	spi_putc(CNF3);
+ 267               		.loc 1 207 0
+ 268 00ee 88E2      		ldi r24,lo8(40)
+ 269 00f0 0E94 0000 		call spi_putc
+ 270               	.LVL29:
+ 271 00f4 00E0      		ldi r16,0
+ 272 00f6 10E0      		ldi r17,0
+ 273               	.LBB13:
+ 274               	.LBB14:
+ 208:mcp2515.c     **** 	for (uint8_t i=0; i<3 ;i++ ) {
+ 209:mcp2515.c     **** 		spi_putc(pgm_read_byte(&_mcp2515_cnf[bitrate][i]));
+ 275               		.loc 1 209 0
+ 276 00f8 8C2F      		mov r24,r28
+ 277 00fa 90E0      		ldi r25,0
+ 278 00fc EC01      		movw r28,r24
+ 279               	.LVL30:
+ 280 00fe CC0F      		lsl r28
+ 281 0100 DD1F      		rol r29
+ 282 0102 C80F      		add r28,r24
+ 283 0104 D91F      		adc r29,r25
+ 284               	.LVL31:
+ 285               	.L8:
+ 286               		.loc 1 209 0 is_stmt 0 discriminator 2
+ 287 0106 F801      		movw r30,r16
+ 288 0108 EC0F      		add r30,r28
+ 289 010a FD1F      		adc r31,r29
+ 290 010c E050      		subi r30,lo8(-(_mcp2515_cnf))
+ 291 010e F040      		sbci r31,hi8(-(_mcp2515_cnf))
+ 292               	/* #APP */
+ 293               	 ;  209 "mcp2515.c" 1
+ 294 0110 8491      		lpm r24, Z
+ 295               		
+ 296               	 ;  0 "" 2
+ 297               	.LVL32:
+ 298               	/* #NOAPP */
+ 299               	.LBE14:
+ 300 0112 0E94 0000 		call spi_putc
+ 301               	.LVL33:
+ 302 0116 0F5F      		subi r16,-1
+ 303 0118 1F4F      		sbci r17,-1
+ 208:mcp2515.c     **** 	for (uint8_t i=0; i<3 ;i++ ) {
+ 304               		.loc 1 208 0 is_stmt 1 discriminator 2
+ 305 011a 0330      		cpi r16,3
+ 306 011c 1105      		cpc r17,__zero_reg__
+ 307 011e 01F4      		brne .L8
+ 308               	.LBE13:
+ 210:mcp2515.c     **** 	}
+ 211:mcp2515.c     **** 	// aktivieren/deaktivieren der Interrupts
+ 212:mcp2515.c     **** 	spi_putc(MCP2515_INTERRUPTS);
+ 309               		.loc 1 212 0
+ 310 0120 83E0      		ldi r24,lo8(3)
+ 311 0122 0E94 0000 		call spi_putc
+ 312               	.LVL34:
+ 213:mcp2515.c     **** 	SET(MCP2515_CS);
+ 313               		.loc 1 213 0
+ 314 0126 2C9A      		sbi 0x5,4
+ 214:mcp2515.c     **** 	
+ 215:mcp2515.c     **** 	// TXnRTS Bits als Inputs schalten
+ 216:mcp2515.c     **** 	mcp2515_write_register(TXRTSCTRL, 0);
+ 315               		.loc 1 216 0
+ 316 0128 60E0      		ldi r22,0
+ 317 012a 8DE0      		ldi r24,lo8(13)
+ 318 012c 0E94 0000 		call mcp2515_write_register
+ 319               	.LVL35:
+ 217:mcp2515.c     **** 	
+ 218:mcp2515.c     **** 	#if defined(MCP2515_INT)
+ 219:mcp2515.c     **** 		SET_INPUT(MCP2515_INT);
+ 320               		.loc 1 219 0
+ 321 0130 2298      		cbi 0x4,2
+ 220:mcp2515.c     **** 		SET(MCP2515_INT);
+ 322               		.loc 1 220 0
+ 323 0132 2A9A      		sbi 0x5,2
+ 221:mcp2515.c     **** 	#endif
+ 222:mcp2515.c     **** 	
+ 223:mcp2515.c     **** 	#ifdef RXnBF_FUNKTION
+ 224:mcp2515.c     **** 		SET_INPUT(MCP2515_RX0BF);
+ 225:mcp2515.c     **** 		SET_INPUT(MCP2515_RX1BF);
+ 226:mcp2515.c     **** 		
+ 227:mcp2515.c     **** 		SET(MCP2515_RX0BF);
+ 228:mcp2515.c     **** 		SET(MCP2515_RX1BF);
+ 229:mcp2515.c     **** 		
+ 230:mcp2515.c     **** 		// Aktivieren der Pin-Funktionen fuer RX0BF und RX1BF
+ 231:mcp2515.c     **** 		mcp2515_write_register(BFPCTRL, (1<<B0BFE)|(1<<B1BFE)|(1<<B0BFM)|(1<<B1BFM));
+ 232:mcp2515.c     **** 	#else
+ 233:mcp2515.c     **** 		#ifdef MCP2515_TRANSCEIVER_SLEEP
+ 234:mcp2515.c     **** 			// activate the pin RX1BF as GPIO which is connected 
+ 235:mcp2515.c     **** 			// to RS of MCP2551 and set it to 0
+ 236:mcp2515.c     **** 			mcp2515_write_register(BFPCTRL, (1<<B1BFE));
+ 237:mcp2515.c     **** 		#else
+ 238:mcp2515.c     **** 			// Deaktivieren der Pins RXnBF Pins (High Impedance State)
+ 239:mcp2515.c     **** 			mcp2515_write_register(BFPCTRL, 0);
+ 324               		.loc 1 239 0
+ 325 0134 60E0      		ldi r22,0
+ 326 0136 8CE0      		ldi r24,lo8(12)
+ 327 0138 0E94 0000 		call mcp2515_write_register
+ 328               	.LVL36:
+ 240:mcp2515.c     **** 		#endif
+ 241:mcp2515.c     **** 	#endif
+ 242:mcp2515.c     **** 	
+ 243:mcp2515.c     **** 	// Testen ob das auf die beschreibenen Register zugegriffen werden kann
+ 244:mcp2515.c     **** 	// (=> ist der Chip ueberhaupt ansprechbar?)
+ 245:mcp2515.c     **** 	bool error = false;
+ 246:mcp2515.c     **** 	if (mcp2515_read_register(CNF2) != pgm_read_byte(&_mcp2515_cnf[bitrate][1])) {
+ 329               		.loc 1 246 0
+ 330 013c 89E2      		ldi r24,lo8(41)
+ 331 013e 0E94 0000 		call mcp2515_read_register
+ 332               	.LVL37:
+ 333 0142 182F      		mov r17,r24
+ 334               	.LBB15:
+ 335 0144 FE01      		movw r30,r28
+ 336 0146 E050      		subi r30,lo8(-(_mcp2515_cnf+1))
+ 337 0148 F040      		sbci r31,hi8(-(_mcp2515_cnf+1))
+ 338               	/* #APP */
+ 339               	 ;  246 "mcp2515.c" 1
+ 340 014a C491      		lpm r28, Z
+ 341               		
+ 342               	 ;  0 "" 2
+ 343               	.LVL38:
+ 344               	/* #NOAPP */
+ 345               	.LBE15:
+ 247:mcp2515.c     **** 		error = true;
+ 248:mcp2515.c     **** 	}
+ 249:mcp2515.c     **** 	
+ 250:mcp2515.c     **** 	// Device zurueck in den normalen Modus versetzten
+ 251:mcp2515.c     **** 	// und aktivieren/deaktivieren des Clkout-Pins
+ 252:mcp2515.c     **** 	mcp2515_write_register(CANCTRL, CLKOUT_PRESCALER_);
+ 346               		.loc 1 252 0
+ 347 014c 60E0      		ldi r22,0
+ 348 014e 8FE0      		ldi r24,lo8(15)
+ 349 0150 0E94 0000 		call mcp2515_write_register
+ 350               	.LVL39:
+ 253:mcp2515.c     **** 	
+ 254:mcp2515.c     **** 	if (error) {
+ 351               		.loc 1 254 0
+ 352 0154 1C13      		cpse r17,r28
+ 353 0156 00C0      		rjmp .L9
+ 354               	.L11:
+ 255:mcp2515.c     **** 		return false;
+ 256:mcp2515.c     **** 	}
+ 257:mcp2515.c     **** 	else
+ 258:mcp2515.c     **** 	{
+ 259:mcp2515.c     **** 		while ((mcp2515_read_register(CANSTAT) & 0xe0) != 0) {
+ 355               		.loc 1 259 0
+ 356 0158 8EE0      		ldi r24,lo8(14)
+ 357 015a 0E94 0000 		call mcp2515_read_register
+ 358               	.LVL40:
+ 359 015e 807E      		andi r24,lo8(-32)
+ 360 0160 01F4      		brne .L11
+ 260:mcp2515.c     **** 			// warten bis der neue Modus uebernommen wurde
+ 261:mcp2515.c     **** 		}
+ 262:mcp2515.c     **** 		
+ 263:mcp2515.c     **** 		return true;
+ 361               		.loc 1 263 0
+ 362 0162 81E0      		ldi r24,lo8(1)
+ 363               	.LVL41:
+ 364               	.L7:
+ 365               	/* epilogue start */
+ 264:mcp2515.c     **** 	}
+ 265:mcp2515.c     **** }
+ 366               		.loc 1 265 0
+ 367 0164 DF91      		pop r29
+ 368 0166 CF91      		pop r28
+ 369 0168 1F91      		pop r17
+ 370 016a 0F91      		pop r16
+ 371 016c 0895      		ret
+ 372               	.LFE23:
+ 374               	.global	_mcp2515_cnf
+ 375               		.section	.rodata
+ 378               	_mcp2515_cnf:
+ 379 0000 04        		.byte	4
+ 380 0001 B6        		.byte	-74
+ 381 0002 E7        		.byte	-25
+ 382 0003 04        		.byte	4
+ 383 0004 B6        		.byte	-74
+ 384 0005 D3        		.byte	-45
+ 385 0006 04        		.byte	4
+ 386 0007 B6        		.byte	-74
+ 387 0008 C7        		.byte	-57
+ 388 0009 04        		.byte	4
+ 389 000a B6        		.byte	-74
+ 390 000b C3        		.byte	-61
+ 391 000c 02        		.byte	2
+ 392 000d 90        		.byte	-112
+ 393 000e 07        		.byte	7
+ 394 000f 03        		.byte	3
+ 395 0010 AC        		.byte	-84
+ 396 0011 81        		.byte	-127
+ 397 0012 03        		.byte	3
+ 398 0013 AC        		.byte	-84
+ 399 0014 80        		.byte	-128
+ 400 0015 02        		.byte	2
+ 401 0016 90        		.byte	-112
+ 402 0017 00        		.byte	0
+ 543               	.Letext0:
+ 544               		.file 3 "/usr/lib/gcc/avr/4.7.0/../../../avr/include/stdint.h"
+ 545               		.file 4 "spi.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 mcp2515.c
+     /tmp/ccbBXHiF.s:2      *ABS*:0000003e __SP_H__
+     /tmp/ccbBXHiF.s:3      *ABS*:0000003d __SP_L__
+     /tmp/ccbBXHiF.s:4      *ABS*:0000003f __SREG__
+     /tmp/ccbBXHiF.s:5      *ABS*:00000000 __tmp_reg__
+     /tmp/ccbBXHiF.s:6      *ABS*:00000001 __zero_reg__
+     /tmp/ccbBXHiF.s:11     .text:00000000 mcp2515_write_register
+     /tmp/ccbBXHiF.s:63     .text:00000032 mcp2515_read_register
+     /tmp/ccbBXHiF.s:100    .text:00000050 mcp2515_bit_modify
+     /tmp/ccbBXHiF.s:158    .text:0000008e mcp2515_read_status
+     /tmp/ccbBXHiF.s:183    .text:0000009e can_init
+     /tmp/ccbBXHiF.s:378    .rodata:00000000 _mcp2515_cnf
+=======
    2               	__SREG__ = 0x3f
    3               	__SP_H__ = 0x3e
    4               	__SP_L__ = 0x3d
@@ -387,7 +1224,12 @@ DEFINED SYMBOLS
      /tmp/ccbrOlY6.s:146    .text:0000008e mcp2515_read_status
      /tmp/ccbrOlY6.s:172    .text:0000009e can_init
      /tmp/ccbrOlY6.s:369    .progmem.data:00000000 _mcp2515_cnf
+>>>>>>> f9092c8728abba927a3c1179142d688269dd8aaf
 
 UNDEFINED SYMBOLS
 spi_putc
 mcp2515_spi_init
+<<<<<<< HEAD
+__do_copy_data
+=======
+>>>>>>> f9092c8728abba927a3c1179142d688269dd8aaf

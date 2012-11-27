@@ -1,4 +1,542 @@
    1               		.file	"mcp2515_send_message.c"
+<<<<<<< HEAD
+   2               	__SP_H__ = 0x3e
+   3               	__SP_L__ = 0x3d
+   4               	__SREG__ = 0x3f
+   5               	__tmp_reg__ = 0
+   6               	__zero_reg__ = 1
+   7               		.text
+   8               	.Ltext0:
+   9               	.global	can_send_message
+  11               	can_send_message:
+  12               	.LFB19:
+  13               		.file 1 "mcp2515_send_message.c"
+   1:mcp2515_send_message.c **** // ----------------------------------------------------------------------------
+   2:mcp2515_send_message.c **** /*
+   3:mcp2515_send_message.c ****  * Copyright (c) 2007 Fabian Greif, Roboterclub Aachen e.V.
+   4:mcp2515_send_message.c ****  *  All rights reserved.
+   5:mcp2515_send_message.c ****  *
+   6:mcp2515_send_message.c ****  * Redistribution and use in source and binary forms, with or without
+   7:mcp2515_send_message.c ****  * modification, are permitted provided that the following conditions
+   8:mcp2515_send_message.c ****  * are met:
+   9:mcp2515_send_message.c ****  * 1. Redistributions of source code must retain the above copyright
+  10:mcp2515_send_message.c ****  *    notice, this list of conditions and the following disclaimer.
+  11:mcp2515_send_message.c ****  * 2. Redistributions in binary form must reproduce the above copyright
+  12:mcp2515_send_message.c ****  *    notice, this list of conditions and the following disclaimer in the
+  13:mcp2515_send_message.c ****  *    documentation and/or other materials provided with the distribution.
+  14:mcp2515_send_message.c ****  *
+  15:mcp2515_send_message.c ****  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
+  16:mcp2515_send_message.c ****  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  17:mcp2515_send_message.c ****  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  18:mcp2515_send_message.c ****  * ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
+  19:mcp2515_send_message.c ****  * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+  20:mcp2515_send_message.c ****  * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+  21:mcp2515_send_message.c ****  * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+  22:mcp2515_send_message.c ****  * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+  23:mcp2515_send_message.c ****  * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+  24:mcp2515_send_message.c ****  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+  25:mcp2515_send_message.c ****  * SUCH DAMAGE.
+  26:mcp2515_send_message.c ****  *
+  27:mcp2515_send_message.c ****  * $Id: mcp2515_send_message.c 7224 2009-01-25 20:19:32Z fabian $
+  28:mcp2515_send_message.c ****  */
+  29:mcp2515_send_message.c **** // ----------------------------------------------------------------------------
+  30:mcp2515_send_message.c **** 
+  31:mcp2515_send_message.c **** #include "mcp2515_private.h"
+  32:mcp2515_send_message.c **** #ifdef	SUPPORT_FOR_MCP2515__
+  33:mcp2515_send_message.c **** 
+  34:mcp2515_send_message.c **** #include <util/delay.h>
+  35:mcp2515_send_message.c **** 
+  36:mcp2515_send_message.c **** // ----------------------------------------------------------------------------
+  37:mcp2515_send_message.c **** uint8_t mcp2515_send_message(const can_t *msg)
+  38:mcp2515_send_message.c **** {
+  14               		.loc 1 38 0
+  15               	.LVL0:
+  16 0000 EF92      		push r14
+  17               	.LCFI0:
+  18 0002 FF92      		push r15
+  19               	.LCFI1:
+  20 0004 0F93      		push r16
+  21               	.LCFI2:
+  22 0006 1F93      		push r17
+  23               	.LCFI3:
+  24 0008 CF93      		push r28
+  25               	.LCFI4:
+  26 000a DF93      		push r29
+  27               	.LCFI5:
+  28               	/* prologue: function */
+  29               	/* frame size = 0 */
+  30               	/* stack size = 6 */
+  31               	.L__stack_usage = 6
+  32 000c EC01      		movw r28,r24
+  39:mcp2515_send_message.c **** 	// Status des MCP2515 auslesen
+  40:mcp2515_send_message.c **** 	uint8_t status = mcp2515_read_status(SPI_READ_STATUS);
+  33               		.loc 1 40 0
+  34 000e 80EA      		ldi r24,lo8(-96)
+  35               	.LVL1:
+  36 0010 0E94 0000 		call mcp2515_read_status
+  37               	.LVL2:
+  41:mcp2515_send_message.c **** 	
+  42:mcp2515_send_message.c **** 	/* Statusbyte:
+  43:mcp2515_send_message.c **** 	 *
+  44:mcp2515_send_message.c **** 	 * Bit	Funktion
+  45:mcp2515_send_message.c **** 	 *  2	TXB0CNTRL.TXREQ
+  46:mcp2515_send_message.c **** 	 *  4	TXB1CNTRL.TXREQ
+  47:mcp2515_send_message.c **** 	 *  6	TXB2CNTRL.TXREQ
+  48:mcp2515_send_message.c **** 	 */
+  49:mcp2515_send_message.c **** 	uint8_t address;
+  50:mcp2515_send_message.c **** 	if (_bit_is_clear(status, 2)) {
+  38               		.loc 1 50 0
+  39 0014 82FF      		sbrs r24,2
+  40 0016 00C0      		rjmp .L9
+  51:mcp2515_send_message.c **** 		address = 0x00;
+  52:mcp2515_send_message.c **** 	}
+  53:mcp2515_send_message.c **** 	else if (_bit_is_clear(status, 4)) {
+  41               		.loc 1 53 0
+  42 0018 84FF      		sbrs r24,4
+  43 001a 00C0      		rjmp .L10
+  54:mcp2515_send_message.c **** 		address = 0x02;
+  55:mcp2515_send_message.c **** 	} 
+  56:mcp2515_send_message.c **** 	else if (_bit_is_clear(status, 6)) {
+  44               		.loc 1 56 0
+  45 001c 86FD      		sbrc r24,6
+  46 001e 00C0      		rjmp .L11
+  57:mcp2515_send_message.c **** 		address = 0x04;
+  47               		.loc 1 57 0
+  48 0020 94E0      		ldi r25,lo8(4)
+  49 0022 F92E      		mov r15,r25
+  50 0024 00C0      		rjmp .L2
+  51               	.L9:
+  51:mcp2515_send_message.c **** 		address = 0x00;
+  52               		.loc 1 51 0
+  53 0026 F12C      		mov r15,__zero_reg__
+  54 0028 00C0      		rjmp .L2
+  55               	.L10:
+  54:mcp2515_send_message.c **** 		address = 0x02;
+  56               		.loc 1 54 0
+  57 002a 82E0      		ldi r24,lo8(2)
+  58 002c F82E      		mov r15,r24
+  59               	.LVL3:
+  60               	.L2:
+  58:mcp2515_send_message.c **** 	}
+  59:mcp2515_send_message.c **** 	else {
+  60:mcp2515_send_message.c **** 		// Alle Puffer sind belegt,
+  61:mcp2515_send_message.c **** 		// Nachricht kann nicht verschickt werden
+  62:mcp2515_send_message.c **** 		return 0;
+  63:mcp2515_send_message.c **** 	}
+  64:mcp2515_send_message.c **** 	
+  65:mcp2515_send_message.c **** 	RESET(MCP2515_CS);
+  61               		.loc 1 65 0
+  62 002e 2C98      		cbi 0x5,4
+  66:mcp2515_send_message.c **** 	spi_putc(SPI_WRITE_TX | address);
+  63               		.loc 1 66 0
+  64 0030 8F2D      		mov r24,r15
+  65 0032 8064      		ori r24,lo8(64)
+  66 0034 0E94 0000 		call spi_putc
+  67               	.LVL4:
+  67:mcp2515_send_message.c **** 	#if SUPPORT_EXTENDED_CANID
+  68:mcp2515_send_message.c **** 		mcp2515_write_id(&msg->id, msg->flags.extended);
+  68               		.loc 1 68 0
+  69 0038 6C81      		ldd r22,Y+4
+  70 003a 6695      		lsr r22
+  71 003c 6170      		andi r22,1
+  72 003e CE01      		movw r24,r28
+  73 0040 0E94 0000 		call mcp2515_write_id
+  74               	.LVL5:
+  69:mcp2515_send_message.c **** 	#else
+  70:mcp2515_send_message.c **** 		mcp2515_write_id(&msg->id);
+  71:mcp2515_send_message.c **** 	#endif
+  72:mcp2515_send_message.c **** 	uint8_t length = msg->length & 0x0f;
+  75               		.loc 1 72 0
+  76 0044 ED80      		ldd r14,Y+5
+  77 0046 8FE0      		ldi r24,lo8(15)
+  78 0048 E822      		and r14,r24
+  79               	.LVL6:
+  73:mcp2515_send_message.c **** 	
+  74:mcp2515_send_message.c **** 	// Ist die Nachricht ein "Remote Transmit Request" ?
+  75:mcp2515_send_message.c **** 	if (msg->flags.rtr)
+  80               		.loc 1 75 0
+  81 004a 8C81      		ldd r24,Y+4
+  82 004c 80FF      		sbrs r24,0
+  83 004e 00C0      		rjmp .L4
+  76:mcp2515_send_message.c **** 	{
+  77:mcp2515_send_message.c **** 		// Ein RTR hat zwar eine Laenge,
+  78:mcp2515_send_message.c **** 		// enthaelt aber keine Daten
+  79:mcp2515_send_message.c **** 		
+  80:mcp2515_send_message.c **** 		// Nachrichten Laenge + RTR einstellen
+  81:mcp2515_send_message.c **** 		spi_putc((1<<RTR) | length);
+  84               		.loc 1 81 0
+  85 0050 8E2D      		mov r24,r14
+  86 0052 8064      		ori r24,lo8(64)
+  87 0054 0E94 0000 		call spi_putc
+  88               	.LVL7:
+  89 0058 00C0      		rjmp .L5
+  90               	.L4:
+  82:mcp2515_send_message.c **** 	}
+  83:mcp2515_send_message.c **** 	else
+  84:mcp2515_send_message.c **** 	{
+  85:mcp2515_send_message.c **** 		// Nachrichten Laenge einstellen
+  86:mcp2515_send_message.c **** 		spi_putc(length);
+  91               		.loc 1 86 0
+  92 005a 8E2D      		mov r24,r14
+  93 005c 0E94 0000 		call spi_putc
+  94               	.LVL8:
+  95               	.LBB5:
+  87:mcp2515_send_message.c **** 		
+  88:mcp2515_send_message.c **** 		// Daten
+  89:mcp2515_send_message.c **** 		for (uint8_t i=0;i<length;i++) {
+  96               		.loc 1 89 0
+  97 0060 00E0      		ldi r16,0
+  98 0062 10E0      		ldi r17,0
+  99 0064 00C0      		rjmp .L6
+ 100               	.LVL9:
+ 101               	.L7:
+  37:mcp2515_send_message.c **** uint8_t mcp2515_send_message(const can_t *msg)
+ 102               		.loc 1 37 0 discriminator 2
+ 103 0066 FE01      		movw r30,r28
+ 104 0068 E00F      		add r30,r16
+ 105 006a F11F      		adc r31,r17
+  90:mcp2515_send_message.c **** 			spi_putc(msg->data[i]);
+ 106               		.loc 1 90 0 discriminator 2
+ 107 006c 8681      		ldd r24,Z+6
+ 108 006e 0E94 0000 		call spi_putc
+ 109               	.LVL10:
+ 110 0072 0F5F      		subi r16,-1
+ 111 0074 1F4F      		sbci r17,-1
+ 112               	.L6:
+  89:mcp2515_send_message.c **** 		for (uint8_t i=0;i<length;i++) {
+ 113               		.loc 1 89 0 discriminator 1
+ 114 0076 0E15      		cp r16,r14
+ 115 0078 00F0      		brlo .L7
+ 116               	.L5:
+ 117               	.LBE5:
+  91:mcp2515_send_message.c **** 		}
+  92:mcp2515_send_message.c **** 	}
+  93:mcp2515_send_message.c **** 	SET(MCP2515_CS);
+ 118               		.loc 1 93 0
+ 119 007a 2C9A      		sbi 0x5,4
+ 120               	.LVL11:
+ 121               	.LBB6:
+ 122               	.LBB7:
+ 123               		.file 2 "/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h"
+   1:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** /* Copyright (c) 2002, Marek Michalkiewicz
+   2:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    Copyright (c) 2004,2005,2007 Joerg Wunsch
+   3:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    Copyright (c) 2007  Florin-Viorel Petrov
+   4:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    All rights reserved.
+   5:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+   6:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    Redistribution and use in source and binary forms, with or without
+   7:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    modification, are permitted provided that the following conditions are met:
+   8:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+   9:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    * Redistributions of source code must retain the above copyright
+  10:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****      notice, this list of conditions and the following disclaimer.
+  11:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+  12:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    * Redistributions in binary form must reproduce the above copyright
+  13:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****      notice, this list of conditions and the following disclaimer in
+  14:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****      the documentation and/or other materials provided with the
+  15:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****      distribution.
+  16:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+  17:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    * Neither the name of the copyright holders nor the names of
+  18:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****      contributors may be used to endorse or promote products derived
+  19:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****      from this software without specific prior written permission.
+  20:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+  21:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  22:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  23:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  24:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****   ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+  25:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****   LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+  26:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****   CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+  27:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****   SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+  28:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****   INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+  29:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****   CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+  30:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+  31:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****   POSSIBILITY OF SUCH DAMAGE. */
+  32:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+  33:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** /* $Id: delay.h.in 2251 2011-09-14 08:20:33Z joerg_wunsch $ */
+  34:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+  35:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** #ifndef _UTIL_DELAY_H_
+  36:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** #define _UTIL_DELAY_H_ 1
+  37:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+  38:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** #ifndef __HAS_DELAY_CYCLES
+  39:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** #define __HAS_DELAY_CYCLES 1
+  40:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** #endif
+  41:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+  42:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** #include <inttypes.h>
+  43:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** #include <util/delay_basic.h>
+  44:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** #include <math.h>
+  45:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+  46:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** /** \file */
+  47:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** /** \defgroup util_delay <util/delay.h>: Convenience functions for busy-wait delay loops
+  48:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     \code
+  49:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     #define F_CPU 1000000UL  // 1 MHz
+  50:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     //#define F_CPU 14.7456E6
+  51:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     #include <util/delay.h>
+  52:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     \endcode
+  53:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+  54:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     \note As an alternative method, it is possible to pass the
+  55:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     F_CPU macro down to the compiler from the Makefile.
+  56:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     Obviously, in that case, no \c \#define statement should be
+  57:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     used.
+  58:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+  59:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     The functions in this header file are wrappers around the basic
+  60:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     busy-wait functions from <util/delay_basic.h>.  They are meant as
+  61:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     convenience functions where actual time values can be specified
+  62:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     rather than a number of cycles to wait for.  The idea behind is
+  63:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     that compile-time constant expressions will be eliminated by
+  64:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     compiler optimization so floating-point expressions can be used
+  65:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     to calculate the number of delay cycles needed based on the CPU
+  66:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     frequency passed by the macro F_CPU.
+  67:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+  68:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     \note In order for these functions to work as intended, compiler
+  69:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     optimizations <em>must</em> be enabled, and the delay time
+  70:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     <em>must</em> be an expression that is a known constant at
+  71:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     compile-time.  If these requirements are not met, the resulting
+  72:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     delay will be much longer (and basically unpredictable), and
+  73:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     applications that otherwise do not use floating-point calculations
+  74:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     will experience severe code bloat by the floating-point library
+  75:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     routines linked into the application.
+  76:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+  77:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     The functions available allow the specification of microsecond, and
+  78:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     millisecond delays directly, using the application-supplied macro
+  79:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     F_CPU as the CPU clock frequency (in Hertz).
+  80:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+  81:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** */
+  82:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+  83:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** #if !defined(__DOXYGEN__)
+  84:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** static inline void _delay_us(double __us) __attribute__((always_inline));
+  85:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** static inline void _delay_ms(double __ms) __attribute__((always_inline));
+  86:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** #endif
+  87:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+  88:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** #ifndef F_CPU
+  89:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** /* prevent compiler error by supplying a default */
+  90:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** # warning "F_CPU not defined for <util/delay.h>"
+  91:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** # define F_CPU 1000000UL
+  92:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** #endif
+  93:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+  94:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** #ifndef __OPTIMIZE__
+  95:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** # warning "Compiler optimizations disabled; functions from <util/delay.h> won't work as designed"
+  96:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** #endif
+  97:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+  98:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** #if __HAS_DELAY_CYCLES && defined(__OPTIMIZE__) && \
+  99:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****   !defined(__DELAY_BACKWARD_COMPATIBLE__) &&	   \
+ 100:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****   __STDC_HOSTED__
+ 101:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** #  include <math.h>
+ 102:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** #endif
+ 103:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+ 104:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** /**
+ 105:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    \ingroup util_delay
+ 106:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+ 107:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    Perform a delay of \c __ms milliseconds, using _delay_loop_2().
+ 108:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+ 109:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    The macro F_CPU is supposed to be defined to a
+ 110:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    constant defining the CPU clock frequency (in Hertz).
+ 111:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+ 112:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    The maximal possible delay is 262.14 ms / F_CPU in MHz.
+ 113:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+ 114:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    When the user request delay which exceed the maximum possible one,
+ 115:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    _delay_ms() provides a decreased resolution functionality. In this
+ 116:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    mode _delay_ms() will work with a resolution of 1/10 ms, providing
+ 117:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    delays up to 6.5535 seconds (independent from CPU frequency).  The
+ 118:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    user will not be informed about decreased resolution.
+ 119:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+ 120:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    If the avr-gcc toolchain has __builtin_avr_delay_cycles(unsigned long)
+ 121:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    support, maximal possible delay is 4294967.295 ms/ F_CPU in MHz. For
+ 122:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    values greater than the maximal possible delay, overflows results in
+ 123:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    no delay i.e., 0ms.
+ 124:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+ 125:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    Conversion of __us into clock cycles may not always result in integer.
+ 126:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    By default, the clock cycles rounded up to next integer. This ensures that
+ 127:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    the user gets atleast __us microseconds of delay.
+ 128:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+ 129:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    Alternatively, user can define __DELAY_ROUND_DOWN__ and __DELAY_ROUND_CLOSEST__
+ 130:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    to round down and round to closest integer.
+ 131:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+ 132:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    Note: The new implementation of _delay_ms(double __ms) with 
+ 133:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     __builtin_avr_delay_cycles(unsigned long) support is not backward compatible. 
+ 134:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    User can define __DELAY_BACKWARD_COMPATIBLE__ to get a backward compatible delay.
+ 135:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    Also, the backward compatible
+ 136:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    algorithm will be chosen if the code is compiled in a <em>freestanding
+ 137:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    environment</em> (GCC option \c -ffreestanding), as the math functions
+ 138:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    required for rounding are not available to the compiler then.
+ 139:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+ 140:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****  */
+ 141:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** void
+ 142:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** _delay_ms(double __ms)
+ 143:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** {
+ 144:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 	uint16_t __ticks;
+ 145:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 	double __tmp ; 
+ 146:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** #if __HAS_DELAY_CYCLES && defined(__OPTIMIZE__) && \
+ 147:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****   !defined(__DELAY_BACKWARD_COMPATIBLE__) &&	   \
+ 148:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****   __STDC_HOSTED__
+ 149:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 	uint32_t __ticks_dc;
+ 150:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 	extern void __builtin_avr_delay_cycles(unsigned long);
+ 151:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 	__tmp = ((F_CPU) / 1e3) * __ms;
+ 152:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+ 153:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 	#if defined(__DELAY_ROUND_DOWN__)
+ 154:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 		__ticks_dc = (uint32_t)fabs(__tmp);
+ 155:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+ 156:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 	#elif defined(__DELAY_ROUND_CLOSEST__)
+ 157:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 		__ticks_dc = (uint32_t)(fabs(__tmp)+0.5);
+ 158:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+ 159:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 	#else
+ 160:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 		//round up by default
+ 161:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+ 162:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 	#endif
+ 163:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+ 164:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 	__builtin_avr_delay_cycles(__ticks_dc);
+ 165:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+ 166:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** #else
+ 167:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 	__tmp = ((F_CPU) / 4e3) * __ms;
+ 168:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 	if (__tmp < 1.0)
+ 169:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 		__ticks = 1;
+ 170:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 	else if (__tmp > 65535)
+ 171:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 	{
+ 172:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 		//	__ticks = requested delay in 1/10 ms
+ 173:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 		__ticks = (uint16_t) (__ms * 10.0);
+ 174:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 		while(__ticks)
+ 175:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 		{
+ 176:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 			// wait 1/10 ms
+ 177:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 			_delay_loop_2(((F_CPU) / 4e3) / 10);
+ 178:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 			__ticks --;
+ 179:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 		}
+ 180:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 		return;
+ 181:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 	}
+ 182:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 	else
+ 183:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 		__ticks = (uint16_t)__tmp;
+ 184:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 	_delay_loop_2(__ticks);
+ 185:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** #endif
+ 186:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** }
+ 187:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+ 188:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** /**
+ 189:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    \ingroup util_delay
+ 190:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+ 191:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    Perform a delay of \c __us microseconds, using _delay_loop_1().
+ 192:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+ 193:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    The macro F_CPU is supposed to be defined to a
+ 194:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    constant defining the CPU clock frequency (in Hertz).
+ 195:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+ 196:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    The maximal possible delay is 768 us / F_CPU in MHz.
+ 197:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+ 198:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    If the user requests a delay greater than the maximal possible one,
+ 199:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    _delay_us() will automatically call _delay_ms() instead.  The user
+ 200:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    will not be informed about this case.
+ 201:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+ 202:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    If the avr-gcc toolchain has __builtin_avr_delay_cycles(unsigned long)
+ 203:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    support, maximal possible delay is 4294967.295 us/ F_CPU in MHz. For
+ 204:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    values greater than the maximal possible delay, overflow results in
+ 205:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    no delay i.e., 0us.
+ 206:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****   
+ 207:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    Conversion of __us into clock cycles may not always result in integer.
+ 208:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    By default, the clock cycles rounded up to next integer. This ensures that
+ 209:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    the user gets atleast __us microseconds of delay.
+ 210:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+ 211:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    Alternatively, user can define __DELAY_ROUND_DOWN__ and __DELAY_ROUND_CLOSEST__
+ 212:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    to round down and round to closest integer.
+ 213:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****  
+ 214:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    Note: The new implementation of _delay_us(double __us) with 
+ 215:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****     __builtin_avr_delay_cycles(unsigned long) support is not backward compatible.
+ 216:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    User can define __DELAY_BACKWARD_COMPATIBLE__ to get a backward compatible delay.
+ 217:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    Also, the backward compatible
+ 218:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    algorithm will be chosen if the code is compiled in a <em>freestanding
+ 219:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    environment</em> (GCC option \c -ffreestanding), as the math functions
+ 220:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****    required for rounding are not available to the compiler then.
+ 221:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+ 222:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****  */
+ 223:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** void
+ 224:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** _delay_us(double __us)
+ 225:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** {
+ 226:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 	uint8_t __ticks;
+ 227:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 	double __tmp ; 
+ 228:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** #if __HAS_DELAY_CYCLES && defined(__OPTIMIZE__) && \
+ 229:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****   !defined(__DELAY_BACKWARD_COMPATIBLE__) &&	   \
+ 230:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h ****   __STDC_HOSTED__
+ 231:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 	uint32_t __ticks_dc;
+ 232:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 	extern void __builtin_avr_delay_cycles(unsigned long);
+ 233:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 	__tmp = ((F_CPU) / 1e6) * __us;
+ 234:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+ 235:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 	#if defined(__DELAY_ROUND_DOWN__)
+ 236:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 		__ticks_dc = (uint32_t)fabs(__tmp);
+ 237:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+ 238:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 	#elif defined(__DELAY_ROUND_CLOSEST__)
+ 239:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 		__ticks_dc = (uint32_t)(fabs(__tmp)+0.5);
+ 240:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+ 241:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 	#else
+ 242:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 		//round up by default
+ 243:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+ 244:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 	#endif
+ 245:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 
+ 246:/usr/lib/gcc/avr/4.7.0/../../../avr/include/util/delay.h **** 	__builtin_avr_delay_cycles(__ticks_dc);
+ 124               		.loc 2 246 0
+ 125 007c 85E0      		ldi r24,lo8(5)
+ 126 007e 8A95      		1: dec r24
+ 127 0080 01F4      		brne 1b
+ 128 0082 0000      		nop
+ 129               	.LBE7:
+ 130               	.LBE6:
+  94:mcp2515_send_message.c **** 	
+  95:mcp2515_send_message.c **** 	_delay_us(1);
+  96:mcp2515_send_message.c **** 	
+  97:mcp2515_send_message.c **** 	// CAN Nachricht verschicken
+  98:mcp2515_send_message.c **** 	// die letzten drei Bit im RTS Kommando geben an welcher
+  99:mcp2515_send_message.c **** 	// Puffer gesendet werden soll.
+ 100:mcp2515_send_message.c **** 	RESET(MCP2515_CS);
+ 131               		.loc 1 100 0
+ 132 0084 2C98      		cbi 0x5,4
+ 101:mcp2515_send_message.c **** 	address = (address == 0) ? 1 : address;
+ 133               		.loc 1 101 0
+ 134 0086 F110      		cpse r15,__zero_reg__
+ 135 0088 00C0      		rjmp .L8
+ 136 008a FF24      		clr r15
+ 137 008c F394      		inc r15
+ 138               	.LVL12:
+ 139               	.L8:
+ 102:mcp2515_send_message.c **** 	spi_putc(SPI_RTS | address);
+ 140               		.loc 1 102 0 discriminator 3
+ 141 008e 8F2D      		mov r24,r15
+ 142 0090 8068      		ori r24,lo8(-128)
+ 143 0092 0E94 0000 		call spi_putc
+ 144               	.LVL13:
+ 103:mcp2515_send_message.c **** 	SET(MCP2515_CS);
+ 145               		.loc 1 103 0 discriminator 3
+ 146 0096 2C9A      		sbi 0x5,4
+ 104:mcp2515_send_message.c **** 	
+ 105:mcp2515_send_message.c **** 	CAN_INDICATE_TX_TRAFFIC_FUNCTION;
+ 106:mcp2515_send_message.c **** 	
+ 107:mcp2515_send_message.c **** 	return address;
+ 147               		.loc 1 107 0 discriminator 3
+ 148 0098 00C0      		rjmp .L3
+ 149               	.LVL14:
+ 150               	.L11:
+  62:mcp2515_send_message.c **** 		return 0;
+ 151               		.loc 1 62 0
+ 152 009a F12C      		mov r15,__zero_reg__
+ 153               	.LVL15:
+ 154               	.L3:
+ 108:mcp2515_send_message.c **** }
+ 155               		.loc 1 108 0
+ 156 009c 8F2D      		mov r24,r15
+ 157               	/* epilogue start */
+ 158 009e DF91      		pop r29
+ 159 00a0 CF91      		pop r28
+ 160               	.LVL16:
+ 161 00a2 1F91      		pop r17
+ 162 00a4 0F91      		pop r16
+ 163 00a6 FF90      		pop r15
+ 164 00a8 EF90      		pop r14
+ 165 00aa 0895      		ret
+ 166               	.LFE19:
+ 230               	.Letext0:
+ 231               		.file 3 "/usr/lib/gcc/avr/4.7.0/../../../avr/include/stdint.h"
+ 232               		.file 4 "../can.h"
+ 233               		.file 5 "spi.h"
+ 234               		.file 6 "mcp2515_private.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 mcp2515_send_message.c
+     /tmp/cc9ZBjOQ.s:2      *ABS*:0000003e __SP_H__
+     /tmp/cc9ZBjOQ.s:3      *ABS*:0000003d __SP_L__
+     /tmp/cc9ZBjOQ.s:4      *ABS*:0000003f __SREG__
+     /tmp/cc9ZBjOQ.s:5      *ABS*:00000000 __tmp_reg__
+     /tmp/cc9ZBjOQ.s:6      *ABS*:00000001 __zero_reg__
+     /tmp/cc9ZBjOQ.s:11     .text:00000000 can_send_message
+=======
    2               	__SREG__ = 0x3f
    3               	__SP_H__ = 0x3e
    4               	__SP_L__ = 0x3d
@@ -154,6 +692,7 @@ DEFINED SYMBOLS
      /tmp/ccdA68dd.s:6      *ABS*:00000000 __tmp_reg__
      /tmp/ccdA68dd.s:7      *ABS*:00000001 __zero_reg__
      /tmp/ccdA68dd.s:18     .text:00000000 can_send_message
+>>>>>>> f9092c8728abba927a3c1179142d688269dd8aaf
 
 UNDEFINED SYMBOLS
 mcp2515_read_status
