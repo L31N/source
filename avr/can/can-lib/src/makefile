@@ -41,7 +41,9 @@
 
 
 # MCU name
-MCU = atmega32
+
+#MCU = atmega32
+MCU = atmega644
 
 
 # Processor frequency.
@@ -62,11 +64,14 @@ MCU = atmega32
 #         F_CPU = 16000000
 #         F_CPU = 18432000
 #         F_CPU = 20000000
-F_CPU = 14745600
 
+#F_CPU = 14745600
+F_CPU = 16000000
 
 # Output format. (can be srec, ihex, binary)
-FORMAT = ihex
+
+#FORMAT = ihex
+FORMAT = binary
 
 
 # Target file name (without extension).
