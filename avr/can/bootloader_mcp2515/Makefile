@@ -43,18 +43,22 @@
 # MCU name
 #MCU = atmega8
 #MCU = atmega88
-MCU = atmega168
-MCU = atmega328p
+#MCU = atmega168
+#MCU = atmega328p
 #MCU = atmega16
 #MCU = atmega32
 #MCU = atmega644
+
+MCU = atmega644
 
 # Processor frequency.
 #F_CPU =  4000000
 #F_CPU =  7372800
 #F_CPU =  8000000
-F_CPU = 14745600
+#F_CPU = 14745600
 #F_CPU = 16000000
+
+F_CPU = 14745600
 
 # Bootloader address:
 BOOTLOADER_BOARD_ID = 0xff
@@ -64,6 +68,7 @@ BOOTLOADER_BOARD_ID = 0xff
 #     ATMega16/168  => 0x3C00
 #     ATMega32      => 0x7000
 #     ATMega644     => 0xFC00
+
 ifeq ($(MCU), atmega8)
 BOOTSTART = 0x1C00
 else ifeq ($(MCU), atmega88)

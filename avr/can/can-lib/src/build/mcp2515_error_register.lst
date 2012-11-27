@@ -1,4 +1,5 @@
    1               		.file	"mcp2515_error_register.c"
+<<<<<<< HEAD
    2               	__SP_H__ = 0x3e
    3               	__SP_L__ = 0x3d
    4               	__SREG__ = 0x3f
@@ -99,6 +100,54 @@ DEFINED SYMBOLS
      /tmp/ccyV8E4f.s:5      *ABS*:00000000 __tmp_reg__
      /tmp/ccyV8E4f.s:6      *ABS*:00000001 __zero_reg__
      /tmp/ccyV8E4f.s:11     .text:00000000 can_read_error_register
+=======
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__ = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+  15               	.Ltext0:
+  16               	.global	can_read_error_register
+  18               	can_read_error_register:
+  19               	.LFB18:
+  20               	.LM1:
+  21 0000 DF93      		push r29
+  22 0002 CF93      		push r28
+  23 0004 0F92      		push __tmp_reg__
+  24 0006 CDB7      		in r28,__SP_L__
+  25 0008 DEB7      		in r29,__SP_H__
+  26               	/* prologue: function */
+  27               	/* frame size = 1 */
+  28               	/* stack size = 3 */
+  29               	.L__stack_usage = 3
+  30               	.LM2:
+  31 000a 8CE1      		ldi r24,lo8(28)
+  32 000c 0E94 0000 		call mcp2515_read_register
+  33 0010 982F      		mov r25,r24
+  34               	.LM3:
+  35 0012 8DE1      		ldi r24,lo8(29)
+  36 0014 9983      		std Y+1,r25
+  37 0016 0E94 0000 		call mcp2515_read_register
+  38               	.LM4:
+  39 001a 9981      		ldd r25,Y+1
+  40               	/* epilogue start */
+  41 001c 0F90      		pop __tmp_reg__
+  42 001e CF91      		pop r28
+  43 0020 DF91      		pop r29
+  44 0022 0895      		ret
+  45               	.LFE18:
+  71               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 mcp2515_error_register.c
+     /tmp/cccdHrLq.s:2      *ABS*:0000003f __SREG__
+     /tmp/cccdHrLq.s:3      *ABS*:0000003e __SP_H__
+     /tmp/cccdHrLq.s:4      *ABS*:0000003d __SP_L__
+     /tmp/cccdHrLq.s:5      *ABS*:00000034 __CCP__
+     /tmp/cccdHrLq.s:6      *ABS*:00000000 __tmp_reg__
+     /tmp/cccdHrLq.s:7      *ABS*:00000001 __zero_reg__
+     /tmp/cccdHrLq.s:18     .text:00000000 can_read_error_register
+>>>>>>> f9092c8728abba927a3c1179142d688269dd8aaf
 
 UNDEFINED SYMBOLS
 mcp2515_read_register

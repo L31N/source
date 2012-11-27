@@ -10,7 +10,7 @@
 //#define	BOOT_LED_SET_OUTPUT
 //#define	BOOT_LED_ON
 //#define	BOOT_LED_OFF
-//#define	BOOT_LED_TOGGLE
+#define	BOOT_LED_TOGGLE
 
 // ----------------------------------------------------------------------------
 // CAN Settings

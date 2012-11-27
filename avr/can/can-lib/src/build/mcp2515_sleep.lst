@@ -1,4 +1,5 @@
    1               		.file	"mcp2515_sleep.c"
+<<<<<<< HEAD
    2               	__SP_H__ = 0x3e
    3               	__SP_L__ = 0x3d
    4               	__SREG__ = 0x3f
@@ -137,6 +138,81 @@ DEFINED SYMBOLS
      /tmp/cc0qN4Yg.s:6      *ABS*:00000001 __zero_reg__
      /tmp/cc0qN4Yg.s:11     .text:00000000 can_sleep
      /tmp/cc0qN4Yg.s:39     .text:0000001a can_wakeup
+=======
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__ = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+  15               	.Ltext0:
+  16               	.global	can_sleep
+  18               	can_sleep:
+  19               	.LFB18:
+  20               	.LM1:
+  21               	/* prologue: function */
+  22               	/* frame size = 0 */
+  23               	/* stack size = 0 */
+  24               	.L__stack_usage = 0
+  25               	.LM2:
+  26 0000 8CE0      		ldi r24,lo8(12)
+  27 0002 60E2      		ldi r22,lo8(32)
+  28 0004 40E2      		ldi r20,lo8(32)
+  29 0006 0E94 0000 		call mcp2515_bit_modify
+  30               	.LM3:
+  31 000a 83E0      		ldi r24,lo8(3)
+  32 000c 0E94 0000 		call can_set_mode
+  33               	.LM4:
+  34 0010 8BE2      		ldi r24,lo8(43)
+  35 0012 60E4      		ldi r22,lo8(64)
+  36 0014 40E4      		ldi r20,lo8(64)
+  37 0016 0E94 0000 		call mcp2515_bit_modify
+  38               	/* epilogue start */
+  39               	.LM5:
+  40 001a 0895      		ret
+  41               	.LFE18:
+  43               	.global	can_wakeup
+  45               	can_wakeup:
+  46               	.LFB19:
+  47               	.LM6:
+  48               	/* prologue: function */
+  49               	/* frame size = 0 */
+  50               	/* stack size = 0 */
+  51               	.L__stack_usage = 0
+  52               	.LM7:
+  53 001c 8BE2      		ldi r24,lo8(43)
+  54 001e 60E4      		ldi r22,lo8(64)
+  55 0020 40E0      		ldi r20,lo8(0)
+  56 0022 0E94 0000 		call mcp2515_bit_modify
+  57               	.LM8:
+  58 0026 8CE2      		ldi r24,lo8(44)
+  59 0028 60E4      		ldi r22,lo8(64)
+  60 002a 40E0      		ldi r20,lo8(0)
+  61 002c 0E94 0000 		call mcp2515_bit_modify
+  62               	.LM9:
+  63 0030 8CE0      		ldi r24,lo8(12)
+  64 0032 60E2      		ldi r22,lo8(32)
+  65 0034 40E0      		ldi r20,lo8(0)
+  66 0036 0E94 0000 		call mcp2515_bit_modify
+  67               	.LM10:
+  68 003a 82E0      		ldi r24,lo8(2)
+  69 003c 0E94 0000 		call can_set_mode
+  70               	/* epilogue start */
+  71               	.LM11:
+  72 0040 0895      		ret
+  73               	.LFE19:
+ 107               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 mcp2515_sleep.c
+     /tmp/cczLPzbw.s:2      *ABS*:0000003f __SREG__
+     /tmp/cczLPzbw.s:3      *ABS*:0000003e __SP_H__
+     /tmp/cczLPzbw.s:4      *ABS*:0000003d __SP_L__
+     /tmp/cczLPzbw.s:5      *ABS*:00000034 __CCP__
+     /tmp/cczLPzbw.s:6      *ABS*:00000000 __tmp_reg__
+     /tmp/cczLPzbw.s:7      *ABS*:00000001 __zero_reg__
+     /tmp/cczLPzbw.s:18     .text:00000000 can_sleep
+     /tmp/cczLPzbw.s:45     .text:0000001c can_wakeup
+>>>>>>> f9092c8728abba927a3c1179142d688269dd8aaf
 
 UNDEFINED SYMBOLS
 mcp2515_bit_modify
