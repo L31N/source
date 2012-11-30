@@ -17,8 +17,8 @@
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-Wall" />
 			<Add option="-mmcu=atmega8" />
+			<Add option="-Wall" />
 			<Add option="-DF_CPU=16000000UL" />
 		</Compiler>
 		<Linker>
