@@ -2,15 +2,24 @@
 
 #include "uart.h"
 
-ISR(USART_UDRE_vect)
+volatile char uart_tx_buffer[UART_BUFFER_SIZE];
+volatile short uart_tx_write;
+volatile short uart_tx_read;
+
+volatile char uart_rx_buffer[UART_BUFFER_SIZE];
+volatile short uart_rx_write;
+volatile short uart_rx_read;
+
+
+ISR(UART_TX_VECTOR)
 {
     if(uart_tx_read == uart_tx_write)
     {
-        UCSRB &= ~(1 << 5);
+        UART_STATUS_B &= ~(1 << 5);
         return;
     }
 
-    UDR = uart_tx_buffer[uart_tx_read];
+    UART_UDR = uart_tx_buffer[uart_tx_read];
 
     uart_tx_read++;
 
@@ -21,15 +30,15 @@ ISR(USART_UDRE_vect)
 }
 
 
-ISR(USART_RXC_vect)
+ISR(UART_RX_VECTOR)
 {
     if(uart_rx_write + 1 == uart_rx_read || (uart_rx_read == 0 && uart_rx_write + 1 == UART_BUFFER_SIZE))
     {
-        UDR;
+        UART_UDR;
         return;
     }
 
-    uart_rx_buffer[uart_rx_write] = UDR;
+    uart_rx_buffer[uart_rx_write] = UART_UDR;
 	uart_rx_write++;
 
     if(uart_rx_write >= UART_BUFFER_SIZE)
@@ -42,22 +51,22 @@ ISR(USART_RXC_vect)
 void uart_init(long baud)
 {
     //Senden aktivieren
-    UCSRB |= (1 << 3);
+    UART_STATUS_B |= (1 << 3);
 
     //Empfang aktivieren
-    UCSRB |= (1 << 4);
+    UART_STATUS_B |= (1 << 4);
 
     //Baud setzen
     short UBRR = (F_CPU/(16*baud))-1;
-    UBRRH = UBRR >> 8;
-    UBRRL = UBRR & 0xFF;
-    UCSRC = (1 << URSEL) | (1 << UCSZ1) | (1 << UCSZ0);
+    UART_BAUD_HIGH = UBRR >> 8;
+    UART_BAUD_LOW = UBRR & 0xFF;
+    UART_STATUS_C();
 
     //Interrupts global aktivieren
     sei();
 
     //Empfangsinterrupt aktivieren
-    UCSRB |= (1 << 7);
+    UART_STATUS_B |= (1 << 7);
 
     //Bufferzeiger setzen
     uart_tx_read = 0;
@@ -84,7 +93,7 @@ unsigned char uart_putc(char c)
         uart_tx_write = 0;
     }
 
-	UCSRB |= 1 << 5;
+	UART_STATUS_B |= 1 << 5;
 
     return 0;
 }
