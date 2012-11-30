@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="serial_can.cpp" open="1" top="0" tabpos="1">
-		<Cursor position="58" topLine="0" />
+	<File name="can_rs232_input.cpp" open="1" top="1" tabpos="0">
+		<Cursor position="1109" topLine="30" />
 	</File>
 </CodeBlocks_layout_file>

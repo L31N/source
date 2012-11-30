@@ -8,8 +8,6 @@
 #include <unistd.h>
 
 const unsigned int buffer_size = 1024;
-//const std::string tty_dev = "/dev/ttyS0";
-
 
 int main (int argc, char** argv) {
     if (argc != 3) {
