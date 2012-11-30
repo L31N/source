@@ -11,30 +11,24 @@
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="avrgcc" />
-				<Compiler>
-					<Add option="-Os" />
-				</Compiler>
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-mmcu=atmega8" />
+			<Add option="-mmcu=atmega644" />
+			<Add option="-Os" />
 			<Add option="-Wall" />
-			<Add option="-DF_CPU=16000000UL" />
+			<Add option="-DF_CPU=14745600UL" />
 		</Compiler>
 		<Linker>
-			<Add option="-mmcu=atmega8" />
+			<Add option="-mmcu=atmega644" />
 		</Linker>
 		<ExtraCommands>
 			<Add after="avr-size $(TARGET_OUTPUT_FILE)" />
 			<Add after="avr-objcopy -O ihex -R .eeprom -R .eesafe $(TARGET_OUTPUT_FILE) $(TARGET_OUTPUT_FILE).hex" />
 			<Add after="avr-objcopy --no-change-warnings -j .eeprom --change-section-lma .eeprom=0 -O ihex $(TARGET_OUTPUT_FILE) $(TARGET_OUTPUT_FILE).eep.hex" />
 		</ExtraCommands>
-		<Unit filename="main.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="uart.c">
-			<Option compilerVar="CC" />
-		</Unit>
+		<Unit filename="main.cpp" />
+		<Unit filename="uart.cpp" />
 		<Unit filename="uart.h" />
 		<Extensions>
 			<envvars />
