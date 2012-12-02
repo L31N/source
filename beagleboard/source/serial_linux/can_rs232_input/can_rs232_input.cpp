@@ -13,8 +13,8 @@
 #include <fcntl.h>
 
 
-const std::string tty_device = "/dev/tty1";
-const int baudrate = 38400;
+const std::string tty_device = "/dev/ttyUSB0";
+const int baudrate = 9600;
 //speed_t = B38400;
 
 //const std::string tty_device = "/dev/ttyS0";
@@ -23,7 +23,7 @@ int main () {
     const unsigned int buffer_size = 1024;
 
     int tty_sock;
-    char* buffer = NULL;
+    char* buffer = new char[buffer_size];
 
     struct termios attribs;
 
@@ -49,13 +49,21 @@ int main () {
         tcsetattr(tty_sock, TCSANOW, &attribs);
 
         //fcntl(tty_sock, F_SETFL,0);               // makes the inputstream none-blocking
-        std::cout << "Port has been successfully opened, tty_sock_fd: " << tty_sock << std::endl;
+        //std::cout << "Port has been successfully opened, tty_sock_fd: " << tty_sock << std::endl;
     }
 
+    std::string data = "";
     while(true) {
-        std::cout << "in while " << std::endl;
-        read(tty_sock, buffer, buffer_size);
-        std::cout << "data received: " << buffer << std::endl;
+        //std::cout << "in while " << std::endl;
+        bzero(buffer, buffer_size);
+        //read(tty_sock, buffer, buffer_size);
+        read(tty_sock, buffer, 1);
+        if (buffer != '\0') data += buffer;
+        else {
+            std::cout << "data received: " << data << std::endl;
+            data = "";
+        }
+        std::cout << buffer;
     }
 
     return 0;

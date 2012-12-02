@@ -8,9 +8,11 @@ int main(void)
 {
     DDRB |= (1 << 0);
 
-    uart_init(57600);
+    uart_init(9600);
 
-    uart_putstr("\r\nTestprogramm für den UART von Soctronic.de\r\n");
+    char* str = "\r\nTestprogramm für den UART von Soctronic.de";
+
+    uart_putstr(str);
 
     unsigned char c;
 

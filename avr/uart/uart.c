@@ -119,15 +119,21 @@ unsigned char uart_getc()
 
 unsigned char uart_putstr(char str[])
 {
-    unsigned short i;
+    unsigned short i = 0;
 
-    for( i=0 ; str[i] != '\0' ; i++ )
+    /*for( i=0 ; str[i] != '\0' ; i++ )
     {
         if( uart_putc(str[i]) != 0 )
         {
             return 1;
         }
-    }
+    }*/
+    do {
+        i++;
+        if (uart_putc(str[i]) != 0 ) {
+            return 1;
+        }
+    } while(str[i] != '\0');
 
     return 0;
 }
