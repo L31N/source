@@ -1,21 +1,4 @@
    1               		.file	"at90can_send_message.c"
-<<<<<<< HEAD
-   2               	__SP_H__ = 0x3e
-   3               	__SP_L__ = 0x3d
-   4               	__SREG__ = 0x3f
-   5               	__tmp_reg__ = 0
-   6               	__zero_reg__ = 1
-   7               		.text
-   8               	.Ltext0:
-   9               	.Letext0:
-DEFINED SYMBOLS
-                            *ABS*:00000000 at90can_send_message.c
-     /tmp/ccZZAOJD.s:2      *ABS*:0000003e __SP_H__
-     /tmp/ccZZAOJD.s:3      *ABS*:0000003d __SP_L__
-     /tmp/ccZZAOJD.s:4      *ABS*:0000003f __SREG__
-     /tmp/ccZZAOJD.s:5      *ABS*:00000000 __tmp_reg__
-     /tmp/ccZZAOJD.s:6      *ABS*:00000001 __zero_reg__
-=======
    2               	__SREG__ = 0x3f
    3               	__SP_H__ = 0x3e
    4               	__SP_L__ = 0x3d
@@ -26,12 +9,11 @@ DEFINED SYMBOLS
   16               	.Letext0:
 DEFINED SYMBOLS
                             *ABS*:00000000 at90can_send_message.c
-     /tmp/cc9W6ltv.s:2      *ABS*:0000003f __SREG__
-     /tmp/cc9W6ltv.s:3      *ABS*:0000003e __SP_H__
-     /tmp/cc9W6ltv.s:4      *ABS*:0000003d __SP_L__
-     /tmp/cc9W6ltv.s:5      *ABS*:00000034 __CCP__
-     /tmp/cc9W6ltv.s:6      *ABS*:00000000 __tmp_reg__
-     /tmp/cc9W6ltv.s:7      *ABS*:00000001 __zero_reg__
->>>>>>> f9092c8728abba927a3c1179142d688269dd8aaf
+     /tmp/ccZNAJ42.s:2      *ABS*:0000003f __SREG__
+     /tmp/ccZNAJ42.s:3      *ABS*:0000003e __SP_H__
+     /tmp/ccZNAJ42.s:4      *ABS*:0000003d __SP_L__
+     /tmp/ccZNAJ42.s:5      *ABS*:00000034 __CCP__
+     /tmp/ccZNAJ42.s:6      *ABS*:00000000 __tmp_reg__
+     /tmp/ccZNAJ42.s:7      *ABS*:00000001 __zero_reg__
 
 NO UNDEFINED SYMBOLS

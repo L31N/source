@@ -21,26 +21,31 @@ int main () {
     can_t msg;
 
     //msg.id = 0x0234567C;
-    msg.id = 0x0234567F;
+    //msg.id = 0x0234567F;
+
+    msg.id = 0x1;
+
     msg.flags.rtr = 0;
-    msg.flags.extended = 1;
+    //msg.flags.extended = 0;
 
     msg.length = 8;
-    msg.data[0] = 0xde;
-    msg.data[1] = 0xad;
-    msg.data[2] = 0xbe;
-    msg.data[3] = 0xef;
-    msg.data[4] = 10;
-    msg.data[5] = 11;
-    msg.data[6] = 12;
-    msg.data[7] = 42;
+    msg.data[0] = 'H';
+    msg.data[1] = 'e';
+    msg.data[2] = 'l';
+    msg.data[3] = 'l';
+    msg.data[4] = 'o';
+    msg.data[5] = '1';
+    msg.data[6] = '2';
+    msg.data[7] = '3';
+    //msg.data[8] = '4';
+    //msg.data[9] = '5';
 
     while(true) {
         if (can_send_message(&msg)) {
             led(true, false);
-            _delay_ms(100);
+            //_delay_ms(2);
             led(false, false);
-            _delay_ms(100);
+            _delay_ms(20);
         }
         else {
             led(false, true);
@@ -48,6 +53,7 @@ int main () {
             led(false, false);
             _delay_ms(500);
         }
+        //_delay_ms(1000);
         //msg.id --;
     }
 

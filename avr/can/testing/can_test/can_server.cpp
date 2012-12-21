@@ -3,11 +3,16 @@
 #include <util/delay.h>
 #include <avr/pgmspace.h>
 
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
+
 #include "can.h"
 #include "can_testing.h"
+#include "uart.h"
 
 
-prog_uint8_t can_filter[] = {
+/*prog_uint8_t can_filter[] = {
     // Group 0
 	MCP2515_FILTER(0),				// Filter 0
 	MCP2515_FILTER(0),				// Filter 1
@@ -20,12 +25,11 @@ prog_uint8_t can_filter[] = {
 
 	MCP2515_FILTER(0),				// Mask 0 (for group 0)
 	MCP2515_FILTER_EXTENDED(0),		// Mask 1 (for group 1)
-};
-
- volatile uint8_t can_iflag = 0;
+};*/
 
 int main () {
     init_leds();
+    uart_init(9600);
 
     led(true, true);
     _delay_ms(500);
@@ -42,37 +46,52 @@ int main () {
     led(0, 0);
 
     /// DEFINING FILTERS
-    // filter 0
+    //filter 0
     can_filter_t filter0;
-    filter0.id = 0x02345670;
-    filter0.mask = 0x1FFFFFF0;
+    filter0.id = 0x0;
+    filter0.mask = 0x0;
+
+    //filter0.id = 0xB30;
+    //filter0.mask = 0x000;
+
     filter0.flags.rtr = 0;
-    filter0.flags.extended = 0;
+    //filter0.flags.extended = 0;
 
     // filter 1
-    can_filter_t filter1;
+    /*can_filter_t filter1;
     filter1.id = 0x02345660;
     filter1.mask = 0x1FFFFFF0;
     filter1.flags.rtr = 0;
-    filter1.flags.extended = 0;
+    filter1.flags.extended = 0;*/
 
     // other filters
-    can_filter_t filterX = filter1;
+    //can_filter_t filterX = filter1;
 
     can_set_filter(0, &filter0);
-    can_set_filter(1, &filter1);
-    can_set_filter(2, &filterX);
-    can_set_filter(3, &filterX);
-    can_set_filter(4, &filterX);
-    can_set_filter(5, &filterX);
+    /*can_set_filter(1, 0);
+    can_set_filter(2, 0);
+    can_set_filter(3, 0);
+    can_set_filter(4, 0);
+    can_set_filter(5, 0);*/
 
 
    while(true) {
-        if (can_check_message()) {
+        /*if (can_check_message()) {
             can_t msg;
             if (can_get_message(&msg)) {
+
+                char* data;
+                data = (char*) malloc(10);
+                memset(data, 0, 10);
+                for (int i = 0; i < 8; i++) {
+                    data[i] = msg.data[i];
+                }
+                data[8] = ' ';
+                data[9] = '\0';
+                uart_putstr(data);
+
                 led(true, true);
-                _delay_ms(10);
+                //_delay_ms(1);
                 led(false, false);
             }
             else {
@@ -80,7 +99,15 @@ int main () {
                 _delay_ms(10);
                 led(false, false);
             }
-        }
+        }*/
+
+
+        char* data = (char*) malloc(2);
+        memset (data, 0, 2);
+        *data = '.';
+        *(data+1) = '\0';
+        uart_putstr(data);
+        _delay_ms(30);
     }
 
 

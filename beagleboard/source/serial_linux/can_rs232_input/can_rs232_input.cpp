@@ -14,6 +14,7 @@
 
 
 const std::string tty_device = "/dev/ttyUSB0";
+/// 110, 150, 300, 1200, 2400, 4800, 9600, 19200, 38400, 57600, 115200, 230400, 460800, 921600
 const int baudrate = 9600;
 //speed_t = B38400;
 
