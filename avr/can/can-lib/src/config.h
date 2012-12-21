@@ -1,7 +1,7 @@
 #ifndef	CONFIG_H
 #define	CONFIG_H
 
-typedef const uint8_t   prog_uint8_t __attribute__((__progmem__));
+//#typedef const uint8_t   prog_uint8_t __attribute__((__progmem__));
 
 // -----------------------------------------------------------------------------
 /* Global settings for building the can-lib and application program.
@@ -17,7 +17,7 @@ typedef const uint8_t   prog_uint8_t __attribute__((__progmem__));
  *
  * Select if you want to use 29 bit identifiers.
  */
-#define	SUPPORT_EXTENDED_CANID	1
+#define	SUPPORT_EXTENDED_CANID	0
 
 /* Select if you want to use timestamps.
  * Timestamps are sourced from a register internal to the AT90CAN.
@@ -30,7 +30,7 @@ typedef const uint8_t   prog_uint8_t __attribute__((__progmem__));
 // -----------------------------------------------------------------------------
 /* Global settings for building the can-lib.
  *
- * Select ONE CAN controller for which you are building the can-lib. 
+ * Select ONE CAN controller for which you are building the can-lib.
  */
 #define	SUPPORT_MCP2515			1
 #define	SUPPORT_AT90CAN			0

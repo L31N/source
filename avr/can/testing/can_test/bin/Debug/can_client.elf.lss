@@ -3,31 +3,31 @@ bin/Debug/can_client.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         0000047c  00000000  00000000  00000054  2**1
+  0 .text         0000040c  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .stab         00001224  00000000  00000000  000004d0  2**2
+  1 .stab         000011f4  00000000  00000000  00000460  2**2
                   CONTENTS, READONLY, DEBUGGING
-  2 .stabstr      00000d06  00000000  00000000  000016f4  2**0
+  2 .stabstr      00000cdf  00000000  00000000  00001654  2**0
                   CONTENTS, READONLY, DEBUGGING
-  3 .debug_aranges 00000080  00000000  00000000  000023fa  2**0
+  3 .debug_aranges 00000080  00000000  00000000  00002333  2**0
                   CONTENTS, READONLY, DEBUGGING
-  4 .debug_pubnames 00000116  00000000  00000000  0000247a  2**0
+  4 .debug_pubnames 00000116  00000000  00000000  000023b3  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00000759  00000000  00000000  00002590  2**0
+  5 .debug_info   00000711  00000000  00000000  000024c9  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 0000042a  00000000  00000000  00002ce9  2**0
+  6 .debug_abbrev 00000406  00000000  00000000  00002bda  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   000006f0  00000000  00000000  00003113  2**0
+  7 .debug_line   00000695  00000000  00000000  00002fe0  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  000000d0  00000000  00000000  00003804  2**2
+  8 .debug_frame  000000d0  00000000  00000000  00003678  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    00000249  00000000  00000000  000038d4  2**0
+  9 .debug_str    00000240  00000000  00000000  00003748  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    0000039e  00000000  00000000  00003b1d  2**0
+ 10 .debug_loc    0000035b  00000000  00000000  00003988  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_pubtypes 000000d4  00000000  00000000  00003ebb  2**0
+ 11 .debug_pubtypes 000000d4  00000000  00000000  00003ce3  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000030  00000000  00000000  00003f8f  2**0
+ 12 .debug_ranges 00000030  00000000  00000000  00003db7  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -74,7 +74,7 @@ Disassembly of section .text:
   90:	de bf       	out	0x3e, r29	; 62
   92:	cd bf       	out	0x3d, r28	; 61
   94:	0e 94 50 00 	call	0xa0	; 0xa0 <main>
-  98:	0c 94 3c 02 	jmp	0x478	; 0x478 <_exit>
+  98:	0c 94 04 02 	jmp	0x408	; 0x408 <_exit>
 
 0000009c <__bad_interrupt>:
   9c:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -92,19 +92,19 @@ int main () {
   a6:	cf 93       	push	r28
   a8:	cd b7       	in	r28, 0x3d	; 61
   aa:	de b7       	in	r29, 0x3e	; 62
-  ac:	2e 97       	sbiw	r28, 0x0e	; 14
+  ac:	2c 97       	sbiw	r28, 0x0c	; 12
   ae:	0f b6       	in	r0, 0x3f	; 63
   b0:	f8 94       	cli
   b2:	de bf       	out	0x3e, r29	; 62
   b4:	0f be       	out	0x3f, r0	; 63
   b6:	cd bf       	out	0x3d, r28	; 61
     init_leds();
-  b8:	0e 94 dc 00 	call	0x1b8	; 0x1b8 <_Z9init_ledsv>
+  b8:	0e 94 cb 00 	call	0x196	; 0x196 <_Z9init_ledsv>
 
     led(true, true);
   bc:	81 e0       	ldi	r24, 0x01	; 1
   be:	61 e0       	ldi	r22, 0x01	; 1
-  c0:	0e 94 df 00 	call	0x1be	; 0x1be <_Z3ledbb>
+  c0:	0e 94 ce 00 	call	0x19c	; 0x19c <_Z3ledbb>
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
@@ -124,7 +124,7 @@ int main () {
     led(true, true);
   d6:	81 e0       	ldi	r24, 0x01	; 1
   d8:	61 e0       	ldi	r22, 0x01	; 1
-  da:	0e 94 df 00 	call	0x1be	; 0x1be <_Z3ledbb>
+  da:	0e 94 ce 00 	call	0x19c	; 0x19c <_Z3ledbb>
   de:	8f ef       	ldi	r24, 0xFF	; 255
   e0:	9f e7       	ldi	r25, 0x7F	; 127
   e2:	a6 e1       	ldi	r26, 0x16	; 22
@@ -140,881 +140,795 @@ int main () {
     can_init(BITRATE_500_KBPS);
   f0:	86 e0       	ldi	r24, 0x06	; 6
   f2:	90 e0       	ldi	r25, 0x00	; 0
-  f4:	0e 94 3a 01 	call	0x274	; 0x274 <can_init>
-
+  f4:	0e 94 29 01 	call	0x252	; 0x252 <can_init>
     can_t msg;
 
     //msg.id = 0x0234567C;
-    msg.id = 0x0234567F;
-  f8:	8f e7       	ldi	r24, 0x7F	; 127
-  fa:	96 e5       	ldi	r25, 0x56	; 86
-  fc:	a4 e3       	ldi	r26, 0x34	; 52
-  fe:	b2 e0       	ldi	r27, 0x02	; 2
- 100:	89 83       	std	Y+1, r24	; 0x01
- 102:	9a 83       	std	Y+2, r25	; 0x02
- 104:	ab 83       	std	Y+3, r26	; 0x03
- 106:	bc 83       	std	Y+4, r27	; 0x04
+    //msg.id = 0x0234567F;
+
+    msg.id = 0x1;
+  f8:	81 e0       	ldi	r24, 0x01	; 1
+  fa:	90 e0       	ldi	r25, 0x00	; 0
+  fc:	9a 83       	std	Y+2, r25	; 0x02
+  fe:	89 83       	std	Y+1, r24	; 0x01
+
     msg.flags.rtr = 0;
- 108:	8d 81       	ldd	r24, Y+5	; 0x05
- 10a:	8e 7f       	andi	r24, 0xFE	; 254
-    msg.flags.extended = 1;
- 10c:	82 60       	ori	r24, 0x02	; 2
- 10e:	8d 83       	std	Y+5, r24	; 0x05
+ 100:	8b 81       	ldd	r24, Y+3	; 0x03
+ 102:	8e 7f       	andi	r24, 0xFE	; 254
+ 104:	8b 83       	std	Y+3, r24	; 0x03
+    //msg.flags.extended = 0;
 
     msg.length = 8;
- 110:	88 e0       	ldi	r24, 0x08	; 8
- 112:	8e 83       	std	Y+6, r24	; 0x06
-    msg.data[0] = 0xde;
- 114:	8e ed       	ldi	r24, 0xDE	; 222
- 116:	8f 83       	std	Y+7, r24	; 0x07
-    msg.data[1] = 0xad;
- 118:	8d ea       	ldi	r24, 0xAD	; 173
- 11a:	88 87       	std	Y+8, r24	; 0x08
-    msg.data[2] = 0xbe;
- 11c:	8e eb       	ldi	r24, 0xBE	; 190
- 11e:	89 87       	std	Y+9, r24	; 0x09
-    msg.data[3] = 0xef;
- 120:	8f ee       	ldi	r24, 0xEF	; 239
- 122:	8a 87       	std	Y+10, r24	; 0x0a
-    msg.data[4] = 10;
- 124:	8a e0       	ldi	r24, 0x0A	; 10
- 126:	8b 87       	std	Y+11, r24	; 0x0b
-    msg.data[5] = 11;
- 128:	8b e0       	ldi	r24, 0x0B	; 11
- 12a:	8c 87       	std	Y+12, r24	; 0x0c
-    msg.data[6] = 12;
- 12c:	8c e0       	ldi	r24, 0x0C	; 12
- 12e:	8d 87       	std	Y+13, r24	; 0x0d
-    msg.data[7] = 42;
- 130:	8a e2       	ldi	r24, 0x2A	; 42
- 132:	8e 87       	std	Y+14, r24	; 0x0e
- 134:	8e 01       	movw	r16, r28
- 136:	0f 5f       	subi	r16, 0xFF	; 255
- 138:	1f 4f       	sbci	r17, 0xFF	; 255
+ 106:	88 e0       	ldi	r24, 0x08	; 8
+ 108:	8c 83       	std	Y+4, r24	; 0x04
+    msg.data[0] = 'H';
+ 10a:	88 e4       	ldi	r24, 0x48	; 72
+ 10c:	8d 83       	std	Y+5, r24	; 0x05
+    msg.data[1] = 'e';
+ 10e:	85 e6       	ldi	r24, 0x65	; 101
+ 110:	8e 83       	std	Y+6, r24	; 0x06
+    msg.data[2] = 'l';
+ 112:	8c e6       	ldi	r24, 0x6C	; 108
+ 114:	8f 83       	std	Y+7, r24	; 0x07
+    msg.data[3] = 'l';
+ 116:	88 87       	std	Y+8, r24	; 0x08
+    msg.data[4] = 'o';
+ 118:	8f e6       	ldi	r24, 0x6F	; 111
+ 11a:	89 87       	std	Y+9, r24	; 0x09
+    msg.data[5] = '1';
+ 11c:	81 e3       	ldi	r24, 0x31	; 49
+ 11e:	8a 87       	std	Y+10, r24	; 0x0a
+    msg.data[6] = '2';
+ 120:	82 e3       	ldi	r24, 0x32	; 50
+ 122:	8b 87       	std	Y+11, r24	; 0x0b
+    msg.data[7] = '3';
+ 124:	83 e3       	ldi	r24, 0x33	; 51
+ 126:	8c 87       	std	Y+12, r24	; 0x0c
+ 128:	8e 01       	movw	r16, r28
+ 12a:	0f 5f       	subi	r16, 0xFF	; 255
+ 12c:	1f 4f       	sbci	r17, 0xFF	; 255
+    //msg.data[8] = '4';
+    //msg.data[9] = '5';
 
     while(true) {
         if (can_send_message(&msg)) {
- 13a:	c8 01       	movw	r24, r16
- 13c:	0e 94 a9 01 	call	0x352	; 0x352 <can_send_message>
- 140:	88 23       	and	r24, r24
- 142:	f9 f4       	brne	.+62     	; 0x182 <main+0xe2>
-            _delay_ms(100);
+ 12e:	c8 01       	movw	r24, r16
+ 130:	0e 94 97 01 	call	0x32e	; 0x32e <can_send_message>
+ 134:	88 23       	and	r24, r24
+ 136:	f9 f4       	brne	.+62     	; 0x176 <main+0xd6>
+            //_delay_ms(2);
             led(false, false);
-            _delay_ms(100);
+            _delay_ms(20);
         }
         else {
             led(false, true);
- 144:	80 e0       	ldi	r24, 0x00	; 0
- 146:	61 e0       	ldi	r22, 0x01	; 1
- 148:	0e 94 df 00 	call	0x1be	; 0x1be <_Z3ledbb>
- 14c:	8f ef       	ldi	r24, 0xFF	; 255
- 14e:	9f e7       	ldi	r25, 0x7F	; 127
- 150:	a6 e1       	ldi	r26, 0x16	; 22
- 152:	81 50       	subi	r24, 0x01	; 1
- 154:	90 40       	sbci	r25, 0x00	; 0
- 156:	a0 40       	sbci	r26, 0x00	; 0
- 158:	e1 f7       	brne	.-8      	; 0x152 <main+0xb2>
- 15a:	00 c0       	rjmp	.+0      	; 0x15c <main+0xbc>
- 15c:	00 00       	nop
+ 138:	80 e0       	ldi	r24, 0x00	; 0
+ 13a:	61 e0       	ldi	r22, 0x01	; 1
+ 13c:	0e 94 ce 00 	call	0x19c	; 0x19c <_Z3ledbb>
+ 140:	8f ef       	ldi	r24, 0xFF	; 255
+ 142:	9f e7       	ldi	r25, 0x7F	; 127
+ 144:	a6 e1       	ldi	r26, 0x16	; 22
+ 146:	81 50       	subi	r24, 0x01	; 1
+ 148:	90 40       	sbci	r25, 0x00	; 0
+ 14a:	a0 40       	sbci	r26, 0x00	; 0
+ 14c:	e1 f7       	brne	.-8      	; 0x146 <main+0xa6>
+ 14e:	00 c0       	rjmp	.+0      	; 0x150 <main+0xb0>
+ 150:	00 00       	nop
             _delay_ms(500);
             led(false, false);
- 15e:	80 e0       	ldi	r24, 0x00	; 0
- 160:	60 e0       	ldi	r22, 0x00	; 0
- 162:	0e 94 df 00 	call	0x1be	; 0x1be <_Z3ledbb>
- 166:	8f ef       	ldi	r24, 0xFF	; 255
- 168:	9f e7       	ldi	r25, 0x7F	; 127
- 16a:	a6 e1       	ldi	r26, 0x16	; 22
- 16c:	81 50       	subi	r24, 0x01	; 1
- 16e:	90 40       	sbci	r25, 0x00	; 0
- 170:	a0 40       	sbci	r26, 0x00	; 0
- 172:	e1 f7       	brne	.-8      	; 0x16c <main+0xcc>
- 174:	00 c0       	rjmp	.+0      	; 0x176 <main+0xd6>
- 176:	00 00       	nop
-    msg.data[5] = 11;
-    msg.data[6] = 12;
-    msg.data[7] = 42;
+ 152:	80 e0       	ldi	r24, 0x00	; 0
+ 154:	60 e0       	ldi	r22, 0x00	; 0
+ 156:	0e 94 ce 00 	call	0x19c	; 0x19c <_Z3ledbb>
+ 15a:	8f ef       	ldi	r24, 0xFF	; 255
+ 15c:	9f e7       	ldi	r25, 0x7F	; 127
+ 15e:	a6 e1       	ldi	r26, 0x16	; 22
+ 160:	81 50       	subi	r24, 0x01	; 1
+ 162:	90 40       	sbci	r25, 0x00	; 0
+ 164:	a0 40       	sbci	r26, 0x00	; 0
+ 166:	e1 f7       	brne	.-8      	; 0x160 <main+0xc0>
+ 168:	00 c0       	rjmp	.+0      	; 0x16a <main+0xca>
+ 16a:	00 00       	nop
+    msg.data[7] = '3';
+    //msg.data[8] = '4';
+    //msg.data[9] = '5';
 
     while(true) {
         if (can_send_message(&msg)) {
- 178:	c8 01       	movw	r24, r16
- 17a:	0e 94 a9 01 	call	0x352	; 0x352 <can_send_message>
- 17e:	88 23       	and	r24, r24
- 180:	09 f3       	breq	.-62     	; 0x144 <main+0xa4>
+ 16c:	c8 01       	movw	r24, r16
+ 16e:	0e 94 97 01 	call	0x32e	; 0x32e <can_send_message>
+ 172:	88 23       	and	r24, r24
+ 174:	09 f3       	breq	.-62     	; 0x138 <main+0x98>
             led(true, false);
- 182:	81 e0       	ldi	r24, 0x01	; 1
- 184:	60 e0       	ldi	r22, 0x00	; 0
- 186:	0e 94 df 00 	call	0x1be	; 0x1be <_Z3ledbb>
- 18a:	8f ef       	ldi	r24, 0xFF	; 255
- 18c:	9f e7       	ldi	r25, 0x7F	; 127
- 18e:	a4 e0       	ldi	r26, 0x04	; 4
- 190:	81 50       	subi	r24, 0x01	; 1
- 192:	90 40       	sbci	r25, 0x00	; 0
- 194:	a0 40       	sbci	r26, 0x00	; 0
- 196:	e1 f7       	brne	.-8      	; 0x190 <main+0xf0>
- 198:	00 c0       	rjmp	.+0      	; 0x19a <main+0xfa>
- 19a:	00 00       	nop
-            _delay_ms(100);
+ 176:	81 e0       	ldi	r24, 0x01	; 1
+ 178:	60 e0       	ldi	r22, 0x00	; 0
+ 17a:	0e 94 ce 00 	call	0x19c	; 0x19c <_Z3ledbb>
+            //_delay_ms(2);
             led(false, false);
- 19c:	80 e0       	ldi	r24, 0x00	; 0
- 19e:	60 e0       	ldi	r22, 0x00	; 0
- 1a0:	0e 94 df 00 	call	0x1be	; 0x1be <_Z3ledbb>
- 1a4:	8f ef       	ldi	r24, 0xFF	; 255
- 1a6:	9f e7       	ldi	r25, 0x7F	; 127
- 1a8:	a4 e0       	ldi	r26, 0x04	; 4
- 1aa:	81 50       	subi	r24, 0x01	; 1
- 1ac:	90 40       	sbci	r25, 0x00	; 0
- 1ae:	a0 40       	sbci	r26, 0x00	; 0
- 1b0:	e1 f7       	brne	.-8      	; 0x1aa <main+0x10a>
- 1b2:	00 c0       	rjmp	.+0      	; 0x1b4 <main+0x114>
- 1b4:	00 00       	nop
- 1b6:	c1 cf       	rjmp	.-126    	; 0x13a <main+0x9a>
+ 17e:	80 e0       	ldi	r24, 0x00	; 0
+ 180:	60 e0       	ldi	r22, 0x00	; 0
+ 182:	0e 94 ce 00 	call	0x19c	; 0x19c <_Z3ledbb>
+ 186:	86 e6       	ldi	r24, 0x66	; 102
+ 188:	96 ee       	ldi	r25, 0xE6	; 230
+ 18a:	a0 e0       	ldi	r26, 0x00	; 0
+ 18c:	81 50       	subi	r24, 0x01	; 1
+ 18e:	90 40       	sbci	r25, 0x00	; 0
+ 190:	a0 40       	sbci	r26, 0x00	; 0
+ 192:	e1 f7       	brne	.-8      	; 0x18c <main+0xec>
+ 194:	cc cf       	rjmp	.-104    	; 0x12e <main+0x8e>
 
-000001b8 <_Z9init_ledsv>:
+00000196 <_Z9init_ledsv>:
 
 #include "can.h"
 #include "can_testing.h"
 
 void init_leds() {
     DDRB = 0b00000011;  // set pins for LEDs as output
- 1b8:	83 e0       	ldi	r24, 0x03	; 3
- 1ba:	84 b9       	out	0x04, r24	; 4
+ 196:	83 e0       	ldi	r24, 0x03	; 3
+ 198:	84 b9       	out	0x04, r24	; 4
     return;
 }
- 1bc:	08 95       	ret
+ 19a:	08 95       	ret
 
-000001be <_Z3ledbb>:
+0000019c <_Z3ledbb>:
 
 void led (bool green, bool red) {
     if (green) PORTB |= (1 << 0);
- 1be:	88 23       	and	r24, r24
- 1c0:	29 f0       	breq	.+10     	; 0x1cc <_Z3ledbb+0xe>
- 1c2:	28 9a       	sbi	0x05, 0	; 5
+ 19c:	88 23       	and	r24, r24
+ 19e:	29 f0       	breq	.+10     	; 0x1aa <_Z3ledbb+0xe>
+ 1a0:	28 9a       	sbi	0x05, 0	; 5
     else PORTB &= ~(1 << 0);
 
     if (red) PORTB |= (1 << 1);
- 1c4:	66 23       	and	r22, r22
- 1c6:	29 f4       	brne	.+10     	; 0x1d2 <_Z3ledbb+0x14>
+ 1a2:	66 23       	and	r22, r22
+ 1a4:	29 f4       	brne	.+10     	; 0x1b0 <_Z3ledbb+0x14>
     else PORTB &= ~(1 << 1);
- 1c8:	29 98       	cbi	0x05, 1	; 5
- 1ca:	08 95       	ret
+ 1a6:	29 98       	cbi	0x05, 1	; 5
+ 1a8:	08 95       	ret
     return;
 }
 
 void led (bool green, bool red) {
     if (green) PORTB |= (1 << 0);
     else PORTB &= ~(1 << 0);
- 1cc:	28 98       	cbi	0x05, 0	; 5
+ 1aa:	28 98       	cbi	0x05, 0	; 5
 
     if (red) PORTB |= (1 << 1);
- 1ce:	66 23       	and	r22, r22
- 1d0:	d9 f3       	breq	.-10     	; 0x1c8 <_Z3ledbb+0xa>
- 1d2:	29 9a       	sbi	0x05, 1	; 5
- 1d4:	08 95       	ret
+ 1ac:	66 23       	and	r22, r22
+ 1ae:	d9 f3       	breq	.-10     	; 0x1a6 <_Z3ledbb+0xa>
+ 1b0:	29 9a       	sbi	0x05, 1	; 5
+ 1b2:	08 95       	ret
 
-000001d6 <mcp2515_write_register>:
+000001b4 <mcp2515_write_register>:
 	#error	invaild value of MCP2515_CLKOUT_PRESCALER
 #endif
 
 // -------------------------------------------------------------------------
 void mcp2515_write_register( uint8_t adress, uint8_t data )
 {
- 1d6:	1f 93       	push	r17
- 1d8:	df 93       	push	r29
- 1da:	cf 93       	push	r28
- 1dc:	0f 92       	push	r0
- 1de:	cd b7       	in	r28, 0x3d	; 61
- 1e0:	de b7       	in	r29, 0x3e	; 62
- 1e2:	18 2f       	mov	r17, r24
+ 1b4:	1f 93       	push	r17
+ 1b6:	df 93       	push	r29
+ 1b8:	cf 93       	push	r28
+ 1ba:	0f 92       	push	r0
+ 1bc:	cd b7       	in	r28, 0x3d	; 61
+ 1be:	de b7       	in	r29, 0x3e	; 62
+ 1c0:	18 2f       	mov	r17, r24
 	RESET(MCP2515_CS);
- 1e4:	2c 98       	cbi	0x05, 4	; 5
+ 1c2:	2c 98       	cbi	0x05, 4	; 5
 	
 	spi_putc(SPI_WRITE);
- 1e6:	82 e0       	ldi	r24, 0x02	; 2
- 1e8:	69 83       	std	Y+1, r22	; 0x01
- 1ea:	0e 94 36 02 	call	0x46c	; 0x46c <spi_putc>
+ 1c4:	82 e0       	ldi	r24, 0x02	; 2
+ 1c6:	69 83       	std	Y+1, r22	; 0x01
+ 1c8:	0e 94 fe 01 	call	0x3fc	; 0x3fc <spi_putc>
 	spi_putc(adress);
- 1ee:	81 2f       	mov	r24, r17
- 1f0:	0e 94 36 02 	call	0x46c	; 0x46c <spi_putc>
+ 1cc:	81 2f       	mov	r24, r17
+ 1ce:	0e 94 fe 01 	call	0x3fc	; 0x3fc <spi_putc>
 	spi_putc(data);
- 1f4:	69 81       	ldd	r22, Y+1	; 0x01
- 1f6:	86 2f       	mov	r24, r22
- 1f8:	0e 94 36 02 	call	0x46c	; 0x46c <spi_putc>
+ 1d2:	69 81       	ldd	r22, Y+1	; 0x01
+ 1d4:	86 2f       	mov	r24, r22
+ 1d6:	0e 94 fe 01 	call	0x3fc	; 0x3fc <spi_putc>
 	
 	SET(MCP2515_CS);
- 1fc:	2c 9a       	sbi	0x05, 4	; 5
+ 1da:	2c 9a       	sbi	0x05, 4	; 5
 }
- 1fe:	0f 90       	pop	r0
- 200:	cf 91       	pop	r28
- 202:	df 91       	pop	r29
- 204:	1f 91       	pop	r17
- 206:	08 95       	ret
+ 1dc:	0f 90       	pop	r0
+ 1de:	cf 91       	pop	r28
+ 1e0:	df 91       	pop	r29
+ 1e2:	1f 91       	pop	r17
+ 1e4:	08 95       	ret
 
-00000208 <mcp2515_read_register>:
+000001e6 <mcp2515_read_register>:
 
 // -------------------------------------------------------------------------
 uint8_t mcp2515_read_register(uint8_t adress)
 {
- 208:	1f 93       	push	r17
- 20a:	18 2f       	mov	r17, r24
+ 1e6:	1f 93       	push	r17
+ 1e8:	18 2f       	mov	r17, r24
 	uint8_t data;
 	
 	RESET(MCP2515_CS);
- 20c:	2c 98       	cbi	0x05, 4	; 5
+ 1ea:	2c 98       	cbi	0x05, 4	; 5
 	
 	spi_putc(SPI_READ);
- 20e:	83 e0       	ldi	r24, 0x03	; 3
- 210:	0e 94 36 02 	call	0x46c	; 0x46c <spi_putc>
+ 1ec:	83 e0       	ldi	r24, 0x03	; 3
+ 1ee:	0e 94 fe 01 	call	0x3fc	; 0x3fc <spi_putc>
 	spi_putc(adress);
- 214:	81 2f       	mov	r24, r17
- 216:	0e 94 36 02 	call	0x46c	; 0x46c <spi_putc>
+ 1f2:	81 2f       	mov	r24, r17
+ 1f4:	0e 94 fe 01 	call	0x3fc	; 0x3fc <spi_putc>
 	
 	data = spi_putc(0xff);	
- 21a:	8f ef       	ldi	r24, 0xFF	; 255
- 21c:	0e 94 36 02 	call	0x46c	; 0x46c <spi_putc>
+ 1f8:	8f ef       	ldi	r24, 0xFF	; 255
+ 1fa:	0e 94 fe 01 	call	0x3fc	; 0x3fc <spi_putc>
 	
 	SET(MCP2515_CS);
- 220:	2c 9a       	sbi	0x05, 4	; 5
+ 1fe:	2c 9a       	sbi	0x05, 4	; 5
 	
 	return data;
 }
- 222:	1f 91       	pop	r17
- 224:	08 95       	ret
+ 200:	1f 91       	pop	r17
+ 202:	08 95       	ret
 
-00000226 <mcp2515_bit_modify>:
+00000204 <mcp2515_bit_modify>:
 
 // -------------------------------------------------------------------------
 void mcp2515_bit_modify(uint8_t adress, uint8_t mask, uint8_t data)
 {
- 226:	1f 93       	push	r17
- 228:	df 93       	push	r29
- 22a:	cf 93       	push	r28
- 22c:	00 d0       	rcall	.+0      	; 0x22e <mcp2515_bit_modify+0x8>
- 22e:	cd b7       	in	r28, 0x3d	; 61
- 230:	de b7       	in	r29, 0x3e	; 62
- 232:	18 2f       	mov	r17, r24
+ 204:	1f 93       	push	r17
+ 206:	df 93       	push	r29
+ 208:	cf 93       	push	r28
+ 20a:	00 d0       	rcall	.+0      	; 0x20c <mcp2515_bit_modify+0x8>
+ 20c:	cd b7       	in	r28, 0x3d	; 61
+ 20e:	de b7       	in	r29, 0x3e	; 62
+ 210:	18 2f       	mov	r17, r24
 	RESET(MCP2515_CS);
- 234:	2c 98       	cbi	0x05, 4	; 5
+ 212:	2c 98       	cbi	0x05, 4	; 5
 	
 	spi_putc(SPI_BIT_MODIFY);
- 236:	85 e0       	ldi	r24, 0x05	; 5
- 238:	4a 83       	std	Y+2, r20	; 0x02
- 23a:	69 83       	std	Y+1, r22	; 0x01
- 23c:	0e 94 36 02 	call	0x46c	; 0x46c <spi_putc>
+ 214:	85 e0       	ldi	r24, 0x05	; 5
+ 216:	4a 83       	std	Y+2, r20	; 0x02
+ 218:	69 83       	std	Y+1, r22	; 0x01
+ 21a:	0e 94 fe 01 	call	0x3fc	; 0x3fc <spi_putc>
 	spi_putc(adress);
- 240:	81 2f       	mov	r24, r17
- 242:	0e 94 36 02 	call	0x46c	; 0x46c <spi_putc>
+ 21e:	81 2f       	mov	r24, r17
+ 220:	0e 94 fe 01 	call	0x3fc	; 0x3fc <spi_putc>
 	spi_putc(mask);
- 246:	69 81       	ldd	r22, Y+1	; 0x01
- 248:	86 2f       	mov	r24, r22
- 24a:	0e 94 36 02 	call	0x46c	; 0x46c <spi_putc>
+ 224:	69 81       	ldd	r22, Y+1	; 0x01
+ 226:	86 2f       	mov	r24, r22
+ 228:	0e 94 fe 01 	call	0x3fc	; 0x3fc <spi_putc>
 	spi_putc(data);
- 24e:	4a 81       	ldd	r20, Y+2	; 0x02
- 250:	84 2f       	mov	r24, r20
- 252:	0e 94 36 02 	call	0x46c	; 0x46c <spi_putc>
+ 22c:	4a 81       	ldd	r20, Y+2	; 0x02
+ 22e:	84 2f       	mov	r24, r20
+ 230:	0e 94 fe 01 	call	0x3fc	; 0x3fc <spi_putc>
 	
 	SET(MCP2515_CS);
- 256:	2c 9a       	sbi	0x05, 4	; 5
+ 234:	2c 9a       	sbi	0x05, 4	; 5
 }
- 258:	0f 90       	pop	r0
- 25a:	0f 90       	pop	r0
- 25c:	cf 91       	pop	r28
- 25e:	df 91       	pop	r29
- 260:	1f 91       	pop	r17
- 262:	08 95       	ret
+ 236:	0f 90       	pop	r0
+ 238:	0f 90       	pop	r0
+ 23a:	cf 91       	pop	r28
+ 23c:	df 91       	pop	r29
+ 23e:	1f 91       	pop	r17
+ 240:	08 95       	ret
 
-00000264 <mcp2515_read_status>:
+00000242 <mcp2515_read_status>:
 // ----------------------------------------------------------------------------
 uint8_t mcp2515_read_status(uint8_t type)
 {
 	uint8_t data;
 	
 	RESET(MCP2515_CS);
- 264:	2c 98       	cbi	0x05, 4	; 5
+ 242:	2c 98       	cbi	0x05, 4	; 5
 	
 	spi_putc(type);
- 266:	0e 94 36 02 	call	0x46c	; 0x46c <spi_putc>
+ 244:	0e 94 fe 01 	call	0x3fc	; 0x3fc <spi_putc>
 	data = spi_putc(0xff);
- 26a:	8f ef       	ldi	r24, 0xFF	; 255
- 26c:	0e 94 36 02 	call	0x46c	; 0x46c <spi_putc>
+ 248:	8f ef       	ldi	r24, 0xFF	; 255
+ 24a:	0e 94 fe 01 	call	0x3fc	; 0x3fc <spi_putc>
 	
 	SET(MCP2515_CS);
- 270:	2c 9a       	sbi	0x05, 4	; 5
+ 24e:	2c 9a       	sbi	0x05, 4	; 5
 	
 	return data;
 }
- 272:	08 95       	ret
+ 250:	08 95       	ret
 
-00000274 <can_init>:
+00000252 <can_init>:
 	}
 };
 
 // -------------------------------------------------------------------------
 bool mcp2515_init(uint8_t bitrate)
 {
- 274:	ef 92       	push	r14
- 276:	ff 92       	push	r15
- 278:	0f 93       	push	r16
- 27a:	1f 93       	push	r17
- 27c:	df 93       	push	r29
- 27e:	cf 93       	push	r28
- 280:	0f 92       	push	r0
- 282:	cd b7       	in	r28, 0x3d	; 61
- 284:	de b7       	in	r29, 0x3e	; 62
- 286:	18 2f       	mov	r17, r24
+ 252:	ef 92       	push	r14
+ 254:	ff 92       	push	r15
+ 256:	0f 93       	push	r16
+ 258:	1f 93       	push	r17
+ 25a:	df 93       	push	r29
+ 25c:	cf 93       	push	r28
+ 25e:	0f 92       	push	r0
+ 260:	cd b7       	in	r28, 0x3d	; 61
+ 262:	de b7       	in	r29, 0x3e	; 62
+ 264:	18 2f       	mov	r17, r24
 	if (bitrate >= 8)
- 288:	88 30       	cpi	r24, 0x08	; 8
- 28a:	08 f0       	brcs	.+2      	; 0x28e <can_init+0x1a>
- 28c:	59 c0       	rjmp	.+178    	; 0x340 <can_init+0xcc>
+ 266:	88 30       	cpi	r24, 0x08	; 8
+ 268:	08 f0       	brcs	.+2      	; 0x26c <can_init+0x1a>
+ 26a:	58 c0       	rjmp	.+176    	; 0x31c <can_init+0xca>
 		return false;
 	
 	SET(MCP2515_CS);
- 28e:	2c 9a       	sbi	0x05, 4	; 5
+ 26c:	2c 9a       	sbi	0x05, 4	; 5
 	SET_OUTPUT(MCP2515_CS);
- 290:	24 9a       	sbi	0x04, 4	; 4
+ 26e:	24 9a       	sbi	0x04, 4	; 4
 	
 	// Aktivieren der Pins fuer das SPI Interface
 	RESET(P_SCK);
- 292:	2f 98       	cbi	0x05, 7	; 5
+ 270:	2f 98       	cbi	0x05, 7	; 5
 	RESET(P_MOSI);
- 294:	2d 98       	cbi	0x05, 5	; 5
+ 272:	2d 98       	cbi	0x05, 5	; 5
 	RESET(P_MISO);
- 296:	2e 98       	cbi	0x05, 6	; 5
+ 274:	2e 98       	cbi	0x05, 6	; 5
 	
 	SET_OUTPUT(P_SCK);
- 298:	27 9a       	sbi	0x04, 7	; 4
+ 276:	27 9a       	sbi	0x04, 7	; 4
 	SET_OUTPUT(P_MOSI);
- 29a:	25 9a       	sbi	0x04, 5	; 4
+ 278:	25 9a       	sbi	0x04, 5	; 4
 	SET_INPUT(P_MISO);
- 29c:	26 98       	cbi	0x04, 6	; 4
+ 27a:	26 98       	cbi	0x04, 6	; 4
 	
 	// SPI Einstellung setzen
 	mcp2515_spi_init();
- 29e:	0e 94 31 02 	call	0x462	; 0x462 <mcp2515_spi_init>
+ 27c:	0e 94 f9 01 	call	0x3f2	; 0x3f2 <mcp2515_spi_init>
 	
 	// MCP2515 per Software Reset zuruecksetzten,
 	// danach ist er automatisch im Konfigurations Modus
 	RESET(MCP2515_CS);
- 2a2:	2c 98       	cbi	0x05, 4	; 5
+ 280:	2c 98       	cbi	0x05, 4	; 5
 	spi_putc(SPI_RESET);
- 2a4:	80 ec       	ldi	r24, 0xC0	; 192
- 2a6:	0e 94 36 02 	call	0x46c	; 0x46c <spi_putc>
- 2aa:	8f e9       	ldi	r24, 0x9F	; 159
- 2ac:	9f e0       	ldi	r25, 0x0F	; 15
- 2ae:	01 97       	sbiw	r24, 0x01	; 1
- 2b0:	f1 f7       	brne	.-4      	; 0x2ae <can_init+0x3a>
- 2b2:	00 c0       	rjmp	.+0      	; 0x2b4 <can_init+0x40>
- 2b4:	00 00       	nop
+ 282:	80 ec       	ldi	r24, 0xC0	; 192
+ 284:	0e 94 fe 01 	call	0x3fc	; 0x3fc <spi_putc>
+ 288:	86 e6       	ldi	r24, 0x66	; 102
+ 28a:	9e e0       	ldi	r25, 0x0E	; 14
+ 28c:	01 97       	sbiw	r24, 0x01	; 1
+ 28e:	f1 f7       	brne	.-4      	; 0x28c <can_init+0x3a>
+ 290:	00 00       	nop
 	
 	_delay_ms(1);
 	
 	SET(MCP2515_CS);
- 2b6:	2c 9a       	sbi	0x05, 4	; 5
- 2b8:	ef e3       	ldi	r30, 0x3F	; 63
- 2ba:	fc e9       	ldi	r31, 0x9C	; 156
- 2bc:	31 97       	sbiw	r30, 0x01	; 1
- 2be:	f1 f7       	brne	.-4      	; 0x2bc <can_init+0x48>
- 2c0:	00 c0       	rjmp	.+0      	; 0x2c2 <can_init+0x4e>
- 2c2:	00 00       	nop
+ 292:	2c 9a       	sbi	0x05, 4	; 5
+ 294:	ef ef       	ldi	r30, 0xFF	; 255
+ 296:	ff e8       	ldi	r31, 0x8F	; 143
+ 298:	31 97       	sbiw	r30, 0x01	; 1
+ 29a:	f1 f7       	brne	.-4      	; 0x298 <can_init+0x46>
+ 29c:	00 c0       	rjmp	.+0      	; 0x29e <can_init+0x4c>
+ 29e:	00 00       	nop
 	
 	// ein bisschen warten bis der MCP2515 sich neu gestartet hat
 	_delay_ms(10);
 	
 	// CNF1..3 Register laden (Bittiming)
 	RESET(MCP2515_CS);
- 2c4:	2c 98       	cbi	0x05, 4	; 5
+ 2a0:	2c 98       	cbi	0x05, 4	; 5
 	spi_putc(SPI_WRITE);
- 2c6:	82 e0       	ldi	r24, 0x02	; 2
- 2c8:	0e 94 36 02 	call	0x46c	; 0x46c <spi_putc>
+ 2a2:	82 e0       	ldi	r24, 0x02	; 2
+ 2a4:	0e 94 fe 01 	call	0x3fc	; 0x3fc <spi_putc>
 	spi_putc(CNF3);
- 2cc:	88 e2       	ldi	r24, 0x28	; 40
- 2ce:	0e 94 36 02 	call	0x46c	; 0x46c <spi_putc>
+ 2a8:	88 e2       	ldi	r24, 0x28	; 40
+ 2aa:	0e 94 fe 01 	call	0x3fc	; 0x3fc <spi_putc>
 	for (uint8_t i=0; i<3 ;i++ ) {
 		spi_putc(pgm_read_byte(&_mcp2515_cnf[bitrate][i]));
- 2d2:	83 e0       	ldi	r24, 0x03	; 3
- 2d4:	18 9f       	mul	r17, r24
- 2d6:	70 01       	movw	r14, r0
- 2d8:	11 24       	eor	r1, r1
+ 2ae:	83 e0       	ldi	r24, 0x03	; 3
+ 2b0:	18 9f       	mul	r17, r24
+ 2b2:	70 01       	movw	r14, r0
+ 2b4:	11 24       	eor	r1, r1
 		0
 	}
 };
 
 // -------------------------------------------------------------------------
 bool mcp2515_init(uint8_t bitrate)
- 2da:	87 01       	movw	r16, r14
- 2dc:	00 59       	subi	r16, 0x90	; 144
- 2de:	1f 4f       	sbci	r17, 0xFF	; 255
+ 2b6:	87 01       	movw	r16, r14
+ 2b8:	00 59       	subi	r16, 0x90	; 144
+ 2ba:	1f 4f       	sbci	r17, 0xFF	; 255
 	
 	// CNF1..3 Register laden (Bittiming)
 	RESET(MCP2515_CS);
 	spi_putc(SPI_WRITE);
 	spi_putc(CNF3);
 	for (uint8_t i=0; i<3 ;i++ ) {
- 2e0:	90 e0       	ldi	r25, 0x00	; 0
+ 2bc:	90 e0       	ldi	r25, 0x00	; 0
 		spi_putc(pgm_read_byte(&_mcp2515_cnf[bitrate][i]));
- 2e2:	f8 01       	movw	r30, r16
- 2e4:	84 91       	lpm	r24, Z+
- 2e6:	99 83       	std	Y+1, r25	; 0x01
- 2e8:	0e 94 36 02 	call	0x46c	; 0x46c <spi_putc>
+ 2be:	f8 01       	movw	r30, r16
+ 2c0:	84 91       	lpm	r24, Z+
+ 2c2:	99 83       	std	Y+1, r25	; 0x01
+ 2c4:	0e 94 fe 01 	call	0x3fc	; 0x3fc <spi_putc>
 	
 	// CNF1..3 Register laden (Bittiming)
 	RESET(MCP2515_CS);
 	spi_putc(SPI_WRITE);
 	spi_putc(CNF3);
 	for (uint8_t i=0; i<3 ;i++ ) {
- 2ec:	99 81       	ldd	r25, Y+1	; 0x01
- 2ee:	9f 5f       	subi	r25, 0xFF	; 255
- 2f0:	0f 5f       	subi	r16, 0xFF	; 255
- 2f2:	1f 4f       	sbci	r17, 0xFF	; 255
- 2f4:	93 30       	cpi	r25, 0x03	; 3
- 2f6:	a9 f7       	brne	.-22     	; 0x2e2 <can_init+0x6e>
+ 2c8:	99 81       	ldd	r25, Y+1	; 0x01
+ 2ca:	9f 5f       	subi	r25, 0xFF	; 255
+ 2cc:	0f 5f       	subi	r16, 0xFF	; 255
+ 2ce:	1f 4f       	sbci	r17, 0xFF	; 255
+ 2d0:	93 30       	cpi	r25, 0x03	; 3
+ 2d2:	a9 f7       	brne	.-22     	; 0x2be <can_init+0x6c>
 		spi_putc(pgm_read_byte(&_mcp2515_cnf[bitrate][i]));
 	}
 	// aktivieren/deaktivieren der Interrupts
 	spi_putc(MCP2515_INTERRUPTS);
- 2f8:	83 e0       	ldi	r24, 0x03	; 3
- 2fa:	0e 94 36 02 	call	0x46c	; 0x46c <spi_putc>
+ 2d4:	83 e0       	ldi	r24, 0x03	; 3
+ 2d6:	0e 94 fe 01 	call	0x3fc	; 0x3fc <spi_putc>
 	SET(MCP2515_CS);
- 2fe:	2c 9a       	sbi	0x05, 4	; 5
+ 2da:	2c 9a       	sbi	0x05, 4	; 5
 	
 	// TXnRTS Bits als Inputs schalten
 	mcp2515_write_register(TXRTSCTRL, 0);
- 300:	8d e0       	ldi	r24, 0x0D	; 13
- 302:	60 e0       	ldi	r22, 0x00	; 0
- 304:	0e 94 eb 00 	call	0x1d6	; 0x1d6 <mcp2515_write_register>
+ 2dc:	8d e0       	ldi	r24, 0x0D	; 13
+ 2de:	60 e0       	ldi	r22, 0x00	; 0
+ 2e0:	0e 94 da 00 	call	0x1b4	; 0x1b4 <mcp2515_write_register>
 	
 	#if defined(MCP2515_INT)
 		SET_INPUT(MCP2515_INT);
- 308:	22 98       	cbi	0x04, 2	; 4
+ 2e4:	22 98       	cbi	0x04, 2	; 4
 		SET(MCP2515_INT);
- 30a:	2a 9a       	sbi	0x05, 2	; 5
+ 2e6:	2a 9a       	sbi	0x05, 2	; 5
 			// activate the pin RX1BF as GPIO which is connected 
 			// to RS of MCP2551 and set it to 0
 			mcp2515_write_register(BFPCTRL, (1<<B1BFE));
 		#else
 			// Deaktivieren der Pins RXnBF Pins (High Impedance State)
 			mcp2515_write_register(BFPCTRL, 0);
- 30c:	8c e0       	ldi	r24, 0x0C	; 12
- 30e:	60 e0       	ldi	r22, 0x00	; 0
- 310:	0e 94 eb 00 	call	0x1d6	; 0x1d6 <mcp2515_write_register>
+ 2e8:	8c e0       	ldi	r24, 0x0C	; 12
+ 2ea:	60 e0       	ldi	r22, 0x00	; 0
+ 2ec:	0e 94 da 00 	call	0x1b4	; 0x1b4 <mcp2515_write_register>
 	#endif
 	
 	// Testen ob das auf die beschreibenen Register zugegriffen werden kann
 	// (=> ist der Chip ueberhaupt ansprechbar?)
 	bool error = false;
 	if (mcp2515_read_register(CNF2) != pgm_read_byte(&_mcp2515_cnf[bitrate][1])) {
- 314:	89 e2       	ldi	r24, 0x29	; 41
- 316:	0e 94 04 01 	call	0x208	; 0x208 <mcp2515_read_register>
- 31a:	18 2f       	mov	r17, r24
- 31c:	c7 01       	movw	r24, r14
- 31e:	8f 58       	subi	r24, 0x8F	; 143
- 320:	9f 4f       	sbci	r25, 0xFF	; 255
- 322:	fc 01       	movw	r30, r24
- 324:	04 91       	lpm	r16, Z+
+ 2f0:	89 e2       	ldi	r24, 0x29	; 41
+ 2f2:	0e 94 f3 00 	call	0x1e6	; 0x1e6 <mcp2515_read_register>
+ 2f6:	18 2f       	mov	r17, r24
+ 2f8:	c7 01       	movw	r24, r14
+ 2fa:	8f 58       	subi	r24, 0x8F	; 143
+ 2fc:	9f 4f       	sbci	r25, 0xFF	; 255
+ 2fe:	fc 01       	movw	r30, r24
+ 300:	04 91       	lpm	r16, Z+
 		error = true;
 	}
 	
 	// Device zurueck in den normalen Modus versetzten
 	// und aktivieren/deaktivieren des Clkout-Pins
 	mcp2515_write_register(CANCTRL, CLKOUT_PRESCALER_);
- 326:	8f e0       	ldi	r24, 0x0F	; 15
- 328:	60 e0       	ldi	r22, 0x00	; 0
- 32a:	0e 94 eb 00 	call	0x1d6	; 0x1d6 <mcp2515_write_register>
+ 302:	8f e0       	ldi	r24, 0x0F	; 15
+ 304:	60 e0       	ldi	r22, 0x00	; 0
+ 306:	0e 94 da 00 	call	0x1b4	; 0x1b4 <mcp2515_write_register>
 	
 	if (error) {
- 32e:	10 17       	cp	r17, r16
- 330:	39 f4       	brne	.+14     	; 0x340 <can_init+0xcc>
+ 30a:	10 17       	cp	r17, r16
+ 30c:	39 f4       	brne	.+14     	; 0x31c <can_init+0xca>
 		return false;
 	}
 	else
 	{
 		while ((mcp2515_read_register(CANSTAT) & 0xe0) != 0) {
- 332:	8e e0       	ldi	r24, 0x0E	; 14
- 334:	0e 94 04 01 	call	0x208	; 0x208 <mcp2515_read_register>
- 338:	80 7e       	andi	r24, 0xE0	; 224
- 33a:	d9 f7       	brne	.-10     	; 0x332 <can_init+0xbe>
+ 30e:	8e e0       	ldi	r24, 0x0E	; 14
+ 310:	0e 94 f3 00 	call	0x1e6	; 0x1e6 <mcp2515_read_register>
+ 314:	80 7e       	andi	r24, 0xE0	; 224
+ 316:	d9 f7       	brne	.-10     	; 0x30e <can_init+0xbc>
 			// warten bis der neue Modus uebernommen wurde
 		}
 		
 		return true;
- 33c:	81 e0       	ldi	r24, 0x01	; 1
- 33e:	01 c0       	rjmp	.+2      	; 0x342 <can_init+0xce>
+ 318:	81 e0       	ldi	r24, 0x01	; 1
+ 31a:	01 c0       	rjmp	.+2      	; 0x31e <can_init+0xcc>
 	// Device zurueck in den normalen Modus versetzten
 	// und aktivieren/deaktivieren des Clkout-Pins
 	mcp2515_write_register(CANCTRL, CLKOUT_PRESCALER_);
 	
 	if (error) {
 		return false;
- 340:	80 e0       	ldi	r24, 0x00	; 0
+ 31c:	80 e0       	ldi	r24, 0x00	; 0
 			// warten bis der neue Modus uebernommen wurde
 		}
 		
 		return true;
 	}
 }
- 342:	0f 90       	pop	r0
- 344:	cf 91       	pop	r28
- 346:	df 91       	pop	r29
- 348:	1f 91       	pop	r17
- 34a:	0f 91       	pop	r16
- 34c:	ff 90       	pop	r15
- 34e:	ef 90       	pop	r14
- 350:	08 95       	ret
+ 31e:	0f 90       	pop	r0
+ 320:	cf 91       	pop	r28
+ 322:	df 91       	pop	r29
+ 324:	1f 91       	pop	r17
+ 326:	0f 91       	pop	r16
+ 328:	ff 90       	pop	r15
+ 32a:	ef 90       	pop	r14
+ 32c:	08 95       	ret
 
-00000352 <can_send_message>:
+0000032e <can_send_message>:
 
 #include <util/delay.h>
 
 // ----------------------------------------------------------------------------
 uint8_t mcp2515_send_message(const can_t *msg)
 {
- 352:	ff 92       	push	r15
- 354:	0f 93       	push	r16
- 356:	1f 93       	push	r17
- 358:	cf 93       	push	r28
- 35a:	df 93       	push	r29
- 35c:	ec 01       	movw	r28, r24
+ 32e:	ff 92       	push	r15
+ 330:	0f 93       	push	r16
+ 332:	1f 93       	push	r17
+ 334:	cf 93       	push	r28
+ 336:	df 93       	push	r29
+ 338:	ec 01       	movw	r28, r24
 	// Status des MCP2515 auslesen
 	uint8_t status = mcp2515_read_status(SPI_READ_STATUS);
- 35e:	80 ea       	ldi	r24, 0xA0	; 160
- 360:	0e 94 32 01 	call	0x264	; 0x264 <mcp2515_read_status>
+ 33a:	80 ea       	ldi	r24, 0xA0	; 160
+ 33c:	0e 94 21 01 	call	0x242	; 0x242 <mcp2515_read_status>
 	 *  2	TXB0CNTRL.TXREQ
 	 *  4	TXB1CNTRL.TXREQ
 	 *  6	TXB2CNTRL.TXREQ
 	 */
 	uint8_t address;
 	if (_bit_is_clear(status, 2)) {
- 364:	82 ff       	sbrs	r24, 2
- 366:	06 c0       	rjmp	.+12     	; 0x374 <can_send_message+0x22>
+ 340:	82 ff       	sbrs	r24, 2
+ 342:	06 c0       	rjmp	.+12     	; 0x350 <can_send_message+0x22>
 		address = 0x00;
 	}
 	else if (_bit_is_clear(status, 4)) {
- 368:	84 ff       	sbrs	r24, 4
- 36a:	06 c0       	rjmp	.+12     	; 0x378 <can_send_message+0x26>
+ 344:	84 ff       	sbrs	r24, 4
+ 346:	06 c0       	rjmp	.+12     	; 0x354 <can_send_message+0x26>
 		address = 0x02;
 	} 
 	else if (_bit_is_clear(status, 6)) {
- 36c:	86 fd       	sbrc	r24, 6
- 36e:	35 c0       	rjmp	.+106    	; 0x3da <can_send_message+0x88>
+ 348:	86 fd       	sbrc	r24, 6
+ 34a:	31 c0       	rjmp	.+98     	; 0x3ae <can_send_message+0x80>
 		address = 0x04;
- 370:	14 e0       	ldi	r17, 0x04	; 4
- 372:	03 c0       	rjmp	.+6      	; 0x37a <can_send_message+0x28>
+ 34c:	14 e0       	ldi	r17, 0x04	; 4
+ 34e:	03 c0       	rjmp	.+6      	; 0x356 <can_send_message+0x28>
 	 *  4	TXB1CNTRL.TXREQ
 	 *  6	TXB2CNTRL.TXREQ
 	 */
 	uint8_t address;
 	if (_bit_is_clear(status, 2)) {
 		address = 0x00;
- 374:	10 e0       	ldi	r17, 0x00	; 0
- 376:	01 c0       	rjmp	.+2      	; 0x37a <can_send_message+0x28>
+ 350:	10 e0       	ldi	r17, 0x00	; 0
+ 352:	01 c0       	rjmp	.+2      	; 0x356 <can_send_message+0x28>
 	}
 	else if (_bit_is_clear(status, 4)) {
 		address = 0x02;
- 378:	12 e0       	ldi	r17, 0x02	; 2
+ 354:	12 e0       	ldi	r17, 0x02	; 2
 		// Alle Puffer sind belegt,
 		// Nachricht kann nicht verschickt werden
 		return 0;
 	}
 	
 	RESET(MCP2515_CS);
- 37a:	2c 98       	cbi	0x05, 4	; 5
+ 356:	2c 98       	cbi	0x05, 4	; 5
 	spi_putc(SPI_WRITE_TX | address);
- 37c:	81 2f       	mov	r24, r17
- 37e:	80 64       	ori	r24, 0x40	; 64
- 380:	0e 94 36 02 	call	0x46c	; 0x46c <spi_putc>
+ 358:	81 2f       	mov	r24, r17
+ 35a:	80 64       	ori	r24, 0x40	; 64
+ 35c:	0e 94 fe 01 	call	0x3fc	; 0x3fc <spi_putc>
 	#if SUPPORT_EXTENDED_CANID
 		mcp2515_write_id(&msg->id, msg->flags.extended);
- 384:	6c 81       	ldd	r22, Y+4	; 0x04
- 386:	66 95       	lsr	r22
- 388:	61 70       	andi	r22, 0x01	; 1
- 38a:	ce 01       	movw	r24, r28
- 38c:	0e 94 f5 01 	call	0x3ea	; 0x3ea <mcp2515_write_id>
 	#else
 		mcp2515_write_id(&msg->id);
+ 360:	ce 01       	movw	r24, r28
+ 362:	0e 94 df 01 	call	0x3be	; 0x3be <mcp2515_write_id>
 	#endif
 	uint8_t length = msg->length & 0x0f;
- 390:	0d 81       	ldd	r16, Y+5	; 0x05
- 392:	0f 70       	andi	r16, 0x0F	; 15
+ 366:	0b 81       	ldd	r16, Y+3	; 0x03
+ 368:	0f 70       	andi	r16, 0x0F	; 15
 	
 	// Ist die Nachricht ein "Remote Transmit Request" ?
 	if (msg->flags.rtr)
- 394:	8c 81       	ldd	r24, Y+4	; 0x04
- 396:	80 ff       	sbrs	r24, 0
- 398:	05 c0       	rjmp	.+10     	; 0x3a4 <can_send_message+0x52>
+ 36a:	8a 81       	ldd	r24, Y+2	; 0x02
+ 36c:	80 ff       	sbrs	r24, 0
+ 36e:	05 c0       	rjmp	.+10     	; 0x37a <can_send_message+0x4c>
 	{
 		// Ein RTR hat zwar eine Laenge,
 		// enthaelt aber keine Daten
 		
 		// Nachrichten Laenge + RTR einstellen
 		spi_putc((1<<RTR) | length);
- 39a:	80 2f       	mov	r24, r16
- 39c:	80 64       	ori	r24, 0x40	; 64
- 39e:	0e 94 36 02 	call	0x46c	; 0x46c <spi_putc>
- 3a2:	0c c0       	rjmp	.+24     	; 0x3bc <can_send_message+0x6a>
+ 370:	80 2f       	mov	r24, r16
+ 372:	80 64       	ori	r24, 0x40	; 64
+ 374:	0e 94 fe 01 	call	0x3fc	; 0x3fc <spi_putc>
+ 378:	0c c0       	rjmp	.+24     	; 0x392 <can_send_message+0x64>
 	}
 	else
 	{
 		// Nachrichten Laenge einstellen
 		spi_putc(length);
- 3a4:	80 2f       	mov	r24, r16
- 3a6:	0e 94 36 02 	call	0x46c	; 0x46c <spi_putc>
+ 37a:	80 2f       	mov	r24, r16
+ 37c:	0e 94 fe 01 	call	0x3fc	; 0x3fc <spi_putc>
 #ifdef	SUPPORT_FOR_MCP2515__
 
 #include <util/delay.h>
 
 // ----------------------------------------------------------------------------
 uint8_t mcp2515_send_message(const can_t *msg)
- 3aa:	26 96       	adiw	r28, 0x06	; 6
+ 380:	24 96       	adiw	r28, 0x04	; 4
 	{
 		// Nachrichten Laenge einstellen
 		spi_putc(length);
 		
 		// Daten
 		for (uint8_t i=0;i<length;i++) {
- 3ac:	ff 24       	eor	r15, r15
- 3ae:	04 c0       	rjmp	.+8      	; 0x3b8 <can_send_message+0x66>
+ 382:	ff 24       	eor	r15, r15
+ 384:	04 c0       	rjmp	.+8      	; 0x38e <can_send_message+0x60>
 			spi_putc(msg->data[i]);
- 3b0:	89 91       	ld	r24, Y+
- 3b2:	0e 94 36 02 	call	0x46c	; 0x46c <spi_putc>
+ 386:	89 91       	ld	r24, Y+
+ 388:	0e 94 fe 01 	call	0x3fc	; 0x3fc <spi_putc>
 	{
 		// Nachrichten Laenge einstellen
 		spi_putc(length);
 		
 		// Daten
 		for (uint8_t i=0;i<length;i++) {
- 3b6:	f3 94       	inc	r15
- 3b8:	f0 16       	cp	r15, r16
- 3ba:	d0 f3       	brcs	.-12     	; 0x3b0 <can_send_message+0x5e>
+ 38c:	f3 94       	inc	r15
+ 38e:	f0 16       	cp	r15, r16
+ 390:	d0 f3       	brcs	.-12     	; 0x386 <can_send_message+0x58>
 			spi_putc(msg->data[i]);
 		}
 	}
 	SET(MCP2515_CS);
- 3bc:	2c 9a       	sbi	0x05, 4	; 5
+ 392:	2c 9a       	sbi	0x05, 4	; 5
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
- 3be:	85 e0       	ldi	r24, 0x05	; 5
- 3c0:	8a 95       	dec	r24
- 3c2:	f1 f7       	brne	.-4      	; 0x3c0 <can_send_message+0x6e>
- 3c4:	00 00       	nop
+ 394:	85 e0       	ldi	r24, 0x05	; 5
+ 396:	8a 95       	dec	r24
+ 398:	f1 f7       	brne	.-4      	; 0x396 <can_send_message+0x68>
 	_delay_us(1);
 	
 	// CAN Nachricht verschicken
 	// die letzten drei Bit im RTS Kommando geben an welcher
 	// Puffer gesendet werden soll.
 	RESET(MCP2515_CS);
- 3c6:	2c 98       	cbi	0x05, 4	; 5
+ 39a:	2c 98       	cbi	0x05, 4	; 5
 	address = (address == 0) ? 1 : address;
- 3c8:	11 23       	and	r17, r17
- 3ca:	09 f4       	brne	.+2      	; 0x3ce <can_send_message+0x7c>
- 3cc:	11 e0       	ldi	r17, 0x01	; 1
+ 39c:	11 23       	and	r17, r17
+ 39e:	09 f4       	brne	.+2      	; 0x3a2 <can_send_message+0x74>
+ 3a0:	11 e0       	ldi	r17, 0x01	; 1
 	spi_putc(SPI_RTS | address);
- 3ce:	81 2f       	mov	r24, r17
- 3d0:	80 68       	ori	r24, 0x80	; 128
- 3d2:	0e 94 36 02 	call	0x46c	; 0x46c <spi_putc>
+ 3a2:	81 2f       	mov	r24, r17
+ 3a4:	80 68       	ori	r24, 0x80	; 128
+ 3a6:	0e 94 fe 01 	call	0x3fc	; 0x3fc <spi_putc>
 	SET(MCP2515_CS);
- 3d6:	2c 9a       	sbi	0x05, 4	; 5
+ 3aa:	2c 9a       	sbi	0x05, 4	; 5
 	
 	CAN_INDICATE_TX_TRAFFIC_FUNCTION;
 	
 	return address;
- 3d8:	01 c0       	rjmp	.+2      	; 0x3dc <can_send_message+0x8a>
+ 3ac:	01 c0       	rjmp	.+2      	; 0x3b0 <can_send_message+0x82>
 		address = 0x04;
 	}
 	else {
 		// Alle Puffer sind belegt,
 		// Nachricht kann nicht verschickt werden
 		return 0;
- 3da:	10 e0       	ldi	r17, 0x00	; 0
+ 3ae:	10 e0       	ldi	r17, 0x00	; 0
 	SET(MCP2515_CS);
 	
 	CAN_INDICATE_TX_TRAFFIC_FUNCTION;
 	
 	return address;
 }
- 3dc:	81 2f       	mov	r24, r17
- 3de:	df 91       	pop	r29
- 3e0:	cf 91       	pop	r28
- 3e2:	1f 91       	pop	r17
- 3e4:	0f 91       	pop	r16
- 3e6:	ff 90       	pop	r15
- 3e8:	08 95       	ret
+ 3b0:	81 2f       	mov	r24, r17
+ 3b2:	df 91       	pop	r29
+ 3b4:	cf 91       	pop	r28
+ 3b6:	1f 91       	pop	r17
+ 3b8:	0f 91       	pop	r16
+ 3ba:	ff 90       	pop	r15
+ 3bc:	08 95       	ret
 
-000003ea <mcp2515_write_id>:
- */
+000003be <mcp2515_write_id>:
+}
 
-#if SUPPORT_EXTENDED_CANID
+#else
 
-void mcp2515_write_id(const uint32_t *id, uint8_t extended)
+void mcp2515_write_id(const uint16_t *id)
 {
- 3ea:	cf 93       	push	r28
- 3ec:	df 93       	push	r29
- 3ee:	ec 01       	movw	r28, r24
+ 3be:	fc 01       	movw	r30, r24
 	uint8_t tmp;
 	
-	if (extended) {
- 3f0:	66 23       	and	r22, r22
- 3f2:	e1 f0       	breq	.+56     	; 0x42c <mcp2515_write_id+0x42>
-		spi_start(*((uint16_t *) id + 1) >> 5);
- 3f4:	8a 81       	ldd	r24, Y+2	; 0x02
- 3f6:	9b 81       	ldd	r25, Y+3	; 0x03
- 3f8:	35 e0       	ldi	r19, 0x05	; 5
- 3fa:	96 95       	lsr	r25
- 3fc:	87 95       	ror	r24
- 3fe:	3a 95       	dec	r19
- 400:	e1 f7       	brne	.-8      	; 0x3fa <mcp2515_write_id+0x10>
+	spi_start(*id >> 3);
+ 3c0:	20 81       	ld	r18, Z
+ 3c2:	31 81       	ldd	r19, Z+1	; 0x01
+ 3c4:	83 e0       	ldi	r24, 0x03	; 3
+ 3c6:	36 95       	lsr	r19
+ 3c8:	27 95       	ror	r18
+ 3ca:	8a 95       	dec	r24
+ 3cc:	e1 f7       	brne	.-8      	; 0x3c6 <mcp2515_write_id+0x8>
 }
 
 #else
 
 static void spi_start(uint8_t data) {
 	SPDR = data;
- 402:	8e bd       	out	0x2e, r24	; 46
+ 3ce:	2e bd       	out	0x2e, r18	; 46
+void mcp2515_write_id(const uint16_t *id)
+{
+	uint8_t tmp;
 	
-	if (extended) {
-		spi_start(*((uint16_t *) id + 1) >> 5);
-		
-		// naechsten Werte berechnen
-		tmp  = (*((uint8_t *) id + 2) << 3) & 0xe0;
- 404:	9a 81       	ldd	r25, Y+2	; 0x02
- 406:	89 2f       	mov	r24, r25
- 408:	88 0f       	add	r24, r24
- 40a:	88 0f       	add	r24, r24
- 40c:	88 0f       	add	r24, r24
- 40e:	80 7e       	andi	r24, 0xE0	; 224
-		tmp |= (1 << IDE);
- 410:	88 60       	ori	r24, 0x08	; 8
-		tmp |= (*((uint8_t *) id + 2)) & 0x03;
- 412:	93 70       	andi	r25, 0x03	; 3
- 414:	89 2b       	or	r24, r25
+	spi_start(*id >> 3);
+	tmp = *((uint8_t *) id) << 5;
+ 3d0:	80 81       	ld	r24, Z
+ 3d2:	82 95       	swap	r24
+ 3d4:	88 0f       	add	r24, r24
+ 3d6:	80 7e       	andi	r24, 0xE0	; 224
 	SPDR = data;
 }
 
 static uint8_t spi_wait(void) {
 	// warten bis der vorherige Werte geschrieben wurde
 	while(!(SPSR & (1<<SPIF)))
- 416:	0d b4       	in	r0, 0x2d	; 45
- 418:	07 fe       	sbrs	r0, 7
- 41a:	fd cf       	rjmp	.-6      	; 0x416 <mcp2515_write_id+0x2c>
+ 3d8:	0d b4       	in	r0, 0x2d	; 45
+ 3da:	07 fe       	sbrs	r0, 7
+ 3dc:	fd cf       	rjmp	.-6      	; 0x3d8 <mcp2515_write_id+0x1a>
 		;
 	
 	return SPDR;
- 41c:	9e b5       	in	r25, 0x2e	; 46
-		
-		// warten bis der vorherige Werte geschrieben wurde
-		spi_wait();
-		
-		// restliche Werte schreiben
-		spi_putc(tmp);
- 41e:	0e 94 36 02 	call	0x46c	; 0x46c <spi_putc>
-		spi_putc(*((uint8_t *) id + 1));
- 422:	89 81       	ldd	r24, Y+1	; 0x01
- 424:	0e 94 36 02 	call	0x46c	; 0x46c <spi_putc>
-		spi_putc(*((uint8_t *) id));
- 428:	88 81       	ld	r24, Y
- 42a:	16 c0       	rjmp	.+44     	; 0x458 <mcp2515_write_id+0x6e>
-	}
-	else {
-		spi_start(*((uint16_t *) id) >> 3);
- 42c:	88 81       	ld	r24, Y
- 42e:	99 81       	ldd	r25, Y+1	; 0x01
- 430:	23 e0       	ldi	r18, 0x03	; 3
- 432:	96 95       	lsr	r25
- 434:	87 95       	ror	r24
- 436:	2a 95       	dec	r18
- 438:	e1 f7       	brne	.-8      	; 0x432 <mcp2515_write_id+0x48>
-}
-
-#else
-
-static void spi_start(uint8_t data) {
-	SPDR = data;
- 43a:	8e bd       	out	0x2e, r24	; 46
-	}
-	else {
-		spi_start(*((uint16_t *) id) >> 3);
-		
-		// naechsten Werte berechnen
-		tmp = *((uint8_t *) id) << 5;
- 43c:	88 81       	ld	r24, Y
- 43e:	82 95       	swap	r24
- 440:	88 0f       	add	r24, r24
- 442:	80 7e       	andi	r24, 0xE0	; 224
-	SPDR = data;
-}
-
-static uint8_t spi_wait(void) {
-	// warten bis der vorherige Werte geschrieben wurde
-	while(!(SPSR & (1<<SPIF)))
- 444:	0d b4       	in	r0, 0x2d	; 45
- 446:	07 fe       	sbrs	r0, 7
- 448:	fd cf       	rjmp	.-6      	; 0x444 <mcp2515_write_id+0x5a>
-		;
+ 3de:	9e b5       	in	r25, 0x2e	; 46
 	
-	return SPDR;
- 44a:	9e b5       	in	r25, 0x2e	; 46
-		
-		// naechsten Werte berechnen
-		tmp = *((uint8_t *) id) << 5;
-		spi_wait();
-		
-		spi_putc(tmp);
- 44c:	0e 94 36 02 	call	0x46c	; 0x46c <spi_putc>
-		spi_putc(0);
- 450:	80 e0       	ldi	r24, 0x00	; 0
- 452:	0e 94 36 02 	call	0x46c	; 0x46c <spi_putc>
-		spi_putc(0);
- 456:	80 e0       	ldi	r24, 0x00	; 0
- 458:	0e 94 36 02 	call	0x46c	; 0x46c <spi_putc>
-	}
+	spi_start(*id >> 3);
+	tmp = *((uint8_t *) id) << 5;
+	spi_wait();
+	
+	spi_putc(tmp);
+ 3e0:	0e 94 fe 01 	call	0x3fc	; 0x3fc <spi_putc>
+	spi_putc(0);
+ 3e4:	80 e0       	ldi	r24, 0x00	; 0
+ 3e6:	0e 94 fe 01 	call	0x3fc	; 0x3fc <spi_putc>
+	spi_putc(0);
+ 3ea:	80 e0       	ldi	r24, 0x00	; 0
+ 3ec:	0e 94 fe 01 	call	0x3fc	; 0x3fc <spi_putc>
 }
- 45c:	df 91       	pop	r29
- 45e:	cf 91       	pop	r28
- 460:	08 95       	ret
+ 3f0:	08 95       	ret
 
-00000462 <mcp2515_spi_init>:
+000003f2 <mcp2515_spi_init>:
 // ----------------------------------------------------------------------------
 void mcp2515_spi_init(void)
 {
 	#ifndef USE_SOFTWARE_SPI
 		// Aktivieren des SPI Master Interfaces
 		SPCR = (1<<SPE)|(1<<MSTR) | R_SPCR;
- 462:	81 e5       	ldi	r24, 0x51	; 81
- 464:	8c bd       	out	0x2c, r24	; 44
+ 3f2:	81 e5       	ldi	r24, 0x51	; 81
+ 3f4:	8c bd       	out	0x2c, r24	; 44
 		SPSR = R_SPSR;
- 466:	81 e0       	ldi	r24, 0x01	; 1
- 468:	8d bd       	out	0x2d, r24	; 45
+ 3f6:	81 e0       	ldi	r24, 0x01	; 1
+ 3f8:	8d bd       	out	0x2d, r24	; 45
 	#endif
 }
- 46a:	08 95       	ret
+ 3fa:	08 95       	ret
 
-0000046c <spi_putc>:
+000003fc <spi_putc>:
 	return data_in;
 	
 	#else
 	
 	// put byte in send-buffer
 	SPDR = data;
- 46c:	8e bd       	out	0x2e, r24	; 46
+ 3fc:	8e bd       	out	0x2e, r24	; 46
 	
 	// wait until byte was send
 	while( !( SPSR & (1<<SPIF) ) )
- 46e:	0d b4       	in	r0, 0x2d	; 45
- 470:	07 fe       	sbrs	r0, 7
- 472:	fd cf       	rjmp	.-6      	; 0x46e <spi_putc+0x2>
+ 3fe:	0d b4       	in	r0, 0x2d	; 45
+ 400:	07 fe       	sbrs	r0, 7
+ 402:	fd cf       	rjmp	.-6      	; 0x3fe <spi_putc+0x2>
 		;
 	
 	return SPDR;
- 474:	8e b5       	in	r24, 0x2e	; 46
+ 404:	8e b5       	in	r24, 0x2e	; 46
 	
 	#endif
 }
- 476:	08 95       	ret
+ 406:	08 95       	ret
 
-00000478 <_exit>:
- 478:	f8 94       	cli
+00000408 <_exit>:
+ 408:	f8 94       	cli
 
-0000047a <__stop_program>:
- 47a:	ff cf       	rjmp	.-2      	; 0x47a <__stop_program>
+0000040a <__stop_program>:
+ 40a:	ff cf       	rjmp	.-2      	; 0x40a <__stop_program>

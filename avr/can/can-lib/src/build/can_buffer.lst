@@ -9,11 +9,11 @@
   16               	.Letext0:
 DEFINED SYMBOLS
                             *ABS*:00000000 can_buffer.c
-     /tmp/ccHdZ44G.s:2      *ABS*:0000003f __SREG__
-     /tmp/ccHdZ44G.s:3      *ABS*:0000003e __SP_H__
-     /tmp/ccHdZ44G.s:4      *ABS*:0000003d __SP_L__
-     /tmp/ccHdZ44G.s:5      *ABS*:00000034 __CCP__
-     /tmp/ccHdZ44G.s:6      *ABS*:00000000 __tmp_reg__
-     /tmp/ccHdZ44G.s:7      *ABS*:00000001 __zero_reg__
+     /tmp/ccY48KHh.s:2      *ABS*:0000003f __SREG__
+     /tmp/ccY48KHh.s:3      *ABS*:0000003e __SP_H__
+     /tmp/ccY48KHh.s:4      *ABS*:0000003d __SP_L__
+     /tmp/ccY48KHh.s:5      *ABS*:00000034 __CCP__
+     /tmp/ccY48KHh.s:6      *ABS*:00000000 __tmp_reg__
+     /tmp/ccY48KHh.s:7      *ABS*:00000001 __zero_reg__
 
 NO UNDEFINED SYMBOLS

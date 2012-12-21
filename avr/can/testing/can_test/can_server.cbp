@@ -46,6 +46,8 @@
 		<Unit filename="can_server.cpp" />
 		<Unit filename="can_testing.cpp" />
 		<Unit filename="can_testing.h" />
+		<Unit filename="uart.cpp" />
+		<Unit filename="uart.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
