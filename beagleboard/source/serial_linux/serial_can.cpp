@@ -37,8 +37,8 @@ int main (int argc, char** argv) {
         return -1;
     }
     else {
-        cfsetospeed(&attribs, B38400);            // 115200 baud
-        cfsetispeed(&attribs, B38400);            // 115200 baud
+        cfsetospeed(&attribs, B921600);            // 115200 baud
+        cfsetispeed(&attribs, B921600);            // 115200 baud
 
         tcsetattr(tty_sock, TCSANOW,&attribs);
 
