@@ -133,3 +133,15 @@ unsigned char uart_putstr(char str[])
 }
 
 
+unsigned char uart_isnewdata()
+{
+    if(uart_rx_read == uart_rx_write)
+    {
+        return 0;
+    }
+    else
+    {
+        return 1;
+    }
+}
+
