@@ -23,7 +23,7 @@ int main () {
     //msg.id = 0x0234567C;
     //msg.id = 0x0234567F;
 
-    msg.id = 0x1;
+    msg.id = 123;
 
     msg.flags.rtr = 0;
     //msg.flags.extended = 0;

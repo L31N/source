@@ -146,8 +146,8 @@ int main () {
     //msg.id = 0x0234567C;
     //msg.id = 0x0234567F;
 
-    msg.id = 0x1;
-  f8:	81 e0       	ldi	r24, 0x01	; 1
+    msg.id = 123;
+  f8:	8b e7       	ldi	r24, 0x7B	; 123
   fa:	90 e0       	ldi	r25, 0x00	; 0
   fc:	9a 83       	std	Y+2, r25	; 0x02
   fe:	89 83       	std	Y+1, r24	; 0x01

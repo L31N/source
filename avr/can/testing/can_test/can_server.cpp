@@ -76,7 +76,7 @@ int main () {
 
 
    while(true) {
-        /*if (can_check_message()) {
+        if (can_check_message()) {
             can_t msg;
             if (can_get_message(&msg)) {
 
@@ -91,7 +91,7 @@ int main () {
                 uart_putstr(data);
 
                 led(true, true);
-                //_delay_ms(1);
+                _delay_ms(10);
                 led(false, false);
             }
             else {
@@ -99,15 +99,15 @@ int main () {
                 _delay_ms(10);
                 led(false, false);
             }
-        }*/
+        }
 
 
-        char* data = (char*) malloc(2);
+        /*char* data = (char*) malloc(2);
         memset (data, 0, 2);
         *data = '.';
         *(data+1) = '\0';
         uart_putstr(data);
-        _delay_ms(30);
+        _delay_ms(30);*/
     }
 
 
