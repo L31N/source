@@ -66,9 +66,15 @@ int main () {
                     led(false, false);
                 }
             }
-            else if (incomming_serial_data[0] == 'c') {  ///  set callibarations like filters etc.
+            else if (incomming_serial_data[0] == 'f') {  ///  set callibrate filters
+                can_filter_t filterX;
+                filterX.mask = 0x1F0;
+                filterX.id = incomming_serial_data[2];
+                filterX.rtr = incomming_serial_data[3];
 
+                can_set_filter(incomming_serial_data[1], &filterX);
             }
+            //else {} /// error - unknown cmd-byte !
         }
         if (can_check_message()) {  /// neue CAN messages vorhanden
             can_t incomming_can_data;
