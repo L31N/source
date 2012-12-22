@@ -8,12 +8,24 @@
 
 #include <util/delay.h>
 
+/*can_t {
+        uint16_t id;				//!< ID der Nachricht (11 Bit)
+		struct {
+			int rtr : 1;			//!< Remote-Transmit-Request-Frame?
+		} flags;
+
+        uint8_t length;				//!< Anzahl der Datenbytes
+        uint8_t data[8];			//!< Die Daten der CAN Nachricht
+}*/
+
 int main () {
     uart_init(115200);
     init_leds();
     can_init(BITRATE_1_MBPS);
 
     indicate_init();                // flashing LEDs
+
+    // FILTER INITIATIONS
 
     can_filter_t filter0;
     filter0.id = 0x0;
@@ -22,29 +34,20 @@ int main () {
 
     can_set_filter(0, &filter0);
 
-    /*can_t {
-        uint16_t id;				//!< ID der Nachricht (11 Bit)
-		struct {
-			int rtr : 1;			//!< Remote-Transmit-Request-Frame?
-		} flags;
-
-        uint8_t length;				//!< Anzahl der Datenbytes
-        uint8_t data[8];			//!< Die Daten der CAN Nachricht
-    }*/
-
-    can_t outgoing_can_data;
-
-    char* incomming_serial_data = (char*) malloc(13);
-    char* outgoing_serial_data = (char*) malloc(12);
+    // ##################
 
     while(true) {
         if (uart_isnewdata()) {      /// neue Uart messages vorhanden
+            char* incomming_serial_data = (char*) malloc(13);
+
             for (int i = 0; uart_isnewdata(); i++) {
                 incomming_serial_data[i] = uart_getc();
                 if (incomming_serial_data[i] == '\0') {
                     break;
                 }
             }
+
+            can_t outgoing_can_data;
 
             // analyze uart-message
             if(incomming_serial_data[0] == 's') {         /// send the message via CAN
@@ -70,13 +73,15 @@ int main () {
                 can_filter_t filterX;
                 filterX.mask = 0x1F0;
                 filterX.id = incomming_serial_data[2];
-                filterX.rtr = incomming_serial_data[3];
+                filterX.flags.rtr = incomming_serial_data[3];
 
                 can_set_filter(incomming_serial_data[1], &filterX);
             }
             //else {} /// error - unknown cmd-byte !
         }
         if (can_check_message()) {  /// neue CAN messages vorhanden
+            char* outgoing_serial_data = (char*) malloc(12);
+
             can_t incomming_can_data;
             if (can_get_message(&incomming_can_data)) {
 
@@ -101,14 +106,6 @@ int main () {
                 led(false, false);
                 _delay_ms(50);
 
-                /*uart_putc(incomming_can_data.flags.rtr);
-                uart_putc(incomming_can_data.id);
-                uart_putc(incomming_can_data.length);
-
-                for (int i = 0; i < incomming_can_data.length; i++) uart_putc(incomming_can_data.data[i]);*/
-
-                //uart_putc('X');
-
             }
             else {
                 led(false, true);
@@ -118,25 +115,6 @@ int main () {
             }
         }
     }
-
-    /*while(true) {
-        uart_putc((char)outgoing_data.id);
-        //uart_putc(' ');
-        uart_putc((char)outgoing_data.flags.rtr);
-        //uart_putc(' ');
-        uart_putc((char)outgoing_data.length);
-        //uart_putc(' ');
-
-        for (int i = 0; i < outgoing_data.length; i++) {
-            uart_putc(outgoing_data.data[i]);
-            //uart_putc(' ');
-        }
-
-        led(true, true);
-        _delay_ms(500);
-        led(false, false);
-        _delay_ms(500);
-    }*/
 
     return 0;
 }
