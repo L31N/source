@@ -47,6 +47,8 @@ unsigned char uart_getc();
 
 unsigned char uart_putstr(char str[]);
 
+unsigned char uart_isnewdata();
+
 
 
 

@@ -119,23 +119,29 @@ unsigned char uart_getc()
 
 unsigned char uart_putstr(char str[])
 {
-    unsigned short i = 0;
+    unsigned short i;
 
-    /*for( i=0 ; str[i] != '\0' ; i++ )
+    for( i=0 ; str[i] != '\0' ; i++ )
     {
         if( uart_putc(str[i]) != 0 )
         {
             return 1;
         }
-    }*/
-    do {
-        i++;
-        if (uart_putc(str[i]) != 0 ) {
-            return 1;
-        }
-    } while(str[i] != '\0');
+    }
 
     return 0;
 }
 
+
+unsigned char uart_isnewdata()
+{
+    if(uart_rx_read == uart_rx_write)
+    {
+        return 0;
+    }
+    else
+    {
+        return 1;
+    }
+}
 
