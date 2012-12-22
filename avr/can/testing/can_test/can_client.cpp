@@ -16,14 +16,14 @@ int main () {
     _delay_ms(500);
 
     /** CAN TESTING HERE **/
-    can_init(BITRATE_500_KBPS);
+    can_init(BITRATE_1_MBPS);
 
     can_t msg;
 
     //msg.id = 0x0234567C;
     //msg.id = 0x0234567F;
 
-    msg.id = 123;
+    msg.id = 0x1A;
 
     msg.flags.rtr = 0;
     //msg.flags.extended = 0;
@@ -43,9 +43,9 @@ int main () {
     while(true) {
         if (can_send_message(&msg)) {
             led(true, false);
-            //_delay_ms(2);
+            _delay_ms(1000);
             led(false, false);
-            _delay_ms(20);
+            _delay_ms(1000);
         }
         else {
             led(false, true);

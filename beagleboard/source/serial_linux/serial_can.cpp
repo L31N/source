@@ -10,8 +10,8 @@
 const unsigned int buffer_size = 1024;
 
 int main (int argc, char** argv) {
-    if (argc != 4) {
-        std::cerr << "wrong number of arguments !!!\nUsage: " << *argv << " [tty_dev] [baud] [string to send]\n" << std::endl;
+    if (argc != 3) {
+        std::cerr << "wrong number of arguments !!!\nUsage: " << *argv << " [tty_dev] [string to send]\n" << std::endl;
         return -1;
     }
 
@@ -37,8 +37,8 @@ int main (int argc, char** argv) {
         return -1;
     }
     else {
-        cfsetospeed(&attribs, B921600);            // 115200 baud
-        cfsetispeed(&attribs, B921600);            // 115200 baud
+        cfsetospeed(&attribs, B115200);            // 115200 baud
+        cfsetispeed(&attribs, B115200);            // 115200 baud
         /// possible bauds are: 110, 150, 300, 1200, 2400, 4800, 9600, 19200, 38400, 57600, 115200, 230400, 460800, 921600
 
         tcsetattr(tty_sock, TCSANOW,&attribs);

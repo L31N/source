@@ -37,7 +37,7 @@ int main () {
     _delay_ms(500);
 
     /** CAN TESTING HERE **/
-    can_init(BITRATE_500_KBPS);
+    can_init(BITRATE_1_MBPS);
 
     //can_static_filter(can_filter);
 
@@ -78,6 +78,9 @@ int main () {
    while(true) {
         if (can_check_message()) {
             can_t msg;
+            /*led(true, true);
+            _delay_ms(1000);
+            led(false, false);*/
             if (can_get_message(&msg)) {
 
                 char* data;
@@ -91,13 +94,15 @@ int main () {
                 uart_putstr(data);
 
                 led(true, true);
-                _delay_ms(10);
+                _delay_ms(50);
                 led(false, false);
+                _delay_ms(50);
             }
             else {
                 led(false, true);
-                _delay_ms(10);
+                _delay_ms(50);
                 led(false, false);
+                _delay_ms(50);
             }
         }
 
