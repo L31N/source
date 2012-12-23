@@ -95,8 +95,6 @@ int main () {
                 }
                 outgoing_serial_data[3+incomming_can_data.length] = '\0';
 
-                //uart_putstr(outgoing_serial_data);
-
                 for (int i = 0; i < 3+incomming_can_data.length; i++) {
                     uart_putc(*(outgoing_serial_data+i));
                 }
