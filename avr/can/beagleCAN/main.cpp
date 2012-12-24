@@ -19,28 +19,29 @@
 }*/
 
 int main () {
-    uart_init(115200);
+    uart_init(57600);
     init_leds();
-    can_init(BITRATE_1_MBPS);
+    //can_init(BITRATE_1_MBPS);
 
     indicate_init();                // flashing LEDs
 
     // FILTER INITIATIONS
 
-    can_filter_t filter0;
-    filter0.id = 0x0;
-    filter0.mask = 0x0;
+    /*can_filter_t filter0;
+    filter0.id = 0x000;
+    filter0.mask = 0x700;
     filter0.flags.rtr = 0;
 
-    can_set_filter(0, &filter0);
+    can_set_filter(0, &filter0);*/
 
     // ##################
 
     while(true) {
         if (uart_isnewdata()) {      /// neue Uart messages vorhanden
-            char* incomming_serial_data = (char*) malloc(13);
+            char* incomming_serial_data = (char*) malloc(12);
+            memset(incomming_serial_data, 0, 12);
 
-            for (int i = 0; uart_isnewdata(); i++) {
+            for (int i = 0; uart_isnewdata() && i < 12; i++) {
                 incomming_serial_data[i] = uart_getc();
                 if (incomming_serial_data[i] == '\0') {
                     break;
@@ -58,7 +59,11 @@ int main () {
                     outgoing_can_data.data[i] = incomming_serial_data[4 + i];
                 }
 
-                if (can_send_message(&outgoing_can_data)) {
+                led(true, false);
+                _delay_ms(80);
+                led(false, false);
+
+                /*if (can_send_message(&outgoing_can_data)) {
                     led(true, false);
                     _delay_ms(1000);
                     led(false, false);
@@ -67,19 +72,20 @@ int main () {
                     led(false, true);
                     _delay_ms(1000);
                     led(false, false);
-                }
+                }*/
             }
             else if (incomming_serial_data[0] == 'f') {  ///  set callibrate filters
                 can_filter_t filterX;
-                filterX.mask = 0x1F0;
+                filterX.mask = 0x700;
+                filterX.mask |= incomming_serial_data[3];
                 filterX.id = incomming_serial_data[2];
-                filterX.flags.rtr = incomming_serial_data[3];
+                filterX.flags.rtr = incomming_serial_data[4];
 
                 can_set_filter(incomming_serial_data[1], &filterX);
             }
             //else {} /// error - unknown cmd-byte !
         }
-        if (can_check_message()) {  /// neue CAN messages vorhanden
+        /*if (can_check_message()) {  /// neue CAN messages vorhanden
             char* outgoing_serial_data = (char*) malloc(12);
 
             can_t incomming_can_data;
@@ -111,7 +117,7 @@ int main () {
                 led(false, false);
                 _delay_ms(50);
             }
-        }
+        }*/
     }
 
     return 0;

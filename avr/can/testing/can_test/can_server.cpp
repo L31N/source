@@ -29,7 +29,7 @@
 
 int main () {
     init_leds();
-    uart_init(9600);
+    uart_init(57600);
 
     led(true, true);
     _delay_ms(500);
@@ -78,9 +78,9 @@ int main () {
    while(true) {
         if (can_check_message()) {
             can_t msg;
-            /*led(true, true);
+            led(true, true);
             _delay_ms(1000);
-            led(false, false);*/
+            led(false, false);
             if (can_get_message(&msg)) {
 
                 char* data;
@@ -113,6 +113,12 @@ int main () {
         *(data+1) = '\0';
         uart_putstr(data);
         _delay_ms(30);*/
+
+        /*for(int i = 0; i < 8; i++) {
+            uart_putc(65+i);
+        }*/
+        //_delay_ms(2000);
+
     }
 
 
