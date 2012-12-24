@@ -4,6 +4,7 @@
 
 void init_leds();
 void led (bool green, bool red);
+void switch_led(bool green, bool red);
 
 void indicate_init();
 

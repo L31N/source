@@ -19,6 +19,11 @@ void led (bool green, bool red) {
     else PORTB &= ~(1 << 1);
 }
 
+void switch_led(bool green, bool red) {
+    if (green) PORTB ^= (1 << 0);
+    if (red) PORTB ^= (1 << 1);
+}
+
 void indicate_init() {
     led(true, true);
     _delay_ms(1000);

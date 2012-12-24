@@ -79,7 +79,7 @@ int main () {
         if (can_check_message()) {
             can_t msg;
             led(true, true);
-            _delay_ms(1000);
+            _delay_ms(100);
             led(false, false);
             if (can_get_message(&msg)) {
 
