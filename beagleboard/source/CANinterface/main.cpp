@@ -14,6 +14,9 @@ const unsigned int SERIAL_BAUD_RATE = 57600;
 const std::string SERIAL_INTERFACE = "/dev/ttyUSB0";
 
 int main () {
+
+    /** SERIAL SETTINGS HERE  ++++++++++++++++++++++++++++++ **/
+
     LibSerial::SerialStream* serial = new LibSerial::SerialStream(SERIAL_INTERFACE.c_str(), std::ios::in | std::ios::out);
     if (!serial->IsOpen()) {
         std::cerr << "\nerror: could not open serialStream: " << SERIAL_INTERFACE << std::endl;
@@ -89,12 +92,28 @@ int main () {
         return -1;
     }
 
-    /** **/
+    /** +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ **/
 
-    /** **/
+    Debug* debug = new Debug("CAN_INTERFACE_MODULE");
+    ipcReceivingConnection* ipcRCon = new ipcReceivingConnection("CAN_INTERFACE_MODULE", 10);
+    ipcSendingConnection* ipcSensorCon = new ipcSendingConnection("CAN_INTERFACE_MODULE", "SENSOR_DATA_MODULE", IPC_LOCAL);
+    ipcSendingConnection* ipcMotorCon = new ipcSendingConnection("CAN_INTERFACE_MODULE", "MOTOR_CONTROL_MODULE", IPC_LOCAL);
+
+
+    /** MAIN PART OF APPLICATION **/
+
+
+
+
+    /** ++++++++++++++++++++++++ **/
 
     serial->Close();
     delete serial;
+
+    delete debug;
+    delete ipcRCon;
+    delete ipcSensorCon;
+    delete ipcMotorCon;
 
     return 0;
 }

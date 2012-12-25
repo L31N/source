@@ -402,3 +402,10 @@ void* ipcReceivingConnection::saveReceivedData_threaded(void* arg) {
     }
     return NULL;
 }
+
+bool ipcReceivingConnection::checkForNewData() {
+    sem_wait(&sem);
+    bool tmp = dataBuffer->checkForNewData();
+    sem_post(&sem);
+    return tmp;
+}

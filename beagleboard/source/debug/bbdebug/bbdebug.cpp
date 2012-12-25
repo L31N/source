@@ -13,7 +13,7 @@ Debug::Debug(std::string moduleName) {
     //    std::cout << "Debug::Debug --> ipcSendingConnection()" << std::endl;
     #endif
 
-    senCon = new ipcSendingConnection(ipcconf->getUDS_FILE_PATH(), ipcconf->getIpcIDToProcessSyn(moduleName), ipcconf->getIpcIDToProcessSyn("DEBUG"));
+    senCon = new ipcSendingConnection(ipcconf->getIpcIDToProcessSyn(moduleName), ipcconf->getIpcIDToProcessSyn("DEBUG"));
 
     /// setting up ifstream, necessary to check weather the debug module is already running
     dif = new std::ifstream(DEBUG_TMP_FILE_PATH.c_str());

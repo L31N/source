@@ -14,9 +14,11 @@
 #include <fstream>
 
 #include "ipc/bbipc.h"
+#include "ipc/ipc_config.h"
+#include "ipc/ipc_connection.h"
 
 const std::string DEBUG_TMP_FILE_PATH = "../../../../../etc/debug.tmp";
-const std::string IPC_CONFIG_FILE_PATH = "../../../../../etc/ipc.conf";
+//const std::string IPC_CONFIG_FILE_PATH = "../../../../../etc/ipc.conf";       // already defined in file: "ipc/bbipc.h"
 
 class Debug {
     public:

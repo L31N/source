@@ -83,6 +83,8 @@ class ipcReceivingConnection : public ipcConnection {
 
         Data* readDataFromBuffer();
 
+        bool checkForNewData();
+
         bool is_open();
 
     private:

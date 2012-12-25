@@ -17,6 +17,8 @@ class Buffer {
         void insert(Data* data);
         Data* getLastData(void);
 
+        bool checkForNewData();
+
     private:
         unsigned short maxElements;
 
