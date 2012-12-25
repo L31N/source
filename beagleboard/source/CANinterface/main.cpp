@@ -96,14 +96,24 @@ int main () {
 
     Debug* debug = new Debug("CAN_INTERFACE_MODULE");
     ipcReceivingConnection* ipcRCon = new ipcReceivingConnection("CAN_INTERFACE_MODULE", 10);
-    ipcSendingConnection* ipcSensorCon = new ipcSendingConnection("CAN_INTERFACE_MODULE", "SENSOR_DATA_MODULE", IPC_LOCAL);
-    ipcSendingConnection* ipcMotorCon = new ipcSendingConnection("CAN_INTERFACE_MODULE", "MOTOR_CONTROL_MODULE", IPC_LOCAL);
+    //ipcSendingConnection* ipcSensorCon = new ipcSendingConnection("CAN_INTERFACE_MODULE", "SENSOR_DATA_MODULE", IPC_LOCAL);
+    //ipcSendingConnection* ipcMotorCon = new ipcSendingConnection("CAN_INTERFACE_MODULE", "MOTOR_CONTROL_MODULE", IPC_LOCAL);
 
 
     /** MAIN PART OF APPLICATION **/
 
-
-
+    int i = 0;
+    while(true) {
+        if (ipcRCon->checkForNewData()) std::cout << "new ipc data available !" << std::endl;
+        if (serial->rdbuf()->in_avail()) {
+            char buffer[12];
+            memset(buffer, 0, 12);
+            serial->get(buffer, 12);
+            std::cout << "new serial data available: " << buffer << "\tcount: " << i << std::endl;
+            serial->clear();
+        }
+        i++;
+    }
 
     /** ++++++++++++++++++++++++ **/
 
@@ -112,8 +122,8 @@ int main () {
 
     delete debug;
     delete ipcRCon;
-    delete ipcSensorCon;
-    delete ipcMotorCon;
+    //delete ipcSensorCon;
+    //delete ipcMotorCon;
 
     return 0;
 }

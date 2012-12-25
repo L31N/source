@@ -76,7 +76,7 @@ int main () {
 
 
    while(true) {
-        if (can_check_message()) {
+        /*if (can_check_message()) {
             can_t msg;
             led(true, true);
             _delay_ms(100);
@@ -104,7 +104,10 @@ int main () {
                 led(false, false);
                 _delay_ms(50);
             }
-        }
+        }*/
+        for (int i = 0; i < 12; i++) uart_putc('X');
+        _delay_ms(1000);
+        PORTB ^= 0x03;
 
 
         /*char* data = (char*) malloc(2);
