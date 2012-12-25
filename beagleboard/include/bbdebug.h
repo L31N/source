@@ -16,7 +16,7 @@
 #include "ipc/bbipc.h"
 
 const std::string DEBUG_TMP_FILE_PATH = "../../../../../etc/debug.tmp";
-const std::string IPC_CONFIG_FILE_PATH = "../../../../../etc/ipc.conf";
+//const std::string IPC_CONFIG_FILE_PATH = "../../../../../etc/ipc.conf";   // already defined in "ipc/bbipc.h"
 
 class Debug {
     public:
