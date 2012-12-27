@@ -7,28 +7,30 @@
 int main(void)
 {
     DDRB |= (1 << 0);
+    PORTB |= (1 << 0);
 
-    uart_init(9600);
+    uart_init(57600);
 
-    char* str = "\r\nTestprogramm für den UART von Soctronic.de";
+    //uart_putstr("\r\nTestprogramm für den UART von Soctronic.de");
 
-    uart_putstr(str);
+    _delay_ms(4000);
 
-    unsigned char c;
+    uart_putstr("Ausgabe");
 
-    while(1)
+    _delay_ms(1000);
+
+    int i;
+
+    for(i=0; i<uart_count(); i++)
     {
-        c = uart_getc();
-
-        if(c == 'e')
-        {
-            PORTB |= (1 << 0);
-        }
-        else if(c == 'a')
-        {
-            PORTB &= ~(1 << 0);
-        }
+        uart_putc('a');
     }
 
-    return 0;
+    char tmp[11];
+    tmp[10]='\0';
+
+    uart_read(tmp, 10);
+    uart_putstr(tmp);
+
+    while(1);
 }

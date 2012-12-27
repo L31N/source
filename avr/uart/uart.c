@@ -145,3 +145,43 @@ unsigned char uart_isnewdata()
     }
 }
 
+unsigned char uart_read(char *str, int count)
+{
+    int i;
+
+    for(i=0; i<count; i++)
+    {
+
+        if(uart_rx_read == uart_rx_write)
+        {
+            return 1;
+        }
+
+        unsigned char tmp = uart_rx_buffer[uart_rx_read];
+
+        uart_rx_read++;
+
+        if(uart_rx_read >= UART_BUFFER_SIZE)
+        {
+            uart_rx_read = 0;
+        }
+
+        *(str+i)=tmp;
+
+    }
+
+    return 0;
+}
+
+unsigned int uart_count()
+{
+    if(uart_rx_read <= uart_rx_write)
+    {
+        return (uart_rx_write - uart_rx_read);
+    }
+    else
+    {
+        return (UART_BUFFER_SIZE - uart_rx_read + uart_rx_write);
+    }
+}
+

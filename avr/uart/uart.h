@@ -49,6 +49,9 @@ unsigned char uart_putstr(char str[]);
 
 unsigned char uart_isnewdata();
 
+unsigned char uart_read(char *str, int count);
+
+unsigned int uart_count();
 
 
 
