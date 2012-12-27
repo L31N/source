@@ -24,6 +24,8 @@ int main () {
 
         Debug debug ("CAN_INTERFACE_MODULE");
 
+        debug.send("debug->initialisation");
+
 
         std::string buffer;
         while(true) {
