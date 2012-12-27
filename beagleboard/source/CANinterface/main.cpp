@@ -73,7 +73,7 @@ int main () {
 
                 data.erase(0,1);
 
-                if (command == 'g') {       /// remote call
+                /*if (command == '') {       /// remote call
                     unsigned short can_id = cancfg.getCanID(data);
                     char serial_data[12];
                     serial_data[0] = 's';
@@ -83,8 +83,8 @@ int main () {
                     for (int i = 0; i < 8; i++) serial_data[4+i] = 0;   // sets the values of the CAN data to ZERO, only rtr is important !
 
                     serial.write(serial_data, 12);
-                }
-                else if (command == 's') {  /// send data via CAN
+                }*/
+                if (command == 's') {  /// send data via CAN
                     unsigned short can_id = cancfg.getCanID(data);
                     char serial_data[12];
                     serial_data[0] = 's';
@@ -94,6 +94,18 @@ int main () {
                     for (int i = 0; i < 8; i++) serial_data[4+1] = 0;
 
                     serial.write(serial_data, 12);
+                }
+                else if (command == 'f') {  /// set filter
+                    unsigned int num = data[0];
+                    unsigned int mask = data[1];
+                    unsigned int id = data[2];
+
+                    char serial_data[5];
+                    serial_data[0] = 'f';       /// 'f' for "set filter"
+                    serial_data[1] = num;       /// num
+                    serial_data[2] = id;        /// id
+                    serial_data[3] = mask;      /// mask
+                    serial_data[4] = 0;         /// rtr
                 }
                 else {
                     std::cerr << "ERROR: unknown command byte (IPC): " << command << std::endl;

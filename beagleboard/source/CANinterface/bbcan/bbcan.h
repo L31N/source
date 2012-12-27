@@ -25,7 +25,7 @@ class CAN {
         char* getValue(std::string can_member);                 /// returns an 8-byte char* | char[8]
         void setValue(std::string can_member, char* value);     /// expects an 8-byte char* | char[8] as parameter !
 
-        void setFilter(unsigned short mask, unsigned short id);
+        void setFilter(unsigned short filterNum, unsigned short mask, unsigned short id);
 
     private:
         std::string MODULE_NAME;
