@@ -23,16 +23,11 @@ int main () {
     indicate_init();
 
     while(true) {
-       if (uart_isnewdata()) {  /// neue serial massages vorhanden
+       if (uart_count() >= 12) {  /// neue serial massages vorhanden
             char incomming_serial_data[12];
             memset(incomming_serial_data, 0, 12);
 
-            for (int i = 0; uart_isnewdata() && i < 12; i++) {
-                incomming_serial_data[i] = uart_getc();
-                if (incomming_serial_data[i] == '\0') {
-                    break;
-                }
-            }
+            uart_read(incomming_serial_data, 12);
 
             if (*incomming_serial_data == 's') {
                 can_t outgoing_can_data;

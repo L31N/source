@@ -100,12 +100,15 @@ int main () {
                     unsigned int mask = data[1];
                     unsigned int id = data[2];
 
-                    char serial_data[5];
+                    char serial_data[12];
                     serial_data[0] = 'f';       /// 'f' for "set filter"
                     serial_data[1] = num;       /// num
                     serial_data[2] = id;        /// id
                     serial_data[3] = mask;      /// mask
                     serial_data[4] = 0;         /// rtr
+                    for (int i = 0; i < 7; i++) serial_data[5+i] = 0;
+
+                    serial.write(serial_data, 12);
                 }
                 else {
                     std::cerr << "ERROR: unknown command byte (IPC): " << command << std::endl;
