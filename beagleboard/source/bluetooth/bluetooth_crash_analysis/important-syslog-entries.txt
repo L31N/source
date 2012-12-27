@@ -1,2 +1,0 @@
-Nov 17 10:14:28 l31n-notebook bluetoothd[2913]: Failed to start DUN server: rfcomm_bind: Address already in use (98)
-Nov 17 10:14:28 l31n-notebook bluetoothd[2913]: pnat-server: Input/output error (5)
