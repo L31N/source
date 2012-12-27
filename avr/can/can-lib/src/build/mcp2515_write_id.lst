@@ -1,0 +1,76 @@
+   1               		.file	"mcp2515_write_id.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__ = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+  15               	.Ltext0:
+  16               	.global	mcp2515_write_id
+  18               	mcp2515_write_id:
+  19               	.LFB20:
+  20               	.LM1:
+  21               	.LVL0:
+  22               	/* prologue: function */
+  23               	/* frame size = 0 */
+  24               	/* stack size = 0 */
+  25               	.L__stack_usage = 0
+  26 0000 FC01      		movw r30,r24
+  27               	.LM2:
+  28 0002 2081      		ld r18,Z
+  29 0004 3181      		ldd r19,Z+1
+  30 0006 83E0      		ldi r24,3
+  31 0008 3695      	1:	lsr r19
+  32 000a 2795      		ror r18
+  33 000c 8A95      		dec r24
+  34 000e 01F4      		brne 1b
+  35               	.LVL1:
+  36               	.LBB6:
+  37               	.LBB7:
+  38               	.LM3:
+  39 0010 2EBD      		out 78-32,r18
+  40               	.LBE7:
+  41               	.LBE6:
+  42               	.LM4:
+  43 0012 8081      		ld r24,Z
+  44 0014 8295      		swap r24
+  45 0016 880F      		lsl r24
+  46 0018 807E      		andi r24,lo8(-32)
+  47               	.LVL2:
+  48               	.L2:
+  49               	.LBB8:
+  50               	.LBB9:
+  51               	.LM5:
+  52 001a 0DB4      		in __tmp_reg__,77-32
+  53 001c 07FE      		sbrs __tmp_reg__,7
+  54 001e 00C0      		rjmp .L2
+  55               	.LM6:
+  56 0020 9EB5      		in r25,78-32
+  57               	.LBE9:
+  58               	.LBE8:
+  59               	.LM7:
+  60 0022 0E94 0000 		call spi_putc
+  61               	.LVL3:
+  62               	.LM8:
+  63 0026 80E0      		ldi r24,lo8(0)
+  64 0028 0E94 0000 		call spi_putc
+  65               	.LM9:
+  66 002c 80E0      		ldi r24,lo8(0)
+  67 002e 0E94 0000 		call spi_putc
+  68               	/* epilogue start */
+  69               	.LM10:
+  70 0032 0895      		ret
+  71               	.LFE20:
+  97               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 mcp2515_write_id.c
+     /tmp/ccju817I.s:2      *ABS*:0000003f __SREG__
+     /tmp/ccju817I.s:3      *ABS*:0000003e __SP_H__
+     /tmp/ccju817I.s:4      *ABS*:0000003d __SP_L__
+     /tmp/ccju817I.s:5      *ABS*:00000034 __CCP__
+     /tmp/ccju817I.s:6      *ABS*:00000000 __tmp_reg__
+     /tmp/ccju817I.s:7      *ABS*:00000001 __zero_reg__
+     /tmp/ccju817I.s:18     .text:00000000 mcp2515_write_id
+
+UNDEFINED SYMBOLS
+spi_putc

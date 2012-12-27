@@ -1,0 +1,284 @@
+   1               		.file	"main.c"
+   2               	__SP_H__ = 0x3e
+   3               	__SP_L__ = 0x3d
+   4               	__SREG__ = 0x3f
+   5               	__tmp_reg__ = 0
+   6               	__zero_reg__ = 1
+   7               		.text
+   8               	.Ltext0:
+   9               		.section	.text.startup,"ax",@progbits
+  10               	.global	main
+  12               	main:
+  13               	.LFB1:
+  14               		.file 1 "main.c"
+   1:main.c        **** // coding: utf-8
+   2:main.c        **** 
+   3:main.c        **** #include <avr/io.h>
+   4:main.c        **** #include <avr/pgmspace.h>
+   5:main.c        **** 
+   6:main.c        **** #include "can.h"
+   7:main.c        **** 
+   8:main.c        **** // -----------------------------------------------------------------------------
+   9:main.c        **** /** Set filters and masks.
+  10:main.c        ****  *
+  11:main.c        ****  * The filters are divided in two groups:
+  12:main.c        ****  *
+  13:main.c        ****  * Group 0: Filter 0 and 1 with corresponding mask 0.
+  14:main.c        ****  * Group 1: Filter 2, 3, 4 and 5 with corresponding mask 1.
+  15:main.c        ****  *
+  16:main.c        ****  * If a group mask is set to 0, the group will receive all messages.
+  17:main.c        ****  *
+  18:main.c        ****  * If you want to receive ONLY 11 bit identifiers, set your filters
+  19:main.c        ****  * and masks as follows:
+  20:main.c        ****  *
+  21:main.c        ****  *	prog_uint8_t can_filter[] = {
+  22:main.c        ****  *		// Group 0
+  23:main.c        ****  *		MCP2515_FILTER(0),				// Filter 0
+  24:main.c        ****  *		MCP2515_FILTER(0),				// Filter 1
+  25:main.c        ****  *		
+  26:main.c        ****  *		// Group 1
+  27:main.c        ****  *		MCP2515_FILTER(0),				// Filter 2
+  28:main.c        ****  *		MCP2515_FILTER(0),				// Filter 3
+  29:main.c        ****  *		MCP2515_FILTER(0),				// Filter 4
+  30:main.c        ****  *		MCP2515_FILTER(0),				// Filter 5
+  31:main.c        ****  *		
+  32:main.c        ****  *		MCP2515_FILTER(0),				// Mask 0 (for group 0)
+  33:main.c        ****  *		MCP2515_FILTER(0),				// Mask 1 (for group 1)
+  34:main.c        ****  *	};
+  35:main.c        ****  *
+  36:main.c        ****  *
+  37:main.c        ****  * If you want to receive ONLY 29 bit identifiers, set your filters
+  38:main.c        ****  * and masks as follows:
+  39:main.c        ****  *
+  40:main.c        ****  * \code
+  41:main.c        ****  *	prog_uint8_t can_filter[] = {
+  42:main.c        ****  *		// Group 0
+  43:main.c        ****  *		MCP2515_FILTER_EXTENDED(0),		// Filter 0
+  44:main.c        ****  *		MCP2515_FILTER_EXTENDED(0),		// Filter 1
+  45:main.c        ****  *		
+  46:main.c        ****  *		// Group 1
+  47:main.c        ****  *		MCP2515_FILTER_EXTENDED(0),		// Filter 2
+  48:main.c        ****  *		MCP2515_FILTER_EXTENDED(0),		// Filter 3
+  49:main.c        ****  *		MCP2515_FILTER_EXTENDED(0),		// Filter 4
+  50:main.c        ****  *		MCP2515_FILTER_EXTENDED(0),		// Filter 5
+  51:main.c        ****  *		
+  52:main.c        ****  *		MCP2515_FILTER_EXTENDED(0),		// Mask 0 (for group 0)
+  53:main.c        ****  *		MCP2515_FILTER_EXTENDED(0),		// Mask 1 (for group 1)
+  54:main.c        ****  *	};
+  55:main.c        ****  * \endcode
+  56:main.c        ****  *
+  57:main.c        ****  * If you want to receive both 11 and 29 bit identifiers, set your filters
+  58:main.c        ****  * and masks as follows:
+  59:main.c        ****  */
+  60:main.c        **** prog_uint8_t can_filter[] = 
+  61:main.c        **** {
+  62:main.c        **** 	// Group 0
+  63:main.c        **** 	MCP2515_FILTER(0),				// Filter 0
+  64:main.c        **** 	MCP2515_FILTER(0),				// Filter 1
+  65:main.c        **** 	
+  66:main.c        **** 	// Group 1
+  67:main.c        **** 	MCP2515_FILTER_EXTENDED(0),		// Filter 2
+  68:main.c        **** 	MCP2515_FILTER_EXTENDED(0),		// Filter 3
+  69:main.c        **** 	MCP2515_FILTER_EXTENDED(0),		// Filter 4
+  70:main.c        **** 	MCP2515_FILTER_EXTENDED(0),		// Filter 5
+  71:main.c        **** 	
+  72:main.c        **** 	MCP2515_FILTER(0),				// Mask 0 (for group 0)
+  73:main.c        **** 	MCP2515_FILTER_EXTENDED(0),		// Mask 1 (for group 1)
+  74:main.c        **** };
+  75:main.c        **** // You can receive 11 bit identifiers with either group 0 or 1.
+  76:main.c        **** 
+  77:main.c        **** 
+  78:main.c        **** // -----------------------------------------------------------------------------
+  79:main.c        **** // Main loop for receiving and sending messages.
+  80:main.c        **** 
+  81:main.c        **** int main(void)
+  82:main.c        **** {
+  15               		.loc 1 82 0
+  16 0000 CF93      		push r28
+  17               	.LCFI0:
+  18 0002 DF93      		push r29
+  19               	.LCFI1:
+  20 0004 CDB7      		in r28,__SP_L__
+  21 0006 DEB7      		in r29,__SP_H__
+  22               	.LCFI2:
+  23 0008 6C97      		sbiw r28,28
+  24               	.LCFI3:
+  25 000a 0FB6      		in __tmp_reg__,__SREG__
+  26 000c F894      		cli
+  27 000e DEBF      		out __SP_H__,r29
+  28 0010 0FBE      		out __SREG__,__tmp_reg__
+  29 0012 CDBF      		out __SP_L__,r28
+  30               	/* prologue: function */
+  31               	/* frame size = 28 */
+  32               	/* stack size = 30 */
+  33               	.L__stack_usage = 30
+  83:main.c        **** 	// Initialize MCP2515
+  84:main.c        **** 	can_init(BITRATE_125_KBPS);
+  34               		.loc 1 84 0
+  35 0014 84E0      		ldi r24,lo8(4)
+  36 0016 0E94 0000 		call can_init
+  37               	.LVL0:
+  85:main.c        **** 	
+  86:main.c        **** 	// Load filters and masks
+  87:main.c        **** 	can_static_filter(can_filter);
+  38               		.loc 1 87 0
+  39 001a 80E0      		ldi r24,lo8(can_filter)
+  40 001c 90E0      		ldi r25,hi8(can_filter)
+  41 001e 0E94 0000 		call can_static_filter
+  42               	.LVL1:
+  88:main.c        **** 	
+  89:main.c        **** 	// Create a test messsage
+  90:main.c        **** 	can_t msg;
+  91:main.c        **** 	
+  92:main.c        **** 	msg.id = 0x123456;
+  43               		.loc 1 92 0
+  44 0022 86E5      		ldi r24,lo8(86)
+  45 0024 94E3      		ldi r25,lo8(52)
+  46 0026 A2E1      		ldi r26,lo8(18)
+  47 0028 B0E0      		ldi r27,0
+  48 002a 8F87      		std Y+15,r24
+  49 002c 988B      		std Y+16,r25
+  50 002e A98B      		std Y+17,r26
+  51 0030 BA8B      		std Y+18,r27
+  93:main.c        **** 	msg.flags.rtr = 0;
+  52               		.loc 1 93 0
+  53 0032 8B89      		ldd r24,Y+19
+  94:main.c        **** 	msg.flags.extended = 1;
+  54               		.loc 1 94 0
+  55 0034 8E7F      		andi r24,lo8(-2)
+  56 0036 8260      		ori r24,lo8(1<<1)
+  57 0038 8B8B      		std Y+19,r24
+  95:main.c        **** 	
+  96:main.c        **** 	msg.length = 4;
+  58               		.loc 1 96 0
+  59 003a 84E0      		ldi r24,lo8(4)
+  60 003c 8C8B      		std Y+20,r24
+  97:main.c        **** 	msg.data[0] = 0xde;
+  61               		.loc 1 97 0
+  62 003e 8EED      		ldi r24,lo8(-34)
+  63 0040 8D8B      		std Y+21,r24
+  98:main.c        **** 	msg.data[1] = 0xad;
+  64               		.loc 1 98 0
+  65 0042 8DEA      		ldi r24,lo8(-83)
+  66 0044 8E8B      		std Y+22,r24
+  99:main.c        **** 	msg.data[2] = 0xbe;
+  67               		.loc 1 99 0
+  68 0046 8EEB      		ldi r24,lo8(-66)
+  69 0048 8F8B      		std Y+23,r24
+ 100:main.c        **** 	msg.data[3] = 0xef;
+  70               		.loc 1 100 0
+  71 004a 8FEE      		ldi r24,lo8(-17)
+  72 004c 888F      		std Y+24,r24
+ 101:main.c        **** 	
+ 102:main.c        **** 	// Send the message
+ 103:main.c        **** 	can_send_message(&msg);
+  73               		.loc 1 103 0
+  74 004e CE01      		movw r24,r28
+  75 0050 0F96      		adiw r24,15
+  76               	.L14:
+  77 0052 0E94 0000 		call can_send_message
+  78               	.LVL2:
+  79               	.L13:
+ 104:main.c        **** 	
+ 105:main.c        **** 	while (1)
+ 106:main.c        **** 	{
+ 107:main.c        **** 		// Check if a new messag was received
+ 108:main.c        **** 		if (can_check_message())
+  80               		.loc 1 108 0
+  81 0056 0E94 0000 		call can_check_message
+  82               	.LVL3:
+  83 005a 8823      		tst r24
+  84 005c 01F0      		breq .L13
+  85               	.LBB2:
+ 109:main.c        **** 		{
+ 110:main.c        **** 			can_t msg;
+ 111:main.c        **** 			
+ 112:main.c        **** 			// Try to read the message
+ 113:main.c        **** 			if (can_get_message(&msg))
+  86               		.loc 1 113 0
+  87 005e CE01      		movw r24,r28
+  88 0060 0196      		adiw r24,1
+  89 0062 0E94 0000 		call can_get_message
+  90               	.LVL4:
+  91 0066 8823      		tst r24
+  92 0068 01F0      		breq .L13
+ 114:main.c        **** 			{
+ 115:main.c        **** 				// If we received a message resend it with a different id
+ 116:main.c        **** 				msg.id += 10;
+  93               		.loc 1 116 0
+  94 006a 8981      		ldd r24,Y+1
+  95 006c 9A81      		ldd r25,Y+2
+  96 006e AB81      		ldd r26,Y+3
+  97 0070 BC81      		ldd r27,Y+4
+  98 0072 0A96      		adiw r24,10
+  99 0074 A11D      		adc r26,__zero_reg__
+ 100 0076 B11D      		adc r27,__zero_reg__
+ 101 0078 8983      		std Y+1,r24
+ 102 007a 9A83      		std Y+2,r25
+ 103 007c AB83      		std Y+3,r26
+ 104 007e BC83      		std Y+4,r27
+ 117:main.c        **** 				
+ 118:main.c        **** 				// Send the new message
+ 119:main.c        **** 				can_send_message(&msg);
+ 105               		.loc 1 119 0
+ 106 0080 CE01      		movw r24,r28
+ 107 0082 0196      		adiw r24,1
+ 108 0084 00C0      		rjmp .L14
+ 109               	.LBE2:
+ 110               	.LFE1:
+ 112               	.global	can_filter
+ 113               		.data
+ 116               	can_filter:
+ 117 0000 00        		.byte	0
+ 118 0001 00        		.byte	0
+ 119 0002 00        		.byte	0
+ 120 0003 00        		.byte	0
+ 121 0004 00        		.byte	0
+ 122 0005 00        		.byte	0
+ 123 0006 00        		.byte	0
+ 124 0007 00        		.byte	0
+ 125 0008 00        		.byte	0
+ 126 0009 08        		.byte	8
+ 127 000a 00        		.byte	0
+ 128 000b 00        		.byte	0
+ 129 000c 00        		.byte	0
+ 130 000d 08        		.byte	8
+ 131 000e 00        		.byte	0
+ 132 000f 00        		.byte	0
+ 133 0010 00        		.byte	0
+ 134 0011 08        		.byte	8
+ 135 0012 00        		.byte	0
+ 136 0013 00        		.byte	0
+ 137 0014 00        		.byte	0
+ 138 0015 08        		.byte	8
+ 139 0016 00        		.byte	0
+ 140 0017 00        		.byte	0
+ 141 0018 00        		.byte	0
+ 142 0019 00        		.byte	0
+ 143 001a 00        		.byte	0
+ 144 001b 00        		.byte	0
+ 145 001c 00        		.byte	0
+ 146 001d 08        		.byte	8
+ 147 001e 00        		.byte	0
+ 148 001f 00        		.byte	0
+ 195               	.Letext0:
+ 196               		.file 2 "/usr/lib/gcc/avr/4.7.0/../../../avr/include/stdint.h"
+ 197               		.file 3 "config.h"
+ 198               		.file 4 "can.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 main.c
+     /tmp/ccyMbOFH.s:2      *ABS*:0000003e __SP_H__
+     /tmp/ccyMbOFH.s:3      *ABS*:0000003d __SP_L__
+     /tmp/ccyMbOFH.s:4      *ABS*:0000003f __SREG__
+     /tmp/ccyMbOFH.s:5      *ABS*:00000000 __tmp_reg__
+     /tmp/ccyMbOFH.s:6      *ABS*:00000001 __zero_reg__
+     /tmp/ccyMbOFH.s:12     .text.startup:00000000 main
+     /tmp/ccyMbOFH.s:116    .data:00000000 can_filter
+
+UNDEFINED SYMBOLS
+can_init
+can_static_filter
+can_send_message
+can_check_message
+can_get_message
+__do_copy_data

@@ -1,0 +1,20 @@
+#######################################################
+# This file contains the IPC_IDs to the Process-Names #
+#######################################################
+
+# Every line beginning with an '#' will be ignored .. #
+
+#######################################################
+
+# UDS_FILE_PATH -- STARTS WITH AN + ###################
++/tmp/ipcserver_module.uds
+
+
+# PROCESS_SYNONYMS START WITH AN - ####################
+-SENSOR_DATA_MODULE:0
+-TACTIC_MODULE:1
+-TCP_MODULE:2
+-BLUETOOTH_MODULE:3
+-DEBUG_MODULE:10
+
+# END OF FILE #########################################
