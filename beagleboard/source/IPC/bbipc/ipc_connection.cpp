@@ -241,6 +241,8 @@ bool ipcSendingConnection::reconnect(void) {
     return true;
 }
 
+bool ipcSendingConnection::is_open() { return f_is_open; }
+
 /** CLASS IPC_RECEIVING_CONNECTION **/
 
 ipcReceivingConnection::ipcReceivingConnection(short _connID, size_t _bufferSize) {
@@ -409,3 +411,5 @@ bool ipcReceivingConnection::checkForNewData() {
     sem_post(&sem);
     return tmp;
 }
+
+bool ipcReceivingConnection::is_open() { return f_is_open; }

@@ -67,11 +67,11 @@ int main () {
                 outgoing_serial_data[1] = incomming_can_data.id;
                 outgoing_serial_data[2] = incomming_can_data.length;
 
-                for (int i = 0; i < incomming_can_data.length; i++) {
+                for (int i = 0; i < 8; i++) {
                     outgoing_serial_data[3 + i] = incomming_can_data.data[i];
                 }
 
-                for (int i = 0; i < 3+incomming_can_data.length; i++) {
+                for (int i = 0; i < 11; i++) {
                     uart_putc(*(outgoing_serial_data+i));
                 }
             }

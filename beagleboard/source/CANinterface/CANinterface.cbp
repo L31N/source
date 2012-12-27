@@ -30,7 +30,22 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
+			<Add directory="/home/l31n/robotics.git/source/beagleboard/include" />
 		</Compiler>
+		<Linker>
+			<Add option="-lbbipc" />
+			<Add option="-lbbdebug" />
+			<Add option="-lboost_system" />
+			<Add option="-lboost_thread" />
+			<Add option="-lpthread" />
+			<Add directory="/home/l31n/robotics.git/source/beagleboard/lib" />
+		</Linker>
+		<Unit filename="AsyncSerial.cpp" />
+		<Unit filename="AsyncSerial.h" />
+		<Unit filename="BufferedAsyncSerial.cpp" />
+		<Unit filename="BufferedAsyncSerial.h" />
+		<Unit filename="can_config.cpp" />
+		<Unit filename="can_config.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />
