@@ -43,11 +43,34 @@ char* CAN::getValue(std::string can_member) {
 }
 
 void CAN::setValue(std::string can_member, char* value) {
+    unsigned short canID = cancfg->getCanID(can_member);
+    ipcSendingConnection* ipcSCon = new ipcSendingConnection(MODULE_NAME, "CAN_INTERFACE_MODULE", IPC_LOCAL);
+    if (ipcSCon->is_open()) {
+        std::string data_to_send = (char*)&canID;
+        data_to_send += value;
+        ipcSCon->sendData(data_to_send);
+    }
+    else {
+        std::cerr << "ERROR: could not open ipcSendingConnection: " << MODULE_NAME << std::endl;
+        debug->send("ERROR: could not open ipcSendingConnection: %s", MODULE_NAME.c_str());
+    }
 
+    delete ipcSCon;
 }
 
 void CAN::setFilter(unsigned short mask, unsigned short id) {
+    ipcSendingConnection* ipcSCon = new ipcSendingConnection(MODULE_NAME, "CAN_INTERFACE_MODULE", IPC_LOCAL);
+    if (ipcSCon->is_open()) {
+        std::string filterstring = (char*)&mask;
+        filterstring += (char*)&id;
+        ipcSCon->sendData(filterstring);
+    }
+    else {
+        std::cerr << "ERROR: could not open ipcSendingConnection: " << MODULE_NAME << std::endl;
+        debug->send("ERROR: could not open ipcSendingConnection: %s", MODULE_NAME.c_str());
+    }
 
+    delete ipcSCon;
 }
 
 
