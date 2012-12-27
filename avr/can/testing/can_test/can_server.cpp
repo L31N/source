@@ -29,7 +29,7 @@
 
 int main () {
     init_leds();
-    uart_init(57600);
+    uart_init(115200);
 
     led(true, true);
     _delay_ms(500);
@@ -105,7 +105,20 @@ int main () {
                 _delay_ms(50);
             }
         }*/
-        for (int i = 0; i < 12; i++) uart_putc('X');
+        //for (int i = 0; i < 12; i++) uart_putc('X');
+        //uart_putc('\n');
+        uart_putc('H');
+        uart_putc('e');
+        uart_putc('l');
+        uart_putc('l');
+        uart_putc('o');
+        uart_putc('W');
+        uart_putc('o');
+        uart_putc('r');
+        uart_putc('l');
+        uart_putc('d');
+        uart_putc('4');
+        uart_putc('2');
         _delay_ms(1000);
         PORTB ^= 0x03;
 
