@@ -20,23 +20,25 @@
 			<Add option="-mmcu=atmega644" />
 			<Add option="-Wall" />
 			<Add option="-DF_CPU=14745600UL" />
+			<Add directory="/home/l31n/robotics.git/source/avr/include/" />
 		</Compiler>
 		<Linker>
 			<Add option="-mmcu=atmega644" />
 			<Add option="-L." />
 			<Add option="-lcan" />
+			<Add option="-luart_644" />
+			<Add directory="/home/l31n/robotics.git/source/avr/lib/" />
 		</Linker>
 		<ExtraCommands>
 			<Add after="avr-size $(TARGET_OUTPUT_FILE)" />
 			<Add after="avr-objcopy -O ihex -R .eeprom -R .eesafe $(TARGET_OUTPUT_FILE) $(TARGET_OUTPUT_FILE).hex" />
 			<Add after="avr-objcopy --no-change-warnings -j .eeprom --change-section-lma .eeprom=0 -O ihex $(TARGET_OUTPUT_FILE) $(TARGET_OUTPUT_FILE).eep.hex" />
 		</ExtraCommands>
-		<Unit filename="can.h" />
+		<Unit filename="../../../include/can.h" />
+		<Unit filename="../../../include/uart.h" />
 		<Unit filename="can_testing.cpp" />
 		<Unit filename="can_testing.h" />
 		<Unit filename="main.cpp" />
-		<Unit filename="uart.cpp" />
-		<Unit filename="uart.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
