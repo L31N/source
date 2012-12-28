@@ -4,7 +4,7 @@
 
 #include "uart.h"
 
-int main(void)
+/*int main(void)
 {
     DDRB |= (1 << 0);
     PORTB |= (1 << 0);
@@ -33,4 +33,20 @@ int main(void)
     uart_putstr(tmp);
 
     while(1);
+}*/
+
+int main () {
+    DDRB |= (1 << 0);
+    PORTB |= (1 << 0);
+
+    uart_init(57600);
+
+    while(true) {
+        if (uart_count() >= 12) {
+            char buffer[12];
+            uart_read(buffer, 12);
+            for (int i = 0; i < 12; i++) uart_putc(buffer[i]);
+        }
+    }
+
 }

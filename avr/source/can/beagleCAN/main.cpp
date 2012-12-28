@@ -10,7 +10,7 @@
 
 
 int main () {
-    uart_init(57600);
+    uart_init(115200);
     init_leds();
     can_init(BITRATE_1_MBPS);
 
@@ -28,8 +28,13 @@ int main () {
             memset(incomming_serial_data, 0, 12);
 
             uart_read(incomming_serial_data, 12);
+            for (int i = 0; i < 12; i++) uart_putc(incomming_serial_data[i]);
 
-            if (*incomming_serial_data == 's') {
+            led(false, true);
+
+            if (incomming_serial_data[0] == 115) {
+                led(true, false);
+
                 can_t outgoing_can_data;
 
                 outgoing_can_data.flags.rtr = incomming_serial_data[1];
@@ -42,7 +47,7 @@ int main () {
                 if (!can_send_message(&outgoing_can_data)) led(false, true);
                 else switch_led(true, true);
             }
-            else if (*incomming_serial_data == 'f') {       /// calibrate filters
+            else if (incomming_serial_data[0] == 'f') {       /// calibrate filters
                 can_filter_t filterX;
                 filterX.mask = 0x700;
                 filterX.mask |= incomming_serial_data[3];

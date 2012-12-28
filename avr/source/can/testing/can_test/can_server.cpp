@@ -76,7 +76,7 @@ int main () {
 
 
    while(true) {
-        /*if (can_check_message()) {
+        if (can_check_message()) {
             can_t msg;
             led(true, true);
             _delay_ms(100);
@@ -94,20 +94,20 @@ int main () {
                 uart_putstr(data);
 
                 led(true, true);
-                _delay_ms(50);
+                _delay_ms(500);
                 led(false, false);
-                _delay_ms(50);
+                _delay_ms(500);
             }
             else {
                 led(false, true);
-                _delay_ms(50);
+                _delay_ms(500);
                 led(false, false);
-                _delay_ms(50);
+                _delay_ms(500);
             }
-        }*/
+        }
         //for (int i = 0; i < 12; i++) uart_putc('X');
         //uart_putc('\n');
-        uart_putc('H');
+        /*uart_putc('H');
         uart_putc('e');
         uart_putc('l');
         uart_putc('l');
@@ -120,7 +120,7 @@ int main () {
         uart_putc('4');
         uart_putc('2');
         _delay_ms(1000);
-        PORTB ^= 0x03;
+        PORTB ^= 0x03;*/
 
 
         /*char* data = (char*) malloc(2);
@@ -134,6 +134,13 @@ int main () {
             uart_putc(65+i);
         }*/
         //_delay_ms(2000);
+        /*if (uart_count() >= 12) {
+            led(true, true);
+            _delay_ms(1000);
+            led(false, false);
+            char buffer[12];
+            uart_read(buffer, 12);
+        }*/
 
     }
 

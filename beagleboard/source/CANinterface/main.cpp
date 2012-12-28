@@ -39,7 +39,7 @@ int main () {
         while(true) {
             if (serial.readsome(serial_buffer, 11)) {      /// new serial message ...      /** asynchronous readsome function, must be called in loop ! **/
                 debug.send("serial data received: %s", serial_buffer.c_str());
-                std::cout << "data: " << serial_buffer << std::endl;
+                std::cout << "received new serialdata: " << serial_buffer << std::endl;
 
                 //bool can_rtr = serial_buffer[0];
                 unsigned short can_id = serial_buffer[1];
@@ -85,6 +85,7 @@ int main () {
                     serial.write(serial_data, 12);
                 }*/
                 if (command == 's') {  /// send data via CAN
+
                     unsigned short can_id = data[0];
                     data.erase(0, 1);
                     char serial_data[12];
@@ -92,7 +93,13 @@ int main () {
                     serial_data[1] = 0;
                     serial_data[2] = can_id;
                     serial_data[3] = 8;
-                    for (int i = 0; i < 8; i++) serial_data[4+1] = data[i];
+                    for (int i = 0; i < 8; i++) serial_data[4+i] = data[i];
+
+                    std::cout << "send data via can now: " << std::endl;
+                    for (int i = 0; i < 12; i++) {
+                        //printf("%i: %c", i, serial_data[i]);
+                        std::cout << "i: " << i << "\t" << int(serial_data[i]) << std::endl;
+                    }
 
                     serial.write(serial_data, 12);
                 }
