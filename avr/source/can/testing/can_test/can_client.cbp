@@ -31,11 +31,13 @@
 			<Add option="-O3" />
 			<Add option="-Wall" />
 			<Add option="-DF_CPU=14745600UL" />
+			<Add directory="/home/l31n/robotics.git/source/avr/include/" />
 		</Compiler>
 		<Linker>
 			<Add option="-L." />
 			<Add option="-mmcu=atmega644" />
 			<Add option="-lcan" />
+			<Add directory="/home/l31n/robotics.git/source/avr/lib/" />
 		</Linker>
 		<ExtraCommands>
 			<Add after="avr-size $(TARGET_OUTPUT_FILE)" />

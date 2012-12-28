@@ -30,7 +30,16 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
+			<Add directory="/home/l31n/robotics.git/source/beagleboard/include/" />
 		</Compiler>
+		<Linker>
+			<Add option="-L." />
+			<Add option="-lbbcan" />
+			<Add option="-lbbipc" />
+			<Add option="-lbbdebug" />
+			<Add option="-lpthread" />
+			<Add directory="/home/l31n/robotics.git/source/beagleboard/lib/" />
+		</Linker>
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />

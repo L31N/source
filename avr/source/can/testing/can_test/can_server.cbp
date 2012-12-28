@@ -31,11 +31,14 @@
 			<Add option="-O3" />
 			<Add option="-Wall" />
 			<Add option="-DF_CPU=14745600UL" />
+			<Add directory="/home/l31n/robotics.git/source/avr/include/" />
 		</Compiler>
 		<Linker>
 			<Add option="-L." />
 			<Add option="-mmcu=atmega644" />
 			<Add option="-lcan" />
+			<Add option="-luart_644" />
+			<Add directory="/home/l31n/robotics.git/source/avr/lib/" />
 		</Linker>
 		<ExtraCommands>
 			<Add after="avr-size $(TARGET_OUTPUT_FILE)" />
@@ -46,8 +49,6 @@
 		<Unit filename="can_server.cpp" />
 		<Unit filename="can_testing.cpp" />
 		<Unit filename="can_testing.h" />
-		<Unit filename="uart.cpp" />
-		<Unit filename="uart.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
