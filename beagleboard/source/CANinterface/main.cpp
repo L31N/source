@@ -34,11 +34,6 @@ int main () {
 
         CANConfig cancfg(CAN_CONFIG_FILE_PATH.c_str());
 
-        std::cout << "getIpcSynonym to id: " << cancfg.getIpcSynonym(107) << std::endl;
-        std::cout << "getCanMember to id: " << cancfg.getCanMember(108) << std::endl;
-        std::cout << "getCanId to CanMember: " << cancfg.getCanID("MOTOR_2") << std::endl;
-        std::cout << "getIpcSynonym to member: " << cancfg.getIpcSynonym("MOTOR_3") << std::endl;
-
         std::string serial_buffer;
         Data* ipc_buffer = NULL;
         while(true) {
@@ -90,13 +85,14 @@ int main () {
                     serial.write(serial_data, 12);
                 }*/
                 if (command == 's') {  /// send data via CAN
-                    unsigned short can_id = cancfg.getCanID(data);
+                    unsigned short can_id = data[0];
+                    data.erase(0, 1);
                     char serial_data[12];
                     serial_data[0] = 's';
                     serial_data[1] = 0;
                     serial_data[2] = can_id;
                     serial_data[3] = 8;
-                    for (int i = 0; i < 8; i++) serial_data[4+1] = 0;
+                    for (int i = 0; i < 8; i++) serial_data[4+1] = data[i];
 
                     serial.write(serial_data, 12);
                 }
