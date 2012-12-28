@@ -51,7 +51,7 @@ public:
      * reads num characters, returns true if num chars were available
      * the string will only be edited, when num characters were stored in it.
      */
-    bool readsome(std::string& buffer, int num);
+    bool readsome(std::string& buffer, unsigned int num);
 
     /**
      * Read all available data asynchronously. Returns immediately.

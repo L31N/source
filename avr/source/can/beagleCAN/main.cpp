@@ -32,7 +32,7 @@ int main () {
 
             led(false, true);
 
-            if (incomming_serial_data[0] == 115) {
+            if (incomming_serial_data[0] == 's') {
                 led(true, false);
 
                 can_t outgoing_can_data;
@@ -58,11 +58,11 @@ int main () {
             }
         }
         if (can_check_message()) {  /// neue CAN messages vorhanden
-            char outgoing_serial_data[12];
+            char outgoing_serial_data[11];
             can_t incomming_can_data;
 
             if (can_get_message(&incomming_can_data)) {
-                memset(outgoing_serial_data, 0, 12);
+                //memset(outgoing_serial_data, 0, 11);
                 outgoing_serial_data[0] = incomming_can_data.flags.rtr;
                 outgoing_serial_data[1] = incomming_can_data.id;
                 outgoing_serial_data[2] = incomming_can_data.length;
@@ -72,7 +72,8 @@ int main () {
                 }
 
                 for (int i = 0; i < 11; i++) {
-                    uart_putc(*(outgoing_serial_data+i));
+                    //uart_putc(*(outgoing_serial_data+i));
+                    uart_putc(outgoing_serial_data[i]);
                 }
             }
             else {

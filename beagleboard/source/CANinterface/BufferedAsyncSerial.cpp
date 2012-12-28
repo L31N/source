@@ -57,13 +57,13 @@ std::vector<char> BufferedAsyncSerial::read()
     return result;
 }
 
-bool BufferedAsyncSerial::readsome(std::string& buffer, int num) {
+bool BufferedAsyncSerial::readsome(std::string& buffer, unsigned int num) {
     char tmpbuf;
     if (read(&tmpbuf, 1)) {
-        readsome_buffer += tmpbuf;
+        readsome_buffer += std::string(&tmpbuf, 1);
         readsome_count ++;
     }
-    if (readsome_count >= 12) {
+    if (readsome_count >= num) {
         readsome_count = 0;
         buffer = readsome_buffer;
         readsome_buffer = "";

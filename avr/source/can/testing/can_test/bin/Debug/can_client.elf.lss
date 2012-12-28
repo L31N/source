@@ -7,27 +7,27 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
   1 .stab         00001218  00000000  00000000  00000478  2**2
                   CONTENTS, READONLY, DEBUGGING
-  2 .stabstr      00000cdf  00000000  00000000  00001690  2**0
+  2 .stabstr      00000ce6  00000000  00000000  00001690  2**0
                   CONTENTS, READONLY, DEBUGGING
-  3 .debug_aranges 00000080  00000000  00000000  0000236f  2**0
+  3 .debug_aranges 00000080  00000000  00000000  00002376  2**0
                   CONTENTS, READONLY, DEBUGGING
-  4 .debug_pubnames 00000116  00000000  00000000  000023ef  2**0
+  4 .debug_pubnames 00000116  00000000  00000000  000023f6  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00000711  00000000  00000000  00002505  2**0
+  5 .debug_info   00000711  00000000  00000000  0000250c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 00000406  00000000  00000000  00002c16  2**0
+  6 .debug_abbrev 00000406  00000000  00000000  00002c1d  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   00000695  00000000  00000000  0000301c  2**0
+  7 .debug_line   00000695  00000000  00000000  00003023  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  000000d0  00000000  00000000  000036b4  2**2
+  8 .debug_frame  000000d0  00000000  00000000  000036b8  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    00000240  00000000  00000000  00003784  2**0
+  9 .debug_str    00000240  00000000  00000000  00003788  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    0000035b  00000000  00000000  000039c4  2**0
+ 10 .debug_loc    0000035b  00000000  00000000  000039c8  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_pubtypes 000000d4  00000000  00000000  00003d1f  2**0
+ 11 .debug_pubtypes 000000d4  00000000  00000000  00003d23  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000030  00000000  00000000  00003df3  2**0
+ 12 .debug_ranges 00000030  00000000  00000000  00003df7  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -310,12 +310,6 @@ void led (bool green, bool red) {
  1c8:	08 95       	ret
 
 000001ca <mcp2515_write_register>:
-	#error	invaild value of MCP2515_CLKOUT_PRESCALER
-#endif
-
-// -------------------------------------------------------------------------
-void mcp2515_write_register( uint8_t adress, uint8_t data )
-{
  1ca:	1f 93       	push	r17
  1cc:	df 93       	push	r29
  1ce:	cf 93       	push	r28
@@ -323,24 +317,16 @@ void mcp2515_write_register( uint8_t adress, uint8_t data )
  1d2:	cd b7       	in	r28, 0x3d	; 61
  1d4:	de b7       	in	r29, 0x3e	; 62
  1d6:	18 2f       	mov	r17, r24
-	RESET(MCP2515_CS);
  1d8:	2c 98       	cbi	0x05, 4	; 5
-	
-	spi_putc(SPI_WRITE);
  1da:	82 e0       	ldi	r24, 0x02	; 2
  1dc:	69 83       	std	Y+1, r22	; 0x01
  1de:	0e 94 09 02 	call	0x412	; 0x412 <spi_putc>
-	spi_putc(adress);
  1e2:	81 2f       	mov	r24, r17
  1e4:	0e 94 09 02 	call	0x412	; 0x412 <spi_putc>
-	spi_putc(data);
  1e8:	69 81       	ldd	r22, Y+1	; 0x01
  1ea:	86 2f       	mov	r24, r22
  1ec:	0e 94 09 02 	call	0x412	; 0x412 <spi_putc>
-	
-	SET(MCP2515_CS);
  1f0:	2c 9a       	sbi	0x05, 4	; 5
-}
  1f2:	0f 90       	pop	r0
  1f4:	cf 91       	pop	r28
  1f6:	df 91       	pop	r29
@@ -348,41 +334,20 @@ void mcp2515_write_register( uint8_t adress, uint8_t data )
  1fa:	08 95       	ret
 
 000001fc <mcp2515_read_register>:
-
-// -------------------------------------------------------------------------
-uint8_t mcp2515_read_register(uint8_t adress)
-{
  1fc:	1f 93       	push	r17
  1fe:	18 2f       	mov	r17, r24
-	uint8_t data;
-	
-	RESET(MCP2515_CS);
  200:	2c 98       	cbi	0x05, 4	; 5
-	
-	spi_putc(SPI_READ);
  202:	83 e0       	ldi	r24, 0x03	; 3
  204:	0e 94 09 02 	call	0x412	; 0x412 <spi_putc>
-	spi_putc(adress);
  208:	81 2f       	mov	r24, r17
  20a:	0e 94 09 02 	call	0x412	; 0x412 <spi_putc>
-	
-	data = spi_putc(0xff);	
  20e:	8f ef       	ldi	r24, 0xFF	; 255
  210:	0e 94 09 02 	call	0x412	; 0x412 <spi_putc>
-	
-	SET(MCP2515_CS);
  214:	2c 9a       	sbi	0x05, 4	; 5
-	
-	return data;
-}
  216:	1f 91       	pop	r17
  218:	08 95       	ret
 
 0000021a <mcp2515_bit_modify>:
-
-// -------------------------------------------------------------------------
-void mcp2515_bit_modify(uint8_t adress, uint8_t mask, uint8_t data)
-{
  21a:	1f 93       	push	r17
  21c:	df 93       	push	r29
  21e:	cf 93       	push	r28
@@ -390,29 +355,20 @@ void mcp2515_bit_modify(uint8_t adress, uint8_t mask, uint8_t data)
  222:	cd b7       	in	r28, 0x3d	; 61
  224:	de b7       	in	r29, 0x3e	; 62
  226:	18 2f       	mov	r17, r24
-	RESET(MCP2515_CS);
  228:	2c 98       	cbi	0x05, 4	; 5
-	
-	spi_putc(SPI_BIT_MODIFY);
  22a:	85 e0       	ldi	r24, 0x05	; 5
  22c:	4a 83       	std	Y+2, r20	; 0x02
  22e:	69 83       	std	Y+1, r22	; 0x01
  230:	0e 94 09 02 	call	0x412	; 0x412 <spi_putc>
-	spi_putc(adress);
  234:	81 2f       	mov	r24, r17
  236:	0e 94 09 02 	call	0x412	; 0x412 <spi_putc>
-	spi_putc(mask);
  23a:	69 81       	ldd	r22, Y+1	; 0x01
  23c:	86 2f       	mov	r24, r22
  23e:	0e 94 09 02 	call	0x412	; 0x412 <spi_putc>
-	spi_putc(data);
  242:	4a 81       	ldd	r20, Y+2	; 0x02
  244:	84 2f       	mov	r24, r20
  246:	0e 94 09 02 	call	0x412	; 0x412 <spi_putc>
-	
-	SET(MCP2515_CS);
  24a:	2c 9a       	sbi	0x05, 4	; 5
-}
  24c:	0f 90       	pop	r0
  24e:	0f 90       	pop	r0
  250:	cf 91       	pop	r28
@@ -421,34 +377,14 @@ void mcp2515_bit_modify(uint8_t adress, uint8_t mask, uint8_t data)
  256:	08 95       	ret
 
 00000258 <mcp2515_read_status>:
-// ----------------------------------------------------------------------------
-uint8_t mcp2515_read_status(uint8_t type)
-{
-	uint8_t data;
-	
-	RESET(MCP2515_CS);
  258:	2c 98       	cbi	0x05, 4	; 5
-	
-	spi_putc(type);
  25a:	0e 94 09 02 	call	0x412	; 0x412 <spi_putc>
-	data = spi_putc(0xff);
  25e:	8f ef       	ldi	r24, 0xFF	; 255
  260:	0e 94 09 02 	call	0x412	; 0x412 <spi_putc>
-	
-	SET(MCP2515_CS);
  264:	2c 9a       	sbi	0x05, 4	; 5
-	
-	return data;
-}
  266:	08 95       	ret
 
 00000268 <can_init>:
-	}
-};
-
-// -------------------------------------------------------------------------
-bool mcp2515_init(uint8_t bitrate)
-{
  268:	ef 92       	push	r14
  26a:	ff 92       	push	r15
  26c:	0f 93       	push	r16
@@ -459,41 +395,19 @@ bool mcp2515_init(uint8_t bitrate)
  276:	cd b7       	in	r28, 0x3d	; 61
  278:	de b7       	in	r29, 0x3e	; 62
  27a:	18 2f       	mov	r17, r24
-	if (bitrate >= 8)
  27c:	88 30       	cpi	r24, 0x08	; 8
  27e:	08 f0       	brcs	.+2      	; 0x282 <can_init+0x1a>
  280:	58 c0       	rjmp	.+176    	; 0x332 <can_init+0xca>
-		return false;
-	
-	SET(MCP2515_CS);
  282:	2c 9a       	sbi	0x05, 4	; 5
-	SET_OUTPUT(MCP2515_CS);
  284:	24 9a       	sbi	0x04, 4	; 4
-	
-	// Aktivieren der Pins fuer das SPI Interface
-	RESET(P_SCK);
  286:	2f 98       	cbi	0x05, 7	; 5
-	RESET(P_MOSI);
  288:	2d 98       	cbi	0x05, 5	; 5
-	RESET(P_MISO);
  28a:	2e 98       	cbi	0x05, 6	; 5
-	
-	SET_OUTPUT(P_SCK);
  28c:	27 9a       	sbi	0x04, 7	; 4
-	SET_OUTPUT(P_MOSI);
  28e:	25 9a       	sbi	0x04, 5	; 4
-	SET_INPUT(P_MISO);
  290:	26 98       	cbi	0x04, 6	; 4
-	
-	// SPI Einstellung setzen
-	mcp2515_spi_init();
  292:	0e 94 04 02 	call	0x408	; 0x408 <mcp2515_spi_init>
-	
-	// MCP2515 per Software Reset zuruecksetzten,
-	// danach ist er automatisch im Konfigurations Modus
-	RESET(MCP2515_CS);
  296:	2c 98       	cbi	0x05, 4	; 5
-	spi_putc(SPI_RESET);
  298:	80 ec       	ldi	r24, 0xC0	; 192
  29a:	0e 94 09 02 	call	0x412	; 0x412 <spi_putc>
  29e:	86 e6       	ldi	r24, 0x66	; 102
@@ -501,10 +415,6 @@ bool mcp2515_init(uint8_t bitrate)
  2a2:	01 97       	sbiw	r24, 0x01	; 1
  2a4:	f1 f7       	brne	.-4      	; 0x2a2 <can_init+0x3a>
  2a6:	00 00       	nop
-	
-	_delay_ms(1);
-	
-	SET(MCP2515_CS);
  2a8:	2c 9a       	sbi	0x05, 4	; 5
  2aa:	ef ef       	ldi	r30, 0xFF	; 255
  2ac:	ff e8       	ldi	r31, 0x8F	; 143
@@ -512,93 +422,40 @@ bool mcp2515_init(uint8_t bitrate)
  2b0:	f1 f7       	brne	.-4      	; 0x2ae <can_init+0x46>
  2b2:	00 c0       	rjmp	.+0      	; 0x2b4 <can_init+0x4c>
  2b4:	00 00       	nop
-	
-	// ein bisschen warten bis der MCP2515 sich neu gestartet hat
-	_delay_ms(10);
-	
-	// CNF1..3 Register laden (Bittiming)
-	RESET(MCP2515_CS);
  2b6:	2c 98       	cbi	0x05, 4	; 5
-	spi_putc(SPI_WRITE);
  2b8:	82 e0       	ldi	r24, 0x02	; 2
  2ba:	0e 94 09 02 	call	0x412	; 0x412 <spi_putc>
-	spi_putc(CNF3);
  2be:	88 e2       	ldi	r24, 0x28	; 40
  2c0:	0e 94 09 02 	call	0x412	; 0x412 <spi_putc>
-	for (uint8_t i=0; i<3 ;i++ ) {
-		spi_putc(pgm_read_byte(&_mcp2515_cnf[bitrate][i]));
  2c4:	83 e0       	ldi	r24, 0x03	; 3
  2c6:	18 9f       	mul	r17, r24
  2c8:	70 01       	movw	r14, r0
  2ca:	11 24       	eor	r1, r1
-		0
-	}
-};
-
-// -------------------------------------------------------------------------
-bool mcp2515_init(uint8_t bitrate)
  2cc:	87 01       	movw	r16, r14
  2ce:	00 59       	subi	r16, 0x90	; 144
  2d0:	1f 4f       	sbci	r17, 0xFF	; 255
-	
-	// CNF1..3 Register laden (Bittiming)
-	RESET(MCP2515_CS);
-	spi_putc(SPI_WRITE);
-	spi_putc(CNF3);
-	for (uint8_t i=0; i<3 ;i++ ) {
  2d2:	90 e0       	ldi	r25, 0x00	; 0
-		spi_putc(pgm_read_byte(&_mcp2515_cnf[bitrate][i]));
  2d4:	f8 01       	movw	r30, r16
  2d6:	84 91       	lpm	r24, Z+
  2d8:	99 83       	std	Y+1, r25	; 0x01
  2da:	0e 94 09 02 	call	0x412	; 0x412 <spi_putc>
-	
-	// CNF1..3 Register laden (Bittiming)
-	RESET(MCP2515_CS);
-	spi_putc(SPI_WRITE);
-	spi_putc(CNF3);
-	for (uint8_t i=0; i<3 ;i++ ) {
  2de:	99 81       	ldd	r25, Y+1	; 0x01
  2e0:	9f 5f       	subi	r25, 0xFF	; 255
  2e2:	0f 5f       	subi	r16, 0xFF	; 255
  2e4:	1f 4f       	sbci	r17, 0xFF	; 255
  2e6:	93 30       	cpi	r25, 0x03	; 3
  2e8:	a9 f7       	brne	.-22     	; 0x2d4 <can_init+0x6c>
-		spi_putc(pgm_read_byte(&_mcp2515_cnf[bitrate][i]));
-	}
-	// aktivieren/deaktivieren der Interrupts
-	spi_putc(MCP2515_INTERRUPTS);
  2ea:	83 e0       	ldi	r24, 0x03	; 3
  2ec:	0e 94 09 02 	call	0x412	; 0x412 <spi_putc>
-	SET(MCP2515_CS);
  2f0:	2c 9a       	sbi	0x05, 4	; 5
-	
-	// TXnRTS Bits als Inputs schalten
-	mcp2515_write_register(TXRTSCTRL, 0);
  2f2:	8d e0       	ldi	r24, 0x0D	; 13
  2f4:	60 e0       	ldi	r22, 0x00	; 0
  2f6:	0e 94 e5 00 	call	0x1ca	; 0x1ca <mcp2515_write_register>
-	
-	#if defined(MCP2515_INT)
-		SET_INPUT(MCP2515_INT);
  2fa:	22 98       	cbi	0x04, 2	; 4
-		SET(MCP2515_INT);
  2fc:	2a 9a       	sbi	0x05, 2	; 5
-			// activate the pin RX1BF as GPIO which is connected 
-			// to RS of MCP2551 and set it to 0
-			mcp2515_write_register(BFPCTRL, (1<<B1BFE));
-		#else
-			// Deaktivieren der Pins RXnBF Pins (High Impedance State)
-			mcp2515_write_register(BFPCTRL, 0);
  2fe:	8c e0       	ldi	r24, 0x0C	; 12
  300:	60 e0       	ldi	r22, 0x00	; 0
  302:	0e 94 e5 00 	call	0x1ca	; 0x1ca <mcp2515_write_register>
-	#endif
-	
-	// Testen ob das auf die beschreibenen Register zugegriffen werden kann
-	// (=> ist der Chip ueberhaupt ansprechbar?)
-	bool error = false;
-	if (mcp2515_read_register(CNF2) != pgm_read_byte(&_mcp2515_cnf[bitrate][1])) {
  306:	89 e2       	ldi	r24, 0x29	; 41
  308:	0e 94 fe 00 	call	0x1fc	; 0x1fc <mcp2515_read_register>
  30c:	18 2f       	mov	r17, r24
@@ -607,47 +464,18 @@ bool mcp2515_init(uint8_t bitrate)
  312:	9f 4f       	sbci	r25, 0xFF	; 255
  314:	fc 01       	movw	r30, r24
  316:	04 91       	lpm	r16, Z+
-		error = true;
-	}
-	
-	// Device zurueck in den normalen Modus versetzten
-	// und aktivieren/deaktivieren des Clkout-Pins
-	mcp2515_write_register(CANCTRL, CLKOUT_PRESCALER_);
  318:	8f e0       	ldi	r24, 0x0F	; 15
  31a:	60 e0       	ldi	r22, 0x00	; 0
  31c:	0e 94 e5 00 	call	0x1ca	; 0x1ca <mcp2515_write_register>
-	
-	if (error) {
  320:	10 17       	cp	r17, r16
  322:	39 f4       	brne	.+14     	; 0x332 <can_init+0xca>
-		return false;
-	}
-	else
-	{
-		while ((mcp2515_read_register(CANSTAT) & 0xe0) != 0) {
  324:	8e e0       	ldi	r24, 0x0E	; 14
  326:	0e 94 fe 00 	call	0x1fc	; 0x1fc <mcp2515_read_register>
  32a:	80 7e       	andi	r24, 0xE0	; 224
  32c:	d9 f7       	brne	.-10     	; 0x324 <can_init+0xbc>
-			// warten bis der neue Modus uebernommen wurde
-		}
-		
-		return true;
  32e:	81 e0       	ldi	r24, 0x01	; 1
  330:	01 c0       	rjmp	.+2      	; 0x334 <can_init+0xcc>
-	// Device zurueck in den normalen Modus versetzten
-	// und aktivieren/deaktivieren des Clkout-Pins
-	mcp2515_write_register(CANCTRL, CLKOUT_PRESCALER_);
-	
-	if (error) {
-		return false;
  332:	80 e0       	ldi	r24, 0x00	; 0
-			// warten bis der neue Modus uebernommen wurde
-		}
-		
-		return true;
-	}
-}
  334:	0f 90       	pop	r0
  336:	cf 91       	pop	r28
  338:	df 91       	pop	r29
@@ -658,130 +486,50 @@ bool mcp2515_init(uint8_t bitrate)
  342:	08 95       	ret
 
 00000344 <can_send_message>:
-
-#include <util/delay.h>
-
-// ----------------------------------------------------------------------------
-uint8_t mcp2515_send_message(const can_t *msg)
-{
  344:	ff 92       	push	r15
  346:	0f 93       	push	r16
  348:	1f 93       	push	r17
  34a:	cf 93       	push	r28
  34c:	df 93       	push	r29
  34e:	ec 01       	movw	r28, r24
-	// Status des MCP2515 auslesen
-	uint8_t status = mcp2515_read_status(SPI_READ_STATUS);
  350:	80 ea       	ldi	r24, 0xA0	; 160
  352:	0e 94 2c 01 	call	0x258	; 0x258 <mcp2515_read_status>
-	 *  2	TXB0CNTRL.TXREQ
-	 *  4	TXB1CNTRL.TXREQ
-	 *  6	TXB2CNTRL.TXREQ
-	 */
-	uint8_t address;
-	if (_bit_is_clear(status, 2)) {
  356:	82 ff       	sbrs	r24, 2
  358:	06 c0       	rjmp	.+12     	; 0x366 <can_send_message+0x22>
-		address = 0x00;
-	}
-	else if (_bit_is_clear(status, 4)) {
  35a:	84 ff       	sbrs	r24, 4
  35c:	06 c0       	rjmp	.+12     	; 0x36a <can_send_message+0x26>
-		address = 0x02;
-	} 
-	else if (_bit_is_clear(status, 6)) {
  35e:	86 fd       	sbrc	r24, 6
  360:	31 c0       	rjmp	.+98     	; 0x3c4 <can_send_message+0x80>
-		address = 0x04;
  362:	14 e0       	ldi	r17, 0x04	; 4
  364:	03 c0       	rjmp	.+6      	; 0x36c <can_send_message+0x28>
-	 *  4	TXB1CNTRL.TXREQ
-	 *  6	TXB2CNTRL.TXREQ
-	 */
-	uint8_t address;
-	if (_bit_is_clear(status, 2)) {
-		address = 0x00;
  366:	10 e0       	ldi	r17, 0x00	; 0
  368:	01 c0       	rjmp	.+2      	; 0x36c <can_send_message+0x28>
-	}
-	else if (_bit_is_clear(status, 4)) {
-		address = 0x02;
  36a:	12 e0       	ldi	r17, 0x02	; 2
-		// Alle Puffer sind belegt,
-		// Nachricht kann nicht verschickt werden
-		return 0;
-	}
-	
-	RESET(MCP2515_CS);
  36c:	2c 98       	cbi	0x05, 4	; 5
-	spi_putc(SPI_WRITE_TX | address);
  36e:	81 2f       	mov	r24, r17
  370:	80 64       	ori	r24, 0x40	; 64
  372:	0e 94 09 02 	call	0x412	; 0x412 <spi_putc>
-	#if SUPPORT_EXTENDED_CANID
-		mcp2515_write_id(&msg->id, msg->flags.extended);
-	#else
-		mcp2515_write_id(&msg->id);
  376:	ce 01       	movw	r24, r28
  378:	0e 94 ea 01 	call	0x3d4	; 0x3d4 <mcp2515_write_id>
-	#endif
-	uint8_t length = msg->length & 0x0f;
  37c:	0b 81       	ldd	r16, Y+3	; 0x03
  37e:	0f 70       	andi	r16, 0x0F	; 15
-	
-	// Ist die Nachricht ein "Remote Transmit Request" ?
-	if (msg->flags.rtr)
  380:	8a 81       	ldd	r24, Y+2	; 0x02
  382:	80 ff       	sbrs	r24, 0
  384:	05 c0       	rjmp	.+10     	; 0x390 <can_send_message+0x4c>
-	{
-		// Ein RTR hat zwar eine Laenge,
-		// enthaelt aber keine Daten
-		
-		// Nachrichten Laenge + RTR einstellen
-		spi_putc((1<<RTR) | length);
  386:	80 2f       	mov	r24, r16
  388:	80 64       	ori	r24, 0x40	; 64
  38a:	0e 94 09 02 	call	0x412	; 0x412 <spi_putc>
  38e:	0c c0       	rjmp	.+24     	; 0x3a8 <can_send_message+0x64>
-	}
-	else
-	{
-		// Nachrichten Laenge einstellen
-		spi_putc(length);
  390:	80 2f       	mov	r24, r16
  392:	0e 94 09 02 	call	0x412	; 0x412 <spi_putc>
-#ifdef	SUPPORT_FOR_MCP2515__
-
-#include <util/delay.h>
-
-// ----------------------------------------------------------------------------
-uint8_t mcp2515_send_message(const can_t *msg)
  396:	24 96       	adiw	r28, 0x04	; 4
-	{
-		// Nachrichten Laenge einstellen
-		spi_putc(length);
-		
-		// Daten
-		for (uint8_t i=0;i<length;i++) {
  398:	ff 24       	eor	r15, r15
  39a:	04 c0       	rjmp	.+8      	; 0x3a4 <can_send_message+0x60>
-			spi_putc(msg->data[i]);
  39c:	89 91       	ld	r24, Y+
  39e:	0e 94 09 02 	call	0x412	; 0x412 <spi_putc>
-	{
-		// Nachrichten Laenge einstellen
-		spi_putc(length);
-		
-		// Daten
-		for (uint8_t i=0;i<length;i++) {
  3a2:	f3 94       	inc	r15
  3a4:	f0 16       	cp	r15, r16
  3a6:	d0 f3       	brcs	.-12     	; 0x39c <can_send_message+0x58>
-			spi_putc(msg->data[i]);
-		}
-	}
-	SET(MCP2515_CS);
  3a8:	2c 9a       	sbi	0x05, 4	; 5
 	#else
 		//round up by default
@@ -792,41 +540,16 @@ uint8_t mcp2515_send_message(const can_t *msg)
  3aa:	85 e0       	ldi	r24, 0x05	; 5
  3ac:	8a 95       	dec	r24
  3ae:	f1 f7       	brne	.-4      	; 0x3ac <can_send_message+0x68>
-	_delay_us(1);
-	
-	// CAN Nachricht verschicken
-	// die letzten drei Bit im RTS Kommando geben an welcher
-	// Puffer gesendet werden soll.
-	RESET(MCP2515_CS);
  3b0:	2c 98       	cbi	0x05, 4	; 5
-	address = (address == 0) ? 1 : address;
  3b2:	11 23       	and	r17, r17
  3b4:	09 f4       	brne	.+2      	; 0x3b8 <can_send_message+0x74>
  3b6:	11 e0       	ldi	r17, 0x01	; 1
-	spi_putc(SPI_RTS | address);
  3b8:	81 2f       	mov	r24, r17
  3ba:	80 68       	ori	r24, 0x80	; 128
  3bc:	0e 94 09 02 	call	0x412	; 0x412 <spi_putc>
-	SET(MCP2515_CS);
  3c0:	2c 9a       	sbi	0x05, 4	; 5
-	
-	CAN_INDICATE_TX_TRAFFIC_FUNCTION;
-	
-	return address;
  3c2:	01 c0       	rjmp	.+2      	; 0x3c6 <can_send_message+0x82>
-		address = 0x04;
-	}
-	else {
-		// Alle Puffer sind belegt,
-		// Nachricht kann nicht verschickt werden
-		return 0;
  3c4:	10 e0       	ldi	r17, 0x00	; 0
-	SET(MCP2515_CS);
-	
-	CAN_INDICATE_TX_TRAFFIC_FUNCTION;
-	
-	return address;
-}
  3c6:	81 2f       	mov	r24, r17
  3c8:	df 91       	pop	r29
  3ca:	cf 91       	pop	r28
@@ -836,16 +559,7 @@ uint8_t mcp2515_send_message(const can_t *msg)
  3d2:	08 95       	ret
 
 000003d4 <mcp2515_write_id>:
-}
-
-#else
-
-void mcp2515_write_id(const uint16_t *id)
-{
  3d4:	fc 01       	movw	r30, r24
-	uint8_t tmp;
-	
-	spi_start(*id >> 3);
  3d6:	20 81       	ld	r18, Z
  3d8:	31 81       	ldd	r19, Z+1	; 0x01
  3da:	83 e0       	ldi	r24, 0x03	; 3
@@ -853,89 +567,35 @@ void mcp2515_write_id(const uint16_t *id)
  3de:	27 95       	ror	r18
  3e0:	8a 95       	dec	r24
  3e2:	e1 f7       	brne	.-8      	; 0x3dc <mcp2515_write_id+0x8>
-}
-
-#else
-
-static void spi_start(uint8_t data) {
-	SPDR = data;
  3e4:	2e bd       	out	0x2e, r18	; 46
-void mcp2515_write_id(const uint16_t *id)
-{
-	uint8_t tmp;
-	
-	spi_start(*id >> 3);
-	tmp = *((uint8_t *) id) << 5;
  3e6:	80 81       	ld	r24, Z
  3e8:	82 95       	swap	r24
  3ea:	88 0f       	add	r24, r24
  3ec:	80 7e       	andi	r24, 0xE0	; 224
-	SPDR = data;
-}
-
-static uint8_t spi_wait(void) {
-	// warten bis der vorherige Werte geschrieben wurde
-	while(!(SPSR & (1<<SPIF)))
  3ee:	0d b4       	in	r0, 0x2d	; 45
  3f0:	07 fe       	sbrs	r0, 7
  3f2:	fd cf       	rjmp	.-6      	; 0x3ee <mcp2515_write_id+0x1a>
-		;
-	
-	return SPDR;
  3f4:	9e b5       	in	r25, 0x2e	; 46
-	
-	spi_start(*id >> 3);
-	tmp = *((uint8_t *) id) << 5;
-	spi_wait();
-	
-	spi_putc(tmp);
  3f6:	0e 94 09 02 	call	0x412	; 0x412 <spi_putc>
-	spi_putc(0);
  3fa:	80 e0       	ldi	r24, 0x00	; 0
  3fc:	0e 94 09 02 	call	0x412	; 0x412 <spi_putc>
-	spi_putc(0);
  400:	80 e0       	ldi	r24, 0x00	; 0
  402:	0e 94 09 02 	call	0x412	; 0x412 <spi_putc>
-}
  406:	08 95       	ret
 
 00000408 <mcp2515_spi_init>:
-// ----------------------------------------------------------------------------
-void mcp2515_spi_init(void)
-{
-	#ifndef USE_SOFTWARE_SPI
-		// Aktivieren des SPI Master Interfaces
-		SPCR = (1<<SPE)|(1<<MSTR) | R_SPCR;
  408:	81 e5       	ldi	r24, 0x51	; 81
  40a:	8c bd       	out	0x2c, r24	; 44
-		SPSR = R_SPSR;
  40c:	81 e0       	ldi	r24, 0x01	; 1
  40e:	8d bd       	out	0x2d, r24	; 45
-	#endif
-}
  410:	08 95       	ret
 
 00000412 <spi_putc>:
-	return data_in;
-	
-	#else
-	
-	// put byte in send-buffer
-	SPDR = data;
  412:	8e bd       	out	0x2e, r24	; 46
-	
-	// wait until byte was send
-	while( !( SPSR & (1<<SPIF) ) )
  414:	0d b4       	in	r0, 0x2d	; 45
  416:	07 fe       	sbrs	r0, 7
  418:	fd cf       	rjmp	.-6      	; 0x414 <spi_putc+0x2>
-		;
-	
-	return SPDR;
  41a:	8e b5       	in	r24, 0x2e	; 46
-	
-	#endif
-}
  41c:	08 95       	ret
 
 0000041e <_exit>:

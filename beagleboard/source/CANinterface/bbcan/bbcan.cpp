@@ -17,25 +17,26 @@ CAN::~CAN() {
 void CAN::init_member(std::string can_member) {
     std::string ipcSyn = cancfg->getIpcSynonym(can_member);
     ipcReceivingConnection* tmp_ipcRCon = new ipcReceivingConnection(ipcSyn);
-    //if (tmp_ipcRCon->is_open()) {
-        receivingConnections.push_back(Rcon(tmp_ipcRCon, can_member));
-    //}
-    /*else {
-        std::cerr << "ERROR: could not open receivingConnection to: " << ipcSyn << std::endl;
-        debug->send("ERROR: could not open receivingConnection to: %s", ipcSyn.c_str());
-    }*/
+    Rcon* rcon = new Rcon(tmp_ipcRCon, can_member);
+    receivingConnections.push_back(*rcon);
 }
 
 char* CAN::getValue(std::string can_member) {
     for (unsigned int i = 0; i < receivingConnections.size(); i++) {
         if (receivingConnections[i].getCANMember() == can_member) {
-            Data* can_data = receivingConnections[i].getIPCRcon()->readDataFromBuffer();
-            std::string data = can_data->getData();
-            char* cdata = new char[8];
-            for (int i = 0; i < 8; i++) {
-                cdata[i] = data[i];
+            if (receivingConnections[i].getIPCRcon()->checkForNewData()) {
+                Data* can_data = receivingConnections[i].getIPCRcon()->readDataFromBuffer();
+                std::string data = can_data->getData();
+                char* cdata = new char[8];
+                for (int i = 0; i < 8; i++) {
+                    cdata[i] = data[i+1];
+                }
+                return cdata;
             }
-            return cdata;
+            else {
+                //std::cout << "no data were available ..." << std::endl;
+                return NULL;
+            }
         }
     }
     std::cerr << "ERROR: " << can_member << " was not initialized !!!" << std::endl;
@@ -86,6 +87,7 @@ Rcon::Rcon(ipcReceivingConnection* _ipcRCon, std::string _can_member) {
 }
 
 Rcon::~Rcon() {
+    std::cout << "dekonstruktor of Rcon ..." << std::endl;
     delete ipcRCon;
 }
 
