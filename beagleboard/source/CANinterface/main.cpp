@@ -34,6 +34,11 @@ int main () {
 
         CANConfig cancfg(CAN_CONFIG_FILE_PATH.c_str());
 
+        std::cout << "getIpcSynonym to id: " << cancfg.getIpcSynonym(107) << std::endl;
+        std::cout << "getCanMember to id: " << cancfg.getCanMember(108) << std::endl;
+        std::cout << "getCanId to CanMember: " << cancfg.getCanID("MOTOR_2") << std::endl;
+        std::cout << "getIpcSynonym to member: " << cancfg.getIpcSynonym("MOTOR_3") << std::endl;
+
         std::string serial_buffer;
         Data* ipc_buffer = NULL;
         while(true) {

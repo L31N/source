@@ -23,12 +23,13 @@ unsigned short CANConfig::getCanID(std::string can_member) {
         char cline[256];
         ifs->getline(cline, 256);
         std::string line(cline);
+        if (line[0] == '#' || line.length() <= 0) continue;       /// its a comment line or a blank line
 
         size_t firstDP = line.find_first_of(':');
         size_t lastDP = line.find_last_of(':');
 
         std::string can_mem = line.substr(0, firstDP);
-        std::string can_id = line.substr(lastDP, std::string::npos);
+        std::string can_id = line.substr(lastDP+1, std::string::npos);
 
         if (can_mem == can_member) {
             std::stringstream ss;
@@ -49,12 +50,13 @@ std::string CANConfig::getCanMember(unsigned short can_id) {
         char cline[256];
         ifs->getline(cline, 256);
         std::string line(cline);
+        if (line[0] == '#' || line.length() <= 0) continue;       /// its a comment line or a blank line
 
         size_t firstDP = line.find_first_of(':');
         size_t lastDP = line.find_last_of(':');
 
         std::string can_mem = line.substr(0, firstDP);
-        std::string str_can_id = line.substr(lastDP, std::string::npos);
+        std::string str_can_id = line.substr(lastDP+1, std::string::npos);
 
         std::stringstream ss;
         ss << str_can_id;
@@ -77,12 +79,13 @@ std::string CANConfig::getIpcSynonym(unsigned short can_id) {
         char cline[256];
         ifs->getline(cline, 256);
         std::string line(cline);
+        if (line[0] == '#' || line.length() <= 0) continue;       /// its a comment line or a blank line
 
         size_t firstDP = line.find_first_of(':');
         size_t lastDP = line.find_last_of(':');
 
-        std::string ipc_syn = line.substr(firstDP+2, lastDP-firstDP);
-        std::string str_can_id = line.substr(lastDP, std::string::npos);
+        std::string ipc_syn = line.substr(firstDP+1, lastDP-firstDP-1);
+        std::string str_can_id = line.substr(lastDP+1, std::string::npos);
 
         std::stringstream ss;
         ss << str_can_id;
@@ -105,12 +108,13 @@ std::string CANConfig::getIpcSynonym(std::string can_member) {
         char cline[256];
         ifs->getline(cline, 256);
         std::string line(cline);
+        if (line[0] == '#' || line.length() <= 0) continue;       /// its a comment line or a blank line
 
         size_t firstDP = line.find_first_of(':');
         size_t lastDP = line.find_last_of(':');
 
         std::string can_mem = line.substr(0, firstDP);
-        std::string ipc_syn = line.substr(firstDP+2, lastDP-firstDP);
+        std::string ipc_syn = line.substr(firstDP+1, lastDP-firstDP-1);
 
         if (can_mem == can_member) {
             return ipc_syn;
