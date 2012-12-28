@@ -46,7 +46,7 @@ void CAN::setValue(std::string can_member, char* value) {
     unsigned short canID = cancfg->getCanID(can_member);
     ipcSendingConnection* ipcSCon = new ipcSendingConnection(MODULE_NAME, "CAN_INTERFACE_MODULE", IPC_LOCAL);
     if (ipcSCon->is_open()) {
-        std::string data_to_send = 's';
+        std::string data_to_send = "s";
         data_to_send += (char*)&canID;
         data_to_send += value;
         ipcSCon->sendData(data_to_send);
@@ -62,7 +62,7 @@ void CAN::setValue(std::string can_member, char* value) {
 void CAN::setFilter(unsigned short filterNum, unsigned short mask, unsigned short id) {
     ipcSendingConnection* ipcSCon = new ipcSendingConnection(MODULE_NAME, "CAN_INTERFACE_MODULE", IPC_LOCAL);
     if (ipcSCon->is_open()) {
-        std::string filterstring = 'f';
+        std::string filterstring = "f";
         filterstring += (char*)&filterNum;
         filterstring += (char*)&mask;
         filterstring += (char*)&id;
