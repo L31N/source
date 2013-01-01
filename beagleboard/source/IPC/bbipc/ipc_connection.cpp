@@ -10,6 +10,7 @@ using namespace std;
 
 ipcConnection::ipcConnection(void) {
     _errno = 0;
+    f_is_open = false;
 
     ipcconfig = new ipcConfig(IPC_CONFIG_FILE_PATH);
     UDS_FILE_PATH = ipcconfig->getUDS_FILE_PATH();
@@ -305,6 +306,7 @@ bool ipcReceivingConnection::init(std::string idPackage, size_t _bufferSize) {
                 #ifdef DEBUG
                     cout << "connection was set successfully ..." << endl;
                 #endif
+                f_is_open = true;
                 break;
             case 6:
                 cout << "receiving connetion already exists ..." << endl;

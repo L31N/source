@@ -46,7 +46,8 @@ char* CAN::getValue(std::string can_member) {
                 return cdata;
             }
             else {
-                //std::cout << "no data were available ..." << std::endl;
+                std::cout << "no data were available ..." << std::endl;
+                debug->send("CAN::getValue(): no data were available ...");
                 return NULL;
             }
         }
@@ -59,33 +60,33 @@ char* CAN::getValue(std::string can_member) {
 void CAN::setValue(std::string can_member, char* value) {
     unsigned short canID = cancfg->getCanID(can_member);
     ipcSendingConnection* ipcSCon = new ipcSendingConnection(MODULE_NAME, "CAN_INTERFACE_MODULE", IPC_LOCAL);
-    //if (ipcSCon->is_open()) {
+    if (ipcSCon->is_open()) {
         std::string data_to_send = "s";
         data_to_send += (char*)&canID;
         data_to_send += value;
         ipcSCon->sendData(data_to_send);
-    //}
-    /*else {
+    }
+    else {
         std::cerr << "ERROR: could not open ipcSendingConnection: " << MODULE_NAME << std::endl;
         debug->send("ERROR: could not open ipcSendingConnection: %s", MODULE_NAME.c_str());
-    }*/
+    }
 
     delete ipcSCon;
 }
 
 void CAN::setFilter(unsigned short filterNum, unsigned short mask, unsigned short id) {
     ipcSendingConnection* ipcSCon = new ipcSendingConnection(MODULE_NAME, "CAN_INTERFACE_MODULE", IPC_LOCAL);
-    //if (ipcSCon->is_open()) {
+    if (ipcSCon->is_open()) {
         std::string filterstring = "f";
         filterstring += (char*)&filterNum;
         filterstring += (char*)&mask;
         filterstring += (char*)&id;
         ipcSCon->sendData(filterstring);
-    //}
-    /*else {
+    }
+    else {
         std::cerr << "ERROR: could not open ipcSendingConnection: " << MODULE_NAME << std::endl;
         debug->send("ERROR: could not open ipcSendingConnection: %s", MODULE_NAME.c_str());
-    }*/
+    }
 
     delete ipcSCon;
 }

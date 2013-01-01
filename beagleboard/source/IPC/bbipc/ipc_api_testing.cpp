@@ -20,22 +20,25 @@ int main () {
     ipcReceivingConnection rc("DEBUG");
     ipcReceivingConnection btrc("BLUETOOTH_MODULE");
 
-    ipcSendingConnection sc ("TACTIC_MODULE", "DEBUG", IPC_LOCAL);
+    cout << "rc_open: " << rc.is_open() << endl;
+    cout << "btrc_open: " << btrc.is_open() << endl;
 
-    sc.sendData("teststring");
+    //ipcSendingConnection sc ("TACTIC_MODULE", "DEBUG", IPC_LOCAL);
+
+    //sc.sendData("teststring");
     //sc.sendData("secondstring");
 
-    sleep(1);
+    //sleep(1);
 
     //sc.sendData("helloworld");
 
-    if (rc.checkForNewData()) {
+    /*if (rc.checkForNewData()) {
         Data* data = rc.readDataFromBuffer();
         cout << "data read ..." << endl;
         std::string str = data->getData();
         cout << "data: " << str << endl;
     }
-    else cout << "no data available ..." << std::endl;
+    else cout << "no data available ..." << std::endl;*/
 
 
 /*
