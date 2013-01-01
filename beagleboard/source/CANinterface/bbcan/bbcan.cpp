@@ -21,6 +21,18 @@ void CAN::init_member(std::string can_member) {
     receivingConnections.push_back(*rcon);
 }
 
+bool CAN::checkForNewData(std::string can_member) {
+    for (unsigned int i = 0; i < receivingConnections.size(); i++) {
+        if (receivingConnections[i].getCANMember() == can_member) {
+            if (receivingConnections[i].getIPCRcon()->checkForNewData()) return true;
+            else return false;
+        }
+    }
+    std::cerr << "ERROR: " << can_member << " was not initialized !!!" << std::endl;
+    debug->send("ERROR: %s was not initialized !!!", can_member.c_str());
+    return false;
+}
+
 char* CAN::getValue(std::string can_member) {
     for (unsigned int i = 0; i < receivingConnections.size(); i++) {
         if (receivingConnections[i].getCANMember() == can_member) {
