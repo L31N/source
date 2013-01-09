@@ -2,7 +2,12 @@
 #ifndef _CMPS_SENSOR_H_
 #define _CMPS_SENSOR_H_
 
+#include <limits>
+#include <string>
+
 #include "sensor.h"
+
+extern const unsigned int error_value_angle;
 
 class CmpsSensor : public Sensor {
     public:

@@ -5,8 +5,10 @@
 
 #include "cmpsSensor.h"
 
+const unsigned int error_value_angle = std::numeric_limits<unsigned int>::max();
+
 CmpsSensor::CmpsSensor(std::string ipcName, std::string canMember) : Sensor(ipcName, canMember) {
-    angle = std::numeric_limits<unsigned int>::min();
+    angle = error_value_angle;
 }
 
 CmpsSensor::~CmpsSensor() {}

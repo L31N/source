@@ -1,13 +1,14 @@
 
 // laserSensor.cpp
 
-#include <limits>
 
 #include "laserSensor.h"
 
+const unsigned int error_value_distance = std::numeric_limits<unsigned int>::max();
+
 LaserSensor::LaserSensor(std::string ipcName, std::string canMember, Direction _direction) : Sensor(ipcName, canMember) {
     direction = _direction;
-    mmDistance = std::numeric_limits<unsigned int>::min();
+    mmDistance = error_value_distance;
 }
 
 LaserSensor::~LaserSensor() {}
