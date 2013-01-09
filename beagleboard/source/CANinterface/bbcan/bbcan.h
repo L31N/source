@@ -17,12 +17,12 @@ class Rcon;     /// wrapper class to store the ipcReceivingConnection bound to t
 
 class CAN {
     public:
-        CAN(const std::string _MODULE_NAME);
+        CAN(const std::string _MODULE_NAME);                    /// _MODULE_NAME represents the ipcName listed in ipc.conf to receive the data via IPC
         ~CAN();
 
-        void init_member(std::string can_member);
+        void init_member(std::string can_member);               /// initiate the can_member listed in can.conf to send via IPC to _MODULE_NAME
 
-        bool checkForNewData(std::string can_member);
+        bool checkForNewData(std::string can_member);           /// return true if new data are available
 
         char* getValue(std::string can_member);                 /// returns an 8-byte char* | char[8]
         void setValue(std::string can_member, char* value);     /// expects an 8-byte char* | char[8] as parameter !
