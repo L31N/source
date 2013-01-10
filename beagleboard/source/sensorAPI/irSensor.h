@@ -4,9 +4,9 @@
 
 #include <string>
 
-#include "sensor.h"
+#include "digitalSensor.h"
 
-class IRSensor : public Sensor {
+class IRSensor : public DigitalSensor {
     public:
         enum Angle {G0      = 0,
                     G22_5   = 22,
@@ -29,11 +29,8 @@ class IRSensor : public Sensor {
         IRSensor(std::string ipcName, std::string canMember, Angle _angle);
         ~IRSensor();
 
-        bool getStatus();
-
     private:
         Angle angle;
-        bool status;
 
 };
 

@@ -46,12 +46,18 @@
 		</Linker>
 		<Unit filename="ballDetection.cpp" />
 		<Unit filename="ballDetection.h" />
+		<Unit filename="button.cpp" />
+		<Unit filename="button.h" />
 		<Unit filename="cmpsSensor.cpp" />
 		<Unit filename="cmpsSensor.h" />
+		<Unit filename="digitalSensor.cpp" />
+		<Unit filename="digitalSensor.h" />
 		<Unit filename="irSensor.cpp" />
 		<Unit filename="irSensor.h" />
 		<Unit filename="laserSensor.cpp" />
 		<Unit filename="laserSensor.h" />
+		<Unit filename="reflexSwitch.cpp" />
+		<Unit filename="reflexSwitch.h" />
 		<Unit filename="sensor.cpp" />
 		<Unit filename="sensor.h" />
 		<Extensions>
