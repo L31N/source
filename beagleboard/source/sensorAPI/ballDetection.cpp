@@ -40,6 +40,14 @@ unsigned int BallDetection::getBallAngle() {
     for (unsigned int i = 0; i < NUM_OF_SENSORS; i++) {
         if(ballSensors[i]->getStatus()) {
             tmp ++;
+            if (i == NUM_OF_SENSORS - 1) {      // check for Zero-Intersection
+                int j = 0;
+                for (; ballSensors[i]->getStatus(); j++) tmp++;
+                if (tmp > maxConnected) {
+                    maxConnected = tmp;
+                    maxAngleNum = i + j;
+                }
+            }
         }
         else {
             if (tmp > maxConnected) {
@@ -50,7 +58,7 @@ unsigned int BallDetection::getBallAngle() {
         }
     }
 
-    maxAngleNum -= maxConnected/2;
+    maxAngleNum = (maxAngleNum + 1 - maxConnected + maxConnected/2) % (NUM_OF_SENSORS + 1);     // calculates the central angle of the "high-section".
 
     return IRSensor::Angle(maxAngleNum);
 }
