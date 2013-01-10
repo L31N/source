@@ -3,6 +3,6 @@
 
 #include "button.h"
 
-Button::Button(std::string ipcName, std::string canMember) : DigitalSensor(ipcName, canMember) {}
+Button::Button(const std::string ipcName, const std::string canMember) : DigitalSensor(ipcName, canMember) {}
 
 Button::~Button() {}

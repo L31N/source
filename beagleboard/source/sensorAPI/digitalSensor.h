@@ -8,7 +8,7 @@
 
 class DigitalSensor : public Sensor {
     public:
-        DigitalSensor(std::string ipcName, std::string canMember);
+        DigitalSensor(const std::string ipcName, const std::string canMember);
         ~DigitalSensor();
 
         bool getStatus();

@@ -8,7 +8,7 @@
 
 class Button : public DigitalSensor {
     public:
-        Button(std::string ipcName, std::string canMember);
+        Button(const std::string ipcName, const std::string canMember);
         ~Button();
 };
 

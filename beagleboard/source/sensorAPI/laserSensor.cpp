@@ -6,7 +6,7 @@
 
 const unsigned int error_value_distance = std::numeric_limits<unsigned int>::max();
 
-LaserSensor::LaserSensor(std::string ipcName, std::string canMember, Direction _direction) : Sensor(ipcName, canMember) {
+LaserSensor::LaserSensor(const std::string ipcName, const std::string canMember, Direction _direction) : Sensor(ipcName, canMember) {
     direction = _direction;
     mmDistance = error_value_distance;
 }

@@ -26,7 +26,7 @@ class IRSensor : public DigitalSensor {
                     G337_5  = 338,
                     };
 
-        IRSensor(std::string ipcName, std::string canMember, Angle _angle);
+        IRSensor(const std::string ipcName, const std::string canMember, Angle _angle);
         ~IRSensor();
 
     private:

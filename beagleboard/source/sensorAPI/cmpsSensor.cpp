@@ -7,7 +7,7 @@
 
 const unsigned int error_value_angle = std::numeric_limits<unsigned int>::max();
 
-CmpsSensor::CmpsSensor(std::string ipcName, std::string canMember) : Sensor(ipcName, canMember) {
+CmpsSensor::CmpsSensor(const std::string ipcName, const std::string canMember) : Sensor(ipcName, canMember) {
     angle = error_value_angle;
 }
 

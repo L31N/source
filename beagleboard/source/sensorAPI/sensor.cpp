@@ -3,7 +3,7 @@
 
 #include "sensor.h"
 
-Sensor::Sensor(std::string _ipcName, std::string _canMember) {
+Sensor::Sensor(const std::string _ipcName, const std::string _canMember) {
     ipcName = _ipcName;
     canMember = _canMember;
     debug = new Debug(ipcName);
