@@ -25,7 +25,16 @@ class CAN {
         bool checkForNewData(std::string can_member);           /// return true if new data are available
 
         char* getValue(std::string can_member);                 /// returns an 8-byte char* | char[8]
+
         void setValue(std::string can_member, char* value);     /// expects an 8-byte char* | char[8] as parameter !
+        void setValue(std::string can_member, unsigned char value);
+        void setValue(std::string can_member, signed char value);
+        void setValue(std::string can_member, unsigned int value);
+        void setValue(std::string can_member, signed int value);
+        void setValue(std::string can_member, unsigned short value);
+        void setValue(std::string can_member, signed short value);
+        void setValue(std::string can_member, unsigned long int value);
+        void setValue(std::string can_member, signed long int value);
 
         void setFilter(unsigned short filterNum, unsigned short mask, unsigned short id);
 
