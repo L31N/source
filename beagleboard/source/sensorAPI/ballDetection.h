@@ -5,6 +5,7 @@
 #include <string>
 
 #include "irSensor.h"
+#include "bbvector.h"
 
 extern const unsigned int NUM_OF_SENSORS;
 extern const unsigned int error_value_angle;
@@ -15,6 +16,7 @@ class BallDetection {
         ~BallDetection();
 
         unsigned int getBallAngle();
+        Vector getDirVector();
 
     private:
         IRSensor** ballSensors;

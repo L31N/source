@@ -1,5 +1,5 @@
 
-#include "vector.hpp"
+#include "bbvector.h"
 
 /*
     Diese Methode erzeugt einen neuen Vector. Da kein Vektor angegeben wurde

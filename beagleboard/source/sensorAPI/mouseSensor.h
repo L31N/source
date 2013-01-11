@@ -3,7 +3,7 @@
 #define _MOUSE_SENSOR_H_
 
 #include "ipc/ipc_connection.h"
-#include "vector.hpp"
+#include "bbvector.h"
 #include "angle.h"
 
 class MouseSensor {
