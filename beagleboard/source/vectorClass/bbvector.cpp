@@ -1,5 +1,5 @@
 
-#include "vector.hpp"
+#include "bbvector.h"
 
 /*
     Diese Methode erzeugt einen neuen Vector. Da kein Vektor angegeben wurde
@@ -474,6 +474,41 @@ double Vector::getAngle(Vector vect, bool deg)
     double angleV2 = vect.getAngle(deg);
 
     return (angleV2 - angleV1);
+}
+
+/*
+	Setzt den Winkel zwischen this und dem Vektor v(0,1)
+*/
+void Vector::setAngle(double angle, bool deg)
+{
+	if(deg)
+    {
+    	angle *= M_PI;
+        angle /= 180;
+    }
+
+	double absolute = this->abs();
+
+	this->x = absolute*sin(angle);
+	this->y = absolute*cos(angle);
+}
+
+/*
+	Setzt den Winkel zwischen this und dem Vektor vect
+*/
+void Vector::setAngle(Vector vect, double angle, bool deg)
+{
+	if(deg)
+    {
+    	angle *= M_PI;
+        angle /= 180;
+    }
+
+	double a = vect.getAngle(false);
+	a += angle;
+	if(a > M_PI) a = -2*M_PI+a;
+
+	this->setAngle(a, false);
 }
 
 
