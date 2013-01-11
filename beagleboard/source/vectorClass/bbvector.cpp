@@ -21,6 +21,12 @@ Vector::Vector(double px, double py)
     y = py;
 }
 
+/*
+    Dieser Konstruktor erlaubt das kopieren eines strings in einen Vector
+*/
+Vector::Vector(std::string str) {
+    memcpy(this, str.c_str(), sizeof(*this));
+}
 
 /*
     Diese Methode gibt den vector im Format ( x | y ) aus
@@ -81,9 +87,7 @@ void Vector::setLenght(double l)
 //******************************************************************************
 
 Vector::operator std::string() {
-    char* cbytes = new char[sizeof(*this)];
-    cbytes = (char*)this;
-    return std::string(cbytes);
+    return std::string((char*)this, sizeof(*this));
 }
 
 //******************************************************************************
@@ -429,7 +433,7 @@ Vector Vector::getUnitVector()
 */
 double Vector::getAngle(bool deg)
 {
-    double angleV1;
+    double angleV1 = 0;
 
     if(this->x > 0)
     {
@@ -479,6 +483,41 @@ double Vector::getAngle(Vector vect, bool deg)
     double angleV2 = vect.getAngle(deg);
 
     return (angleV2 - angleV1);
+}
+
+/*
+	Setzt den Winkel zwischen this und dem Vektor v(0,1)
+*/
+void Vector::setAngle(double angle, bool deg)
+{
+	if(deg)
+    {
+    	angle *= M_PI;
+        angle /= 180;
+    }
+
+	double absolute = this->abs();
+
+	this->x = absolute*sin(angle);
+	this->y = absolute*cos(angle);
+}
+
+/*
+	Setzt den Winkel zwischen this und dem Vektor vect
+*/
+void Vector::setAngle(Vector vect, double angle, bool deg)
+{
+	if(deg)
+    {
+    	angle *= M_PI;
+        angle /= 180;
+    }
+
+	double a = vect.getAngle(false);
+	a += angle;
+	if(a > M_PI) a = -2*M_PI+a;
+
+	this->setAngle(a, false);
 }
 
 

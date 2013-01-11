@@ -1,7 +1,8 @@
-#ifndef VECTOR_HPP_INCLUDED
-#define VECTOR_HPP_INCLUDED
+#ifndef _BBVECTOR_H_INCLUDED_
+#define _BBVECTOR_H_INCLUDED_
 
 #include <iostream>
+#include <string>
 #include <cmath>
 
 using namespace std;
@@ -11,6 +12,7 @@ class Vector
     public:
         Vector();
         Vector(double px, double  py);
+        Vector(std::string str);
 
     private:
         double x;
@@ -24,6 +26,10 @@ class Vector
 
         void setX(double px);
         void setY(double py);
+
+        // **********************************
+
+        operator std::string();
 
 		//***********************************
 
@@ -74,6 +80,9 @@ class Vector
 
         void setLenght(double l);
 
+        void setAngle(double angle, bool deg = true);
+        void setAngle(Vector vect, double angle, bool deg = true);
+
         double getAngle(bool deg = true);
         double getAngle(Vector vect, bool deg = true);
 };
@@ -82,7 +91,7 @@ class Vector
 
 
 
-#endif // VECTOR_HPP_INCLUDED
+#endif // _BBVECTOR_H_INCLUDED_
 
 
 /* Operators to Implement
@@ -126,7 +135,7 @@ class Vector
 % doen't make sense
 
 
-
+getAngle();
 
 
 */

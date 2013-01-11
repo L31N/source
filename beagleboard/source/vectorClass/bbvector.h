@@ -5,6 +5,8 @@
 #include <string>
 #include <cmath>
 
+#include <cstring>
+
 using namespace std;
 
 class Vector
@@ -12,6 +14,7 @@ class Vector
     public:
         Vector();
         Vector(double px, double  py);
+        Vector(std::string str);
 
     private:
         double x;
@@ -79,6 +82,9 @@ class Vector
 
         void setLenght(double l);
 
+        void setAngle(double angle, bool deg = true);
+        void setAngle(Vector vect, double angle, bool deg = true);
+
         double getAngle(bool deg = true);
         double getAngle(Vector vect, bool deg = true);
 };
@@ -131,7 +137,7 @@ class Vector
 % doen't make sense
 
 
-
+getAngle();
 
 
 */

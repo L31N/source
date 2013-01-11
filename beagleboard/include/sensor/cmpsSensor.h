@@ -11,7 +11,7 @@ extern const unsigned int error_value_angle;
 
 class CmpsSensor : public Sensor {
     public:
-        CmpsSensor(std::string ipcName, std::string canMember);
+        CmpsSensor(const std::string ipcName, const std::string canMember);
         ~CmpsSensor();
 
         unsigned int getAngle();

@@ -13,19 +13,19 @@ MouseSensor::~MouseSensor() {
     delete ipcRCon;
 }
 
-Vector MouseSensor::getRelativeAngle() {
+Vector MouseSensor::getRelativeVector() {
     this->updateData();
     return relativeVector;
-}
-
-Vector MouseSensor::getRelativeDirVector() {
-    this->updateData();
-    return relDirVector();
 }
 
 Vector MouseSensor::getPositionVector() {
     this->updateData();
     return positionVector;
+}
+
+Vector MouseSensor::getRelativeDirVector() {
+    this->updateData();
+    return relDirVector;
 }
 
 Vector MouseSensor::getAbsoluteDirVector() {
@@ -34,11 +34,11 @@ Vector MouseSensor::getAbsoluteDirVector() {
 }
 
 Angle MouseSensor::getAbsoluteAngle() {
-
+    return Angle(absDirVector.getAngle());
 }
 
 Angle MouseSensor::getRelativeAngle() {
-
+    return Angle(relDirVector.getAngle());
 }
 
 
@@ -46,24 +46,15 @@ void MouseSensor::updateData() {
      if (ipcRCon->checkForNewData()) {
         Data* data = ipcRCon->readDataFromBuffer();
         std::string tmpStr = data->getData();
-        char* cRelVect = new char[sizeof(Vector)];
-        char* cDirVect = new char[sizeof(Vector)];
-        cRelVect = (char*) tmpStr.substr(0, sizeof(Vector)).c_str();
-        cDirVect = (char*) tmpStr.substr(sizeof(Vector), sizeof(Vector)).c_str();
 
-        Vector* RelVect = (Vector*)cRelVect;
-        Vector* DirVect = (Vector*)cDirVect;
-
-        relativeVector(*RelVect);
-        relDirVector(*DirVect);
+        relativeVector = Vector(tmpStr.substr(0, sizeof(Vector)));
+        relDirVector = Vector(tmpStr.substr(sizeof(Vector), sizeof(Vector)));
 
         // determine the absolute values ...
         positionVector += relativeVector;
-        absDirVector +=
+        absDirVector.setAngle(absDirVector, relDirVector.getAngle());
 
         delete data;
-        delete cRelVect;
-        delete cDirVect;
 
     }
     return;

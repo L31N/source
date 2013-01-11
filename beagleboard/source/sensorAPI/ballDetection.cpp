@@ -62,3 +62,11 @@ unsigned int BallDetection::getBallAngle() {
 
     return IRSensor::Angle(maxAngleNum);
 }
+
+Vector BallDetection::getDirVector() {
+    unsigned int angle = this->getBallAngle();
+    Vector vector(1, 1);
+    vector.setAngle(double(angle));
+
+    return vector;
+}

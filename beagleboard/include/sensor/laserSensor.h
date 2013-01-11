@@ -14,7 +14,7 @@ class LaserSensor : public Sensor {
         enum Direction {front, right, back, left};
         enum Unit {mm, cm};
 
-        LaserSensor(std::string ipcName, std::string canMember, Direction _direction);
+        LaserSensor(const std::string ipcName, const std::string canMember, Direction _direction);
         ~LaserSensor();
 
         unsigned int getDistance(Unit unit = cm);

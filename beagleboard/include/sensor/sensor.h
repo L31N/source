@@ -11,7 +11,7 @@
 
 class Sensor {
     public:
-        Sensor(std::string ipcName, std::string _canMember);
+        Sensor(const std::string ipcName, const std::string _canMember);
         virtual ~Sensor();
 
     protected:
