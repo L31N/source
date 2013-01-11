@@ -78,8 +78,13 @@ void Vector::setLenght(double l)
     (*this) = tmp;
 }
 
+//******************************************************************************
 
-
+Vector::operator std::string() {
+    char* cbytes = new char[sizeof(*this)];
+    cbytes = (char*)this;
+    return std::string(cbytes);
+}
 
 //******************************************************************************
 

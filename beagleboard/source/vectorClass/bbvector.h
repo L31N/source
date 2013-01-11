@@ -26,6 +26,10 @@ class Vector
         void setX(double px);
         void setY(double py);
 
+        // **********************************
+
+        operator std::string();
+
 		//***********************************
 
 
