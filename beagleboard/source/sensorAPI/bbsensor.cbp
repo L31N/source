@@ -41,6 +41,7 @@
 			<Add option="-lbbcan" />
 			<Add option="-lbbdebug" />
 			<Add option="-lbbipc" />
+			<Add option="-lbbmotion" />
 			<Add option="-lpthread" />
 			<Add directory="/home/l31n/robotics.git/source/beagleboard/lib/" />
 		</Linker>

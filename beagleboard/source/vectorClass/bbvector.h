@@ -1,7 +1,8 @@
-#ifndef VECTOR_HPP_INCLUDED
-#define VECTOR_HPP_INCLUDED
+#ifndef _BBVECTOR_H_INCLUDED_
+#define _BBVECTOR_H_INCLUDED_
 
 #include <iostream>
+#include <string>
 #include <cmath>
 
 using namespace std;
@@ -82,7 +83,7 @@ class Vector
 
 
 
-#endif // VECTOR_HPP_INCLUDED
+#endif // _BBVECTOR_H_INCLUDED_
 
 
 /* Operators to Implement

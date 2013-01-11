@@ -4,26 +4,30 @@
 
 #include "ipc/ipc_connection.h"
 #include "vector.hpp"
+#include "angle.h"
 
 class MouseSensor {
     public:
-        enum Side {
-            left = 0,
-            right = 1
-        };
-
-        MouseSensor(std::string _ipcName, Side _side);
+        MouseSensor(std::string _ipcName);
         ~MouseSensor();
 
-        Vector getNullVector();
-        Vector getRelativeVector();
+       Vector getRelativeVector();
+       Vector getPositionVector();
+       Vector getRelativeDirVector();
+       Vector getAbsoluteDirVector();
+       Angle getRelativeAngle();
+       Angle getAbsoluteAngle();
 
     private:
         ipcReceivingConnection* ipcRCon;
-        Vector nullVector;
-        Vector relativeVector;
         std::string ipcName;
-        Side side;
+
+        Vector relativeVector;
+        Vector positionVector;
+        Vector absDirVector;
+        Vector relDirVector;
+
+        void updateData();
 
 };
 

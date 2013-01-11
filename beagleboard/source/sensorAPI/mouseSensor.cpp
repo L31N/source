@@ -3,37 +3,68 @@
 
 #include "mouseSensor.h"
 
-MouseSensor::MouseSensor(std::string _ipcName, Side _side) {
+MouseSensor::MouseSensor(std::string _ipcName) {
     ipcName = _ipcName;
-    side = _side;
-
     ipcRCon = new ipcReceivingConnection(ipcName);
 
-    nullVector.setX(0.0);
-    nullVector.setY(0.0);
-
-    relativeVector.setX(0.0);
-    relativeVector.setY(0.0);
 }
 
 MouseSensor::~MouseSensor() {
     delete ipcRCon;
 }
 
-Vector MouseSensor::getNullVector() {
-    if (ipcRCon->checkForNewData()) {
+Vector MouseSensor::getRelativeAngle() {
+    this->updateData();
+    return relativeVector;
+}
+
+Vector MouseSensor::getRelativeDirVector() {
+    this->updateData();
+    return relDirVector();
+}
+
+Vector MouseSensor::getPositionVector() {
+    this->updateData();
+    return positionVector;
+}
+
+Vector MouseSensor::getAbsoluteDirVector() {
+    this->updateData();
+    return absDirVector;
+}
+
+Angle MouseSensor::getAbsoluteAngle() {
+
+}
+
+Angle MouseSensor::getRelativeAngle() {
+
+}
+
+
+void MouseSensor::updateData() {
+     if (ipcRCon->checkForNewData()) {
         Data* data = ipcRCon->readDataFromBuffer();
         std::string tmpStr = data->getData();
-        // extract x
+        char* cRelVect = new char[sizeof(Vector)];
+        char* cDirVect = new char[sizeof(Vector)];
+        cRelVect = (char*) tmpStr.substr(0, sizeof(Vector)).c_str();
+        cDirVect = (char*) tmpStr.substr(sizeof(Vector), sizeof(Vector)).c_str();
 
-        // extract y
+        Vector* RelVect = (Vector*)cRelVect;
+        Vector* DirVect = (Vector*)cDirVect;
 
-        nullVector.setX()
-        //nullVector(data->getData());
+        relativeVector(*RelVect);
+        relDirVector(*DirVect);
+
+        // determine the absolute values ...
+        positionVector += relativeVector;
+        absDirVector +=
+
+        delete data;
+        delete cRelVect;
+        delete cDirVect;
+
     }
-    return nullVector;
-}
-Vector MouseSensor::getRelativeVector() {
-    relativeVector = this->getNullVector() - relativeVector;
-    return relativeVector;
+    return;
 }
