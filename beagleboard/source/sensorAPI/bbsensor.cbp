@@ -56,6 +56,8 @@
 		<Unit filename="irSensor.h" />
 		<Unit filename="laserSensor.cpp" />
 		<Unit filename="laserSensor.h" />
+		<Unit filename="mouseSensor.cpp" />
+		<Unit filename="mouseSensor.h" />
 		<Unit filename="reflexSwitch.cpp" />
 		<Unit filename="reflexSwitch.h" />
 		<Unit filename="sensor.cpp" />
