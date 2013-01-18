@@ -29,6 +29,8 @@ class Vector
         void setX(double px);
         void setY(double py);
 
+        void set(double px, double py);
+
         // **********************************
 
         operator std::string();
@@ -82,11 +84,11 @@ class Vector
 
         void setLenght(double l);
 
-        void setAngle(double angle, bool deg = true);
-        void setAngle(Vector vect, double angle, bool deg = true);
+        void setAngle(double angle, bool deg = true, bool fullCircle = true);
+        void setAngle(Vector vect, double angle, bool deg = true, bool fullCircle = true);
 
-        double getAngle(bool deg = true);
-        double getAngle(Vector vect, bool deg = true);
+        double getAngle(bool deg = true, bool fullCircle = true);
+        double getAngle(Vector vect, bool deg = true, bool fullCircle = true);
 };
 
 

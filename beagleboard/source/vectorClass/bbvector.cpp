@@ -76,6 +76,16 @@ void Vector::setY(double py)
 
 
 /*
+    Setzt x und y
+*/
+void Vector::set(double px, double py) {
+    x = px;
+    y = py;
+
+    return;
+}
+
+/*
     Setzt die Länge auf l
 */
 void Vector::setLenght(double l)
@@ -431,7 +441,7 @@ Vector Vector::getUnitVector()
 /*
     Gibt den Winkel zwischen this und dem Vektor v(0,1) zurück
 */
-double Vector::getAngle(bool deg)
+double Vector::getAngle(bool deg, bool fullCircle)
 {
     double angleV1 = 0;
 
@@ -464,6 +474,8 @@ double Vector::getAngle(bool deg)
         angleV1 -= 2*M_PI;
     }
 
+    if(angleV1 < 0 && fullCircle) angleV1 += 2*M_PI;
+
     if(deg)
     {
         angleV1 *= 180;
@@ -477,24 +489,35 @@ double Vector::getAngle(bool deg)
 /*
     Gibt den Winkel zwischen this und dem Vektor vect zurück
 */
-double Vector::getAngle(Vector vect, bool deg)
+double Vector::getAngle(Vector vect, bool deg, bool fullCircle)
 {
-    double angleV1 = this->getAngle(deg);
-    double angleV2 = vect.getAngle(deg);
+    double angleV1 = this->getAngle(false, false);
+    double angleV2 = vect.getAngle(false, false);
 
-    return (angleV2 - angleV1);
+    double angle = (angleV2 - angleV1);
+    if(angle < 0 && fullCircle) angle += 2*M_PI;
+
+    if(deg)
+    {
+        angle *= 180;
+        angle /= M_PI;
+    }
+
+    return angle;
 }
 
 /*
 	Setzt den Winkel zwischen this und dem Vektor v(0,1)
 */
-void Vector::setAngle(double angle, bool deg)
+void Vector::setAngle(double angle, bool deg, bool fullCircle)
 {
 	if(deg)
     {
     	angle *= M_PI;
         angle /= 180;
     }
+
+    if(fullCircle && angle > M_PI) angle -= 2* M_PI;
 
 	double absolute = this->abs();
 
@@ -505,13 +528,15 @@ void Vector::setAngle(double angle, bool deg)
 /*
 	Setzt den Winkel zwischen this und dem Vektor vect
 */
-void Vector::setAngle(Vector vect, double angle, bool deg)
+void Vector::setAngle(Vector vect, double angle, bool deg, bool fullCircle)
 {
 	if(deg)
     {
     	angle *= M_PI;
         angle /= 180;
     }
+
+    if(fullCircle && angle > M_PI) angle -= 2* M_PI;
 
 	double a = vect.getAngle(false);
 	a += angle;
