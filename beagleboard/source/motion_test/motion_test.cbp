@@ -21,7 +21,13 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
+			<Add directory="../../include" />
 		</Compiler>
+		<Linker>
+			<Add option="-lbbvector" />
+			<Add directory="../../lib" />
+		</Linker>
+		<Unit filename="main.cpp" />
 		<Extensions>
 			<envvars />
 			<code_completion />
