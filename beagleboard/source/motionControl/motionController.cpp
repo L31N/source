@@ -23,8 +23,15 @@ MotionController::~MotionController() {
     delete debug;
 }
 
-void MotionController::moveVector(Vector vector) {}
-void MotionController::moveAngle(Angle angle) {}
-void MotionController::turnAbsAngle(Angle angle, SpinDirection direction) {}
-void MotionController::turnRelativeAngle(Angle angle, SpinDirection direction) {}
+void MotionController::drive(Vector vector, short rotationSpeed) {
+
+}
+
+void MotionController::drive(Angle angle, unsigned char speed, short rotationSpeed) {
+
+}
+
+void MotionController::pbreak() {
+
+}
 
