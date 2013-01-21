@@ -164,7 +164,11 @@ void MotionController::drive(Vector vector, short rotationSpeed) {
 }
 
 void MotionController::drive(Angle angle, unsigned char speed, short rotationSpeed) {
+    Vector vector(1,1);
+    vector.setLength(speed);
+    vector.setAngle(angle);
 
+    drive(vector, rotationSpeed);
 }
 
 void MotionController::pbreak() {
