@@ -11,26 +11,26 @@ ExtendedMotionController::~ExtendedMotionController() {
     /// destroy navigation-object here !
 }
 
-void ExtendedMotionController::moveto(Vector vector, Vector dir) {
+void ExtendedMotionController::moveto(Vector vector, unsigned char speed, Vector dir) {
 
 }
 
-void ExtendedMotionController::moveto(Vector vector, Angle dir) {
+void ExtendedMotionController::moveto(Vector vector, unsigned char speed, Angle dir) {
 
 }
 
-void ExtendedMotionController::move(Vector vector, Vector dir) {
+void ExtendedMotionController::move(Vector vector, unsigned char speed, Vector dir) {
 
 }
 
-void ExtendedMotionController::move(Vector vector, Angle dir) {
+void ExtendedMotionController::move(Vector vector, unsigned char speed, Angle dir) {
 
 }
 
-void ExtendedMotionController::turnto(Vector dir) {
+void ExtendedMotionController::turnto(Vector dir, unsigned char speed, Direction turndir) {
 
 }
 
-void ExtendedMotionController::turnto(Angle dir) {
+void ExtendedMotionController::turnto(Angle dir, unsigned char speed, Direction turndir) {
 
 }

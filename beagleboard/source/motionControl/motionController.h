@@ -22,6 +22,7 @@ class MotionController {
 
     private:
         Motor** motors;
+        short* motorSpeeds;
 };
 
 #endif // _MOTION_CONTROLLER_H_
