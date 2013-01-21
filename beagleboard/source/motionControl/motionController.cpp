@@ -93,14 +93,14 @@ void MotionController::drive(Vector vector, short rotationSpeed) {
 
     /// check here for speed overflows and step down the values if neccessary ...
     if (rotationSpeed < 0) {
-        if (motorSpeeds[0] - rotationSpeed > 255) {
+        if (motorSpeeds[0] + rotationSpeed > 255) {
             double factor = (motorSpeeds[0] - (abs(rotationSpeed) - 255 + motorSpeeds[0])) / abs(motorSpeeds[0]);
 
             for (int i = 0; i < 4; i++) {
                 motorSpeeds[i] = double(motorSpeeds[i]) * factor;
             }
         }
-        if (motorSpeeds[1] - rotationSpeed > 255) {
+        if (motorSpeeds[1] + rotationSpeed > 255) {
             double factor = (motorSpeeds[1] - (abs(rotationSpeed) - 255 + motorSpeeds[1])) / abs(motorSpeeds[1]);
 
             for (int i = 0; i < 4; i++) {
@@ -137,14 +137,14 @@ void MotionController::drive(Vector vector, short rotationSpeed) {
                 motorSpeeds[i] = double(motorSpeeds[i]) * factor;
             }
         }
-        if (motorSpeeds[2] - rotationSpeed > 255) {
+        if (motorSpeeds[2] + rotationSpeed > 255) {
             double factor = (motorSpeeds[2] - (abs(rotationSpeed) - 255 + motorSpeeds[2])) / abs(motorSpeeds[2]);
 
             for (int i = 0; i < 4; i++) {
                 motorSpeeds[i] = double(motorSpeeds[i]) * factor;
             }
         }
-        if (motorSpeeds[3] - rotationSpeed > 255) {
+        if (motorSpeeds[3] + rotationSpeed > 255) {
             double factor = (motorSpeeds[3] - (abs(rotationSpeed) - 255 + motorSpeeds[3])) / abs(motorSpeeds[3]);
 
             for (int i = 0; i < 4; i++) {
