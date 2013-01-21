@@ -4,11 +4,11 @@
 #include "extendedMotionController.h"
 
 ExtendedMotionController::ExtendedMotionController() {
-
+    /// create navigation-object here !
 }
 
 ExtendedMotionController::~ExtendedMotionController() {
-
+    /// destroy navigation-object here !
 }
 
 void ExtendedMotionController::moveto(Vector vector, Vector dir) {

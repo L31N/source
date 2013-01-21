@@ -47,6 +47,8 @@
 		</Linker>
 		<Unit filename="angle.cpp" />
 		<Unit filename="angle.h" />
+		<Unit filename="extendedMotionController.cpp" />
+		<Unit filename="extendedMotionController.h" />
 		<Unit filename="motionController.cpp" />
 		<Unit filename="motionController.h" />
 		<Unit filename="motor.cpp" />
