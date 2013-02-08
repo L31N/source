@@ -4,6 +4,9 @@
 
 #include <cstdio>
 #include <iostream>
+#include <vector>
+#include <iterator>
+
 #include <boost/array.hpp>
 #include <boost/bind.hpp>
 #include <boost/enable_shared_from_this.hpp>
@@ -25,6 +28,7 @@ class Session : public boost::enable_shared_from_this<Session> {
         void start();
         void handle_read(const boost::system::error_code& error, size_t bytes_transferred);
         void handle_write(const boost::system::error_code& error);
+        void close();
 
 
     private:
@@ -48,11 +52,15 @@ class Server {
         ~Server();
 
         void handle_accept(session_ptr new_session, const boost::system::error_code& error);
+        void handle_close(std::iterator it);
 
 
     private:
         boost::asio::io_service& io_service_;
         boost::asio::local::stream_protocol::acceptor acceptor_;
+
+        std::vector<session_ptr> sessions;
+        std::iterator<random_access_iterator_tag, session_ptr> session_iterator;
 };
 
 #endif // _UDS_SERVER_H_

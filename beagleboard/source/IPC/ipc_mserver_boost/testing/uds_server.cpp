@@ -51,6 +51,12 @@ void Session::handle_write(const boost::system::error_code& error) {
     }
 }
 
+void Session::close() {
+    //boost::system::error_code ec;
+    socket_.shutdown(boost::asio::socket_base::shutdown_both, boost::system::error_code ec);
+    socket_.close();
+}
+
 int Session::session_count = 0;
 
 
@@ -66,6 +72,8 @@ Server::Server(boost::asio::io_service& io_service, const std::string& file) : i
                            boost::bind(&Server::handle_accept, this, new_session,
                                        boost::asio::placeholders::error)
                            );
+
+    sessions.clear();
 }
 
 Server::~Server() {}
@@ -78,5 +86,15 @@ void Server::handle_accept(session_ptr new_session, const boost::system::error_c
                                boost::bind(&Server::handle_accept, this, new_session,
                                            boost::asio::placeholders::error)
                                );
+        sessions.push_back(new_session);
+        std::cout << "added new session ..." << std::endl;
+        std::cout << "vector-size: " << sessions.size() << std::endl;
     }
+}
+
+
+void Server::handle_close(std::iterator it) {
+    sessions.erase(it);
+    std::cout << "deleted session ..." << std::endl;
+    std::cout << "vector-size: " << sessions.size() << std::endl;
 }
