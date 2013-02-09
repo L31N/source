@@ -23,7 +23,7 @@ class Server {
 
         boost::array<char, 1024> data_;
 
-        std::vector<>
+        //std::vector<>
 };
 
 #endif // _SERVER_H_
