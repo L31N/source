@@ -77,10 +77,5 @@ std::cout << data_to_send[0] << std::endl;
 
 void UdsConnection::write(std::string data) {
     std::cout << "UdsConnection::write()" << std::endl;
-    boost::asio::async_write(*socket, boost::asio::buffer(data),
-                             boost::bind(&UdsConnection::handle_write, this));
-}
-
-void UdsConnection::handle_write() {
-    std::cout << "UdsConnection::handle_write()" << std::endl;
+    boost::asio::write(*socket, boost::asio::buffer(data));
 }

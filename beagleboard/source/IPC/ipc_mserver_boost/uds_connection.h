@@ -24,7 +24,6 @@ class UdsConnection {
         void handle_init();
         void listen();
         void handle_received();
-        void handle_write();
 
         // ----------------------- //
 
