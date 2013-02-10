@@ -36,12 +36,10 @@
 			<Add option="-lboost_thread" />
 			<Add option="-lpthread" />
 		</Linker>
-		<Unit filename="connection.cpp" />
-		<Unit filename="connection.h" />
-		<Unit filename="main.cpp" />
-		<Unit filename="notes.txt" />
-		<Unit filename="server.cpp" />
-		<Unit filename="server.h" />
+		<Unit filename="uds_connection.cpp" />
+		<Unit filename="uds_connection.h" />
+		<Unit filename="uds_server.cpp" />
+		<Unit filename="uds_server.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
