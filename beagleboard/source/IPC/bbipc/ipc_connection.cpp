@@ -101,12 +101,12 @@ ipcSendingConnection::ipcSendingConnection(const std::string _senderSyn, const s
     authPackage += endpointID;
     authPackage += package_size;
 
-    init(idPackage);
+    init(authPackage);
 }
 
 bool ipcSendingConnection::init(std::string authPackage) {
 
-    if (write(sock, idPackage.c_str(), 3) < 0) {
+    if (write(sock, authPackage.c_str(), 3) < 0) {
         _errno = errno;
         cout << "error in function write(): " << strerror(errno) << endl;
         return false;
@@ -207,13 +207,13 @@ bool ipcSendingConnection::reconnect(void) {
         return false;
     }
 
-    std::string idPackage = "";
+    std::string authPackage = "";
 
     authPackage += senderID;
     authPackage += endpointID;
     authPackage += package_size;
 
-    if (write(sock, idPackage.c_str(), 3) < 0) {
+    if (write(sock, authPackage.c_str(), 3) < 0) {
         _errno = errno;
         cout << "error in function write(): " << strerror(errno) << endl;
         return false;
@@ -337,6 +337,7 @@ bool ipcReceivingConnection::init(std::string authPackage, size_t _bufferSize) {
     data->_sock = sock;
     data->_buffer = dataBuffer;
     data->_sem = &sem;
+    data->_package_size = package_size;
 
     sem_init(&sem, 0, 1);
 
@@ -365,13 +366,13 @@ void* ipcReceivingConnection::saveReceivedData_threaded(void* arg) {
 
     struct thread_data *tdata = (struct thread_data *)arg;
     /// read to socket ...
-    char data[package_size];
+    char data[tdata->_package_size];
 
     while(true) {
 
-        bzero(data, package_size);
+        bzero(data, tdata->_package_size);
 
-        int retval = read(tdata->_sock, data, package_size);
+        int retval = read(tdata->_sock, data, tdata->_package_size);
         if (retval == 0) {
             #ifdef DEBUG
                 cout << "connection closed ..." << endl;

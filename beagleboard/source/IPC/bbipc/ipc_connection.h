@@ -94,6 +94,7 @@ class ipcReceivingConnection : public ipcConnection {
             int _sock;
             Buffer* _buffer;
             sem_t* _sem;
+            unsigned char _package_size;
         };
 
         static void* saveReceivedData_threaded(void* arg);
