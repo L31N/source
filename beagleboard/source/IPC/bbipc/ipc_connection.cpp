@@ -8,7 +8,7 @@ using namespace std;
 
 /** CLASS IPC_CONNECTION **/
 
-ipcConnection::ipcConnection(void) {
+ipcConnection::ipcConnection(unsigned char _package_size) : package_size(_package_size) {
     _errno = 0;
     f_is_open = false;
 
@@ -47,7 +47,7 @@ int ipcConnection::getLastError(void) { return _errno; }
 
 
 /** CLASS IPC_SENDING_CONNECTION **/
-ipcSendingConnection::ipcSendingConnection (short _senderID, short _endpointID, HOST_TYPE _host) {
+ipcSendingConnection::ipcSendingConnection (short _senderID, short _endpointID, unsigned char _package_size, HOST_TYPE _host) : ipcConnection(_package_size) {
     host = _host;
 
     if (host == IPC_LOCAL) {
@@ -67,15 +67,16 @@ ipcSendingConnection::ipcSendingConnection (short _senderID, short _endpointID, 
         return;
     }
 
-    std::string idPackage = "";
+    std::string authPackage = "";
 
-    idPackage += senderID;
-    idPackage += endpointID;
+    authPackage += senderID;
+    authPackage += endpointID;
+    authPackage += package_size;
 
-    init(idPackage);
+    init(authPackage);
 }
 
-ipcSendingConnection::ipcSendingConnection(const std::string _senderSyn, const std::string _endpointSyn, HOST_TYPE _host) {
+ipcSendingConnection::ipcSendingConnection(const std::string _senderSyn, const std::string _endpointSyn, unsigned char _package_size, HOST_TYPE _host) : ipcConnection(_package_size) {
     host = _host;
 
     if (host == IPC_LOCAL) {
@@ -95,16 +96,17 @@ ipcSendingConnection::ipcSendingConnection(const std::string _senderSyn, const s
         return;
     }
 
-    std::string idPackage = "";
-    idPackage += senderID;
-    idPackage += endpointID;
+    std::string authPackage = "";
+    authPackage += senderID;
+    authPackage += endpointID;
+    authPackage += package_size;
 
     init(idPackage);
 }
 
-bool ipcSendingConnection::init(std::string idPackage) {
+bool ipcSendingConnection::init(std::string authPackage) {
 
-    if (write(sock, idPackage.c_str(), 2) < 0) {
+    if (write(sock, idPackage.c_str(), 3) < 0) {
         _errno = errno;
         cout << "error in function write(): " << strerror(errno) << endl;
         return false;
@@ -144,6 +146,10 @@ bool ipcSendingConnection::init(std::string idPackage) {
 bool ipcSendingConnection::sendData(const std::string data) {
 
     std::string data_to_send = data;
+    if (data_to_send.size() > package_size) {
+        std::cerr << "WARNING: ipcSendingConnection::sendData --> string to long for package-size." << std::endl;
+        data_to_send.resize(package_size);
+    }
 
     if (host == IPC_BLUETOOTH) {
         data_to_send.insert(0,1,btEndpointID);
@@ -203,10 +209,11 @@ bool ipcSendingConnection::reconnect(void) {
 
     std::string idPackage = "";
 
-    idPackage += senderID;
-    idPackage += endpointID;
+    authPackage += senderID;
+    authPackage += endpointID;
+    authPackage += package_size;
 
-    if (write(sock, idPackage.c_str(), 2) < 0) {
+    if (write(sock, idPackage.c_str(), 3) < 0) {
         _errno = errno;
         cout << "error in function write(): " << strerror(errno) << endl;
         return false;
@@ -246,29 +253,31 @@ bool ipcSendingConnection::is_open() { return f_is_open; }
 
 /** CLASS IPC_RECEIVING_CONNECTION **/
 
-ipcReceivingConnection::ipcReceivingConnection(short _connID, size_t _bufferSize) {
+ipcReceivingConnection::ipcReceivingConnection(short _connID, size_t _bufferSize, unsigned char _package_size) : ipcConnection(_package_size) {
     senderID = _connID;
     endpointID = _connID;
 
-    std::string idPackage = "";
+    std::string authPackage = "";
 
-    idPackage += senderID;
-    idPackage += senderID;
+    authPackage += senderID;
+    authPackage += senderID;
+    authPackage += package_size;
 
-    init(idPackage, _bufferSize);
+    init(authPackage, _bufferSize);
 
 }
 
-ipcReceivingConnection::ipcReceivingConnection(const std::string connSyn, size_t _bufferSize) {
+ipcReceivingConnection::ipcReceivingConnection(const std::string connSyn, size_t _bufferSize, unsigned char _package_size) : ipcConnection(_package_size) {
     senderID = ipcconfig->getIpcIDToProcessSyn(connSyn);
     endpointID = senderID;
 
-    std::string idPackage = "";
+    std::string authPackage = "";
 
-    idPackage += senderID;
-    idPackage += senderID;
+    authPackage += senderID;
+    authPackage += senderID;
+    authPackage += package_size;
 
-    init(idPackage, _bufferSize);
+    init(authPackage, _bufferSize);
 }
 
 ipcReceivingConnection::~ipcReceivingConnection() {
@@ -278,9 +287,9 @@ ipcReceivingConnection::~ipcReceivingConnection() {
     sem_destroy(&sem);
 }
 
-bool ipcReceivingConnection::init(std::string idPackage, size_t _bufferSize) {
+bool ipcReceivingConnection::init(std::string authPackage, size_t _bufferSize) {
 
-    if (write(sock, idPackage.c_str(), 2) < 0) {
+    if (write(sock, authPackage.c_str(), 3) < 0) {
         _errno = errno;
         cout << "error in function write(): " << strerror(errno) << endl;
         return false;
@@ -356,13 +365,13 @@ void* ipcReceivingConnection::saveReceivedData_threaded(void* arg) {
 
     struct thread_data *tdata = (struct thread_data *)arg;
     /// read to socket ...
-    char data[1024];
+    char data[package_size];
 
     while(true) {
 
-        bzero(data, 1024);
+        bzero(data, package_size);
 
-        int retval = read(tdata->_sock, data, 1024);
+        int retval = read(tdata->_sock, data, package_size);
         if (retval == 0) {
             #ifdef DEBUG
                 cout << "connection closed ..." << endl;
