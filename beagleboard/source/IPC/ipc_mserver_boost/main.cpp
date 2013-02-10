@@ -16,5 +16,7 @@ int main () {
 
     io_service.run();
 
+    delete server;
+
     return 0;
 }

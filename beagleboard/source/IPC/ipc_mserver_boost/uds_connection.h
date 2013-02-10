@@ -18,17 +18,25 @@ class UdsConnection {
         boost::asio::local::stream_protocol::socket& getSocket();
 
         void start();
+        void write(std::string data);
 
     private:
         void handle_init();
+        void listen();
+        void handle_received();
+        void handle_write();
+
+        // ----------------------- //
 
         UdsServer* server;
         boost::asio::local::stream_protocol::socket* socket;
 
-        unsigned short id;
+        unsigned short sender_id;
+        unsigned short endpoint_id;
+
         unsigned short package_size;
 
-        char cbuf[64];
+        char* cbuf;
 };
 
 #endif // _UDS_CONNECTION_H_

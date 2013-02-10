@@ -30,3 +30,27 @@ void UdsServer::handle_accept(UdsConnection* connection, const boost::system::er
 
     this->start_accept();
 }
+
+void UdsServer::registerConnection(UdsConnection* _connection, unsigned short _endpoint_id) {
+
+    std::cout << "UdsServer::registerConnection()" << std::endl;
+
+    Connection tmpconnection;
+    tmpconnection.connection = _connection;
+    tmpconnection.id = _endpoint_id;
+
+    rcons.push_back(tmpconnection);
+}
+
+
+void UdsServer::send(unsigned short endpoint_id, std::string data) {
+    std::cout << "UdsServer::send()" << std::endl;
+
+    // search the right connections
+    for (unsigned int i = 0; i < rcons.size(); i++) {
+        if (rcons[i].id == endpoint_id) {
+            std::cout << "connection found ..." << std::endl;
+            rcons[i].connection->write(data);
+        }
+    }
+}

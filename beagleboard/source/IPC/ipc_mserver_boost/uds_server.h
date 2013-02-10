@@ -10,10 +10,18 @@
 
 class UdsConnection;
 
+struct Connection {
+    UdsConnection* connection;
+    unsigned short id;
+};
+
 class UdsServer {
     public:
         UdsServer(boost::asio::io_service& io_service, boost::asio::local::stream_protocol::endpoint endpoint);
         ~UdsServer();
+
+        void registerConnection(UdsConnection* _connection, unsigned short _endpoint_id);
+        void send(unsigned short endpoint_id, std::string data);
 
     private:
         void start_accept();
@@ -22,6 +30,8 @@ class UdsServer {
         // -------------------- //
 
         boost::asio::local::stream_protocol::acceptor acceptor;
+
+        std::vector<Connection> rcons;
 
 };
 
