@@ -1,68 +1,34 @@
 
-// uds_connection.h
+// uds_connection.cpp
+
+#include <sstream>
 
 #include "uds_connection.h"
 #include "uds_server.h"
 
-UdsConnection::UdsConnection(boost::asio::io_service& io_service, UdsServer* parent_server) : socket(new boost::asio::local::stream_protocol::socket(io_service)), server(parent_server) {
-    id = 0;
-
-    boost::asio::async_read(*socket, sbuf,
-                            boost::bind(
-                                        UdsConnection::handle_init,
-                                        this
-                                        //boost::asio::placeholders::error,
-                                        //boost::asio::placeholders::bytes_transferred
-                                        )
-                            );
-    /*istream is(&sbuf);
-    std::string buffer_string;
-    is >> data_string;*/
+UdsConnection::UdsConnection(boost::asio::io_service& io_service, UdsServer* pserver) : server(pserver), socket(new boost::asio::local::stream_protocol::socket(io_service)) {
+    std::cout << "UdsConnection::UdsConnection()" << std::endl;
 }
 
 UdsConnection::~UdsConnection() {
-    #warning "deconstructor of class UdsConnection is not implemented yet."
+    std::cout << "UdsConnection::~UdsConnection()" << std::endl;
+    socket->shutdown(boost::asio::socket_base::shutdown_both);
+    socket->close();
 }
 
-/*pointer UdsConnection::create(boost::asio::io_service& io_service, UdsServer* parent_server) {
-    return pointer(new UdsConnection(io_service, parent_server));
-}*/
+boost::asio::local::stream_protocol::socket& UdsConnection::getSocket() { return *socket; }
 
-/*void UdsConnection::handle_read() {
-    std::cout << "received data: " << data_string << std::endl;
-
-    istream is(&sbuf);
-    std::string buffer_string;
-    is >> buffer_string;
-
-    // set the connections id;
-}*/
-
-void UdsConnection::write(std::string strdata) {
-    std::string data_to_send = strdata += (char)id;
-    boost::asio::async_write(socket, boost::asio::buffer(data_to_send),
-                             boost::bind(UdsConnection::handle_write
-                                         //this
-                                         //boost::asio::placeholders::error,
-                                         //boost::asio::placeholders::bytes_transferred
-                                         )
-                             );
-}
-
-void UdsConnection::handle_write() {
-    boost::asio::async_read(*socket, sbuf,
-                            boost::bind(
-                                        UdsServer::handle_received,
-                                        server,
-                                        boost::asio::placeholders::error,
-                                        boost::asio::placeholders::bytes_transferred
+void UdsConnection::start() {
+    std::cout << "UdsConnection::start() ..." << std::endl;
+    // listen for authentification //
+    boost::asio::async_read(*socket, boost::asio::buffer(cbuf, 64),
+                            boost::bind(&UdsConnection::handle_init, this
                                         )
                             );
 }
 
-
 void UdsConnection::handle_init() {
+    std::cout << "UdsConnection::handle_init()" << std::endl;
 
+    std::cout << "received data: " << std::string(cbuf, 64) << std::endl;
 }
-
-unsigned int UdsConnection::getID() { return id; }
