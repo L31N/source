@@ -14,6 +14,9 @@ UdsConnection::~UdsConnection() {
     std::cout << "UdsConnection::~UdsConnection()" << std::endl;
     socket->shutdown(boost::asio::socket_base::shutdown_both);
     socket->close();
+
+    delete socket;
+    delete cbuf;
 }
 
 boost::asio::local::stream_protocol::socket& UdsConnection::getSocket() { return *socket; }
@@ -23,59 +26,101 @@ void UdsConnection::start() {
     cbuf = new char[3];
     // listen for authentification //
     boost::asio::async_read(*socket, boost::asio::buffer(cbuf, 3),
-                            boost::bind(&UdsConnection::handle_init, this
+                            boost::bind(&UdsConnection::handle_init, this,
+                                        boost::asio::placeholders::error
                                         )
                             );
 }
 
-void UdsConnection::handle_init() {
+void UdsConnection::handle_init(const boost::system::error_code& error) {
     std::cout << "UdsConnection::handle_init()" << std::endl;
 
-    /** extract the id and package-size **/
+    if (!error) {
+        /** extract the id and package-size **/
 
-    sender_id = cbuf[0];
-    endpoint_id = cbuf[1];
-    package_size = cbuf[2];
+        sender_id = cbuf[0];
+        endpoint_id = cbuf[1];
+        package_size = cbuf[2];
 
-    /** **/
+        /** **/
 
-    delete cbuf;
-    cbuf = new char[package_size];
+        delete cbuf;
+        cbuf = new char[package_size + 1];
 
-    std::cout << "sender_id: " << sender_id << std::endl;
-    std::cout << "endpoint_id: " << endpoint_id << std::endl;
-    std::cout << "package_size: " << package_size << std::endl;
+        std::cout << "sender_id: " << sender_id << std::endl;
+        std::cout << "endpoint_id: " << endpoint_id << std::endl;
+        std::cout << "package_size: " << package_size << std::endl;
 
-    if (sender_id == endpoint_id) {
-        server->registerConnection(this, endpoint_id);
+        if (sender_id == endpoint_id) {
+            server->registerConnection(this, endpoint_id);
+        }
+        else {
+            this->listen();
+            this->send_callback(UdsConnection::setup_successfully);
+        }
     }
-
-    this->listen();
+    else {
+        std::cerr << "ERROR: UdsConnection::handle_init() --> boost::system::error_code (client may be closed): " << error.message() << std::endl;
+    }
 }
 
 void UdsConnection::listen() {
-    boost::asio::async_read(*socket, boost::asio::buffer(cbuf, package_size),
-                            boost::bind(&UdsConnection::handle_received, this
-                                        )
+    std::cout << "UdsConnection::listen()" << std::endl;
+    std::cout << "package_size: " << package_size << std::endl;
+
+    delete cbuf;
+    cbuf = new char[package_size + 1];
+
+    boost::asio::async_read(*socket, boost::asio::buffer(cbuf, package_size + 1),  // +1 is the bluetooth byte
+                            boost::bind(&UdsConnection::handle_received, this,
+                                        boost::asio::placeholders::error)
                             );
 }
 
-void UdsConnection::handle_received() {
-    // create the final string to redirect
-    std::string data_to_send (1, char(sender_id));
-std::cout << data_to_send[0] << std::endl;
-    //data_to_send += std::string(cbuf, package_size);
+void UdsConnection::handle_received(const boost::system::error_code& error) {
+    std::cout << "\tUdsConnection::handle_received()" << std::endl;
 
-    std::cout << "sender_id: " << sender_id << std::endl;
-    std::cout << "data: " << cbuf << std::endl;
+    if (!error) {
+        // create the final string to redirect
+        std::string data_to_send (1, char(sender_id));
+        data_to_send += std::string(cbuf, package_size + 1);
 
-    std::cout << "data_to_send[0]: " <<  int(data_to_send[0]) << std::endl;
-    std::cout << "data_to_send: " << data_to_send << std::endl;
+        std::cout << "data_to_send: " << data_to_send << std::endl;
 
-    server->send(endpoint_id, data_to_send);
+        server->send(this, endpoint_id, data_to_send);
+        this->listen();
+    }
+    else {
+        std::cerr << "ERROR: UdsConnection::handle_received() --> boost::system::error_code (client may be closed): " << error.message() << std::endl;
+    }
 }
 
-void UdsConnection::write(std::string data) {
+bool UdsConnection::write(std::string data) {
     std::cout << "UdsConnection::write()" << std::endl;
-    boost::asio::write(*socket, boost::asio::buffer(data));
+    std::cout << "data to wirte: " << data << std::endl;
+
+    std::string tmp_str(data);
+
+    boost::system::error_code error;
+    boost::asio::write(*socket, boost::asio::buffer(tmp_str), error);
+
+    if (error) {
+        std::cerr << "ERROR: UdsConnection::write() --> boost::system::error_code: " << error.message() << std::endl;
+        server->releaseConnection(this);
+        return false;
+    }
+    else return true;
 }
+
+void UdsConnection::send_callback(UdsConnection::callback callback) {
+    std::cout << "UdsConnection::send_callback()" << std::endl;
+    std::cout << "callback: " << int(callback) << std::endl;
+
+    boost::system::error_code error;
+    boost::asio::write(*socket, boost::asio::buffer(std::string(1, char(callback))), error);
+
+    if (error) {
+        std::cerr << "ERROR: UdsConnection::write() --> boost::system::error_code" << std::endl;
+    }
+}
+

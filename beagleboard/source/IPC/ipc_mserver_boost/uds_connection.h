@@ -15,15 +15,23 @@ class UdsConnection {
         UdsConnection(boost::asio::io_service& io_service, UdsServer* pserver);
         ~UdsConnection();
 
+        enum callback {
+            setup_successfully = 1,
+            setup_failed = 0,
+            delivered_successfully = 3,
+            delivered_failed = 4
+        };
+
         boost::asio::local::stream_protocol::socket& getSocket();
 
         void start();
-        void write(std::string data);
+        bool write(std::string data);
+        void send_callback(UdsConnection::callback callback);
 
     private:
-        void handle_init();
+        void handle_init(const boost::system::error_code& error);
         void listen();
-        void handle_received();
+        void handle_received(const boost::system::error_code& error);
 
         // ----------------------- //
 

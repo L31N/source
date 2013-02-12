@@ -21,7 +21,8 @@ class UdsServer {
         ~UdsServer();
 
         void registerConnection(UdsConnection* _connection, unsigned short _endpoint_id);
-        void send(unsigned short endpoint_id, std::string data);
+        void releaseConnection(UdsConnection* _connection);
+        void send(UdsConnection* connection, unsigned short endpoint_id, std::string data);
 
     private:
         void start_accept();

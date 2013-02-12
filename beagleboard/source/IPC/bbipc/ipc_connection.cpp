@@ -97,6 +97,7 @@ ipcSendingConnection::ipcSendingConnection(const std::string _senderSyn, const s
     }
 
     std::string authPackage = "";
+    //authPackage += senderID;
     authPackage += senderID;
     authPackage += endpointID;
     authPackage += package_size;
@@ -146,22 +147,29 @@ bool ipcSendingConnection::init(std::string authPackage) {
 bool ipcSendingConnection::sendData(const std::string data) {
 
     std::string data_to_send = data;
-    if (data_to_send.size() > package_size) {
-        std::cerr << "WARNING: ipcSendingConnection::sendData --> string to long for package-size." << std::endl;
-        data_to_send.resize(package_size);
+std::cout << "data_to_send: " << data_to_send << std::endl;
+    if (data_to_send.size() != package_size) {
+        std::cerr << "WARNING: ipcSendingConnection::sendData --> data does not fit package-size." << std::endl;
+        std::cout << "data_to_send.size(): " << data_to_send.size() << std::endl;
+        std::cout << "package_size: " << package_size << std::endl;
+        data_to_send.resize(package_size, 0);
     }
 
     if (host == IPC_BLUETOOTH) {
         data_to_send.insert(0,1,btEndpointID);
     }
+    else {
+        data_to_send.insert(0, 1, 0);   // insert a 0 instead of the endpointid to get a fixed package size
+    }
 
-    if (write(sock, data_to_send.c_str(), data_to_send.length()) < 0) {
+    //if (write(sock, data_to_send.c_str(), data_to_send.length()) < 0) {
+    if (write(sock, data_to_send.c_str(), package_size + 1) < 0) {
         _errno = errno;
         return false;
     }
+
     char callback[1];
     int retval = read(sock, callback, 1);
-
     if (retval < 0) {
         _errno = errno;
         cout << "error while reading data: " << strerror(errno) << endl;
@@ -366,13 +374,14 @@ void* ipcReceivingConnection::saveReceivedData_threaded(void* arg) {
 
     struct thread_data *tdata = (struct thread_data *)arg;
     /// read to socket ...
-    char data[tdata->_package_size];
+    char data[tdata->_package_size + 2];
 
     while(true) {
 
-        bzero(data, tdata->_package_size);
+        bzero(data, tdata->_package_size + 2);
 
-        int retval = read(tdata->_sock, data, tdata->_package_size);
+        int retval = read(tdata->_sock, data, tdata->_package_size + 2);    // the + 1 are the bluetooth byte and the id byte
+
         if (retval == 0) {
             #ifdef DEBUG
                 cout << "connection closed ..." << endl;
@@ -385,7 +394,7 @@ void* ipcReceivingConnection::saveReceivedData_threaded(void* arg) {
         }
         else {  /// read successfull ...
             /// extract sender ID from string
-            std::string dataString = data;
+            std::string dataString(data, tdata->_package_size + 2);
             short senderID = dataString[0];
             HOST_TYPE host;
 
@@ -399,7 +408,7 @@ void* ipcReceivingConnection::saveReceivedData_threaded(void* arg) {
             }
             else {
                 host = IPC_LOCAL;
-                dataString.erase(0,1);
+                dataString.erase(0,2);
             }
 
             #ifdef DEBUG

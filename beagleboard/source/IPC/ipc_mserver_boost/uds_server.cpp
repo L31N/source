@@ -26,9 +26,15 @@ void UdsServer::start_accept() {
 
 void UdsServer::handle_accept(UdsConnection* connection, const boost::system::error_code& error) {
     std::cout << "UdsServer::handle_accept() ..." << std::endl;
-    connection->start();
+    if (!error) {
+        connection->start();
 
-    this->start_accept();
+        this->start_accept();
+    }
+    else {
+        std::cerr << "ERROR: UdsServer::handle_accept() --> could not accept new connection: " << error.message() << std::endl;
+    }
+
 }
 
 void UdsServer::registerConnection(UdsConnection* _connection, unsigned short _endpoint_id) {
@@ -40,17 +46,29 @@ void UdsServer::registerConnection(UdsConnection* _connection, unsigned short _e
     tmpconnection.id = _endpoint_id;
 
     rcons.push_back(tmpconnection);
+
+    _connection->send_callback(UdsConnection::setup_successfully);
 }
 
+void UdsServer::releaseConnection(UdsConnection* _connection) {
+    for (unsigned int i = 0; i < rcons.size(); i++) {
+        if (rcons[i].connection == _connection) {
+            rcons.erase(rcons.begin() + i);
+        }
+    }
+}
 
-void UdsServer::send(unsigned short endpoint_id, std::string data) {
+void UdsServer::send(UdsConnection* connection, unsigned short endpoint_id, std::string data) {
     std::cout << "UdsServer::send()" << std::endl;
+    bool error = false;
 
     // search the right connections
     for (unsigned int i = 0; i < rcons.size(); i++) {
         if (rcons[i].id == endpoint_id) {
             std::cout << "connection found ..." << std::endl;
-            rcons[i].connection->write(data);
+            if (!rcons[i].connection->write(data)) error = true;
         }
     }
+    if (!error) connection->send_callback(UdsConnection::delivered_successfully);
+    else connection->send_callback(UdsConnection::delivered_failed);
 }

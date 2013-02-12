@@ -59,8 +59,8 @@ class ipcConnection {
 
 class ipcSendingConnection : public ipcConnection {
     public:
-        ipcSendingConnection(short _senderID, short _endpointID, unsigned char _package_size, HOST_TYPE _host = IPC_LOCAL);
-        ipcSendingConnection(const std::string _senderSyn, const std::string _endpointSyn, unsigned char _package_size, HOST_TYPE _host = IPC_LOCAL);
+        ipcSendingConnection(short _senderID, short _endpointID, unsigned char _package_size = 32, HOST_TYPE _host = IPC_LOCAL);
+        ipcSendingConnection(const std::string _senderSyn, const std::string _endpointSyn, unsigned char _package_size = 32, HOST_TYPE _host = IPC_LOCAL);
 
         bool sendData(const std::string data);
 
