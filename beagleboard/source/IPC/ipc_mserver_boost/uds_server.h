@@ -7,28 +7,34 @@
 
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
-#include <boost/enable_shared_from_this.hpp>
-
 
 class UdsConnection;
 
+struct Connection {
+    UdsConnection* connection;
+    unsigned short id;
+};
+
 class UdsServer {
     public:
-        UdsServer(boost::asio::io_service& io_service, boost::asio::local::stream_protocol::endpoint _endpoint);
+        UdsServer(boost::asio::io_service& io_service, boost::asio::local::stream_protocol::endpoint endpoint);
         ~UdsServer();
 
-        void handle_received(boost::asio::streambuf data, unsigned short id);     // called fromout the UdsConnection class.
+        void registerConnection(UdsConnection* _connection, unsigned short _endpoint_id);
+        void releaseConnection(UdsConnection* _connection);
+        void send(UdsConnection* connection, unsigned short endpoint_id, std::string data);
 
     private:
         void start_accept();
-        void handle_accept(UdsConnection* new_connection, const boost::system::error_code& error);
+        void handle_accept(UdsConnection* connection, const boost::system::error_code& error);
 
-        // ----------------------- //
+        // -------------------- //
 
-        boost::asio::local::stream_protocol::endpoint* endpoint;
-        boost::asio::local::stream_protocol::acceptor* acceptor;
+        boost::asio::local::stream_protocol::acceptor acceptor;
 
-        std::vector<UdsConnection*> connections;
+        std::vector<Connection> rcons;
+
 };
 
 #endif // _UDS_SERVER_H_
+

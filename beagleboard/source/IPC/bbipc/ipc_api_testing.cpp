@@ -13,15 +13,40 @@ using namespace std;
 
 int main () {
 
+    ipcReceivingConnection rc("DEBUG", 5, 1);
+    std::cout << "rc_open: " << rc.is_open() << std::endl;
 
+    ipcReceivingConnection rc2("DEBUG", 10, 1);
+    std::cout << "rc2_open: " << rc2.is_open() << std::endl;
+
+    ipcSendingConnection sc("TACTIC_MODULE", "DEBUG", 1, ipcSendingConnection::local);
+    std::cout << "sc_open: " << sc.is_open() << std::endl;
+
+    sc.sendData("X");
+    sc.sendData("#");
+
+    usleep(500000);
+    //sleep(2);
+
+    while (rc.checkForNewData()) {
+        Data* data = rc.readDataFromBuffer();
+        std::cout << "rc data: " << data->getData() << std::endl;
+        std::cout << "rc id: " << data->getSenderID() << std::endl;
+    }
+
+    while (rc2.checkForNewData()) {
+        Data* data = rc2.readDataFromBuffer();
+        std::cout << "rc2 data: " << data->getData() << std::endl;
+        std::cout << "rc2 id: " << data->getSenderID() << std::endl;
+    }
 
     //ipcConfig ipcconfig("../../../../../etc/ipc.conf");
 
-    ipcReceivingConnection rc("DEBUG");
-    ipcReceivingConnection btrc("BLUETOOTH_MODULE");
+    //ipcReceivingConnection rc("DEBUG");
+    //ipcReceivingConnection btrc("BLUETOOTH_MODULE");
 
-    cout << "rc_open: " << rc.is_open() << endl;
-    cout << "btrc_open: " << btrc.is_open() << endl;
+    //cout << "rc_open: " << rc.is_open() << endl;
+    //cout << "btrc_open: " << btrc.is_open() << endl;
 
     //ipcSendingConnection sc ("TACTIC_MODULE", "DEBUG", IPC_LOCAL);
 

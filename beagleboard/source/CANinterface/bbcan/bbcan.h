@@ -44,7 +44,6 @@ class CAN {
         CANConfig* cancfg;
 
         std::vector<Rcon> receivingConnections;
-        int rcon_count;
 };
 
 class Rcon {

@@ -36,6 +36,7 @@
 			<Add option="-lboost_thread" />
 			<Add option="-lpthread" />
 		</Linker>
+		<Unit filename="main.cpp" />
 		<Unit filename="uds_connection.cpp" />
 		<Unit filename="uds_connection.h" />
 		<Unit filename="uds_server.cpp" />
