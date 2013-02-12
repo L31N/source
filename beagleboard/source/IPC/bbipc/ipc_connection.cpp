@@ -147,11 +147,10 @@ bool ipcSendingConnection::init(std::string authPackage) {
 bool ipcSendingConnection::sendData(const std::string data) {
 
     std::string data_to_send = data;
-std::cout << "data_to_send: " << data_to_send << std::endl;
     if (data_to_send.size() != package_size) {
         std::cerr << "WARNING: ipcSendingConnection::sendData --> data does not fit package-size." << std::endl;
-        std::cout << "data_to_send.size(): " << data_to_send.size() << std::endl;
-        std::cout << "package_size: " << package_size << std::endl;
+        std::cout << "\tdata_to_send.size(): " << data_to_send.size() << std::endl;
+        std::cout << "\tpackage_size: " << package_size << std::endl;
         data_to_send.resize(package_size, 0);
     }
 

@@ -13,16 +13,16 @@ using namespace std;
 
 int main () {
 
-    ipcReceivingConnection rc("DEBUG", 5, 1);
+    ipcReceivingConnection rc("DEBUG", 5, 13);
     std::cout << "rc_open: " << rc.is_open() << std::endl;
 
-    ipcReceivingConnection rc2("DEBUG", 10, 1);
+    ipcReceivingConnection rc2("DEBUG", 10, 13);
     std::cout << "rc2_open: " << rc2.is_open() << std::endl;
 
-    ipcSendingConnection sc("TACTIC_MODULE", "DEBUG", 1, ipcSendingConnection::local);
+    ipcSendingConnection sc("TACTIC_MODULE", "DEBUG", 13, ipcSendingConnection::local);
     std::cout << "sc_open: " << sc.is_open() << std::endl;
 
-    sc.sendData("X");
+    sc.sendData("HelloWorld123");
     sc.sendData("#");
 
     usleep(500000);
