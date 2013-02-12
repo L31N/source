@@ -62,6 +62,9 @@ class ipcSendingConnection : public ipcConnection {
         ipcSendingConnection(short _senderID, short _endpointID, unsigned char _package_size = 32, HOST_TYPE _host = IPC_LOCAL);
         ipcSendingConnection(const std::string _senderSyn, const std::string _endpointSyn, unsigned char _package_size = 32, HOST_TYPE _host = IPC_LOCAL);
 
+        static const HOST_TYPE local = IPC_LOCAL;
+        static const HOST_TYPE bluetooth = IPC_BLUETOOTH;
+
         bool sendData(const std::string data);
 
         bool reconnect(void);       /// tries to reconnect a broken connection

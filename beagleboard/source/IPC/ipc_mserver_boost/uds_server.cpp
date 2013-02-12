@@ -5,16 +5,17 @@
 #include "uds_connection.h"
 
 UdsServer::UdsServer(boost::asio::io_service& io_service, boost::asio::local::stream_protocol::endpoint endpoint) : acceptor(io_service, endpoint) {
-    std::cout << "UdsServer::UdsServer()" << std::endl;
+    //std::cout << "UdsServer::UdsServer()" << std::endl;
     this->start_accept();
+    std::cout << "server initialized and waiting for connections ..." << std::endl;
 }
 
 UdsServer::~UdsServer() {
-    std::cout << "UdsServer::~UdsServer()" << std::endl;
+    //std::cout << "UdsServer::~UdsServer()" << std::endl;
 }
 
 void UdsServer::start_accept() {
-    std::cout << "UdsServer::start_accept() ..." << std::endl;
+    //std::cout << "UdsServer::start_accept() ..." << std::endl;
     UdsConnection* new_connection = new UdsConnection(acceptor.get_io_service(), this);
 
     acceptor.async_accept(new_connection->getSocket(),
@@ -25,7 +26,7 @@ void UdsServer::start_accept() {
 }
 
 void UdsServer::handle_accept(UdsConnection* connection, const boost::system::error_code& error) {
-    std::cout << "UdsServer::handle_accept() ..." << std::endl;
+    //std::cout << "UdsServer::handle_accept() ..." << std::endl;
     if (!error) {
         connection->start();
 
@@ -38,8 +39,7 @@ void UdsServer::handle_accept(UdsConnection* connection, const boost::system::er
 }
 
 void UdsServer::registerConnection(UdsConnection* _connection, unsigned short _endpoint_id) {
-
-    std::cout << "UdsServer::registerConnection()" << std::endl;
+    //std::cout << "UdsServer::registerConnection()" << std::endl;
 
     Connection tmpconnection;
     tmpconnection.connection = _connection;
@@ -51,6 +51,7 @@ void UdsServer::registerConnection(UdsConnection* _connection, unsigned short _e
 }
 
 void UdsServer::releaseConnection(UdsConnection* _connection) {
+    //std::cout << "UdsServer::releaseConnection()" << std::endl;
     for (unsigned int i = 0; i < rcons.size(); i++) {
         if (rcons[i].connection == _connection) {
             rcons.erase(rcons.begin() + i);
@@ -59,14 +60,19 @@ void UdsServer::releaseConnection(UdsConnection* _connection) {
 }
 
 void UdsServer::send(UdsConnection* connection, unsigned short endpoint_id, std::string data) {
-    std::cout << "UdsServer::send()" << std::endl;
-    bool error = false;
+    //std::cout << "UdsServer::send()" << std::endl;
+    //std::cout << "rcons.size(): " << rcons.size() << std::endl;
+    bool error = true;
 
     // search the right connections
     for (unsigned int i = 0; i < rcons.size(); i++) {
         if (rcons[i].id == endpoint_id) {
-            std::cout << "connection found ..." << std::endl;
-            if (!rcons[i].connection->write(data)) error = true;
+            //std::cout << "connection found ..." << std::endl;
+            if (!rcons[i].connection->write(data)) {
+                rcons.erase(rcons.begin() + i);
+                i--;
+            }
+            else error = false;
         }
     }
     if (!error) connection->send_callback(UdsConnection::delivered_successfully);
