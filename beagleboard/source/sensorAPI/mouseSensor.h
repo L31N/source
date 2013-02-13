@@ -4,7 +4,7 @@
 
 #include "ipc/ipc_connection.h"
 #include "bbvector.h"
-#include "motion/angle.h"
+//#include "motion/angle.h"
 
 class MouseSensor {
     public:
@@ -15,8 +15,8 @@ class MouseSensor {
        Vector getPositionVector();
        Vector getRelativeDirVector();
        Vector getAbsoluteDirVector();
-       Angle getRelativeAngle();
-       Angle getAbsoluteAngle();
+       //Angle getRelativeAngle();
+       //Angle getAbsoluteAngle();
 
     private:
         ipcReceivingConnection* ipcRCon;

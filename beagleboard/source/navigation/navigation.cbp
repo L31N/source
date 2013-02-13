@@ -30,7 +30,20 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
+			<Add directory="../../include" />
 		</Compiler>
+		<Linker>
+			<Add option="-lbbsensor" />
+			<Add option="-lbbcan" />
+			<Add option="-lbbdebug" />
+			<Add option="-lbbipc" />
+			<Add option="-lbbvector" />
+			<Add option="-lpthread" />
+			<Add directory="../../lib" />
+		</Linker>
+		<Unit filename="main.cpp" />
+		<Unit filename="navigationController.cpp" />
+		<Unit filename="navigationController.h" />
 		<Extensions>
 			<envvars />
 			<code_completion />

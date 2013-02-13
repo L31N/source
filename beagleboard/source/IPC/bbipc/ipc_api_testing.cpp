@@ -30,14 +30,14 @@ int main () {
 
     while (rc.checkForNewData()) {
         Data* data = rc.readDataFromBuffer();
-        std::cout << "rc data: " << data->getData() << std::endl;
-        std::cout << "rc id: " << data->getSenderID() << std::endl;
+        std::cout << "rc data: " << data->getData();
+        std::cout << "\tfrom: " << data->getSenderID() << std::endl;
     }
 
     while (rc2.checkForNewData()) {
         Data* data = rc2.readDataFromBuffer();
-        std::cout << "rc2 data: " << data->getData() << std::endl;
-        std::cout << "rc2 id: " << data->getSenderID() << std::endl;
+        std::cout << "rc2 data: " << data->getData();
+        std::cout << "\tfrom: " << data->getSenderID() << std::endl;
     }
 
     //ipcConfig ipcconfig("../../../../../etc/ipc.conf");
