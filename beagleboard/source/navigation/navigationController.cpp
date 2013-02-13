@@ -1,10 +1,13 @@
 
 // navigationController.cpp
 
+#include <boost/asio.hpp>
+#include <boost/date_time/posix_time/posix_time.hpp>
+
 #include "navigationController.h"
 
 NavigationController::NavigationController() {
-    laserSensors = new LaserSensor* [4];
+    /*laserSensors = new LaserSensor* [4];
     mouseSensors = new MouseSensor* [2];
 
     laserSensors[0] = new LaserSensor("LASER_SENSOR_0", "LASER_SENSOR_0", LaserSensor::front);
@@ -19,7 +22,7 @@ NavigationController::NavigationController() {
 
     debug = new Debug("NAVIGATION");
 
-    ipcRCon = new ipcReceivingConnection("NAVIGATION", IPC_LOCAL);
+    ipcRCon = new ipcReceivingConnection("NAVIGATION", IPC_LOCAL);*/
 
     position = new Vector();
     direction = new Vector();
@@ -53,9 +56,13 @@ Vector NavigationController::getPosition() {
 
     unsigned int laser_values[4];
 
-    for (int i = 0; i < 4; i++) {
-        laser_values[i] = laserSensors[i]->getDistance(LaserSensor::mm) + BOT_RAD;
-    }
+    //for (int i = 0; i < 4; i++) {
+        //laser_values[i] = laserSensors[i]->getDistance(LaserSensor::mm) + BOT_RAD;
+    //}
+    laser_values[0] = 89;
+    laser_values[1] = 62;
+    laser_values[2] = 96;
+    laser_values[3] = 62;
 
     unsigned int d[2];
     unsigned int g[2];
@@ -80,5 +87,20 @@ Vector NavigationController::getPosition() {
 }
 
 Vector NavigationController::getDirection() {
-    return Vector();
+    boost::asio::io_service io_service;
+    io_service.run();
+
+    Vector first = getPosition();
+
+    boost::asio::deadline_timer timer(io_service, boost::posix_time::microseconds(10));
+    timer.wait();
+
+    Vector last = getPosition();
+
+    io_service.stop();
+
+    return Vector(first-last);
+
+
 }
+

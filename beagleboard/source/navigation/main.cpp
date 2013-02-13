@@ -8,6 +8,12 @@
 #include "bbcan.h"
 #include "bbdebug.h"
 
-int main () {
+#include "navigationController.h"
 
+int main () {
+    NavigationController navi;
+
+    navi.getPosition().print();
+
+    return 0;
 }

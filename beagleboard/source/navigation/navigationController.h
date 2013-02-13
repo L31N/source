@@ -24,11 +24,15 @@ class NavigationController {
 
         int run();
 
-        static const unsigned int MAX_X = 1820;
-        static const unsigned int MAX_Y = 2430;
+        //static const unsigned int MAX_X = 1820;
+        //static const unsigned int MAX_Y = 2430;
+        static const unsigned int MAX_X = 105;
+        static const unsigned int MAX_Y = 165;
 
-        static const unsigned int BOT_DIA = 220;
-        static const unsigned int BOT_RAD = 110;
+        //static const unsigned int BOT_DIA = 220;
+        //static const unsigned int BOT_RAD = 110;
+        static const unsigned int BOT_DIA = 0;
+        static const unsigned int BOT_RAD = 0;
 
     private:
         LaserSensor** laserSensors;
@@ -39,10 +43,11 @@ class NavigationController {
         ipcReceivingConnection* ipcRCon;
 
         Vector* position;
-        Vector* direction;
+        Vector* direction;      // blickrichtung
+        Vector* speed;          // bewegungsrichtung inkl. speed
 
         // ------------------- //
-        Vector getPosition();
+        public: Vector getPosition();
         Vector getDirection();
 
 };
