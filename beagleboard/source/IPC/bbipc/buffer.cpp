@@ -14,6 +14,10 @@ void Buffer::insert(Data* data) {
     return;
 }
 
+void Buffer::clear() {
+    vector.clear();
+}
+
 bool Buffer::checkForNewData() {
     if (vector.size() > 0) return true;
     else return false;

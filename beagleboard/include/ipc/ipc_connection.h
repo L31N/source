@@ -24,7 +24,7 @@
 
 class ipcConnection {
     public:
-        ipcConnection (void);
+        ipcConnection (unsigned char _package_size);
         ~ipcConnection(void);
 
         int getLastError(void);
@@ -44,6 +44,8 @@ class ipcConnection {
 
         bool f_is_open;
 
+        unsigned char package_size;
+
     public:
         void setSenderID(short _senderID);
         void setEndpointID(short _endpointID);
@@ -57,8 +59,11 @@ class ipcConnection {
 
 class ipcSendingConnection : public ipcConnection {
     public:
-        ipcSendingConnection(short _senderID, short _endpointID, HOST_TYPE _host = IPC_LOCAL);
-        ipcSendingConnection(const std::string _senderSyn, const std::string _endpointSyn, HOST_TYPE _host = IPC_LOCAL);
+        ipcSendingConnection(short _senderID, short _endpointID, unsigned char _package_size = 32, HOST_TYPE _host = IPC_LOCAL);
+        ipcSendingConnection(const std::string _senderSyn, const std::string _endpointSyn, unsigned char _package_size = 32, HOST_TYPE _host = IPC_LOCAL);
+
+        static const HOST_TYPE local = IPC_LOCAL;
+        static const HOST_TYPE bluetooth = IPC_BLUETOOTH;
 
         bool sendData(const std::string data);
 
@@ -72,16 +77,17 @@ class ipcSendingConnection : public ipcConnection {
 
         short btEndpointID;
 
-        bool init(std::string idPackage);
+        bool init(std::string authPackage);
 };
 
 class ipcReceivingConnection : public ipcConnection {
     public:
-        ipcReceivingConnection(short _connID, size_t _bufferSize = 5);
-        ipcReceivingConnection(const std::string connSyn, size_t _bufferSize = 5);
+        ipcReceivingConnection(short _connID, size_t _bufferSize = 5, unsigned char _package_size = 32);
+        ipcReceivingConnection(const std::string connSyn, size_t _bufferSize = 5, unsigned char _package_size = 32);
         ~ipcReceivingConnection();
 
         Data* readDataFromBuffer();
+        void clearBuffer();
 
         bool checkForNewData();
 
@@ -92,6 +98,7 @@ class ipcReceivingConnection : public ipcConnection {
             int _sock;
             Buffer* _buffer;
             sem_t* _sem;
+            unsigned char _package_size;
         };
 
         static void* saveReceivedData_threaded(void* arg);
@@ -101,8 +108,7 @@ class ipcReceivingConnection : public ipcConnection {
 
         Buffer* dataBuffer;
 
-        bool init(std::string idPackage, size_t _bufferSize);
-
+        bool init(std::string authPackage, size_t _bufferSize);
 };
 
 #endif // _CONNECTION_H_

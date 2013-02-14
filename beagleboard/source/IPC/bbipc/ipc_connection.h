@@ -87,6 +87,7 @@ class ipcReceivingConnection : public ipcConnection {
         ~ipcReceivingConnection();
 
         Data* readDataFromBuffer();
+        void clearBuffer();
 
         bool checkForNewData();
 

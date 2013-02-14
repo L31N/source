@@ -366,6 +366,10 @@ Data* ipcReceivingConnection::readDataFromBuffer() {
     return retdata;
 }
 
+void ipcReceivingConnection::clearBuffer() {
+    dataBuffer->clear();
+}
+
 void* ipcReceivingConnection::saveReceivedData_threaded(void* arg) {
     #ifdef DEBUG
         cout << "from thread ..." << endl;

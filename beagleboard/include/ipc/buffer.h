@@ -16,6 +16,7 @@ class Buffer {
 
         void insert(Data* data);
         Data* getLastData(void);
+        void clear();
 
         bool checkForNewData();
 

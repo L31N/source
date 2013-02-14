@@ -19,9 +19,6 @@ int main () {
 
     unsigned int laser_values[4];
 
-    //for (int i = 0; i < 4; i++) {
-        //laser_values[i] = laserSensors[i]->getDistance(LaserSensor::mm) + BOT_RAD;
-    //}
     laser_values[0] = 89;
     laser_values[1] = 62;
     laser_values[2] = 96;
@@ -43,8 +40,13 @@ int main () {
         g[1] = laser_values[2];
     }
 
-    x = d[0]*cos(acos((MAX_X)/(d[0]+d[1])));
-    y = g[0]*cos(acos((MAX_Y)/(g[0]+g[1])));
+    //x = d[0]*cos(acos((MAX_X)/(d[0]+d[1])));
+    //y = g[0]*cos(acos((MAX_Y)/(g[0]+g[1])));
+
+    std::cout << "max_x: " << MAX_X << " d[0]: " << d[0] << " d[1]: " << d[1] << std::endl;
+
+    x = d[0]*(float(MAX_X) / float((d[0] + d[1])));
+    y = g[0]*(float(MAX_Y) / float((g[0] + g[1])));
 
     std::cout << "d[0]: " << d[0] << std::endl;
     std::cout << "d[1]: " << d[1] << std::endl;
