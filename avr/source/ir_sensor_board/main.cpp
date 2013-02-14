@@ -15,7 +15,7 @@ int main () {
 
     can_set_filter(0, &filter0);
 
-    DDRC = 0x00;
+    DDRC = 0x00;ĸ
     DDRA = 0x00;
     DDRE = 0x00;
 
