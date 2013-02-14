@@ -27,6 +27,27 @@
 	MCP2515_FILTER_EXTENDED(0),		// Mask 1 (for group 1)
 };*/
 
+/*int main () {
+    init_leds();
+    uart_init(115200);
+
+
+    led(true, true);
+    _delay_ms(500);
+    led(false, false);
+    _delay_ms(500);
+
+    for (unsigned long i = 0; i < 100000; i++) {
+        if (i%100 == 0) _delay_ms(1);
+        if (uart_putc(i%26 + 'a')) led(false, true);
+    }
+
+    led(true, true);
+
+    return 0;
+}*/
+
+
 int main () {
     init_leds();
     uart_init(115200);
@@ -150,3 +171,4 @@ int main () {
 
     return 0;
 }
+

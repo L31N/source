@@ -58,13 +58,16 @@ void Navi::requestData() {
 }
 
 Vector Navi::getPosition() {
+    requestData();
     return position;
 }
 
 Vector Navi::getDirection() {
+    requestData();
     return direction;
 }
 
 Vector Navi::getSpeed() {
+    requestData();
     return speed;
 }
