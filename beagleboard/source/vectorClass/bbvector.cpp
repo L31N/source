@@ -88,7 +88,7 @@ void Vector::set(double px, double py) {
 /*
     Setzt die Länge auf l
 */
-void Vector::setLenght(double l)
+void Vector::setLength(double l)
 {
     Vector tmp = this->getUnitVector()*l;
     (*this) = tmp;

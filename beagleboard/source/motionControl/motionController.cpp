@@ -70,8 +70,8 @@ void MotionController::drive(Vector vector, short rotationSpeed) {
         debug->send("MotionController::drive --> wrong Vector !!!");
     }
 
-    g.setLenght(cos(abs(vector.getAngle(g, false, false))) * vector.abs());
-    h.setLenght(sin(abs(vector.getAngle(g, false, false))) * vector.abs());
+    g.setLength(cos(abs(vector.getAngle(g, false, false))) * vector.abs());
+    h.setLength(sin(abs(vector.getAngle(g, false, false))) * vector.abs());
 
     length_g *= g.abs();
     length_h *= h.abs();
@@ -166,7 +166,7 @@ void MotionController::drive(Vector vector, short rotationSpeed) {
 void MotionController::drive(Angle angle, unsigned char speed, short rotationSpeed) {
     Vector vector(1,1);
     vector.setLength(speed);
-    vector.setAngle(angle);
+    vector.setAngle(angle.value());
 
     drive(vector, rotationSpeed);
 }
