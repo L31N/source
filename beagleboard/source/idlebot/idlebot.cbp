@@ -30,7 +30,18 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
+			<Add directory="../../include" />
 		</Compiler>
+		<Linker>
+			<Add option="-lbbmotion" />
+			<Add option="-lbbdebug" />
+			<Add option="-lbbvector" />
+			<Add option="-lbbcan" />
+			<Add option="-lbbipc" />
+			<Add option="-lpthread" />
+			<Add directory="../../lib" />
+		</Linker>
+		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

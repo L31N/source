@@ -38,8 +38,8 @@
 			<Add directory="/home/l31n/robotics.git/source/beagleboard/include/" />
 		</Compiler>
 		<Linker>
-			<Add option="-lbbipc" />
 			<Add option="-lbbdebug" />
+			<Add option="-lbbipc" />
 			<Add option="-lpthread" />
 			<Add directory="/home/l31n/robotics.git/source/beagleboard/lib/" />
 		</Linker>

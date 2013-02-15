@@ -59,7 +59,7 @@ int main () {
                 }
                 else {  /// LED_REMOTE
                     PORTA |= incomming_serial_data[4];
-                    PORTA &= ~(incomming_serial_data[5]);
+                    PORTA &= ~(incomming_serial_data[5])
                 }
             }
             else if (incomming_serial_data[0] == 'f') {       /// calibrate filters

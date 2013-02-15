@@ -9,10 +9,10 @@ deamon[0]="ipc_mserver"
 process_count=0
 
 #process name eg. helloworld
-#process_name[0]="helloworld"
+#process_name[0]="main_app"
 
 #process paths eg. /source/beagleboard/bin/helloworld
-#process_path[0]="/home/l31n/robotics.git/source/beagleboard/bin/helloworld"
+#process_path[0]="/home/l31n/robotics.git/source/beagleboard/bin/main_app"
 
 # other settings here ...
 logfile="/home/l31n/robotics.git/source/beagleboard/etc/controlscript.log"
