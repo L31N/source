@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+
+<CodeBlocks_project_file node="cbpfile">
+        <FileVersion major="int" minor="int" />
+
+        <Project node="project">
+                <Option title="n_str"
+                        pch_mode="int"
+                        compiler="str"
+                        makefile="str"
+                        makefile_is_custom="int"
+                        />
+
+                <Build node="build">
+                        <Target node="target" title="n_str">
+                                <Option output="str"
+                                        prefix_auto="int"
+                                        extension_auto="int"
+                                        type="int"
+                                        compiler="str"
+                                        external_deps="str"
+                                        working_dir="str"
+                                        parameters="str"
+                                        createStaticLib="int"
+                                        createDefFile="int"
+                                        projectLinkerOptionsRelation="int"
+                                        />
+
+                                <Compiler node="cc_option">
+                                        <Add option="s_node" directory="s_node" />
+                                </Compiler>
+
+                                <ResourceCompiler node="rc_option">
+                                        <Add option="s_node" directory="s_node" />
+                                </ResourceCompiler>
+
+                                <Linker node="ld_option">
+                                        <Add option="s_node" directory="s_node" library="s_node" />
+                                </Linker>
+
+                                <BuildCommand node="build_cmd">
+                                        <Add option="s_node" />
+                                </BuildCommand>
+
+                                <ExtraCommands node="extra">
+                                        <Add before="s_node" after="s_node" />
+                                        <Mode node="mode" before="str" after="str" />
+                                </ExtraCommands>
+                        </Target>
+
+                        <Environment node="environment">
+                                <Variable name="str" value="str" />
+                        </Environment>
+                </Build>
+
+                <VirtualTargets>
+                        <Add node="v_target" alias="n_str" targets="l_str" />
+                </VirtualTargets>
+
+                <Compiler node="cc_option">
+                        <Add option="s_node" directory="s_node" />
+                </Compiler>
+
+                <ResourceCompiler node="rc_option">
+                        <Add option="s_node" directory="s_node" />
+                </ResourceCompiler>
+
+                <Linker node="ld_option">
+                        <Add option="s_node" directory="s_node" library="s_node" />
+                </Linker>
+
+                <ExtraCommands node="extra">
+                        <Add before="s_node" after="s_node" />
+                </ExtraCommands>
+
+                <Unit node="unit" filename="str" objname="str" depname="str">
+                        <Option
+                            compilerVar="str"
+                            compile="int,1"
+                            link="int,1"
+                            target="n_str"
+                            />
+
+                </Unit>
+
+        </Project>
+</CodeBlocks_project_file>
