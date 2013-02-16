@@ -36,10 +36,12 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
+			<Add option="-fexceptions -m32" />
 			<Add directory="../../../include" />
 		</Compiler>
 		<Linker>
 			<Add option="-lpthread" />
+			<Add option="-m32" />
 			<Add directory="../../../lib" />
 		</Linker>
 		<Unit filename="debug-user.cpp" />
