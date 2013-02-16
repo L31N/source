@@ -20,6 +20,8 @@ rm /usr/bin/cbp2mak
 rm /usr/bin/cbp2mak.unix.mak
 rm /usr/lib/txml.so
 
+rm /usr/bin/native-build
+
 echo ""
 echo "#########################"
 echo "removal complete ..."

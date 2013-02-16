@@ -21,6 +21,8 @@ cp cbp2mak /usr/bin/
 cp cbp2mak.unix.mak /usr/bin/
 cp txml.so /usr/lib/
 
+cp native-build /usr/bin/
+
 make clean
 
 echo ""
