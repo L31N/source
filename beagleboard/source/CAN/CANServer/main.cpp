@@ -23,6 +23,7 @@ int main () {
 
         Debug debug ("CAN_SERVER");
         debug.send("debug->initialisation");
+        std::cout << "can-server -> initialisation ..." << std::endl;
 
         BufferedAsyncSerial serial(SERIAL_DEVICE_FILE.c_str(), SERIAL_BAUD_RATE);
         if (!serial.isOpen()) {
