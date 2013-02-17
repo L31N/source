@@ -28,10 +28,10 @@ possible build order:
 * bbvector		x
 * bbipc			x
 * bbdebug		x
-* debug-user		
-* bbcan
-* CANServer
-* bbmotion
-* bbsensor
-* idlebot
+* debug-user		x
+* bbcan			x
+* CANServer		x
+* bbmotion		x
+* bbsensor		x
+* idlebot		x
 

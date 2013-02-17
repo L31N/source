@@ -7,7 +7,7 @@
 
 int main () {
 
-    const std::string UDS_FILE_PATH = "/tmp/tmp.uds";
+    const std::string UDS_FILE_PATH = "/bbusr/tmp/ipc_mserver_boost.uds";
     std::remove(UDS_FILE_PATH.c_str());
 
     boost::asio::io_service io_service;

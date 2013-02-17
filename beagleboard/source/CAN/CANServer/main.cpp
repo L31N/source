@@ -13,9 +13,9 @@
 
 #include "can_config.h"
 
-const std::string CAN_CONFIG_FILE_PATH = "../../../../etc/can.conf";
+const std::string CAN_CONFIG_FILE_PATH = "/bbusr/etc/can.conf";
 
-const std::string SERIAL_DEVICE_FILE = "/dev/ttyUSB0";
+const std::string SERIAL_DEVICE_FILE = "/dev/ttyS0";
 const unsigned int SERIAL_BAUD_RATE = 115200;
 
 int main () {

@@ -10,7 +10,7 @@
 
 using namespace std;
 
-const std::string DEBUG_TMP_FILE_PATH = "../../../../../etc/debug.tmp";
+const std::string DEBUG_TMP_FILE_PATH = "/bbusr/tmp/debug.tmp";
 
 
 void exit_handler(int signum);
@@ -32,7 +32,7 @@ int main(int argc, char* argv[])
     bool showAll = false;
     bool invalid = false;
 
-    ipcConfig ipcconfig("../../../../../etc/ipc.conf");
+    ipcConfig ipcconfig("/bbusr/etc/ipc.conf");
 
     //parameter durchsuchen
     for(int i = 0; i < argc-1; i++)
