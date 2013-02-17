@@ -2,12 +2,24 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="bbdebug" />
+		<Option title="bbvector" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
+			<Target title="Debug">
+				<Option output="libbbvector" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="obj/Debug/" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-Wall" />
+					<Add option="-g" />
+				</Compiler>
+			</Target>
 			<Target title="Release">
-				<Option output="libbbdebug" prefix_auto="1" extension_auto="1" />
+				<Option output="libbbvector" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
 				<Option object_output="obj/Release/" />
 				<Option type="2" />
@@ -22,15 +34,8 @@
 				</Linker>
 			</Target>
 		</Build>
-		<Compiler>
-			<Add directory="../../../include" />
-		</Compiler>
-		<Linker>
-			<Add option="-lbbipc" />
-			<Add directory="../../../lib" />
-		</Linker>
-		<Unit filename="bbdebug.cpp" />
-		<Unit filename="bbdebug.h" />
+		<Unit filename="bbvector.cpp" />
+		<Unit filename="bbvector.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
