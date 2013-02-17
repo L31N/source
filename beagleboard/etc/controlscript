@@ -3,7 +3,7 @@
 # write in all deamons here ...
 deamon_count=1
 
-deamon[0]="ipc_mserver"
+deamon[0]="ipc_mserver_boost"
 
 # write all processes here ...
 process_count=0
@@ -12,10 +12,10 @@ process_count=0
 #process_name[0]="main_app"
 
 #process paths eg. /source/beagleboard/bin/helloworld
-#process_path[0]="/home/l31n/robotics.git/source/beagleboard/bin/main_app"
+#process_path[0]="/bbusr/bin/main_app"
 
 # other settings here ...
-logfile="/home/l31n/robotics.git/source/beagleboard/etc/controlscript.log"
+logfile="/bbusr/etc/controlscript.log"
 
 ###########################################################
 
