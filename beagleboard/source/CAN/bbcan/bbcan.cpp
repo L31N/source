@@ -1,7 +1,7 @@
 
 #include "bbcan.h"
 
-const std::string CAN_CONFIG_FILE_PATH = "../../../../etc/can.conf";
+const std::string CAN_CONFIG_FILE_PATH = "/bbusr/etc/can.conf";
 
 CAN::CAN(const std::string _MODULE_NAME) {
     MODULE_NAME = _MODULE_NAME;
@@ -176,7 +176,7 @@ Rcon::Rcon(ipcReceivingConnection* _ipcRCon, std::string _can_member) {
 }
 
 Rcon::~Rcon() {
-    std::cout << "dekonstruktor of Rcon ..." << std::endl;
+    //std::cout << "dekonstruktor of Rcon ..." << std::endl;
     delete ipcRCon;
 }
 

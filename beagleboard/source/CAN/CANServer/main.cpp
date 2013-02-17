@@ -21,7 +21,7 @@ const unsigned int SERIAL_BAUD_RATE = 115200;
 int main () {
      try {
 
-        Debug debug ("CAN_INTERFACE_MODULE");
+        Debug debug ("CAN_SERVER");
         debug.send("debug->initialisation");
 
         BufferedAsyncSerial serial(SERIAL_DEVICE_FILE.c_str(), SERIAL_BAUD_RATE);
@@ -65,7 +65,7 @@ int main () {
 
                 std::string ipcSyn = cancfg.getIpcSynonym(can_id);
                 std::cout << "ipcSyn: " << ipcSyn << std::endl;
-                ipcSendingConnection ipcSCon("CAN_INTERFACE_MODULE", ipcSyn, IPC_LOCAL);
+                ipcSendingConnection ipcSCon("CAN_SERVER", ipcSyn, IPC_LOCAL);
                 //if (ipcSCon.is_open()) {
                     ipcSCon.sendData(ipc_output);
                 //}
