@@ -2,7 +2,7 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="CANinterface" />
+		<Option title="CANServer" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
@@ -30,7 +30,7 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
-			<Add directory="/home/l31n/robotics.git/source/beagleboard/include" />
+			<Add directory="/bbusr/include" />
 		</Compiler>
 		<Linker>
 			<Add option="-lbbipc" />
@@ -38,7 +38,7 @@
 			<Add option="-lboost_system" />
 			<Add option="-lboost_thread" />
 			<Add option="-lpthread" />
-			<Add directory="/home/l31n/robotics.git/source/beagleboard/lib" />
+			<Add directory="/bbusr/lib" />
 		</Linker>
 		<Unit filename="AsyncSerial.cpp" />
 		<Unit filename="AsyncSerial.h" />
