@@ -17,13 +17,11 @@ void exit_handler(int signum);
 
 int main(int argc, char* argv[])
 {
-    /// setup exit_handler ...
-    if (signal (SIGINT, exit_handler) == SIG_ERR) cerr << "error: cant catch SIGTERM" << endl;
-
     //test ob argumente passen
     if(argc < 2)
     {
-        cout << "To few parameters!" << endl;
+        std::cout << "Usage: " << *argv << "[option] [ipc_syn0 ipc_syn1 ...]" << std::endl;
+        std::cout << "options:\n\t-a\tshow all debug output" << std::endl;
         return -1;
     }
 
@@ -66,16 +64,7 @@ int main(int argc, char* argv[])
     }
 
 
-    ipcReceivingConnection receivingConnection(ipcconfig.getUDS_FILE_PATH(), ipcconfig.getIpcIDToProcessSyn("DEBUG"), 500);
-
-    ofstream ofs(DEBUG_TMP_FILE_PATH.c_str(), ios_base::out | ios_base::trunc);
-    if (!ofs.is_open()) {
-        cerr << "error: cant open stream to " << DEBUG_TMP_FILE_PATH.c_str() << endl;
-    }
-    else {
-        ofs.put('1');
-        ofs.close();
-    }
+    ipcReceivingConnection receivingConnection("DEBUG", 500);
 
     while(true)
     {
@@ -105,33 +94,5 @@ int main(int argc, char* argv[])
         usleep(1000);
     }
 
-    ofs.open(DEBUG_TMP_FILE_PATH.c_str(), ios_base::out | ios_base::trunc);
-    if (!ofs.is_open()) {
-        cerr << "error: cant open stream to " << DEBUG_TMP_FILE_PATH.c_str() << endl;
-    }
-    else {
-        ofs.put('0');
-        ofs.close();
-    }
-
     return 0;
-}
-
-
-void exit_handler(int signum) {
-
-    #ifdef DEBUG
-        cout << "in exithandler ..." << endl;
-    #endif
-
-    ofstream ofs(DEBUG_TMP_FILE_PATH.c_str());
-    if (!ofs.is_open()) {
-        cerr << "error: cant open stream to " << DEBUG_TMP_FILE_PATH << endl;
-    }
-    else {
-        ofs.put('0');
-        ofs.close();
-    }
-
-    exit(1);
 }
