@@ -79,6 +79,7 @@ void UdsConnection::listen() {
 
 void UdsConnection::handle_received(const boost::system::error_code& error) {
     //std::cout << "\tUdsConnection::handle_received()" << std::endl;
+    std::cout << "received message: " << std::string(cbuf, package_size + 1) << std::endl;
 
     if (!error) {
         // create the final string to redirect
