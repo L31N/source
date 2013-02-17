@@ -9,7 +9,7 @@
 #include "ipc/buffer.h"
 #include "ipc/ipc_config.h"
 
-#include "bbdebug.h"
+#include "debug/bbdebug.h"
 
 #include "can_config.h"
 
