@@ -21,7 +21,7 @@ int main(int argc, char* argv[])
     if(argc < 2)
     {
         std::cout << "Usage: " << *argv << "[option] [ipc_syn0 ipc_syn1 ...]" << std::endl;
-        std::cout << "options:\n\t-a\tshow all debug output" << std::endl;
+        std::cout << "options:\n\t-a\tshow all debug output\t" << std::endl;
         return -1;
     }
 
@@ -64,13 +64,14 @@ int main(int argc, char* argv[])
     }
 
 
-    ipcReceivingConnection receivingConnection("DEBUG", 500);
+    ipcReceivingConnection receivingConnection("DEBUG", 500, 64);
 
     while(true)
     {
-        Data *data = receivingConnection.readDataFromBuffer();
-        if(data != NULL)
-        {
+        //Data *data = receivingConnection.readDataFromBuffer();
+        //if(data != NULL)
+        if (receivingConnection.checkForNewData()) {
+            Data* data = receivingConnection.readDataFromBuffer();
             int senderId = data->getSenderID();
             string message = data->getData();
             bool transfer = false;

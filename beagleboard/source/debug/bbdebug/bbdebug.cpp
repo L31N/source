@@ -3,8 +3,6 @@
 #include "bbdebug.h"
 
 Debug::Debug(std::string moduleName) {
-    fNeedsReconnect = false;
-
     #ifdef DEBUG
     //    std::cout << "Debug::Debug --> ipcConfig()" << std::endl;
     #endif
@@ -13,13 +11,7 @@ Debug::Debug(std::string moduleName) {
     //    std::cout << "Debug::Debug --> ipcSendingConnection()" << std::endl;
     #endif
 
-    senCon = new ipcSendingConnection(ipcconf->getIpcIDToProcessSyn(moduleName), ipcconf->getIpcIDToProcessSyn("DEBUG"));
-
-    /// setting up ifstream, necessary to check weather the debug module is already running
-    dif = new std::ifstream(DEBUG_TMP_FILE_PATH.c_str());
-    if (!dif->is_open()) {
-        std::cout << "error ... could not open ifstream to " << DEBUG_TMP_FILE_PATH << std::endl;
-    }
+    senCon = new ipcSendingConnection(ipcconf->getIpcIDToProcessSyn(moduleName), ipcconf->getIpcIDToProcessSyn("DEBUG"), 64, ipcSendingConnection::local);
 }
 
 Debug::~Debug() {
@@ -35,24 +27,6 @@ bool Debug::send(const char* format, ...) {
 
     std::string str(buffer);
 
-    dif->clear();
-    dif->seekg(0);
-    char debug_status = '0';
-
-    dif->get(debug_status);
-
-    #ifdef DEBUG
-        std::cout << "debug_status: " << debug_status << std::endl;
-    #endif
-    if (debug_status == '1') {
-            if (fNeedsReconnect) {
-                senCon->reconnect();
-                fNeedsReconnect = false;
-            }
-            if (senCon->sendData(str)) return true;
-            else return false;
-    }
-    else fNeedsReconnect = true;
-
-    return true;
+    if (senCon->sendData(str)) return true;
+    else return false;
 }
