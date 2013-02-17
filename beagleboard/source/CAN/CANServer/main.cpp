@@ -15,7 +15,7 @@
 
 const std::string CAN_CONFIG_FILE_PATH = "/bbusr/etc/can.conf";
 
-const std::string SERIAL_DEVICE_FILE = "/dev/ttyS0";
+const std::string SERIAL_DEVICE_FILE = "/dev/ttyO2";
 const unsigned int SERIAL_BAUD_RATE = 115200;
 
 int main () {
@@ -30,7 +30,7 @@ int main () {
             debug.send("ERROR: could not open serial stream to: %s", SERIAL_DEVICE_FILE.c_str());
         }
 
-        ipcReceivingConnection ipcRCon ("CAN_INTERFACE_MODULE", 10);
+        ipcReceivingConnection ipcRCon ("CAN_SERVER", 10);
 
         CANConfig cancfg(CAN_CONFIG_FILE_PATH.c_str());
 

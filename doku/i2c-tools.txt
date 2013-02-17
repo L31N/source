@@ -1,0 +1,20 @@
+the i2c-tools are useful to debug the i2c-buses...
+
+install i2c-tools:
+	* navigate to i2c-tools directory
+	* $ make all
+	* # make install
+	
+	* # nano /etc/ld.so.conf
+		* type: "/usr/local/lib"
+
+uninstall i2c-tools:
+	* # make uninstall
+
+use i2c-tools:
+	# i2cdetect -r 2	(the -r option is required on beagleboard, the 2 means /dev/i2c-2)
+
+
+
+
+
