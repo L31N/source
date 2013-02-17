@@ -42,8 +42,6 @@
 		</Compiler>
 		<Linker>
 			<Add option="-m32" />
-			<Add option="-lbbipc" />
-			<Add option="-lbbdebug" />
 			<Add option="-lpthread" />
 			<Add directory="/home/l31n/robotics.git/source/beagleboard/lib" />
 		</Linker>

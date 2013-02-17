@@ -6,6 +6,7 @@
 #include <signal.h>
 
 #include <ipc/bbipc.h>
+#include <ipc/ipc_connection.h>
 
 using namespace std;
 
