@@ -1,13 +1,13 @@
 
 #include <iostream>
 
-#include "bbdebug.h"
+#include "debug/bbdebug.h"
 
 using namespace std;
 
 int main()
 {
-    Debug debug("TACTIC_MODULE");
+    Debug debug("IDLE_BOT");
 
     while(true)
     {

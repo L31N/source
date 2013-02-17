@@ -15,8 +15,6 @@
 					<Add option="-g" />
 				</Compiler>
 				<Linker>
-					<Add option="-lbbdebugd" />
-					<Add option="-lbbipcd" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -28,20 +26,15 @@
 					<Add option="-O2" />
 				</Compiler>
 				<Linker>
-					<Add option="-s" />
-					<Add option="-lbbdebug" />
-					<Add option="-lbbipc" />
 				</Linker>
 			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
-			<Add option="-fexceptions -m32" />
 			<Add directory="../../../include" />
 		</Compiler>
 		<Linker>
-			<Add option="-lpthread" />
-			<Add option="-m32" />
+			<Add option="-lbbdebug -lbbipc -lpthread" />
 			<Add directory="../../../lib" />
 		</Linker>
 		<Unit filename="main.cpp" />
