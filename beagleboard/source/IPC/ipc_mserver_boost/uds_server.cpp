@@ -31,6 +31,8 @@ void UdsServer::handle_accept(UdsConnection* connection, const boost::system::er
         connection->start();
 
         this->start_accept();
+
+        std::cout << "accepted new connection ..." << std::endl;
     }
     else {
         std::cerr << "ERROR: UdsServer::handle_accept() --> could not accept new connection: " << error.message() << std::endl;
