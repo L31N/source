@@ -70,6 +70,9 @@ ISR(TIMER1_COMPA_vect )
 
 int main()
 {
+	DDRB |= (1<<0);
+	PORTB |= (1<<0);
+
 	pwm_init();
 
 	pwm_set(2000);
@@ -77,32 +80,53 @@ int main()
 	//Warten auf Reglerstart
 	while(!pwm_get());
 
+	PORTB &= ~(1<<0);
+
 	//Sequenz abwarten
 	sleep(2000);
 	sleep(10000);
 	sleep(3000);
-	sleep(500);
+	sleep(5000);
+
+	//Gewechselt in Programmiermodus
+
+	pwm_set(1500);
+	sleep(1000);
+	pwm_set(2000);
+	sleep(3000);
+
+	pwm_set(1500);
+	sleep(1000);
+	pwm_set(2000);
+	sleep(3000);
+
+	//Option auswählen
+	pwm_set(1500);
+	sleep(10000);
+
+	//rückwärts on
+	pwm_set(2000);
+	sleep(1000);
+	pwm_set(1500);
+	sleep(1000);
+
+	sleep(5000);
+
+	pwm_set(2000);
+
+	sleep(5000);
+
 
 	//Wechseln auf Position 5
 	pwm_set(1500);
-	sleep(500);
-	pwm_set(2000);
 	sleep(1000);
+	pwm_set(2000);
+	sleep(3000);
 
 	pwm_set(1500);
-	sleep(500);
-	pwm_set(2000);
 	sleep(1000);
-
-	pwm_set(1500);
-	sleep(500);
 	pwm_set(2000);
-	sleep(1000);
-
-	pwm_set(1500);
-	sleep(500);
-	pwm_set(2000);
-	sleep(1000);
+	sleep(3000);
 
 	//Option auswählen
 	pwm_set(1500);
@@ -110,10 +134,42 @@ int main()
 
 	//Einstellung auswählen, noch unbekannt
 
+	pwm_set(2000);
+	sleep(1000);
+	pwm_set(1500);
+	sleep(1000);
+
+	sleep(5000);
+
+	pwm_set(2000);
+
+	sleep(5000);
+
+	//Restart warten
+	PORTB |= (1<<0);
+	while(pwm_get());
+	pwm_set(2000);
+	sleep(500);
+	while(!pwm_get());
+	PORTB &= ~(1<<0);
+
+	sleep(2000);
+	sleep(10000);
+	sleep(500);
+
+	pwm_set(1500);
+	sleep(2000);
+	pwm_set(1000);
+	sleep(2000);
+
+	PORTB |= (1<<0);
+
+
+
 
 	//Bestätigen
-	pwm_set(2000);
-	sleep(10000);
+//	pwm_set(2000);
+//	sleep(10000);
 
     while(1);
 
