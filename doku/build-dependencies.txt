@@ -30,7 +30,7 @@ possible build order:
 * bbdebug		x
 * debug-user		x
 * bbcan			x
-* CANServer		x
+* can_server		x
 * bbmotion		x
 * bbsensor		x
 * idlebot		x

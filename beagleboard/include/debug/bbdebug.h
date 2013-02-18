@@ -30,10 +30,6 @@ class Debug {
     private:
         ipcConfig* ipcconf;
         ipcSendingConnection* senCon;
-
-        std::ifstream* dif;
-
-        bool fNeedsReconnect;
 };
 
 #endif // _BB_DEBUG_H_
