@@ -3,6 +3,8 @@
 #include <linux/i2c-dev.h>
 #include <fcntl.h>
 #include <inttypes.h>
+#include <errno.h>
+#include <string.h>
 
 int main ()
 {
@@ -25,34 +27,35 @@ int main ()
         return -1;
     }
 
-    while("only a test loop") {
-        i2c_smbus_write_byte_data(file, 15, 255);
-    }
-
 	std::cout << "Place the bot in one direction!" << std::endl;
 	std::cout << "Press return to continue..." << std::endl;
 	std::cin.get();
-	if(i2c_smbus_write_byte_data(file, 15, 255) != 0) std::cout << "Transmission error" << std::endl;
+	int retval = i2c_smbus_write_byte_data(file, 15, 255);
+	if (retval < 0) std::cerr << "Transmission error: " << strerror(retval) << std::endl;
 
 	std::cout << std::endl;
 	std::cout << "Turn the Bot by 90°" << std::endl;
 	std::cout << "Press return to continue..." << std::endl;
 	std::cin.get();
-	if(i2c_smbus_write_byte_data(file, 15, 255) != 0) std::cout << "Transmission error" << std::endl;
+	retval = i2c_smbus_write_byte_data(file, 15, 255);
+	if (retval < 0) std::cerr << "Transmission error: " << strerror(retval) << std::endl;
 
 	std::cout << std::endl;
 	std::cout << "Turn the Bot by 90°" << std::endl;
 	std::cout << "Press return to continue..." << std::endl;
 	std::cin.get();
-	if(i2c_smbus_write_byte_data(file, 15, 255) != 0) std::cout << "Transmission error" << std::endl;
+	retval = i2c_smbus_write_byte_data(file, 15, 255);
+	if (retval < 0) std::cerr << "Transmission error: " << strerror(retval) << std::endl;
 
 	std::cout << std::endl;
 	std::cout << "Turn the Bot by 90°" << std::endl;
 	std::cout << "Press return to continue..." << std::endl;
 	std::cin.get();
-	if(i2c_smbus_write_byte_data(file, 15, 255) != 0) std::cout << "Transmission error" << std::endl;
+	retval = i2c_smbus_write_byte_data(file, 15, 255);
+	if (retval < 0) std::cerr << "Transmission error: " << strerror(retval) << std::endl;
 
-	if(i2c_smbus_write_byte_data(file, 15, 0) != 0) std::cout << "Transmission error" << std::endl;
+	retval = i2c_smbus_write_byte_data(file, 15, 255);
+	if (retval < 0) std::cerr << "Transmission error: " << strerror(retval) << std::endl;
 
 	std::cout << std::endl;
 	std::cout << "----------------------------------------" << std::endl;
