@@ -8,8 +8,8 @@
 #include "can.h"
 #include "can_testing.h"
 
-const unsigned int BUTTON_PRESSED_ID = 2;
-const unsigned int LED_REMOTE_ID = 20;
+const unsigned int BUTTON0_ID [4] = {225, 226, 227, 228};
+const unsigned int LED_REMOTE_ID [8] = {229, 230, 231, 232, 233, 234, 235, 236};
 
 int main () {
     uart_init(115200);
