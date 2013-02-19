@@ -3,4 +3,5 @@ the mask will be set to 0x7E0 (0b 111 1110 0000)
 each module get an ID with a different prefix dependent to its priority --> priority is started from zero upto 2^6-1.
 in /bbusr/tools there is a keygen for can-ids.
 
+the can-ids used are stored in /bbusr/etc/can.conf connected with a "CAN_MEMBER"-string and the ipc_name.
 
