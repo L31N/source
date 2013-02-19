@@ -7,7 +7,7 @@
 
 const unsigned int error_value_angle = std::numeric_limits<unsigned int>::max();
 
-CmpsSensor::CmpsSensor(const std::string _ipcName, const unsigned char _i2c_addr, const std::string _i2c_device) : I2CSensor(ipcName, _i2c_addr, _i2c_device) {
+CmpsSensor::CmpsSensor(const std::string _ipcName, const unsigned char _i2c_addr, const std::string _i2c_device) : I2CSensor(_ipcName, _i2c_addr, _i2c_device) {
     std::cout << "CmpsSensor::CmpsSensor()" << std::endl;
     angle = error_value_angle;
 }
