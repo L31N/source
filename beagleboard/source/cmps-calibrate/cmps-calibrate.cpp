@@ -25,6 +25,10 @@ int main ()
         return -1;
     }
 
+    while("only a test loop") {
+        i2c_smbus_write_byte_data(file, 15, 255);
+    }
+
 	std::cout << "Place the bot in one direction!" << std::endl;
 	std::cout << "Press return to continue..." << std::endl;
 	std::cin.get();
