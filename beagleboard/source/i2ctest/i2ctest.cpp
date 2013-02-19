@@ -34,7 +34,7 @@ int main () {
     std::cout << "l_byte: " << int(read_l) << std::endl;
 
     unsigned int angle = read_h;
-    angle << 8;
+    angle = (angle << 8);
     angle |= read_l;
     angle /= 10;
 
