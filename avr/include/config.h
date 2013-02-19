@@ -1,7 +1,7 @@
 #ifndef	CONFIG_H
 #define	CONFIG_H
 
-//#typedef const uint8_t   prog_uint8_t __attribute__((__progmem__));
+typedef const uint8_t   prog_uint8_t __attribute__((__progmem__));
 
 // -----------------------------------------------------------------------------
 /* Global settings for building the can-lib and application program.
