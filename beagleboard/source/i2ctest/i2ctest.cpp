@@ -33,6 +33,13 @@ int main () {
     std::cout << "h_byte: " << int(read_h) << std::endl;
     std::cout << "l_byte: " << int(read_l) << std::endl;
 
+    unsigned int angle = read_h;
+    angle << 8;
+    angle |= read_l;
+    angle /= 10;
+
+    std::cout << "\nangle: " << angle << std::endl;
+
     return 0;
 }
 
