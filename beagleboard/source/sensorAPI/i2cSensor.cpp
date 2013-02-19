@@ -10,7 +10,6 @@ I2CSensor::I2CSensor(const std::string _ipcName, const unsigned char _i2c_addr, 
 
     std::cout << "i2cSensor::i2cSensor()" << std::endl;
 
-    ipcName = _ipcName;
     i2c_addr = _i2c_addr;
     i2c_device = _i2c_device;
 
