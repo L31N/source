@@ -5,13 +5,13 @@
 #include <limits>
 #include <string>
 
-#include "sensor.h"
+#include "i2cSensor.h"
 
 extern const unsigned int error_value_angle;
 
-class CmpsSensor : public Sensor {
+class CmpsSensor : public I2CSensor {
     public:
-        CmpsSensor(const std::string ipcName, const std::string canMember);
+        CmpsSensor(const std::string _ipcName, const unsigned char _i2c_addr, const std::string _i2c_device);
         ~CmpsSensor();
 
         unsigned int getAngle();

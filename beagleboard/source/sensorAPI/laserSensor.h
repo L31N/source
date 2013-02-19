@@ -5,11 +5,11 @@
 #include <string>
 #include <limits>
 
-#include "sensor.h"
+#include "canSensor.h"
 
 extern const unsigned int error_value_distance;
 
-class LaserSensor : public Sensor {
+class LaserSensor : public CANSensor {
     public:
         enum Direction {front, right, back, left};
         enum Unit {mm, cm};

@@ -22,18 +22,17 @@
 				</Linker>
 			</Target>
 			<Target title="Debug">
-                                <Option output="libbbsensor" prefix_auto="1" extension_auto="1" />
-                                <Option working_dir="" />
-                                <Option object_output="obj/Debug/" />
-                                <Option type="2" />
-                                <Option compiler="gcc" />
-                                <Option createDefFile="1" />
-                                <Compiler>
-                                        <Add option="-Wall" />
-                                        <Add option="-g" />
-                                </Compiler>
-                        </Target>
-
+				<Option output="libbbsensor" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="obj/Debug/" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-Wall" />
+					<Add option="-g" />
+				</Compiler>
+			</Target>
 		</Build>
 		<Compiler>
 			<Add directory="/bbusr/include/" />
@@ -49,10 +48,14 @@
 		<Unit filename="ballDetection.h" />
 		<Unit filename="button.cpp" />
 		<Unit filename="button.h" />
+		<Unit filename="canSensor.cpp" />
+		<Unit filename="canSensor.h" />
 		<Unit filename="cmpsSensor.cpp" />
 		<Unit filename="cmpsSensor.h" />
 		<Unit filename="digitalSensor.cpp" />
 		<Unit filename="digitalSensor.h" />
+		<Unit filename="i2cSensor.cpp" />
+		<Unit filename="i2cSensor.h" />
 		<Unit filename="irSensor.cpp" />
 		<Unit filename="irSensor.h" />
 		<Unit filename="laserSensor.cpp" />
