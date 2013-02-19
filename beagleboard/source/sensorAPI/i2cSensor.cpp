@@ -8,8 +8,6 @@
 
 I2CSensor::I2CSensor(const std::string _ipcName, const unsigned char _i2c_addr, const std::string _i2c_device) : Sensor(_ipcName) {
 
-    std::cout << "i2cSensor::i2cSensor()" << std::endl;
-
     i2c_addr = _i2c_addr;
     i2c_device = _i2c_device;
 
@@ -20,15 +18,11 @@ I2CSensor::I2CSensor(const std::string _ipcName, const unsigned char _i2c_addr, 
         return;
     }
 
-    std::cout << "i2cSensor::i2cSensor -> after open()" << std::endl;
-
     if (ioctl(i2c_fd, I2C_SLAVE, i2c_addr) < 0) {
         std::cerr << "cannot connect to slave: " << i2c_addr << std::endl;
         debug->send("cannot connect to slave: %x", i2c_addr);
         return;
     }
-
-    std::cout << "i2cSensor::i2cSensor --> after connect()" << std::endl;
 
     debug->send("i2c-connection to %x successfully established ...", i2c_addr);
 }
