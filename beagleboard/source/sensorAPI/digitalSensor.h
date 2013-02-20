@@ -4,9 +4,9 @@
 
 #include <string>
 
-#include "sensor.h"
+#include "canSensor.h"
 
-class DigitalSensor : public Sensor {
+class DigitalSensor : public CANSensor {
     public:
         DigitalSensor(const std::string ipcName, const std::string canMember);
         ~DigitalSensor();

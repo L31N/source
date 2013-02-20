@@ -3,7 +3,7 @@
 
 #include "digitalSensor.h"
 
-DigitalSensor::DigitalSensor(const std::string ipcName, const std::string canMember) : Sensor(ipcName, canMember) {
+DigitalSensor::DigitalSensor(const std::string ipcName, const std::string canMember) : CANSensor(ipcName, canMember) {
     status = false;
 }
 

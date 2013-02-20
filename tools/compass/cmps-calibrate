@@ -1,0 +1,36 @@
+#!/bin/bash
+
+echo ""
+echo "-------------------------------------------"
+
+echo "This script will calibrate a CMPS03 module!"
+
+echo ""
+echo "Place the bot in one direction!"
+echo "Press any key to continue..."
+read -n1 -s
+i2cset 2 0x60 0xF 0xFF b -y
+
+echo ""
+echo "Rotate the bot by 90°"
+echo "Press any key to continue..."
+read -n1 -s
+i2cset 2 0x60 0xF 0xFF b -y
+
+echo ""
+echo "Rotate the bot by 90°"
+echo "Press any key to continue..."
+read -n1 -s
+i2cset 2 0x60 0xF 0xFF b -y
+
+echo ""
+echo "Rotate the bot by 90°"
+echo "Press any key to continue..."
+read -n1 -s
+i2cset 2 0x60 0xF 0xFF b -y
+
+
+i2cset 2 0x60 0xF 0x0 b -y
+
+echo "--------------------------------------------"
+echo ""

@@ -5,7 +5,7 @@
 #include "bbvector.h"
 #include "angle.h"
 #include "motor.h"
-#include "bbdebug.h"
+#include "debug/bbdebug.h"
 
 class MotionController {
     public:

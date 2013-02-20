@@ -8,10 +8,10 @@
 MotionController::MotionController() {
     motors = new Motor* [4];
 
-    motors[0] = new Motor("MOTORG45", "MOTORG45");
-    motors[1] = new Motor("MOTORG135", "MOTORG135");
-    motors[2] = new Motor("MOTORG225", "MOTORG225");
-    motors[3] = new Motor("MOTORG315", "MOTORG315");
+    motors[0] = new Motor("MOTOR0", "MOTOR0");
+    motors[1] = new Motor("MOTOR1", "MOTOR1");
+    motors[2] = new Motor("MOTOR2", "MOTOR2");
+    motors[3] = new Motor("MOTOR3", "MOTOR3");
 
     motorSpeeds = new short[4];
     for (int i = 0; i < 4; i++) motorSpeeds[i] = 0;
@@ -70,8 +70,8 @@ void MotionController::drive(Vector vector, short rotationSpeed) {
         debug->send("MotionController::drive --> wrong Vector !!!");
     }
 
-    g.setLenght(cos(abs(vector.getAngle(g, false, false))) * vector.abs());
-    h.setLenght(sin(abs(vector.getAngle(g, false, false))) * vector.abs());
+    g.setLength(cos(abs(vector.getAngle(g, false, false))) * vector.abs());
+    h.setLength(sin(abs(vector.getAngle(g, false, false))) * vector.abs());
 
     length_g *= g.abs();
     length_h *= h.abs();
@@ -166,7 +166,7 @@ void MotionController::drive(Vector vector, short rotationSpeed) {
 void MotionController::drive(Angle angle, unsigned char speed, short rotationSpeed) {
     Vector vector(1,1);
     vector.setLength(speed);
-    vector.setAngle(angle);
+    vector.setAngle(angle.value());
 
     drive(vector, rotationSpeed);
 }

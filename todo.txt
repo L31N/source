@@ -1,0 +1,2 @@
+* implement power watch into sensor API
+* update beaglecan user-interface functionality, not implemented for multiple CAN-IDs

@@ -1,0 +1,23 @@
+we use 11 bit can IDs
+the mask will be set to 0x7E0 (0b 111 1110 0000)
+each module get an ID with a different prefix dependent to its priority --> priority is started from zero upto 2^6-1.
+in /bbusr/tools there is a keygen for can-ids.
+
+the can-ids used are stored in /bbusr/etc/can.conf connected with a "CAN_MEMBER"-string and the ipc_name.
+
+
+#### PRIORITY LIST ##############
+				#
+MOTOR_BOARD_0:		0	#
+MOTOR_BOARD_1:		1	#
+WENGLOR_BOARD_0:	2	#
+WENGLOR_BOARD_1:	3	#
+IR_SENSOR_BOARD:	4	#
+SCHUSS_BOARD:		5	#
+POWER_WATCH_BOARD:	6	#
+				#
+(BUTTONS/LEDS):		7	#
+				#
+#################################
+
+

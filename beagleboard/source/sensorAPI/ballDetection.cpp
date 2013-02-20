@@ -16,7 +16,7 @@ BallDetection::BallDetection() {
         std::string ipcName;
         std::string canMember;
 
-        ipcName = "BallSensor";
+        ipcName = "BALL_SENSOR";
         std::stringstream ss;
         ss << i;
         ss >> ipcName;

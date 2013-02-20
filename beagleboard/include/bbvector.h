@@ -82,7 +82,7 @@ class Vector
         double abs();
         Vector getUnitVector();
 
-        void setLenght(double l);
+        void setLength(double l);
 
         void setAngle(double angle, bool deg = true, bool fullCircle = true);
         void setAngle(Vector vect, double angle, bool deg = true, bool fullCircle = true);

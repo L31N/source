@@ -9,7 +9,7 @@
 
 class ipcConfig {
     public:
-        ipcConfig(std::string _IPC_CONFIG_FILE = "../etc/ipc.conf");
+        ipcConfig(std::string _IPC_CONFIG_FILE = "/bbusr/etc/ipc.conf");
         ~ipcConfig();
 
         short getIpcIDToProcessSyn(std::string processSyn);

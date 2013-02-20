@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="ipc_mserver_boost" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/ipc_mserver_boost" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/ipc_mserver_boost" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+			<Target title="ARM">
+				<Option output="ipc_mserver_boost" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option type="1" />
+				<Option compiler="armelfgcc" />
+				<Option use_console_runner="0" />
+				<Compiler>
+					<Add option="-O" />
+					<Add option="-Wall" />
+					<Add option="-mcpu=cortex-a8" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add option="-mcpu=cortex-a8" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+		</Compiler>
+		<Linker>
+			<Add option="-lboost_system" />
+			<Add option="-lboost_thread" />
+			<Add option="-lpthread" />
+		</Linker>
+		<Unit filename="main.cpp" />
+		<Unit filename="uds_connection.cpp" />
+		<Unit filename="uds_connection.h" />
+		<Unit filename="uds_server.cpp" />
+		<Unit filename="uds_server.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

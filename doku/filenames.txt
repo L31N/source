@@ -1,0 +1,5 @@
+* ipc_mserver_boost unix-domain-file:	"/bbusr/tmp/ipc_mserver_boost.uds"
+* ipc_config config-file:		"/bbusr/etc/ipc.conf"
+* debug temporary-file:			"/bbusr/tmp/debug.tmp"
+* can config-file:			"/bbusr/etc/can.conf"
+* controlscript log-file:		"/bbusr/etc/controlscript.log"

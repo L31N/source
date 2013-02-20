@@ -1,0 +1,15 @@
+
+
+2 Sockets {
+    1 Lesesocket
+    1 Schreibsocket
+}
+
+1 ServerClass owning the 2 sockets.
+
+WrapperClass {
+    Containing the ID and the Connection (copied socket)
+
+    method to send the data over this connection().
+}
+

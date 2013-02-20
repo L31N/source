@@ -33,13 +33,13 @@ Vector MouseSensor::getAbsoluteDirVector() {
     return absDirVector;
 }
 
-Angle MouseSensor::getAbsoluteAngle() {
+/*Angle MouseSensor::getAbsoluteAngle() {
     return Angle(absDirVector.getAngle());
-}
+}*/
 
-Angle MouseSensor::getRelativeAngle() {
+/*Angle MouseSensor::getRelativeAngle() {
     return Angle(relDirVector.getAngle());
-}
+}*/
 
 
 void MouseSensor::updateData() {

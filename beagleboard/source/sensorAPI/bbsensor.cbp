@@ -6,18 +6,6 @@
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
-			<Target title="Debug">
-				<Option output="libbbsensor" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="" />
-				<Option object_output="obj/Debug/" />
-				<Option type="2" />
-				<Option compiler="gcc" />
-				<Option createDefFile="1" />
-				<Compiler>
-					<Add option="-Wall" />
-					<Add option="-g" />
-				</Compiler>
-			</Target>
 			<Target title="Release">
 				<Option output="libbbsensor" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
@@ -33,26 +21,41 @@
 					<Add option="-s" />
 				</Linker>
 			</Target>
+			<Target title="Debug">
+				<Option output="libbbsensor" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="obj/Debug/" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-Wall" />
+					<Add option="-g" />
+				</Compiler>
+			</Target>
 		</Build>
 		<Compiler>
-			<Add directory="/home/l31n/robotics.git/source/beagleboard/include/" />
+			<Add directory="/bbusr/include/" />
 		</Compiler>
 		<Linker>
 			<Add option="-lbbcan" />
 			<Add option="-lbbdebug" />
 			<Add option="-lbbipc" />
-			<Add option="-lbbmotion" />
 			<Add option="-lpthread" />
-			<Add directory="/home/l31n/robotics.git/source/beagleboard/lib/" />
+			<Add directory="/bbusr/lib/" />
 		</Linker>
 		<Unit filename="ballDetection.cpp" />
 		<Unit filename="ballDetection.h" />
 		<Unit filename="button.cpp" />
 		<Unit filename="button.h" />
+		<Unit filename="canSensor.cpp" />
+		<Unit filename="canSensor.h" />
 		<Unit filename="cmpsSensor.cpp" />
 		<Unit filename="cmpsSensor.h" />
 		<Unit filename="digitalSensor.cpp" />
 		<Unit filename="digitalSensor.h" />
+		<Unit filename="i2cSensor.cpp" />
+		<Unit filename="i2cSensor.h" />
 		<Unit filename="irSensor.cpp" />
 		<Unit filename="irSensor.h" />
 		<Unit filename="laserSensor.cpp" />

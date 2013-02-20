@@ -3,7 +3,7 @@
 #define _MOTOR_H_
 
 #include <string>
-#include "bbcan.h"
+#include "can/bbcan.h"
 
 class Motor {
     public:

@@ -4,20 +4,15 @@
 
 #include <string>
 
-#include "sensor.h"
-
-#include "bbcan.h"
-#include "bbdebug.h"
+#include "debug/bbdebug.h"
 
 class Sensor {
     public:
-        Sensor(const std::string ipcName, const std::string _canMember);
+        Sensor(const std::string _ipcName);
         virtual ~Sensor();
 
     protected:
         std::string ipcName;
-        std::string canMember;
-        CAN* can;
         Debug* debug;
 };
 
