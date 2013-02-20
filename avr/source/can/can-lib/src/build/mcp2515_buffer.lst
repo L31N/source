@@ -1,63 +1,20 @@
    1               		.file	"mcp2515_buffer.c"
-   2               	__SREG__ = 0x3f
-   3               	__SP_H__ = 0x3e
-   4               	__SP_L__ = 0x3d
-   5               	__CCP__ = 0x34
+   2               	__SP_H__ = 0x3e
+   3               	__SP_L__ = 0x3d
+   4               	__SREG__ = 0x3f
+   5               	__RAMPZ__ = 0x3b
    6               	__tmp_reg__ = 0
    7               	__zero_reg__ = 1
-  15               	.Ltext0:
-  16               	.global	can_check_message
-  18               	can_check_message:
-  19               	.LFB18:
-  20               	.LM1:
-  21               	/* prologue: function */
-  22               	/* frame size = 0 */
-  23               	/* stack size = 0 */
-  24               	.L__stack_usage = 0
-  25               	.LM2:
-  26 0000 81E0      		ldi r24,lo8(1)
-  27 0002 1A99      		sbic 35-32,2
-  28 0004 80E0      		ldi r24,lo8(0)
-  29               	.L2:
-  30               	.LM3:
-  31 0006 0895      		ret
-  32               	.LFE18:
-  34               	.global	can_check_free_buffer
-  36               	can_check_free_buffer:
-  37               	.LFB19:
-  38               	.LM4:
-  39               	/* prologue: function */
-  40               	/* frame size = 0 */
-  41               	/* stack size = 0 */
-  42               	.L__stack_usage = 0
-  43               	.LM5:
-  44 0008 80EA      		ldi r24,lo8(-96)
-  45 000a 0E94 0000 		call mcp2515_read_status
-  46               	.LVL0:
-  47               	.LM6:
-  48 000e 982F      		mov r25,r24
-  49 0010 9475      		andi r25,lo8(84)
-  50               	.LM7:
-  51 0012 81E0      		ldi r24,lo8(1)
-  52               	.LVL1:
-  53 0014 9435      		cpi r25,lo8(84)
-  54 0016 01F4      		brne .L4
-  55 0018 80E0      		ldi r24,lo8(0)
-  56               	.L4:
-  57               	.LM8:
-  58 001a 0895      		ret
-  59               	.LFE19:
-  93               	.Letext0:
+   8               		.text
+   9               	.Ltext0:
+  10               	.Letext0:
 DEFINED SYMBOLS
                             *ABS*:00000000 mcp2515_buffer.c
-     /tmp/ccDrmFTu.s:2      *ABS*:0000003f __SREG__
-     /tmp/ccDrmFTu.s:3      *ABS*:0000003e __SP_H__
-     /tmp/ccDrmFTu.s:4      *ABS*:0000003d __SP_L__
-     /tmp/ccDrmFTu.s:5      *ABS*:00000034 __CCP__
-     /tmp/ccDrmFTu.s:6      *ABS*:00000000 __tmp_reg__
-     /tmp/ccDrmFTu.s:7      *ABS*:00000001 __zero_reg__
-     /tmp/ccDrmFTu.s:18     .text:00000000 can_check_message
-     /tmp/ccDrmFTu.s:36     .text:00000008 can_check_free_buffer
+     /tmp/cc8TnbT3.s:2      *ABS*:0000003e __SP_H__
+     /tmp/cc8TnbT3.s:3      *ABS*:0000003d __SP_L__
+     /tmp/cc8TnbT3.s:4      *ABS*:0000003f __SREG__
+     /tmp/cc8TnbT3.s:5      *ABS*:0000003b __RAMPZ__
+     /tmp/cc8TnbT3.s:6      *ABS*:00000000 __tmp_reg__
+     /tmp/cc8TnbT3.s:7      *ABS*:00000001 __zero_reg__
 
-UNDEFINED SYMBOLS
-mcp2515_read_status
+NO UNDEFINED SYMBOLS

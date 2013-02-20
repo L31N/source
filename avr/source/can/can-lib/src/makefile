@@ -43,7 +43,8 @@
 # MCU name
 
 #MCU = atmega32
-MCU = atmega644
+#MCU = atmega644
+MCU = at90can128
 
 # Processor frequency.
 #     This will define a symbol, F_CPU, in all source code files equal to the
@@ -65,7 +66,8 @@ MCU = atmega644
 #         F_CPU = 20000000
 
 #F_CPU = 14745600
-F_CPU = 14745600
+#F_CPU = 14745600
+F_CPU = 16000000
 
 # Output format. (can be srec, ihex, binary)
 #FORMAT = ihex

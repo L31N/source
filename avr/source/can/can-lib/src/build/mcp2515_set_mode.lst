@@ -1,87 +1,20 @@
    1               		.file	"mcp2515_set_mode.c"
-   2               	__SREG__ = 0x3f
-   3               	__SP_H__ = 0x3e
-   4               	__SP_L__ = 0x3d
-   5               	__CCP__ = 0x34
+   2               	__SP_H__ = 0x3e
+   3               	__SP_L__ = 0x3d
+   4               	__SREG__ = 0x3f
+   5               	__RAMPZ__ = 0x3b
    6               	__tmp_reg__ = 0
    7               	__zero_reg__ = 1
-  15               	.Ltext0:
-  16               	.global	can_set_mode
-  18               	can_set_mode:
-  19               	.LFB18:
-  20               	.LM1:
-  21               	.LVL0:
-  22 0000 1F93      		push r17
-  23 0002 CF93      		push r28
-  24 0004 DF93      		push r29
-  25               	/* prologue: function */
-  26               	/* frame size = 0 */
-  27               	/* stack size = 3 */
-  28               	.L__stack_usage = 3
-  29               	.LVL1:
-  30               	.LM2:
-  31 0006 8823      		tst r24
-  32 0008 01F0      		breq .L4
-  33               	.LM3:
-  34 000a 8130      		cpi r24,lo8(1)
-  35 000c 01F0      		breq .L5
-  36               	.LM4:
-  37 000e 8330      		cpi r24,lo8(3)
-  38 0010 01F0      		breq .L6
-  39               	.LM5:
-  40 0012 10E0      		ldi r17,lo8(0)
-  41 0014 00C0      		rjmp .L2
-  42               	.L4:
-  43               	.LM6:
-  44 0016 10E6      		ldi r17,lo8(96)
-  45 0018 00C0      		rjmp .L2
-  46               	.L5:
-  47               	.LM7:
-  48 001a 10E4      		ldi r17,lo8(64)
-  49 001c 00C0      		rjmp .L2
-  50               	.L6:
-  51               	.LM8:
-  52 001e 10E2      		ldi r17,lo8(32)
-  53               	.L2:
-  54               	.LVL2:
-  55               	.LM9:
-  56 0020 8FE0      		ldi r24,lo8(15)
-  57               	.LVL3:
-  58 0022 60EE      		ldi r22,lo8(-32)
-  59 0024 412F      		mov r20,r17
-  60 0026 0E94 0000 		call mcp2515_bit_modify
-  61               	.LM10:
-  62 002a C12F      		mov r28,r17
-  63 002c D0E0      		ldi r29,lo8(0)
-  64               	.L3:
-  65               	.LM11:
-  66 002e 8EE0      		ldi r24,lo8(14)
-  67 0030 0E94 0000 		call mcp2515_read_register
-  68 0034 90E0      		ldi r25,lo8(0)
-  69 0036 807E      		andi r24,lo8(224)
-  70 0038 9070      		andi r25,hi8(224)
-  71 003a 8C17      		cp r24,r28
-  72 003c 9D07      		cpc r25,r29
-  73 003e 01F4      		brne .L3
-  74               	/* epilogue start */
-  75               	.LM12:
-  76 0040 DF91      		pop r29
-  77 0042 CF91      		pop r28
-  78 0044 1F91      		pop r17
-  79               	.LVL4:
-  80 0046 0895      		ret
-  81               	.LFE18:
- 107               	.Letext0:
+   8               		.text
+   9               	.Ltext0:
+  10               	.Letext0:
 DEFINED SYMBOLS
                             *ABS*:00000000 mcp2515_set_mode.c
-     /tmp/ccWml01O.s:2      *ABS*:0000003f __SREG__
-     /tmp/ccWml01O.s:3      *ABS*:0000003e __SP_H__
-     /tmp/ccWml01O.s:4      *ABS*:0000003d __SP_L__
-     /tmp/ccWml01O.s:5      *ABS*:00000034 __CCP__
-     /tmp/ccWml01O.s:6      *ABS*:00000000 __tmp_reg__
-     /tmp/ccWml01O.s:7      *ABS*:00000001 __zero_reg__
-     /tmp/ccWml01O.s:18     .text:00000000 can_set_mode
+     /tmp/ccz0TiqA.s:2      *ABS*:0000003e __SP_H__
+     /tmp/ccz0TiqA.s:3      *ABS*:0000003d __SP_L__
+     /tmp/ccz0TiqA.s:4      *ABS*:0000003f __SREG__
+     /tmp/ccz0TiqA.s:5      *ABS*:0000003b __RAMPZ__
+     /tmp/ccz0TiqA.s:6      *ABS*:00000000 __tmp_reg__
+     /tmp/ccz0TiqA.s:7      *ABS*:00000001 __zero_reg__
 
-UNDEFINED SYMBOLS
-mcp2515_bit_modify
-mcp2515_read_register
+NO UNDEFINED SYMBOLS

@@ -29,6 +29,17 @@
     #define UART_STATUS_C() (UCSR0C = (1 << UCSZ01) | (1 << UCSZ00))
 #endif
 
+//AT90CAN128
+#if defined (__AVR_AT90CAN128__)
+    #define UART_TX_VECTOR USART0_UDRE_vect
+    #define UART_RX_VECTOR USART0_RX_vect
+    #define UART_UDR UDR0
+    #define UART_STATUS_B UCSR0B
+    #define UART_BAUD_HIGH UBRR0H
+    #define UART_BAUD_LOW UBRR0L
+    #define UART_STATUS_C()
+#endif
+
 extern volatile char uart_tx_buffer[UART_BUFFER_SIZE];
 extern volatile short uart_tx_write;
 extern volatile short uart_tx_read;
