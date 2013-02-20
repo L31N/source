@@ -1,0 +1,7 @@
+Fuses müssen sein:
+
+lfuse : 0xFF
+hfuse : 0x99
+efuse : 0xFF
+
+hfuse und efuse sind ab werk schon richtig eingestellt
