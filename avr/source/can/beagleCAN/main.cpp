@@ -5,7 +5,7 @@
 #include <stdlib.h>
 
 #include "uart.h"
-#include "can.h"
+//#include "can.h"
 
 const unsigned int BUTTON_ID [4] = {225, 226, 227, 228};
 const unsigned int LED_REMOTE_ID [8] = {229, 230, 231, 232, 233, 234, 235, 236};
@@ -13,7 +13,7 @@ const unsigned int LED_REMOTE_ID [8] = {229, 230, 231, 232, 233, 234, 235, 236};
 const unsigned int LED_REMOTE_PREFIX = 7;
 
 int main () {
-    //uart_init(115200);
+    uart_init(115200);
     //can_init(BITRATE_1_MBPS);
 
     /*can_filter_t filter0;
@@ -26,14 +26,19 @@ int main () {
     //DDRE &= ~(0xF0);    // buttons as input
     DDRA |= 0xFF;       // leds as output
 
-    while(true) {
-        _delay_ms(1000);
-        PORTA ^= 0xFF;
-    }
-
     bool f_pressed = false;
 
-    while(true) {
+    while (!uart_isnewdata());
+    PORTA = 0xFF;
+
+    /*while(true) {
+        _delay_ms(500);
+        PORTA ^= 0xFF;
+    }*/
+
+    //if ()
+
+    /*while(true) {
        if (uart_count() >= 12) {  /// neue serial massages vorhanden
             char incomming_serial_data[12];
             memset(incomming_serial_data, 0, 12);
@@ -126,5 +131,5 @@ int main () {
             f_pressed = true;
         }
         else f_pressed = false;
-    }
+    }*/
 }
