@@ -126,13 +126,13 @@
  134               	.LFE17:
  160               	.Letext0:
 DEFINED SYMBOLS
-                            *ABS*:0000000000000000 at90can_get_dyn_filter.c
-     /tmp/ccbZP6gI.s:2      *ABS*:000000000000003f __SREG__
-     /tmp/ccbZP6gI.s:3      *ABS*:000000000000003e __SP_H__
-     /tmp/ccbZP6gI.s:4      *ABS*:000000000000003d __SP_L__
-     /tmp/ccbZP6gI.s:5      *ABS*:0000000000000034 __CCP__
-     /tmp/ccbZP6gI.s:6      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/ccbZP6gI.s:7      *ABS*:0000000000000001 __zero_reg__
-     /tmp/ccbZP6gI.s:18     .text:0000000000000000 can_get_filter
+                            *ABS*:00000000 at90can_get_dyn_filter.c
+     /tmp/ccSn0Cnq.s:2      *ABS*:0000003f __SREG__
+     /tmp/ccSn0Cnq.s:3      *ABS*:0000003e __SP_H__
+     /tmp/ccSn0Cnq.s:4      *ABS*:0000003d __SP_L__
+     /tmp/ccSn0Cnq.s:5      *ABS*:00000034 __CCP__
+     /tmp/ccSn0Cnq.s:6      *ABS*:00000000 __tmp_reg__
+     /tmp/ccSn0Cnq.s:7      *ABS*:00000001 __zero_reg__
+     /tmp/ccSn0Cnq.s:18     .text:00000000 can_get_filter
 
 NO UNDEFINED SYMBOLS

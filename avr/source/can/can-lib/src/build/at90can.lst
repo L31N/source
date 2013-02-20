@@ -390,22 +390,22 @@
  411               		.comm _free_buffer,1,1
  476               	.Letext0:
 DEFINED SYMBOLS
-                            *ABS*:0000000000000000 at90can.c
-     /tmp/ccDBKl50.s:2      *ABS*:000000000000003f __SREG__
-     /tmp/ccDBKl50.s:3      *ABS*:000000000000003e __SP_H__
-     /tmp/ccDBKl50.s:4      *ABS*:000000000000003d __SP_L__
-     /tmp/ccDBKl50.s:5      *ABS*:0000000000000034 __CCP__
-     /tmp/ccDBKl50.s:6      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/ccDBKl50.s:7      *ABS*:0000000000000001 __zero_reg__
-     /tmp/ccDBKl50.s:18     .text:0000000000000000 _find_free_mob
-                            *COM*:0000000000000001 _free_buffer
-     /tmp/ccDBKl50.s:59     .text:000000000000002a _disable_mob_interrupt
-     /tmp/ccDBKl50.s:104    .text:000000000000006a _enable_mob_interrupt
-     /tmp/ccDBKl50.s:147    .text:00000000000000a6 can_init
-     /tmp/ccDBKl50.s:385    .progmem.data:0000000000000000 _at90can_cnf
-     /tmp/ccDBKl50.s:244    .text:0000000000000104 __vector_18
-                            *COM*:0000000000000001 _messages_waiting
-     /tmp/ccDBKl50.s:360    .text:00000000000001ca __vector_19
+                            *ABS*:00000000 at90can.c
+     /tmp/cc8vfmMk.s:2      *ABS*:0000003f __SREG__
+     /tmp/cc8vfmMk.s:3      *ABS*:0000003e __SP_H__
+     /tmp/cc8vfmMk.s:4      *ABS*:0000003d __SP_L__
+     /tmp/cc8vfmMk.s:5      *ABS*:00000034 __CCP__
+     /tmp/cc8vfmMk.s:6      *ABS*:00000000 __tmp_reg__
+     /tmp/cc8vfmMk.s:7      *ABS*:00000001 __zero_reg__
+     /tmp/cc8vfmMk.s:18     .text:00000000 _find_free_mob
+                            *COM*:00000001 _free_buffer
+     /tmp/cc8vfmMk.s:59     .text:0000002a _disable_mob_interrupt
+     /tmp/cc8vfmMk.s:104    .text:0000006a _enable_mob_interrupt
+     /tmp/cc8vfmMk.s:147    .text:000000a6 can_init
+     /tmp/cc8vfmMk.s:385    .progmem.data:00000000 _at90can_cnf
+     /tmp/cc8vfmMk.s:244    .text:00000104 __vector_18
+                            *COM*:00000001 _messages_waiting
+     /tmp/cc8vfmMk.s:360    .text:000001ca __vector_19
 
 UNDEFINED SYMBOLS
 can_disable_filter

@@ -35,13 +35,13 @@
   43               	.LFE17:
   69               	.Letext0:
 DEFINED SYMBOLS
-                            *ABS*:0000000000000000 at90can_set_mode.c
-     /tmp/ccrFQU0F.s:2      *ABS*:000000000000003f __SREG__
-     /tmp/ccrFQU0F.s:3      *ABS*:000000000000003e __SP_H__
-     /tmp/ccrFQU0F.s:4      *ABS*:000000000000003d __SP_L__
-     /tmp/ccrFQU0F.s:5      *ABS*:0000000000000034 __CCP__
-     /tmp/ccrFQU0F.s:6      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/ccrFQU0F.s:7      *ABS*:0000000000000001 __zero_reg__
-     /tmp/ccrFQU0F.s:18     .text:0000000000000000 can_set_mode
+                            *ABS*:00000000 at90can_set_mode.c
+     /tmp/cc9JCryy.s:2      *ABS*:0000003f __SREG__
+     /tmp/cc9JCryy.s:3      *ABS*:0000003e __SP_H__
+     /tmp/cc9JCryy.s:4      *ABS*:0000003d __SP_L__
+     /tmp/cc9JCryy.s:5      *ABS*:00000034 __CCP__
+     /tmp/cc9JCryy.s:6      *ABS*:00000000 __tmp_reg__
+     /tmp/cc9JCryy.s:7      *ABS*:00000001 __zero_reg__
+     /tmp/cc9JCryy.s:18     .text:00000000 can_set_mode
 
 NO UNDEFINED SYMBOLS

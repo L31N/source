@@ -230,15 +230,15 @@
  240               	.LFE18:
  274               	.Letext0:
 DEFINED SYMBOLS
-                            *ABS*:0000000000000000 at90can_get_message.c
-     /tmp/ccngobS1.s:2      *ABS*:000000000000003f __SREG__
-     /tmp/ccngobS1.s:3      *ABS*:000000000000003e __SP_H__
-     /tmp/ccngobS1.s:4      *ABS*:000000000000003d __SP_L__
-     /tmp/ccngobS1.s:5      *ABS*:0000000000000034 __CCP__
-     /tmp/ccngobS1.s:6      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/ccngobS1.s:7      *ABS*:0000000000000001 __zero_reg__
-     /tmp/ccngobS1.s:18     .text:0000000000000000 at90can_copy_mob_to_message
-     /tmp/ccngobS1.s:138    .text:000000000000007e can_get_message
+                            *ABS*:00000000 at90can_get_message.c
+     /tmp/ccGfnctv.s:2      *ABS*:0000003f __SREG__
+     /tmp/ccGfnctv.s:3      *ABS*:0000003e __SP_H__
+     /tmp/ccGfnctv.s:4      *ABS*:0000003d __SP_L__
+     /tmp/ccGfnctv.s:5      *ABS*:00000034 __CCP__
+     /tmp/ccGfnctv.s:6      *ABS*:00000000 __tmp_reg__
+     /tmp/ccGfnctv.s:7      *ABS*:00000001 __zero_reg__
+     /tmp/ccGfnctv.s:18     .text:00000000 at90can_copy_mob_to_message
+     /tmp/ccGfnctv.s:138    .text:0000007e can_get_message
 
 UNDEFINED SYMBOLS
 _messages_waiting

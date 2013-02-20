@@ -46,15 +46,15 @@
   56               	.LFE18:
   90               	.Letext0:
 DEFINED SYMBOLS
-                            *ABS*:0000000000000000 at90can_buffer.c
-     /tmp/ccShqkWd.s:2      *ABS*:000000000000003f __SREG__
-     /tmp/ccShqkWd.s:3      *ABS*:000000000000003e __SP_H__
-     /tmp/ccShqkWd.s:4      *ABS*:000000000000003d __SP_L__
-     /tmp/ccShqkWd.s:5      *ABS*:0000000000000034 __CCP__
-     /tmp/ccShqkWd.s:6      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/ccShqkWd.s:7      *ABS*:0000000000000001 __zero_reg__
-     /tmp/ccShqkWd.s:18     .text:0000000000000000 can_check_message
-     /tmp/ccShqkWd.s:39     .text:000000000000000e can_check_free_buffer
+                            *ABS*:00000000 at90can_buffer.c
+     /tmp/ccNpWvAp.s:2      *ABS*:0000003f __SREG__
+     /tmp/ccNpWvAp.s:3      *ABS*:0000003e __SP_H__
+     /tmp/ccNpWvAp.s:4      *ABS*:0000003d __SP_L__
+     /tmp/ccNpWvAp.s:5      *ABS*:00000034 __CCP__
+     /tmp/ccNpWvAp.s:6      *ABS*:00000000 __tmp_reg__
+     /tmp/ccNpWvAp.s:7      *ABS*:00000001 __zero_reg__
+     /tmp/ccNpWvAp.s:18     .text:00000000 can_check_message
+     /tmp/ccNpWvAp.s:39     .text:0000000e can_check_free_buffer
 
 UNDEFINED SYMBOLS
 _messages_waiting
