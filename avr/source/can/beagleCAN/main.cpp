@@ -13,18 +13,23 @@ const unsigned int LED_REMOTE_ID [8] = {229, 230, 231, 232, 233, 234, 235, 236};
 const unsigned int LED_REMOTE_PREFIX = 7;
 
 int main () {
-    uart_init(115200);
-    can_init(BITRATE_1_MBPS);
+    //uart_init(115200);
+    //can_init(BITRATE_1_MBPS);
 
-    can_filter_t filter0;
+    /*can_filter_t filter0;
     filter0.id = 0x000;
     filter0.mask = 0x700;
     filter0.flags.rtr = 0;
-    can_set_filter(0, &filter0);
+    can_set_filter(0, &filter0);*/
 
     // initialisation of the buttons and leds //
-    DDRE &= ~(0xF0);    // buttons as input
+    //DDRE &= ~(0xF0);    // buttons as input
     DDRA |= 0xFF;       // leds as output
+
+    while(true) {
+        _delay_ms(1000);
+        PORTA ^= 0xFF;
+    }
 
     bool f_pressed = false;
 
