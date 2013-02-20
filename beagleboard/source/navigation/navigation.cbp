@@ -31,6 +31,9 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="main.cpp" />
+		<Unit filename="navigationController.cpp" />
+		<Unit filename="navigationController.h" />
 		<Extensions>
 			<envvars />
 			<code_completion />
