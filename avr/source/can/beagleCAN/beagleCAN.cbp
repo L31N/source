@@ -17,13 +17,12 @@
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-mmcu=atmega644" />
 			<Add option="-Wall" />
 			<Add option="-DF_CPU=14745600UL" />
 			<Add directory="/home/l31n/robotics.git/source/avr/include/" />
 		</Compiler>
 		<Linker>
-			<Add option="-mmcu=atmega644" />
+			<Add option="-mmcu=at90can128" />
 			<Add option="-L." />
 			<Add option="-lcan" />
 			<Add option="-luart_644" />

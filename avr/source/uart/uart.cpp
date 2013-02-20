@@ -1,5 +1,3 @@
-
-
 #include "uart.h"
 
 volatile char uart_tx_buffer[UART_BUFFER_SIZE];

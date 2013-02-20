@@ -6,14 +6,14 @@
 
 #include "uart.h"
 #include "can.h"
-#include "can_testing.h"
 
-const unsigned int BUTTON0_ID [4] = {225, 226, 227, 228};
+const unsigned int BUTTON_ID [4] = {225, 226, 227, 228};
 const unsigned int LED_REMOTE_ID [8] = {229, 230, 231, 232, 233, 234, 235, 236};
+
+const unsigned int LED_REMOTE_PREFIX = 7;
 
 int main () {
     uart_init(115200);
-    init_leds();
     can_init(BITRATE_1_MBPS);
 
     can_filter_t filter0;
@@ -28,8 +28,6 @@ int main () {
 
     bool f_pressed = false;
 
-    indicate_init();
-
     while(true) {
        if (uart_count() >= 12) {  /// neue serial massages vorhanden
             char incomming_serial_data[12];
@@ -38,12 +36,8 @@ int main () {
             uart_read(incomming_serial_data, 12);
             for (int i = 0; i < 12; i++) uart_putc(incomming_serial_data[i]);
 
-            led(false, true);
-
             if (incomming_serial_data[0] == 's') {
-                led(true, false);
-
-                if (incomming_serial_data[2] != LED_REMOTE_ID) {    /// real CAN frame
+                if (((unsigned int)incomming_serial_data[2] >> 5) != LED_REMOTE_PREFIX) {    /// real CAN frame
                     can_t outgoing_can_data;
 
                     outgoing_can_data.flags.rtr = incomming_serial_data[1];
@@ -52,14 +46,10 @@ int main () {
                     for (int i = 0; i < outgoing_can_data.length; i++) {
                         outgoing_can_data.data[i] = incomming_serial_data[4 + i];
                     }
-
-                    if (!can_send_message(&outgoing_can_data)) led(false, true);
-                    else switch_led(true, true);
-
                 }
                 else {  /// LED_REMOTE
                     PORTA |= incomming_serial_data[4];
-                    PORTA &= ~(incomming_serial_data[5])
+                    PORTA &= ~(incomming_serial_data[5]);
                 }
             }
             else if (incomming_serial_data[0] == 'f') {       /// calibrate filters
@@ -91,12 +81,6 @@ int main () {
                     uart_putc(outgoing_serial_data[i]);
                 }
             }
-            else {
-                led(false, true);
-                _delay_ms(50);
-                led(false, false);
-                _delay_ms(50);
-            }
         }
         if (PINE & 0xF0) {  /// button pressed
             if (!f_pressed) {
@@ -104,10 +88,27 @@ int main () {
                 char outgoing_serial_data[11];
 
                 outgoing_serial_data[0] = 0;
-                outgoing_serial_data[1] = BUTTON_PRESSED_ID;
-                outgoing_serial_data[2] = 1;
 
-                outgoing_serial_data[3] = PINE;
+                unsigned char tmp = (PINE >> 0);
+                switch (tmp) {
+                    case 1:
+                        outgoing_serial_data[1] = BUTTON_ID[0];
+                        break;
+                    case 2:
+                        outgoing_serial_data[1] = BUTTON_ID[1];
+                        break;
+                    case 4:
+                        outgoing_serial_data[1] = BUTTON_ID[2];
+                        break;
+                    case 8:
+                        outgoing_serial_data[1] = BUTTON_ID[3];
+                        break;
+                    default:
+                        for (int i = 0; tmp & (unsigned char)pow(2, i); i++) outgoing_serial_data[1] = BUTTON_ID[i];
+                }
+
+                outgoing_serial_data[2] = 1;
+                outgoing_serial_data[3] = 1;
 
                 for (int i = 0; i < 7; i++) {
                     outgoing_serial_data[4+i] = 0;
