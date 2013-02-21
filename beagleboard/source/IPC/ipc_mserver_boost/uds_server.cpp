@@ -64,7 +64,7 @@ void UdsServer::releaseConnection(UdsConnection* _connection) {
 void UdsServer::send(UdsConnection* connection, unsigned short endpoint_id, std::string data) {
     //std::cout << "UdsServer::send()" << std::endl;
     //std::cout << "rcons.size(): " << rcons.size() << std::endl;
-    bool error = true;
+    //bool error = true;
 
     // search the right connections
     for (unsigned int i = 0; i < rcons.size(); i++) {
@@ -74,7 +74,7 @@ void UdsServer::send(UdsConnection* connection, unsigned short endpoint_id, std:
                 rcons.erase(rcons.begin() + i);
                 i--;
             }
-            else error = false;
+            //else error = false;
         }
     }
     //if (!error) connection->send_callback(UdsConnection::delivered_successfully);
