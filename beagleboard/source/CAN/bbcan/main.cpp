@@ -2,7 +2,7 @@
 #include <string>
 #include <iostream>
 
-#include "bbcan.h"
+#include "can/bbcan.h"
 
 int main () {
     CAN* can = new CAN("MOTION_CONTROLLER");
@@ -13,9 +13,9 @@ int main () {
     //can->setValue("MOTOR_2", (char*)"hello123");
     while(true) {
         char* buffer;
-        if (can->checkForNewData() {
-            buffer = can->getValue("CAN_TEST_BOARD");
-            std::cout << "data: " << buffer << std::endl;
+        if (can->checkForNewData("LASER_SENSOR2")) {
+            buffer = can->getValue("LASER_SENSOR2");
+            for (int i = 0; i < 8; i++) std::cout << "data[" << i << "]: " << int(buffer[i]) << std::endl;
         }
     }
 
