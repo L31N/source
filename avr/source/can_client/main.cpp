@@ -26,14 +26,22 @@ int main () {
     //msg.flags.extended = 0;
 
     msg.length = 8;
-    msg.data[0] = 1;
+    /*msg.data[0] = 1;
     msg.data[1] = 2;
     msg.data[2] = 3;
     msg.data[3] = 4;
     msg.data[4] = 5;
     msg.data[5] = 6;
     msg.data[6] = 7;
-    msg.data[7] = 8;
+    msg.data[7] = 8;*/
+    msg.data[0] = 'A';
+    msg.data[1] = 'B';
+    msg.data[2] = 'C';
+    msg.data[3] = 'D';
+    msg.data[4] = 'E';
+    msg.data[5] = 'F';
+    msg.data[6] = 'G';
+    msg.data[7] = 'H';
 
     PORTA |= 0x02;
 

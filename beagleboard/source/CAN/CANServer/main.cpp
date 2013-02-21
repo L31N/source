@@ -66,7 +66,7 @@ int main () {
 
                 std::string ipcSyn = cancfg.getIpcSynonym(can_id);
                 std::cout << "ipcSyn: " << ipcSyn << std::endl;
-                ipcSendingConnection ipcSCon("CAN_SERVER", ipcSyn, IPC_LOCAL);
+                ipcSendingConnection ipcSCon("CAN_SERVER", ipcSyn, 32, IPC_LOCAL);
                 //if (ipcSCon.is_open()) {
                     ipcSCon.sendData(ipc_output);
                 //}
