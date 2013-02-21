@@ -14,10 +14,8 @@ const unsigned int LED_REMOTE_ID [8] = {229, 230, 231, 232, 233, 234, 235, 236};
 const unsigned int LED_REMOTE_PREFIX = 7;
 
 int main () {
-    uart_init(115200);
-    //can_init(BITRATE_1_MBPS);
-    can_init(BITRATE_10_KBPS);
-
+    uart_init(57600);
+    can_init(BITRATE_100_KBPS);
     sei();
 
     can_filter_t filter0;
@@ -30,6 +28,8 @@ int main () {
     DDRE &= ~(0xF0);    // buttons as input
     PORTE |= 0xF0;      // activate internal pull-ups
     DDRA |= 0xFF;       // leds as output
+
+    PORTA = 0x01;
 
     bool f_pressed = false;
 
@@ -51,6 +51,7 @@ int main () {
                     for (int i = 0; i < outgoing_can_data.length; i++) {
                         outgoing_can_data.data[i] = incomming_serial_data[4 + i];
                     }
+                    can_send_message(&outgoing_can_data);
                 }
                 else {  /// LED_REMOTE
                     PORTA |= incomming_serial_data[4];
@@ -68,6 +69,8 @@ int main () {
             }
         }
         if (can_check_message()) {  /// neue CAN messages vorhanden
+            PORTA |= 0xFF;
+
             char outgoing_serial_data[11];
             can_t incomming_can_data;
 
@@ -86,6 +89,8 @@ int main () {
                     uart_putc(outgoing_serial_data[i]);
                 }
             }
+            _delay_ms(500);
+            PORTA &= ~(0xFF);
         }
         if (PINE & 0xF0) {  /// button pressed
             if (!f_pressed) {

@@ -27,28 +27,10 @@ int main () {
     filter0.id = 0x0;
     filter0.mask = 0x0;
 
-    //filter0.id = 0xB30;
-    //filter0.mask = 0x000;
-
     filter0.flags.rtr = 0;
-    //filter0.flags.extended = 0;
 
-    // filter 1
-    /*can_filter_t filter1;
-    filter1.id = 0x02345660;
-    filter1.mask = 0x1FFFFFF0;
-    filter1.flags.rtr = 0;
-    filter1.flags.extended = 0;*/
-
-    // other filters
-    //can_filter_t filterX = filter1;
 
     can_set_filter(0, &filter0);
-    /*can_set_filter(1, 0);
-    can_set_filter(2, 0);
-    can_set_filter(3, 0);
-    can_set_filter(4, 0);
-    can_set_filter(5, 0);*/
 
     PORTA = 0xF0;
     _delay_ms(1000);

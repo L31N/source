@@ -35,18 +35,22 @@ int main () {
     msg.data[6] = '2';
     msg.data[7] = '3';
 
+    PORTA |= 0x02;
+
     while(true) {
-        if (can_send_message(&msg)) {
-            PORTA |= 0x10;
-            _delay_ms(1000);
-            PORTA &= ~(0x10);
-            _delay_ms(1000);
-        }
-        else {
-            PORTA |= 0xF0;
-            _delay_ms(500);
-            PORTA &= ~(0xF0);
-            _delay_ms(500);
+        if (PINE < 0xF0) {
+            if (can_send_message(&msg)) {
+                PORTA |= 0xFF;
+                _delay_ms(1000);
+                PORTA &= ~(0xFF);
+                _delay_ms(1000);
+            }
+            else {
+                PORTA |= 0xF0;
+                _delay_ms(500);
+                PORTA &= ~(0xF0);
+                _delay_ms(500);
+            }
         }
         //_delay_ms(1000);
         //msg.id --;
