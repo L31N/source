@@ -26,31 +26,30 @@ int main () {
     //msg.flags.extended = 0;
 
     msg.length = 8;
-    msg.data[0] = 'H';
-    msg.data[1] = 'e';
-    msg.data[2] = 'l';
-    msg.data[3] = 'l';
-    msg.data[4] = 'o';
-    msg.data[5] = '1';
-    msg.data[6] = '2';
-    msg.data[7] = '3';
+    msg.data[0] = 1;
+    msg.data[1] = 2;
+    msg.data[2] = 3;
+    msg.data[3] = 4;
+    msg.data[4] = 5;
+    msg.data[5] = 6;
+    msg.data[6] = 7;
+    msg.data[7] = 8;
 
     PORTA |= 0x02;
 
     while(true) {
-        if (PINE < 0xF0) {
-            if (can_send_message(&msg)) {
-                PORTA |= 0xFF;
-                _delay_ms(1000);
-                PORTA &= ~(0xFF);
-                _delay_ms(1000);
-            }
-            else {
-                PORTA |= 0xF0;
-                _delay_ms(500);
-                PORTA &= ~(0xF0);
-                _delay_ms(500);
-            }
+        _delay_ms(200);
+        if (can_send_message(&msg)) {
+            PORTA |= 0xFF;
+            _delay_ms(1000);
+            PORTA &= ~(0xFF);
+            _delay_ms(1000);
+        }
+        else {
+            PORTA |= 0xF0;
+            _delay_ms(500);
+            PORTA &= ~(0xF0);
+            _delay_ms(500);
         }
         //_delay_ms(1000);
         //msg.id --;
