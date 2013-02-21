@@ -3,7 +3,7 @@
 #include <iostream>
 
 #include "sensor/cmpsSensor.h"
-
+#include "sensor/laserSensor.h"
 
 int main () {
     std::cout << "starting programm " << std::endl;
@@ -11,7 +11,7 @@ int main () {
     std::cout << "before getAngle()" << std::endl;
     std::cout << "cmps: " << cmps->getAngle() << std::endl;*/
 
-    LaserSensor* laser2 = new LaserSensor("LASER_SENSOR_2", "LASER_SENSOR_2", LaserSensor::back);
+    LaserSensor* laser2 = new LaserSensor("LASER_SENSOR2", "LASER_SENSOR2", LaserSensor::back);
     sleep(1);
     unsigned int dist = laser2->getDistance(LaserSensor::mm);
     std::cout << "Distance: " << dist << std::endl;
