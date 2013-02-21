@@ -1,7 +1,7 @@
 #ifndef	CONFIG_H
 #define	CONFIG_H
 
-typedef const uint8_t   prog_uint8_t __attribute__((__progmem__));
+//typedef const uint8_t   prog_uint8_t __attribute__((__progmem__));
 
 // -----------------------------------------------------------------------------
 /* Global settings for building the can-lib and application program.
@@ -32,8 +32,8 @@ typedef const uint8_t   prog_uint8_t __attribute__((__progmem__));
  *
  * Select ONE CAN controller for which you are building the can-lib.
  */
-#define	SUPPORT_MCP2515			1
-#define	SUPPORT_AT90CAN			0
+#define	SUPPORT_MCP2515			0
+#define	SUPPORT_AT90CAN			1
 #define	SUPPORT_SJA1000			0
 
 

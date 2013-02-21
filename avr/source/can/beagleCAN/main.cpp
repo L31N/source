@@ -1,11 +1,12 @@
 
 #include <avr/io.h>
+#include <avr/interrupt.h>
 #include <util/delay.h>
 #include <string.h>
 #include <stdlib.h>
 
 #include "uart.h"
-//#include "can.h"
+#include "can.h"
 
 const unsigned int BUTTON_ID [4] = {225, 226, 227, 228};
 const unsigned int LED_REMOTE_ID [8] = {229, 230, 231, 232, 233, 234, 235, 236};
@@ -15,30 +16,24 @@ const unsigned int LED_REMOTE_PREFIX = 7;
 int main () {
     uart_init(115200);
     //can_init(BITRATE_1_MBPS);
+    can_init(BITRATE_10_KBPS);
 
-    /*can_filter_t filter0;
+    sei();
+
+    can_filter_t filter0;
     filter0.id = 0x000;
-    filter0.mask = 0x700;
+    filter0.mask = 0x000;
     filter0.flags.rtr = 0;
-    can_set_filter(0, &filter0);*/
+    can_set_filter(0, &filter0);
 
     // initialisation of the buttons and leds //
-    //DDRE &= ~(0xF0);    // buttons as input
+    DDRE &= ~(0xF0);    // buttons as input
+    PORTE |= 0xF0;      // activate internal pull-ups
     DDRA |= 0xFF;       // leds as output
 
     bool f_pressed = false;
 
-    while (!uart_isnewdata());
-    PORTA = 0xFF;
-
-    /*while(true) {
-        _delay_ms(500);
-        PORTA ^= 0xFF;
-    }*/
-
-    //if ()
-
-    /*while(true) {
+    while(true) {
        if (uart_count() >= 12) {  /// neue serial massages vorhanden
             char incomming_serial_data[12];
             memset(incomming_serial_data, 0, 12);
@@ -131,5 +126,5 @@ int main () {
             f_pressed = true;
         }
         else f_pressed = false;
-    }*/
+    }
 }

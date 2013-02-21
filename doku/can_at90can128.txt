@@ -1,0 +1,15 @@
+when you use the canlib from creative-chaos with the at90can128,
+you have to enable the global interrupt by your self.
+
+#####################################################
+
+#include <avr/interrupt.h>
+
+int main () {
+	can_init(BAUDRATE);
+	sei();
+	
+	.
+	.
+	.
+}
