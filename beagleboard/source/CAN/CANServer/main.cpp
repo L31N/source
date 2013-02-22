@@ -80,6 +80,7 @@ int main () {
                 ipc_buffer = ipcRCon.readDataFromBuffer();
 
                 std::string data = ipc_buffer->getData();
+                data.resize(12, 0);
                 short senderID = ipc_buffer->getSenderID();
 
                 debug.send("data: %s\tsenderID: %i", data.c_str(), senderID);

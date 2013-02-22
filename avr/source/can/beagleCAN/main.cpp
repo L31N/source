@@ -35,6 +35,10 @@ int main () {
 
     while(true) {
        if (uart_count() >= 12) {  /// neue serial massages vorhanden
+            PORTA = 0xFF;
+            _delay_ms(1000);
+            PORTA = 0x01;
+
             char incomming_serial_data[12];
             memset(incomming_serial_data, 0, 12);
 
@@ -43,6 +47,7 @@ int main () {
 
             if (incomming_serial_data[0] == 's') {
                 if (((unsigned int)incomming_serial_data[2] >> 5) != LED_REMOTE_PREFIX) {    /// real CAN frame
+
                     can_t outgoing_can_data;
 
                     outgoing_can_data.flags.rtr = incomming_serial_data[1];
