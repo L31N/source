@@ -26,7 +26,7 @@ class CAN {
 
         char* getValue(std::string can_member);                 /// returns an 8-byte char* | char[8]
 
-        void setValue(std::string can_member, char* value);     /// expects an 8-byte char* | char[8] as parameter !
+        void setValue(std::string can_member, char* value, size_t size = 12);     /// expects an 8-byte char* | char[8] as parameter !
         void setValue(std::string can_member, unsigned char value);
         void setValue(std::string can_member, signed char value);
         void setValue(std::string can_member, unsigned int value);

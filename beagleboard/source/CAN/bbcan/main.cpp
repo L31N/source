@@ -30,7 +30,14 @@ int main () {
 
     char* data = new char[8];
 
-    for (int i = 0; i < 8; i++) data[i] = 0xF0;
+    data[0] = 0x0F;
+    data[1] = 0xF0;
+    data[2] = 0xAA;
+    data[3] = 0xFF;
+    data[4] = 0xBC;
+    data[5] = 0x42;
+    data[6] = 0x12;
+    data[7] = 0x21;
 
     can->setValue("MOTOR0", data);
 
