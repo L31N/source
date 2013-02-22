@@ -28,7 +28,9 @@ int main () {
     CAN* can = new CAN("MOTION_CONTROLLER");
     can->init_member("MOTOR0");
 
-    can->setValue("MOTOR0", 129);
+    char* data = new char[4];
+    for (int i = 0; i < 4; i++) data[i] = i+5;
+    can->setValue("MOTOR0", data);
 
     sleep(1);
     return 0;
