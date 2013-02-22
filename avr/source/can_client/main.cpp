@@ -52,6 +52,7 @@ int main () {
             _delay_ms(1000);
             PORTA &= ~(0xFF);
             _delay_ms(1000);
+            // comment
         }
         else {
             PORTA |= 0xF0;
