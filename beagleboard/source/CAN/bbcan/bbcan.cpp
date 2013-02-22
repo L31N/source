@@ -64,6 +64,7 @@ void CAN::setValue(std::string can_member, char* value) {
         std::string data_to_send = "s";
         data_to_send += (char*)&canID;
         data_to_send += value;
+        std::cout << "data_to_send: " << std::endl;
         ipcSCon->sendData(data_to_send);
     }
     else {
