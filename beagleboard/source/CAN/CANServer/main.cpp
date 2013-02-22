@@ -31,12 +31,12 @@ int main () {
             debug.send("ERROR: could not open serial stream to: %s", SERIAL_DEVICE_FILE.c_str());
         }
 
-        ipcReceivingConnection ipcRCon ("CAN_SERVER", 10);
+        ipcReceivingConnection ipcRCon ("CAN_SERVER", 10, 32);
 
         CANConfig cancfg(CAN_CONFIG_FILE_PATH.c_str());
 
         std::string serial_buffer;
-        Data* ipc_buffer = NULL;
+        Data* ipc_buffer;
         while(true) {
             if (serial.readsome(serial_buffer, 11)) {      /// new serial message ...      /** asynchronous readsome function, must be called in loop ! **/
                 debug.send("serial data received: %s", serial_buffer.c_str());
@@ -78,15 +78,11 @@ int main () {
 
             if (ipcRCon.checkForNewData()) {        /// new ipc data available ...
                 ipc_buffer = ipcRCon.readDataFromBuffer();
-                if (data == NULL) std::cout << "################### data = NULL !!!" << std::endl;
                 std::string data = ipc_buffer->getData();
                 short senderID = ipc_buffer->getSenderID();
 
                 debug.send("data: %s\tsenderID: %i", data.c_str(), senderID);
                 std::cout << "data: " << data << "\tsenderID: " << senderID << std::endl;
-                std::cout << "command: " << data[0] << "\t|\t" << int(data[0]) <<  std::endl;
-		std::cout << "data[1]: " << int(data[1]) << std::endl;
-		std::cout << "data[2]: " << int(data[2]) << std::endl;
 
                 char command = data[0];
 
