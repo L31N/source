@@ -38,47 +38,47 @@ int main () {
         std::string serial_buffer;
         Data* ipc_buffer;
         while(true) {
-            if (serial.readsome(serial_buffer, 11)) {      /// new serial message ...      /** asynchronous readsome function, must be called in loop ! **/
-                debug.send("serial data received: %s", serial_buffer.c_str());
-                std::cout << "received new serialdata: " << serial_buffer << std::endl;
-
-                /*for (int i = 0; i < 11; i++) {
-                    std::cout << "[" << i << "]: " << int(serial_buffer[i]) << std::endl;
-                }*/
-
-                //bool can_rtr = serial_buffer[0];
-                unsigned short can_id = serial_buffer[1];
-                //unsigned short can_length = serial_buffer[2];
-                //char can_data[can_length];
-                //for (int i = 0; i < can_length; i++) can_data[i] = serial_buffer[3+i];
-                char can_data[8];
-                for (int i = 0; i < 8; i++) can_data[i] = serial_buffer[3+i];
-
-                std::string ipc_output ((char*)&can_id);
-                ipc_output += std::string(can_data, 8);
-
-                /*std::cout << "can_id: " << int(can_id) << std::endl;
-                std::cout << "\ncan_data: \t";
-                for (int i = 0; i < 8; i++) std::cout << int(can_data[i]) << "\t";
-                std::cout << "\nipc_output: \t";
-                for (unsigned int i = 0; i < ipc_output.length(); i ++) std::cout << int(ipc_output[i]) << "\t";
-                std::cout << std::endl;*/
-
-                //std::cout << "can_data: " << int(can_data) << std::endl;
-                //std::cout << "ipc_output: " << int(ipc_output) << std::endl;
-
-
-                std::string ipcSyn = cancfg.getIpcSynonym(can_id);
-                std::cout << "ipcSyn: " << ipcSyn << std::endl;
-                ipcSendingConnection ipcSCon("CAN_SERVER", ipcSyn, 32, IPC_LOCAL);
-                //if (ipcSCon.is_open()) {
-                    ipcSCon.sendData(ipc_output);
-                //}
-                /*else {      /// could not open ipc_connection
-                    std::cerr << "ERROR: could not open ipc_connection to: " << ipcSyn << std::endl;
-                    debug.send("ERROR: could not open ipc_connection to: %s", ipcSyn.c_str());
-                }*/
-            }
+//            if (serial.readsome(serial_buffer, 11)) {      /// new serial message ...      /** asynchronous readsome function, must be called in loop ! **/
+//                debug.send("serial data received: %s", serial_buffer.c_str());
+//                std::cout << "received new serialdata: " << serial_buffer << std::endl;
+//
+//                /*for (int i = 0; i < 11; i++) {
+//                    std::cout << "[" << i << "]: " << int(serial_buffer[i]) << std::endl;
+//                }*/
+//
+//                //bool can_rtr = serial_buffer[0];
+//                unsigned short can_id = serial_buffer[1];
+//                //unsigned short can_length = serial_buffer[2];
+//                //char can_data[can_length];
+//                //for (int i = 0; i < can_length; i++) can_data[i] = serial_buffer[3+i];
+//                char can_data[8];
+//                for (int i = 0; i < 8; i++) can_data[i] = serial_buffer[3+i];
+//
+//                std::string ipc_output ((char*)&can_id);
+//                ipc_output += std::string(can_data, 8);
+//
+//                /*std::cout << "can_id: " << int(can_id) << std::endl;
+//                std::cout << "\ncan_data: \t";
+//                for (int i = 0; i < 8; i++) std::cout << int(can_data[i]) << "\t";
+//                std::cout << "\nipc_output: \t";
+//                for (unsigned int i = 0; i < ipc_output.length(); i ++) std::cout << int(ipc_output[i]) << "\t";
+//                std::cout << std::endl;*/
+//
+//                //std::cout << "can_data: " << int(can_data) << std::endl;
+//                //std::cout << "ipc_output: " << int(ipc_output) << std::endl;
+//
+//
+//                std::string ipcSyn = cancfg.getIpcSynonym(can_id);
+//                std::cout << "ipcSyn: " << ipcSyn << std::endl;
+//                ipcSendingConnection ipcSCon("CAN_SERVER", ipcSyn, 32, IPC_LOCAL);
+//                //if (ipcSCon.is_open()) {
+//                    ipcSCon.sendData(ipc_output);
+//                //}
+//                /*else {      /// could not open ipc_connection
+//                    std::cerr << "ERROR: could not open ipc_connection to: " << ipcSyn << std::endl;
+//                    debug.send("ERROR: could not open ipc_connection to: %s", ipcSyn.c_str());
+//                }*/
+//            }
 
             if (ipcRCon.checkForNewData()) {        /// new ipc data available ...
                 ipc_buffer = ipcRCon.readDataFromBuffer();
@@ -107,7 +107,6 @@ int main () {
                 }*/
                 if (command == 's') {  /// send data via CAN
 
-                    data.erase(0, 1);
                     unsigned short can_id = data[0];
                     data.erase(0, 1);
                     char serial_data[12];
