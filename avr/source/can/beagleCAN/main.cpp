@@ -32,7 +32,10 @@ int main () {
     PORTA = 0x01;
 
     while(true) {
-        PORTA = uart_count();
+        if (uart_isnewdata()) {
+            uart_putc(uart_getc());
+            uart_putc('.');
+        }
     }
 
     bool f_pressed = false;

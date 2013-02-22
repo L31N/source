@@ -118,7 +118,11 @@ int main () {
                         std::cout << "i: " << i << "\t" << int(serial_data[i]) << std::endl;
                     }
 
-                    serial.write(serial_data, 12);
+                    //serial.write(serial_data, 12);
+                    for (int i = 0; i < 12; i++) {
+                        serial.write(serial_data+i, 1);
+                        usleep(5);
+                    }
                 }
                 else if (command == 'f') {  /// set filter
                     unsigned int num = data[0];
