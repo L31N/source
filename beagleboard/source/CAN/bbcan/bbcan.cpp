@@ -57,9 +57,9 @@ char* CAN::getValue(std::string can_member) {
     return NULL;
 }
 
-void CAN::setValue(std::string can_member, char* value) {
+void CAN::setValue(std::string can_member, char* value, size_t size) {
     unsigned short canID = cancfg->getCanID(can_member);
-    ipcSendingConnection* ipcSCon = new ipcSendingConnection(MODULE_NAME, "CAN_SERVER", 12, IPC_LOCAL);
+    ipcSendingConnection* ipcSCon = new ipcSendingConnection(MODULE_NAME, "CAN_SERVER", 32, IPC_LOCAL);
     if (ipcSCon->is_open()) {
         std::string data_to_send = "s";
         data_to_send += (char*)&canID;

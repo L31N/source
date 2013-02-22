@@ -25,7 +25,7 @@ int main () {
     //filter 0
     can_filter_t filter0;
     filter0.id = 1;
-    filter0.mask = 0x7E0;
+    filter0.mask = 0x000;
 
     filter0.flags.rtr = 0;
 

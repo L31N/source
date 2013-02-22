@@ -3,31 +3,31 @@ bin/Release/can_debugging.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         0000062c  00000000  00000000  00000074  2**1
+  0 .text         00000628  00000000  00000000  00000074  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .bss          00000002  00800100  00800100  000006a0  2**0
+  1 .bss          00000002  00800100  00800100  0000069c  2**0
                   ALLOC
-  2 .stab         000006cc  00000000  00000000  000006a0  2**2
+  2 .stab         000006cc  00000000  00000000  0000069c  2**2
                   CONTENTS, READONLY, DEBUGGING
-  3 .stabstr      00000054  00000000  00000000  00000d6c  2**0
+  3 .stabstr      00000054  00000000  00000000  00000d68  2**0
                   CONTENTS, READONLY, DEBUGGING
-  4 .debug_aranges 000000a0  00000000  00000000  00000dc0  2**0
+  4 .debug_aranges 000000a0  00000000  00000000  00000dbc  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_pubnames 00000195  00000000  00000000  00000e60  2**0
+  5 .debug_pubnames 00000195  00000000  00000000  00000e5c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00000920  00000000  00000000  00000ff5  2**0
+  6 .debug_info   00000920  00000000  00000000  00000ff1  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 000004fa  00000000  00000000  00001915  2**0
+  7 .debug_abbrev 000004fa  00000000  00000000  00001911  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   000008f7  00000000  00000000  00001e0f  2**0
+  8 .debug_line   000008f7  00000000  00000000  00001e0b  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  00000110  00000000  00000000  00002708  2**2
+  9 .debug_frame  00000110  00000000  00000000  00002704  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    000002b2  00000000  00000000  00002818  2**0
+ 10 .debug_str    000002b2  00000000  00000000  00002814  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    000003b0  00000000  00000000  00002aca  2**0
+ 11 .debug_loc    000003b0  00000000  00000000  00002ac6  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_pubtypes 000000e6  00000000  00000000  00002e7a  2**0
+ 12 .debug_pubtypes 000000e6  00000000  00000000  00002e76  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -51,8 +51,8 @@ Disassembly of section .text:
   3c:	0c 94 68 00 	jmp	0xd0	; 0xd0 <__bad_interrupt>
   40:	0c 94 68 00 	jmp	0xd0	; 0xd0 <__bad_interrupt>
   44:	0c 94 68 00 	jmp	0xd0	; 0xd0 <__bad_interrupt>
-  48:	0c 94 57 01 	jmp	0x2ae	; 0x2ae <__vector_18>
-  4c:	0c 94 ba 01 	jmp	0x374	; 0x374 <__vector_19>
+  48:	0c 94 55 01 	jmp	0x2aa	; 0x2aa <__vector_18>
+  4c:	0c 94 b8 01 	jmp	0x370	; 0x370 <__vector_19>
   50:	0c 94 68 00 	jmp	0xd0	; 0xd0 <__bad_interrupt>
   54:	0c 94 68 00 	jmp	0xd0	; 0xd0 <__bad_interrupt>
   58:	0c 94 68 00 	jmp	0xd0	; 0xd0 <__bad_interrupt>
@@ -97,7 +97,7 @@ Disassembly of section .text:
   c4:	b1 07       	cpc	r27, r17
   c6:	e1 f7       	brne	.-8      	; 0xc0 <.do_clear_bss_loop>
   c8:	0e 94 6a 00 	call	0xd4	; 0xd4 <main>
-  cc:	0c 94 14 03 	jmp	0x628	; 0x628 <_exit>
+  cc:	0c 94 12 03 	jmp	0x624	; 0x624 <_exit>
 
 000000d0 <__bad_interrupt>:
   d0:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -128,1124 +128,1122 @@ Disassembly of section .text:
  100:	81 b9       	out	0x01, r24	; 1
  102:	83 e0       	ldi	r24, 0x03	; 3
  104:	90 e0       	ldi	r25, 0x00	; 0
- 106:	0e 94 28 01 	call	0x250	; 0x250 <can_init>
+ 106:	0e 94 26 01 	call	0x24c	; 0x24c <can_init>
  10a:	78 94       	sei
  10c:	81 e0       	ldi	r24, 0x01	; 1
  10e:	90 e0       	ldi	r25, 0x00	; 0
  110:	9a 83       	std	Y+2, r25	; 0x02
  112:	89 83       	std	Y+1, r24	; 0x01
- 114:	80 ee       	ldi	r24, 0xE0	; 224
- 116:	97 e0       	ldi	r25, 0x07	; 7
- 118:	9c 83       	std	Y+4, r25	; 0x04
- 11a:	8b 83       	std	Y+3, r24	; 0x03
- 11c:	8d 81       	ldd	r24, Y+5	; 0x05
- 11e:	8c 7f       	andi	r24, 0xFC	; 252
- 120:	8d 83       	std	Y+5, r24	; 0x05
- 122:	80 e0       	ldi	r24, 0x00	; 0
- 124:	be 01       	movw	r22, r28
- 126:	6f 5f       	subi	r22, 0xFF	; 255
- 128:	7f 4f       	sbci	r23, 0xFF	; 255
- 12a:	0e 94 27 02 	call	0x44e	; 0x44e <can_set_filter>
- 12e:	80 ef       	ldi	r24, 0xF0	; 240
- 130:	82 b9       	out	0x02, r24	; 2
- 132:	8f ef       	ldi	r24, 0xFF	; 255
- 134:	93 ed       	ldi	r25, 0xD3	; 211
- 136:	a0 e3       	ldi	r26, 0x30	; 48
- 138:	81 50       	subi	r24, 0x01	; 1
- 13a:	90 40       	sbci	r25, 0x00	; 0
- 13c:	a0 40       	sbci	r26, 0x00	; 0
- 13e:	e1 f7       	brne	.-8      	; 0x138 <main+0x64>
- 140:	00 c0       	rjmp	.+0      	; 0x142 <main+0x6e>
- 142:	00 00       	nop
- 144:	12 b8       	out	0x02, r1	; 2
- 146:	ff 24       	eor	r15, r15
- 148:	fa 94       	dec	r15
- 14a:	8e 01       	movw	r16, r28
- 14c:	0a 5f       	subi	r16, 0xFA	; 250
- 14e:	1f 4f       	sbci	r17, 0xFF	; 255
- 150:	ee 24       	eor	r14, r14
- 152:	e3 94       	inc	r14
- 154:	0e 94 c4 01 	call	0x388	; 0x388 <can_check_message>
- 158:	88 23       	and	r24, r24
- 15a:	e1 f3       	breq	.-8      	; 0x154 <main+0x80>
- 15c:	f2 b8       	out	0x02, r15	; 2
- 15e:	8f ef       	ldi	r24, 0xFF	; 255
- 160:	91 ee       	ldi	r25, 0xE1	; 225
- 162:	a4 e0       	ldi	r26, 0x04	; 4
- 164:	81 50       	subi	r24, 0x01	; 1
- 166:	90 40       	sbci	r25, 0x00	; 0
- 168:	a0 40       	sbci	r26, 0x00	; 0
- 16a:	e1 f7       	brne	.-8      	; 0x164 <main+0x90>
- 16c:	00 c0       	rjmp	.+0      	; 0x16e <main+0x9a>
- 16e:	00 00       	nop
- 170:	12 b8       	out	0x02, r1	; 2
- 172:	c8 01       	movw	r24, r16
- 174:	0e 94 dc 02 	call	0x5b8	; 0x5b8 <can_get_message>
- 178:	88 23       	and	r24, r24
- 17a:	11 f0       	breq	.+4      	; 0x180 <main+0xac>
- 17c:	f2 b8       	out	0x02, r15	; 2
- 17e:	01 c0       	rjmp	.+2      	; 0x182 <main+0xae>
- 180:	e2 b8       	out	0x02, r14	; 2
- 182:	8f ef       	ldi	r24, 0xFF	; 255
- 184:	99 e6       	ldi	r25, 0x69	; 105
- 186:	a8 e1       	ldi	r26, 0x18	; 24
- 188:	81 50       	subi	r24, 0x01	; 1
- 18a:	90 40       	sbci	r25, 0x00	; 0
- 18c:	a0 40       	sbci	r26, 0x00	; 0
- 18e:	e1 f7       	brne	.-8      	; 0x188 <main+0xb4>
- 190:	00 c0       	rjmp	.+0      	; 0x192 <main+0xbe>
- 192:	00 00       	nop
- 194:	12 b8       	out	0x02, r1	; 2
- 196:	8f ef       	ldi	r24, 0xFF	; 255
- 198:	99 e6       	ldi	r25, 0x69	; 105
- 19a:	a8 e1       	ldi	r26, 0x18	; 24
- 19c:	81 50       	subi	r24, 0x01	; 1
- 19e:	90 40       	sbci	r25, 0x00	; 0
- 1a0:	a0 40       	sbci	r26, 0x00	; 0
- 1a2:	e1 f7       	brne	.-8      	; 0x19c <main+0xc8>
- 1a4:	00 c0       	rjmp	.+0      	; 0x1a6 <main+0xd2>
- 1a6:	00 00       	nop
- 1a8:	d5 cf       	rjmp	.-86     	; 0x154 <main+0x80>
+ 114:	1c 82       	std	Y+4, r1	; 0x04
+ 116:	1b 82       	std	Y+3, r1	; 0x03
+ 118:	8d 81       	ldd	r24, Y+5	; 0x05
+ 11a:	8c 7f       	andi	r24, 0xFC	; 252
+ 11c:	8d 83       	std	Y+5, r24	; 0x05
+ 11e:	80 e0       	ldi	r24, 0x00	; 0
+ 120:	be 01       	movw	r22, r28
+ 122:	6f 5f       	subi	r22, 0xFF	; 255
+ 124:	7f 4f       	sbci	r23, 0xFF	; 255
+ 126:	0e 94 25 02 	call	0x44a	; 0x44a <can_set_filter>
+ 12a:	80 ef       	ldi	r24, 0xF0	; 240
+ 12c:	82 b9       	out	0x02, r24	; 2
+ 12e:	8f ef       	ldi	r24, 0xFF	; 255
+ 130:	93 ed       	ldi	r25, 0xD3	; 211
+ 132:	a0 e3       	ldi	r26, 0x30	; 48
+ 134:	81 50       	subi	r24, 0x01	; 1
+ 136:	90 40       	sbci	r25, 0x00	; 0
+ 138:	a0 40       	sbci	r26, 0x00	; 0
+ 13a:	e1 f7       	brne	.-8      	; 0x134 <main+0x60>
+ 13c:	00 c0       	rjmp	.+0      	; 0x13e <main+0x6a>
+ 13e:	00 00       	nop
+ 140:	12 b8       	out	0x02, r1	; 2
+ 142:	ff 24       	eor	r15, r15
+ 144:	fa 94       	dec	r15
+ 146:	8e 01       	movw	r16, r28
+ 148:	0a 5f       	subi	r16, 0xFA	; 250
+ 14a:	1f 4f       	sbci	r17, 0xFF	; 255
+ 14c:	ee 24       	eor	r14, r14
+ 14e:	e3 94       	inc	r14
+ 150:	0e 94 c2 01 	call	0x384	; 0x384 <can_check_message>
+ 154:	88 23       	and	r24, r24
+ 156:	e1 f3       	breq	.-8      	; 0x150 <main+0x7c>
+ 158:	f2 b8       	out	0x02, r15	; 2
+ 15a:	8f ef       	ldi	r24, 0xFF	; 255
+ 15c:	91 ee       	ldi	r25, 0xE1	; 225
+ 15e:	a4 e0       	ldi	r26, 0x04	; 4
+ 160:	81 50       	subi	r24, 0x01	; 1
+ 162:	90 40       	sbci	r25, 0x00	; 0
+ 164:	a0 40       	sbci	r26, 0x00	; 0
+ 166:	e1 f7       	brne	.-8      	; 0x160 <main+0x8c>
+ 168:	00 c0       	rjmp	.+0      	; 0x16a <main+0x96>
+ 16a:	00 00       	nop
+ 16c:	12 b8       	out	0x02, r1	; 2
+ 16e:	c8 01       	movw	r24, r16
+ 170:	0e 94 da 02 	call	0x5b4	; 0x5b4 <can_get_message>
+ 174:	88 23       	and	r24, r24
+ 176:	11 f0       	breq	.+4      	; 0x17c <main+0xa8>
+ 178:	f2 b8       	out	0x02, r15	; 2
+ 17a:	01 c0       	rjmp	.+2      	; 0x17e <main+0xaa>
+ 17c:	e2 b8       	out	0x02, r14	; 2
+ 17e:	8f ef       	ldi	r24, 0xFF	; 255
+ 180:	99 e6       	ldi	r25, 0x69	; 105
+ 182:	a8 e1       	ldi	r26, 0x18	; 24
+ 184:	81 50       	subi	r24, 0x01	; 1
+ 186:	90 40       	sbci	r25, 0x00	; 0
+ 188:	a0 40       	sbci	r26, 0x00	; 0
+ 18a:	e1 f7       	brne	.-8      	; 0x184 <main+0xb0>
+ 18c:	00 c0       	rjmp	.+0      	; 0x18e <main+0xba>
+ 18e:	00 00       	nop
+ 190:	12 b8       	out	0x02, r1	; 2
+ 192:	8f ef       	ldi	r24, 0xFF	; 255
+ 194:	99 e6       	ldi	r25, 0x69	; 105
+ 196:	a8 e1       	ldi	r26, 0x18	; 24
+ 198:	81 50       	subi	r24, 0x01	; 1
+ 19a:	90 40       	sbci	r25, 0x00	; 0
+ 19c:	a0 40       	sbci	r26, 0x00	; 0
+ 19e:	e1 f7       	brne	.-8      	; 0x198 <main+0xc4>
+ 1a0:	00 c0       	rjmp	.+0      	; 0x1a2 <main+0xce>
+ 1a2:	00 00       	nop
+ 1a4:	d5 cf       	rjmp	.-86     	; 0x150 <main+0x7c>
 
-000001aa <_find_free_mob>:
+000001a6 <_find_free_mob>:
 // get next free MOb
 
 uint8_t _find_free_mob(void)
 {
 	#if CAN_TX_BUFFER_SIZE == 0
 	if (_free_buffer == 0)
- 1aa:	80 91 00 01 	lds	r24, 0x0100
- 1ae:	88 23       	and	r24, r24
- 1b0:	79 f0       	breq	.+30     	; 0x1d0 <_find_free_mob+0x26>
- 1b2:	80 e0       	ldi	r24, 0x00	; 0
+ 1a6:	80 91 00 01 	lds	r24, 0x0100
+ 1aa:	88 23       	and	r24, r24
+ 1ac:	79 f0       	breq	.+30     	; 0x1cc <_find_free_mob+0x26>
+ 1ae:	80 e0       	ldi	r24, 0x00	; 0
 	
 	uint8_t i;
 	for (i = 0;i < 15;i++)
 	{
 		// load MOb page
 		CANPAGE = i << 4;
- 1b4:	98 2f       	mov	r25, r24
- 1b6:	92 95       	swap	r25
- 1b8:	90 7f       	andi	r25, 0xF0	; 240
- 1ba:	90 93 ed 00 	sts	0x00ED, r25
+ 1b0:	98 2f       	mov	r25, r24
+ 1b2:	92 95       	swap	r25
+ 1b4:	90 7f       	andi	r25, 0xF0	; 240
+ 1b6:	90 93 ed 00 	sts	0x00ED, r25
 		
 		// check if MOb is in use
 		if ((CANCDMOB & ((1 << CONMOB1) | (1 << CONMOB0))) == 0)
- 1be:	90 91 ef 00 	lds	r25, 0x00EF
- 1c2:	90 7c       	andi	r25, 0xC0	; 192
- 1c4:	31 f0       	breq	.+12     	; 0x1d2 <_find_free_mob+0x28>
+ 1ba:	90 91 ef 00 	lds	r25, 0x00EF
+ 1be:	90 7c       	andi	r25, 0xC0	; 192
+ 1c0:	31 f0       	breq	.+12     	; 0x1ce <_find_free_mob+0x28>
 	if (_transmission_in_progress)
 		return 0xff;
 	#endif
 	
 	uint8_t i;
 	for (i = 0;i < 15;i++)
- 1c6:	8f 5f       	subi	r24, 0xFF	; 255
- 1c8:	8f 30       	cpi	r24, 0x0F	; 15
- 1ca:	a1 f7       	brne	.-24     	; 0x1b4 <_find_free_mob+0xa>
+ 1c2:	8f 5f       	subi	r24, 0xFF	; 255
+ 1c4:	8f 30       	cpi	r24, 0x0F	; 15
+ 1c6:	a1 f7       	brne	.-24     	; 0x1b0 <_find_free_mob+0xa>
 		// check if MOb is in use
 		if ((CANCDMOB & ((1 << CONMOB1) | (1 << CONMOB0))) == 0)
 			return i;
 	}
 	
 	return 0xff;
- 1cc:	8f ef       	ldi	r24, 0xFF	; 255
- 1ce:	08 95       	ret
+ 1c8:	8f ef       	ldi	r24, 0xFF	; 255
+ 1ca:	08 95       	ret
 
 uint8_t _find_free_mob(void)
 {
 	#if CAN_TX_BUFFER_SIZE == 0
 	if (_free_buffer == 0)
 		return 0xff;
- 1d0:	8f ef       	ldi	r24, 0xFF	; 255
+ 1cc:	8f ef       	ldi	r24, 0xFF	; 255
 		if ((CANCDMOB & ((1 << CONMOB1) | (1 << CONMOB0))) == 0)
 			return i;
 	}
 	
 	return 0xff;
 }
- 1d2:	08 95       	ret
+ 1ce:	08 95       	ret
 
-000001d4 <_disable_mob_interrupt>:
+000001d0 <_disable_mob_interrupt>:
 // ----------------------------------------------------------------------------
 // disable interrupt of corresponding MOb
 
 void _disable_mob_interrupt(uint8_t mob)
 {
 	if (mob < 8)
- 1d4:	88 30       	cpi	r24, 0x08	; 8
- 1d6:	70 f4       	brcc	.+28     	; 0x1f4 <_disable_mob_interrupt+0x20>
+ 1d0:	88 30       	cpi	r24, 0x08	; 8
+ 1d2:	70 f4       	brcc	.+28     	; 0x1f0 <_disable_mob_interrupt+0x20>
 		CANIE2 &= ~(1 << mob);
- 1d8:	90 91 de 00 	lds	r25, 0x00DE
- 1dc:	21 e0       	ldi	r18, 0x01	; 1
- 1de:	30 e0       	ldi	r19, 0x00	; 0
- 1e0:	02 c0       	rjmp	.+4      	; 0x1e6 <_disable_mob_interrupt+0x12>
- 1e2:	22 0f       	add	r18, r18
- 1e4:	33 1f       	adc	r19, r19
- 1e6:	8a 95       	dec	r24
- 1e8:	e2 f7       	brpl	.-8      	; 0x1e2 <_disable_mob_interrupt+0xe>
- 1ea:	20 95       	com	r18
- 1ec:	29 23       	and	r18, r25
- 1ee:	20 93 de 00 	sts	0x00DE, r18
- 1f2:	08 95       	ret
+ 1d4:	90 91 de 00 	lds	r25, 0x00DE
+ 1d8:	21 e0       	ldi	r18, 0x01	; 1
+ 1da:	30 e0       	ldi	r19, 0x00	; 0
+ 1dc:	02 c0       	rjmp	.+4      	; 0x1e2 <_disable_mob_interrupt+0x12>
+ 1de:	22 0f       	add	r18, r18
+ 1e0:	33 1f       	adc	r19, r19
+ 1e2:	8a 95       	dec	r24
+ 1e4:	e2 f7       	brpl	.-8      	; 0x1de <_disable_mob_interrupt+0xe>
+ 1e6:	20 95       	com	r18
+ 1e8:	29 23       	and	r18, r25
+ 1ea:	20 93 de 00 	sts	0x00DE, r18
+ 1ee:	08 95       	ret
 	else
 		CANIE1 &= ~(1 << (mob - 8));
- 1f4:	40 91 df 00 	lds	r20, 0x00DF
- 1f8:	90 e0       	ldi	r25, 0x00	; 0
- 1fa:	08 97       	sbiw	r24, 0x08	; 8
- 1fc:	21 e0       	ldi	r18, 0x01	; 1
- 1fe:	30 e0       	ldi	r19, 0x00	; 0
- 200:	02 c0       	rjmp	.+4      	; 0x206 <_disable_mob_interrupt+0x32>
- 202:	22 0f       	add	r18, r18
- 204:	33 1f       	adc	r19, r19
- 206:	8a 95       	dec	r24
- 208:	e2 f7       	brpl	.-8      	; 0x202 <_disable_mob_interrupt+0x2e>
- 20a:	20 95       	com	r18
- 20c:	24 23       	and	r18, r20
- 20e:	20 93 df 00 	sts	0x00DF, r18
- 212:	08 95       	ret
+ 1f0:	40 91 df 00 	lds	r20, 0x00DF
+ 1f4:	90 e0       	ldi	r25, 0x00	; 0
+ 1f6:	08 97       	sbiw	r24, 0x08	; 8
+ 1f8:	21 e0       	ldi	r18, 0x01	; 1
+ 1fa:	30 e0       	ldi	r19, 0x00	; 0
+ 1fc:	02 c0       	rjmp	.+4      	; 0x202 <_disable_mob_interrupt+0x32>
+ 1fe:	22 0f       	add	r18, r18
+ 200:	33 1f       	adc	r19, r19
+ 202:	8a 95       	dec	r24
+ 204:	e2 f7       	brpl	.-8      	; 0x1fe <_disable_mob_interrupt+0x2e>
+ 206:	20 95       	com	r18
+ 208:	24 23       	and	r18, r20
+ 20a:	20 93 df 00 	sts	0x00DF, r18
+ 20e:	08 95       	ret
 
-00000214 <_enable_mob_interrupt>:
+00000210 <_enable_mob_interrupt>:
 // ----------------------------------------------------------------------------
 // enable interrupt of corresponding MOb
 
 void _enable_mob_interrupt(uint8_t mob)
 {
 	if (mob < 8)
- 214:	88 30       	cpi	r24, 0x08	; 8
- 216:	68 f4       	brcc	.+26     	; 0x232 <_enable_mob_interrupt+0x1e>
+ 210:	88 30       	cpi	r24, 0x08	; 8
+ 212:	68 f4       	brcc	.+26     	; 0x22e <_enable_mob_interrupt+0x1e>
 		CANIE2 |= (1 << mob);
- 218:	90 91 de 00 	lds	r25, 0x00DE
- 21c:	21 e0       	ldi	r18, 0x01	; 1
- 21e:	30 e0       	ldi	r19, 0x00	; 0
- 220:	02 c0       	rjmp	.+4      	; 0x226 <_enable_mob_interrupt+0x12>
- 222:	22 0f       	add	r18, r18
- 224:	33 1f       	adc	r19, r19
- 226:	8a 95       	dec	r24
- 228:	e2 f7       	brpl	.-8      	; 0x222 <_enable_mob_interrupt+0xe>
- 22a:	92 2b       	or	r25, r18
- 22c:	90 93 de 00 	sts	0x00DE, r25
- 230:	08 95       	ret
+ 214:	90 91 de 00 	lds	r25, 0x00DE
+ 218:	21 e0       	ldi	r18, 0x01	; 1
+ 21a:	30 e0       	ldi	r19, 0x00	; 0
+ 21c:	02 c0       	rjmp	.+4      	; 0x222 <_enable_mob_interrupt+0x12>
+ 21e:	22 0f       	add	r18, r18
+ 220:	33 1f       	adc	r19, r19
+ 222:	8a 95       	dec	r24
+ 224:	e2 f7       	brpl	.-8      	; 0x21e <_enable_mob_interrupt+0xe>
+ 226:	92 2b       	or	r25, r18
+ 228:	90 93 de 00 	sts	0x00DE, r25
+ 22c:	08 95       	ret
 	else
 		CANIE1 |= (1 << (mob - 8));
- 232:	40 91 df 00 	lds	r20, 0x00DF
- 236:	90 e0       	ldi	r25, 0x00	; 0
- 238:	08 97       	sbiw	r24, 0x08	; 8
- 23a:	21 e0       	ldi	r18, 0x01	; 1
- 23c:	30 e0       	ldi	r19, 0x00	; 0
- 23e:	02 c0       	rjmp	.+4      	; 0x244 <_enable_mob_interrupt+0x30>
- 240:	22 0f       	add	r18, r18
- 242:	33 1f       	adc	r19, r19
- 244:	8a 95       	dec	r24
- 246:	e2 f7       	brpl	.-8      	; 0x240 <_enable_mob_interrupt+0x2c>
- 248:	42 2b       	or	r20, r18
- 24a:	40 93 df 00 	sts	0x00DF, r20
- 24e:	08 95       	ret
+ 22e:	40 91 df 00 	lds	r20, 0x00DF
+ 232:	90 e0       	ldi	r25, 0x00	; 0
+ 234:	08 97       	sbiw	r24, 0x08	; 8
+ 236:	21 e0       	ldi	r18, 0x01	; 1
+ 238:	30 e0       	ldi	r19, 0x00	; 0
+ 23a:	02 c0       	rjmp	.+4      	; 0x240 <_enable_mob_interrupt+0x30>
+ 23c:	22 0f       	add	r18, r18
+ 23e:	33 1f       	adc	r19, r19
+ 240:	8a 95       	dec	r24
+ 242:	e2 f7       	brpl	.-8      	; 0x23c <_enable_mob_interrupt+0x2c>
+ 244:	42 2b       	or	r20, r18
+ 246:	40 93 df 00 	sts	0x00DF, r20
+ 24a:	08 95       	ret
 
-00000250 <can_init>:
+0000024c <can_init>:
 
 // ----------------------------------------------------------------------------
 
 bool at90can_init(uint8_t bitrate)
 {
 	if (bitrate >= 8)
- 250:	88 30       	cpi	r24, 0x08	; 8
- 252:	58 f5       	brcc	.+86     	; 0x2aa <can_init+0x5a>
+ 24c:	88 30       	cpi	r24, 0x08	; 8
+ 24e:	58 f5       	brcc	.+86     	; 0x2a6 <can_init+0x5a>
 		return false;
 	
 	// switch CAN controller to reset mode
 	CANGCON |= (1 << SWRES);
- 254:	90 91 d8 00 	lds	r25, 0x00D8
- 258:	91 60       	ori	r25, 0x01	; 1
- 25a:	90 93 d8 00 	sts	0x00D8, r25
+ 250:	90 91 d8 00 	lds	r25, 0x00D8
+ 254:	91 60       	ori	r25, 0x01	; 1
+ 256:	90 93 d8 00 	sts	0x00D8, r25
 	
 	// set CAN Bit Timing
 	// (see datasheet page 260)
 	CANBT1 = pgm_read_byte(&_at90can_cnf[bitrate][0]);
- 25e:	93 e0       	ldi	r25, 0x03	; 3
- 260:	89 9f       	mul	r24, r25
- 262:	c0 01       	movw	r24, r0
- 264:	11 24       	eor	r1, r1
- 266:	fc 01       	movw	r30, r24
- 268:	ec 56       	subi	r30, 0x6C	; 108
- 26a:	ff 4f       	sbci	r31, 0xFF	; 255
- 26c:	e4 91       	lpm	r30, Z+
- 26e:	e0 93 e2 00 	sts	0x00E2, r30
+ 25a:	93 e0       	ldi	r25, 0x03	; 3
+ 25c:	89 9f       	mul	r24, r25
+ 25e:	c0 01       	movw	r24, r0
+ 260:	11 24       	eor	r1, r1
+ 262:	fc 01       	movw	r30, r24
+ 264:	ec 56       	subi	r30, 0x6C	; 108
+ 266:	ff 4f       	sbci	r31, 0xFF	; 255
+ 268:	e4 91       	lpm	r30, Z+
+ 26a:	e0 93 e2 00 	sts	0x00E2, r30
 	CANBT2 = pgm_read_byte(&_at90can_cnf[bitrate][1]);
- 272:	fc 01       	movw	r30, r24
- 274:	eb 56       	subi	r30, 0x6B	; 107
- 276:	ff 4f       	sbci	r31, 0xFF	; 255
- 278:	e4 91       	lpm	r30, Z+
- 27a:	e0 93 e3 00 	sts	0x00E3, r30
+ 26e:	fc 01       	movw	r30, r24
+ 270:	eb 56       	subi	r30, 0x6B	; 107
+ 272:	ff 4f       	sbci	r31, 0xFF	; 255
+ 274:	e4 91       	lpm	r30, Z+
+ 276:	e0 93 e3 00 	sts	0x00E3, r30
 	CANBT3 = pgm_read_byte(&_at90can_cnf[bitrate][2]);
- 27e:	8a 56       	subi	r24, 0x6A	; 106
- 280:	9f 4f       	sbci	r25, 0xFF	; 255
- 282:	fc 01       	movw	r30, r24
- 284:	84 91       	lpm	r24, Z+
- 286:	80 93 e4 00 	sts	0x00E4, r24
+ 27a:	8a 56       	subi	r24, 0x6A	; 106
+ 27c:	9f 4f       	sbci	r25, 0xFF	; 255
+ 27e:	fc 01       	movw	r30, r24
+ 280:	84 91       	lpm	r24, Z+
+ 282:	80 93 e4 00 	sts	0x00E4, r24
 	
 	// activate CAN transmit- and receive-interrupt
 	CANGIT = 0;
- 28a:	10 92 da 00 	sts	0x00DA, r1
+ 286:	10 92 da 00 	sts	0x00DA, r1
 	CANGIE = (1 << ENIT) | (1 << ENRX) | (1 << ENTX);
- 28e:	80 eb       	ldi	r24, 0xB0	; 176
- 290:	80 93 db 00 	sts	0x00DB, r24
+ 28a:	80 eb       	ldi	r24, 0xB0	; 176
+ 28c:	80 93 db 00 	sts	0x00DB, r24
 	
 	// set timer prescaler to 199 which results in a timer
 	// frequency of 10 kHz (at 16 MHz)
 	CANTCON = 199;
- 294:	87 ec       	ldi	r24, 0xC7	; 199
- 296:	80 93 e5 00 	sts	0x00E5, r24
+ 290:	87 ec       	ldi	r24, 0xC7	; 199
+ 292:	80 93 e5 00 	sts	0x00E5, r24
 	
 	// disable all filters
 	at90can_disable_filter( 0xff );
- 29a:	8f ef       	ldi	r24, 0xFF	; 255
- 29c:	0e 94 d2 01 	call	0x3a4	; 0x3a4 <can_disable_filter>
+ 296:	8f ef       	ldi	r24, 0xFF	; 255
+ 298:	0e 94 d0 01 	call	0x3a0	; 0x3a0 <can_disable_filter>
 	#if CAN_TX_BUFFER_SIZE > 0
 	can_buffer_init( &can_tx_buffer, CAN_TX_BUFFER_SIZE, can_tx_list );
 	#endif
 	
 	// activate CAN controller
 	CANGCON = (1 << ENASTB);
- 2a0:	82 e0       	ldi	r24, 0x02	; 2
- 2a2:	80 93 d8 00 	sts	0x00D8, r24
+ 29c:	82 e0       	ldi	r24, 0x02	; 2
+ 29e:	80 93 d8 00 	sts	0x00D8, r24
 	
 	return true;
- 2a6:	81 e0       	ldi	r24, 0x01	; 1
- 2a8:	08 95       	ret
+ 2a2:	81 e0       	ldi	r24, 0x01	; 1
+ 2a4:	08 95       	ret
 // ----------------------------------------------------------------------------
 
 bool at90can_init(uint8_t bitrate)
 {
 	if (bitrate >= 8)
 		return false;
- 2aa:	80 e0       	ldi	r24, 0x00	; 0
+ 2a6:	80 e0       	ldi	r24, 0x00	; 0
 	
 	// activate CAN controller
 	CANGCON = (1 << ENASTB);
 	
 	return true;
 }
- 2ac:	08 95       	ret
+ 2a8:	08 95       	ret
 
-000002ae <__vector_18>:
+000002aa <__vector_18>:
 // ----------------------------------------------------------------------------
 // The CANPAGE register have to be restored after usage, otherwise it
 // could cause trouble in the application programm.
 
 ISR(CANIT_vect)
 {
- 2ae:	1f 92       	push	r1
+ 2aa:	1f 92       	push	r1
+ 2ac:	0f 92       	push	r0
+ 2ae:	0f b6       	in	r0, 0x3f	; 63
  2b0:	0f 92       	push	r0
- 2b2:	0f b6       	in	r0, 0x3f	; 63
- 2b4:	0f 92       	push	r0
- 2b6:	11 24       	eor	r1, r1
- 2b8:	2f 93       	push	r18
- 2ba:	3f 93       	push	r19
- 2bc:	4f 93       	push	r20
- 2be:	5f 93       	push	r21
- 2c0:	8f 93       	push	r24
- 2c2:	9f 93       	push	r25
+ 2b2:	11 24       	eor	r1, r1
+ 2b4:	2f 93       	push	r18
+ 2b6:	3f 93       	push	r19
+ 2b8:	4f 93       	push	r20
+ 2ba:	5f 93       	push	r21
+ 2bc:	8f 93       	push	r24
+ 2be:	9f 93       	push	r25
 	uint8_t canpage;
 	uint8_t mob;
 	
 	if ((CANHPMOB & 0xF0) != 0xF0)
- 2c4:	80 91 ec 00 	lds	r24, 0x00EC
- 2c8:	80 7f       	andi	r24, 0xF0	; 240
- 2ca:	80 3f       	cpi	r24, 0xF0	; 240
- 2cc:	09 f4       	brne	.+2      	; 0x2d0 <__vector_18+0x22>
- 2ce:	43 c0       	rjmp	.+134    	; 0x356 <__vector_18+0xa8>
+ 2c0:	80 91 ec 00 	lds	r24, 0x00EC
+ 2c4:	80 7f       	andi	r24, 0xF0	; 240
+ 2c6:	80 3f       	cpi	r24, 0xF0	; 240
+ 2c8:	09 f4       	brne	.+2      	; 0x2cc <__vector_18+0x22>
+ 2ca:	43 c0       	rjmp	.+134    	; 0x352 <__vector_18+0xa8>
 	{
 		// save MOb page register
 		canpage = CANPAGE;
- 2d0:	40 91 ed 00 	lds	r20, 0x00ED
+ 2cc:	40 91 ed 00 	lds	r20, 0x00ED
 		
 		// select MOb page with the highest priority
 		CANPAGE = CANHPMOB & 0xF0;
- 2d4:	80 91 ec 00 	lds	r24, 0x00EC
- 2d8:	80 7f       	andi	r24, 0xF0	; 240
- 2da:	80 93 ed 00 	sts	0x00ED, r24
+ 2d0:	80 91 ec 00 	lds	r24, 0x00EC
+ 2d4:	80 7f       	andi	r24, 0xF0	; 240
+ 2d6:	80 93 ed 00 	sts	0x00ED, r24
 		mob = (CANHPMOB >> 4);
- 2de:	20 91 ec 00 	lds	r18, 0x00EC
- 2e2:	22 95       	swap	r18
- 2e4:	2f 70       	andi	r18, 0x0F	; 15
+ 2da:	20 91 ec 00 	lds	r18, 0x00EC
+ 2de:	22 95       	swap	r18
+ 2e0:	2f 70       	andi	r18, 0x0F	; 15
 		
 		// a interrupt is only generated if a message was transmitted or received
 		if (CANSTMOB & (1 << TXOK))
- 2e6:	80 91 ee 00 	lds	r24, 0x00EE
- 2ea:	86 ff       	sbrs	r24, 6
- 2ec:	0c c0       	rjmp	.+24     	; 0x306 <__vector_18+0x58>
+ 2e2:	80 91 ee 00 	lds	r24, 0x00EE
+ 2e6:	86 ff       	sbrs	r24, 6
+ 2e8:	0c c0       	rjmp	.+24     	; 0x302 <__vector_18+0x58>
 		{
 			// clear MOb
 			CANSTMOB &= 0;
- 2ee:	80 91 ee 00 	lds	r24, 0x00EE
- 2f2:	10 92 ee 00 	sts	0x00EE, r1
+ 2ea:	80 91 ee 00 	lds	r24, 0x00EE
+ 2ee:	10 92 ee 00 	sts	0x00EE, r1
 			CANCDMOB = 0;
- 2f6:	10 92 ef 00 	sts	0x00EF, r1
+ 2f2:	10 92 ef 00 	sts	0x00EF, r1
 				// buffer underflow => no more messages to send
 				_disable_mob_interrupt(mob);
 				_transmission_in_progress = 0;
 			}
 			#else
 			_free_buffer++;
- 2fa:	80 91 00 01 	lds	r24, 0x0100
- 2fe:	8f 5f       	subi	r24, 0xFF	; 255
- 300:	80 93 00 01 	sts	0x0100, r24
- 304:	05 c0       	rjmp	.+10     	; 0x310 <__vector_18+0x62>
+ 2f6:	80 91 00 01 	lds	r24, 0x0100
+ 2fa:	8f 5f       	subi	r24, 0xFF	; 255
+ 2fc:	80 93 00 01 	sts	0x0100, r24
+ 300:	05 c0       	rjmp	.+10     	; 0x30c <__vector_18+0x62>
 			
 			// clear flags
 			CANSTMOB &= 0;
 			CANCDMOB = (1 << CONMOB1) | (CANCDMOB & (1 << IDE));
 			#else
 			_messages_waiting++;
- 306:	80 91 01 01 	lds	r24, 0x0101
- 30a:	8f 5f       	subi	r24, 0xFF	; 255
- 30c:	80 93 01 01 	sts	0x0101, r24
+ 302:	80 91 01 01 	lds	r24, 0x0101
+ 306:	8f 5f       	subi	r24, 0xFF	; 255
+ 308:	80 93 01 01 	sts	0x0101, r24
 			
 			// reset interrupt
 			if (mob < 8)
- 310:	28 30       	cpi	r18, 0x08	; 8
- 312:	70 f4       	brcc	.+28     	; 0x330 <__vector_18+0x82>
+ 30c:	28 30       	cpi	r18, 0x08	; 8
+ 30e:	70 f4       	brcc	.+28     	; 0x32c <__vector_18+0x82>
 				CANIE2 &= ~(1 << mob);
- 314:	30 91 de 00 	lds	r19, 0x00DE
- 318:	81 e0       	ldi	r24, 0x01	; 1
- 31a:	90 e0       	ldi	r25, 0x00	; 0
- 31c:	02 c0       	rjmp	.+4      	; 0x322 <__vector_18+0x74>
- 31e:	88 0f       	add	r24, r24
- 320:	99 1f       	adc	r25, r25
- 322:	2a 95       	dec	r18
- 324:	e2 f7       	brpl	.-8      	; 0x31e <__vector_18+0x70>
- 326:	80 95       	com	r24
- 328:	83 23       	and	r24, r19
- 32a:	80 93 de 00 	sts	0x00DE, r24
- 32e:	10 c0       	rjmp	.+32     	; 0x350 <__vector_18+0xa2>
+ 310:	30 91 de 00 	lds	r19, 0x00DE
+ 314:	81 e0       	ldi	r24, 0x01	; 1
+ 316:	90 e0       	ldi	r25, 0x00	; 0
+ 318:	02 c0       	rjmp	.+4      	; 0x31e <__vector_18+0x74>
+ 31a:	88 0f       	add	r24, r24
+ 31c:	99 1f       	adc	r25, r25
+ 31e:	2a 95       	dec	r18
+ 320:	e2 f7       	brpl	.-8      	; 0x31a <__vector_18+0x70>
+ 322:	80 95       	com	r24
+ 324:	83 23       	and	r24, r19
+ 326:	80 93 de 00 	sts	0x00DE, r24
+ 32a:	10 c0       	rjmp	.+32     	; 0x34c <__vector_18+0xa2>
 			else
 				CANIE1 &= ~(1 << (mob - 8));
- 330:	50 91 df 00 	lds	r21, 0x00DF
- 334:	30 e0       	ldi	r19, 0x00	; 0
- 336:	28 50       	subi	r18, 0x08	; 8
- 338:	30 40       	sbci	r19, 0x00	; 0
- 33a:	81 e0       	ldi	r24, 0x01	; 1
- 33c:	90 e0       	ldi	r25, 0x00	; 0
- 33e:	02 c0       	rjmp	.+4      	; 0x344 <__vector_18+0x96>
- 340:	88 0f       	add	r24, r24
- 342:	99 1f       	adc	r25, r25
- 344:	2a 95       	dec	r18
- 346:	e2 f7       	brpl	.-8      	; 0x340 <__vector_18+0x92>
- 348:	80 95       	com	r24
- 34a:	85 23       	and	r24, r21
- 34c:	80 93 df 00 	sts	0x00DF, r24
+ 32c:	50 91 df 00 	lds	r21, 0x00DF
+ 330:	30 e0       	ldi	r19, 0x00	; 0
+ 332:	28 50       	subi	r18, 0x08	; 8
+ 334:	30 40       	sbci	r19, 0x00	; 0
+ 336:	81 e0       	ldi	r24, 0x01	; 1
+ 338:	90 e0       	ldi	r25, 0x00	; 0
+ 33a:	02 c0       	rjmp	.+4      	; 0x340 <__vector_18+0x96>
+ 33c:	88 0f       	add	r24, r24
+ 33e:	99 1f       	adc	r25, r25
+ 340:	2a 95       	dec	r18
+ 342:	e2 f7       	brpl	.-8      	; 0x33c <__vector_18+0x92>
+ 344:	80 95       	com	r24
+ 346:	85 23       	and	r24, r21
+ 348:	80 93 df 00 	sts	0x00DF, r24
 			
 			CAN_INDICATE_RX_TRAFFIC_FUNCTION;
 		}
 		
 		// restore MOb page register
 		CANPAGE = canpage;
- 350:	40 93 ed 00 	sts	0x00ED, r20
- 354:	04 c0       	rjmp	.+8      	; 0x35e <__vector_18+0xb0>
+ 34c:	40 93 ed 00 	sts	0x00ED, r20
+ 350:	04 c0       	rjmp	.+8      	; 0x35a <__vector_18+0xb0>
 	}
 	else
 	{
 		// no MOb matches with the interrupt => general interrupt
 		CANGIT |= 0;
- 356:	80 91 da 00 	lds	r24, 0x00DA
- 35a:	80 93 da 00 	sts	0x00DA, r24
+ 352:	80 91 da 00 	lds	r24, 0x00DA
+ 356:	80 93 da 00 	sts	0x00DA, r24
 	}
 }
- 35e:	9f 91       	pop	r25
- 360:	8f 91       	pop	r24
- 362:	5f 91       	pop	r21
- 364:	4f 91       	pop	r20
- 366:	3f 91       	pop	r19
- 368:	2f 91       	pop	r18
+ 35a:	9f 91       	pop	r25
+ 35c:	8f 91       	pop	r24
+ 35e:	5f 91       	pop	r21
+ 360:	4f 91       	pop	r20
+ 362:	3f 91       	pop	r19
+ 364:	2f 91       	pop	r18
+ 366:	0f 90       	pop	r0
+ 368:	0f be       	out	0x3f, r0	; 63
  36a:	0f 90       	pop	r0
- 36c:	0f be       	out	0x3f, r0	; 63
- 36e:	0f 90       	pop	r0
- 370:	1f 90       	pop	r1
- 372:	18 95       	reti
+ 36c:	1f 90       	pop	r1
+ 36e:	18 95       	reti
 
-00000374 <__vector_19>:
+00000370 <__vector_19>:
 
 // ----------------------------------------------------------------------------
 // Overflow of CAN timer
 ISR(OVRIT_vect) {}
- 374:	1f 92       	push	r1
+ 370:	1f 92       	push	r1
+ 372:	0f 92       	push	r0
+ 374:	0f b6       	in	r0, 0x3f	; 63
  376:	0f 92       	push	r0
- 378:	0f b6       	in	r0, 0x3f	; 63
- 37a:	0f 92       	push	r0
- 37c:	11 24       	eor	r1, r1
+ 378:	11 24       	eor	r1, r1
+ 37a:	0f 90       	pop	r0
+ 37c:	0f be       	out	0x3f, r0	; 63
  37e:	0f 90       	pop	r0
- 380:	0f be       	out	0x3f, r0	; 63
- 382:	0f 90       	pop	r0
- 384:	1f 90       	pop	r1
- 386:	18 95       	reti
+ 380:	1f 90       	pop	r1
+ 382:	18 95       	reti
 
-00000388 <can_check_message>:
+00000384 <can_check_message>:
 // Checks if there is any waiting message in the registers
 
 bool at90can_check_message(void)
 {
 	#if CAN_RX_BUFFER_SIZE == 0
 	if (_messages_waiting > 0)
- 388:	90 91 01 01 	lds	r25, 0x0101
+ 384:	90 91 01 01 	lds	r25, 0x0101
 #ifdef	SUPPORT_FOR_AT90CAN__
 
 // ----------------------------------------------------------------------------
 // Checks if there is any waiting message in the registers
 
 bool at90can_check_message(void)
- 38c:	81 e0       	ldi	r24, 0x01	; 1
- 38e:	99 23       	and	r25, r25
- 390:	09 f4       	brne	.+2      	; 0x394 <can_check_message+0xc>
- 392:	80 e0       	ldi	r24, 0x00	; 0
+ 388:	81 e0       	ldi	r24, 0x01	; 1
+ 38a:	99 23       	and	r25, r25
+ 38c:	09 f4       	brne	.+2      	; 0x390 <can_check_message+0xc>
+ 38e:	80 e0       	ldi	r24, 0x00	; 0
 	else
 		return false;
 	#else
 	return !can_buffer_empty( &can_rx_buffer );
 	#endif
 }
- 394:	08 95       	ret
+ 390:	08 95       	ret
 
-00000396 <can_check_free_buffer>:
+00000392 <can_check_free_buffer>:
 
 bool at90can_check_free_buffer(void)
 {
 	#if CAN_TX_BUFFER_SIZE == 0
 	// check if there is any free MOb
 	if (_free_buffer > 0)
- 396:	90 91 00 01 	lds	r25, 0x0100
+ 392:	90 91 00 01 	lds	r25, 0x0100
 	#endif
 }
 
 // ----------------------------------------------------------------------------
 
 bool at90can_check_free_buffer(void)
- 39a:	81 e0       	ldi	r24, 0x01	; 1
- 39c:	99 23       	and	r25, r25
- 39e:	09 f4       	brne	.+2      	; 0x3a2 <can_check_free_buffer+0xc>
- 3a0:	80 e0       	ldi	r24, 0x00	; 0
+ 396:	81 e0       	ldi	r24, 0x01	; 1
+ 398:	99 23       	and	r25, r25
+ 39a:	09 f4       	brne	.+2      	; 0x39e <can_check_free_buffer+0xc>
+ 39c:	80 e0       	ldi	r24, 0x00	; 0
 	else
 		return false;
 	#else
 	return !can_buffer_full( &can_tx_buffer );
 	#endif
 }
- 3a2:	08 95       	ret
+ 39e:	08 95       	ret
 
-000003a4 <can_disable_filter>:
+000003a0 <can_disable_filter>:
 // ----------------------------------------------------------------------------
 // disable mob
 
 bool at90can_disable_filter(uint8_t number)
 {
 	if (number > 14)
- 3a4:	8f 30       	cpi	r24, 0x0F	; 15
- 3a6:	e8 f0       	brcs	.+58     	; 0x3e2 <can_disable_filter+0x3e>
+ 3a0:	8f 30       	cpi	r24, 0x0F	; 15
+ 3a2:	e8 f0       	brcs	.+58     	; 0x3de <can_disable_filter+0x3e>
 	{
 		if (number == CAN_ALL_FILTER)
- 3a8:	8f 3f       	cpi	r24, 0xFF	; 255
- 3aa:	09 f0       	breq	.+2      	; 0x3ae <can_disable_filter+0xa>
- 3ac:	4e c0       	rjmp	.+156    	; 0x44a <can_disable_filter+0xa6>
+ 3a4:	8f 3f       	cpi	r24, 0xFF	; 255
+ 3a6:	09 f0       	breq	.+2      	; 0x3aa <can_disable_filter+0xa>
+ 3a8:	4e c0       	rjmp	.+156    	; 0x446 <can_disable_filter+0xa6>
 		{
 			// disable interrupts
 			CANIE1 = 0;
- 3ae:	10 92 df 00 	sts	0x00DF, r1
+ 3aa:	10 92 df 00 	sts	0x00DF, r1
 			CANIE2 = 0;
- 3b2:	10 92 de 00 	sts	0x00DE, r1
+ 3ae:	10 92 de 00 	sts	0x00DE, r1
 			
 			// disable all MObs
 			for (uint8_t i = 0;i < 15;i++) {
- 3b6:	80 e0       	ldi	r24, 0x00	; 0
+ 3b2:	80 e0       	ldi	r24, 0x00	; 0
 				CANPAGE = (i << 4);
- 3b8:	98 2f       	mov	r25, r24
- 3ba:	92 95       	swap	r25
- 3bc:	90 7f       	andi	r25, 0xF0	; 240
- 3be:	90 93 ed 00 	sts	0x00ED, r25
+ 3b4:	98 2f       	mov	r25, r24
+ 3b6:	92 95       	swap	r25
+ 3b8:	90 7f       	andi	r25, 0xF0	; 240
+ 3ba:	90 93 ed 00 	sts	0x00ED, r25
 				
 				// disable MOb (read-write required)
 				CANCDMOB &= 0;
- 3c2:	90 91 ef 00 	lds	r25, 0x00EF
- 3c6:	10 92 ef 00 	sts	0x00EF, r1
+ 3be:	90 91 ef 00 	lds	r25, 0x00EF
+ 3c2:	10 92 ef 00 	sts	0x00EF, r1
 				CANSTMOB &= 0;
- 3ca:	90 91 ee 00 	lds	r25, 0x00EE
- 3ce:	10 92 ee 00 	sts	0x00EE, r1
+ 3c6:	90 91 ee 00 	lds	r25, 0x00EE
+ 3ca:	10 92 ee 00 	sts	0x00EE, r1
 			// disable interrupts
 			CANIE1 = 0;
 			CANIE2 = 0;
 			
 			// disable all MObs
 			for (uint8_t i = 0;i < 15;i++) {
- 3d2:	8f 5f       	subi	r24, 0xFF	; 255
- 3d4:	8f 30       	cpi	r24, 0x0F	; 15
- 3d6:	81 f7       	brne	.-32     	; 0x3b8 <can_disable_filter+0x14>
+ 3ce:	8f 5f       	subi	r24, 0xFF	; 255
+ 3d0:	8f 30       	cpi	r24, 0x0F	; 15
+ 3d2:	81 f7       	brne	.-32     	; 0x3b4 <can_disable_filter+0x14>
 				CANSTMOB &= 0;
 			}
 			
 			// mark all MObs as free
 			#if CAN_RX_BUFFER_SIZE == 0
 			_messages_waiting = 0;
- 3d8:	10 92 01 01 	sts	0x0101, r1
+ 3d4:	10 92 01 01 	sts	0x0101, r1
 			#endif
 			
 			#if CAN_TX_BUFFER_SIZE == 0
 			_free_buffer = 15;
- 3dc:	80 93 00 01 	sts	0x0100, r24
- 3e0:	32 c0       	rjmp	.+100    	; 0x446 <can_disable_filter+0xa2>
+ 3d8:	80 93 00 01 	sts	0x0100, r24
+ 3dc:	32 c0       	rjmp	.+100    	; 0x442 <can_disable_filter+0xa2>
 // enter standby mode => messages are not transmitted nor received
 
 extern __attribute__ ((gnu_inline)) inline void _enter_standby_mode(void)
 {
 	// request abort
 	CANGCON = (1 << ABRQ);
- 3e2:	90 e8       	ldi	r25, 0x80	; 128
- 3e4:	90 93 d8 00 	sts	0x00D8, r25
+ 3de:	90 e8       	ldi	r25, 0x80	; 128
+ 3e0:	90 93 d8 00 	sts	0x00D8, r25
 	
 	// wait until receiver is not busy
 	while (CANGSTA & (1 << RXBSY))
- 3e8:	90 91 d9 00 	lds	r25, 0x00D9
- 3ec:	93 fd       	sbrc	r25, 3
- 3ee:	fc cf       	rjmp	.-8      	; 0x3e8 <can_disable_filter+0x44>
+ 3e4:	90 91 d9 00 	lds	r25, 0x00D9
+ 3e8:	93 fd       	sbrc	r25, 3
+ 3ea:	fc cf       	rjmp	.-8      	; 0x3e4 <can_disable_filter+0x44>
 		;
 	
 	// request standby mode
 	CANGCON = 0;
- 3f0:	10 92 d8 00 	sts	0x00D8, r1
+ 3ec:	10 92 d8 00 	sts	0x00D8, r1
 	
 	// wait until the CAN Controller has entered standby mode
 	while (CANGSTA & (1 << ENFG))
- 3f4:	90 91 d9 00 	lds	r25, 0x00D9
- 3f8:	92 fd       	sbrc	r25, 2
- 3fa:	fc cf       	rjmp	.-8      	; 0x3f4 <can_disable_filter+0x50>
+ 3f0:	90 91 d9 00 	lds	r25, 0x00D9
+ 3f4:	92 fd       	sbrc	r25, 2
+ 3f6:	fc cf       	rjmp	.-8      	; 0x3f0 <can_disable_filter+0x50>
 	}
 	
 	// set CAN Controller to standby mode
 	_enter_standby_mode();
 	
 	CANPAGE = number << 4;
- 3fc:	98 2f       	mov	r25, r24
- 3fe:	92 95       	swap	r25
- 400:	90 7f       	andi	r25, 0xF0	; 240
- 402:	90 93 ed 00 	sts	0x00ED, r25
+ 3f8:	98 2f       	mov	r25, r24
+ 3fa:	92 95       	swap	r25
+ 3fc:	90 7f       	andi	r25, 0xF0	; 240
+ 3fe:	90 93 ed 00 	sts	0x00ED, r25
 	
 	// reset flags
 	CANSTMOB &= 0;
- 406:	90 91 ee 00 	lds	r25, 0x00EE
- 40a:	10 92 ee 00 	sts	0x00EE, r1
+ 402:	90 91 ee 00 	lds	r25, 0x00EE
+ 406:	10 92 ee 00 	sts	0x00EE, r1
 	CANCDMOB = 0;
- 40e:	10 92 ef 00 	sts	0x00EF, r1
+ 40a:	10 92 ef 00 	sts	0x00EF, r1
 	
 	_disable_mob_interrupt(number);
- 412:	0e 94 ea 00 	call	0x1d4	; 0x1d4 <_disable_mob_interrupt>
+ 40e:	0e 94 e8 00 	call	0x1d0	; 0x1d0 <_disable_mob_interrupt>
 // leave standby mode => CAN Controller is connected to CAN Bus
 
 extern __attribute__ ((gnu_inline)) inline void _leave_standby_mode(void)
 {
 	// save CANPAGE register
 	uint8_t canpage = CANPAGE;
- 416:	90 91 ed 00 	lds	r25, 0x00ED
+ 412:	90 91 ed 00 	lds	r25, 0x00ED
 	
 	// reenable all MObs
 	for (uint8_t i=0;i<15;i++) {
- 41a:	80 e0       	ldi	r24, 0x00	; 0
+ 416:	80 e0       	ldi	r24, 0x00	; 0
 		CANPAGE = i << 4;
- 41c:	28 2f       	mov	r18, r24
- 41e:	22 95       	swap	r18
- 420:	20 7f       	andi	r18, 0xF0	; 240
- 422:	20 93 ed 00 	sts	0x00ED, r18
+ 418:	28 2f       	mov	r18, r24
+ 41a:	22 95       	swap	r18
+ 41c:	20 7f       	andi	r18, 0xF0	; 240
+ 41e:	20 93 ed 00 	sts	0x00ED, r18
 		CANCDMOB = CANCDMOB;
- 426:	20 91 ef 00 	lds	r18, 0x00EF
- 42a:	20 93 ef 00 	sts	0x00EF, r18
+ 422:	20 91 ef 00 	lds	r18, 0x00EF
+ 426:	20 93 ef 00 	sts	0x00EF, r18
 {
 	// save CANPAGE register
 	uint8_t canpage = CANPAGE;
 	
 	// reenable all MObs
 	for (uint8_t i=0;i<15;i++) {
- 42e:	8f 5f       	subi	r24, 0xFF	; 255
- 430:	8f 30       	cpi	r24, 0x0F	; 15
- 432:	a1 f7       	brne	.-24     	; 0x41c <can_disable_filter+0x78>
+ 42a:	8f 5f       	subi	r24, 0xFF	; 255
+ 42c:	8f 30       	cpi	r24, 0x0F	; 15
+ 42e:	a1 f7       	brne	.-24     	; 0x418 <can_disable_filter+0x78>
 		CANPAGE = i << 4;
 		CANCDMOB = CANCDMOB;
 	}
 	
 	// restore CANPAGE
 	CANPAGE = canpage;
- 434:	90 93 ed 00 	sts	0x00ED, r25
+ 430:	90 93 ed 00 	sts	0x00ED, r25
 	
 	// request normal mode
 	CANGCON = (1 << ENASTB);
- 438:	82 e0       	ldi	r24, 0x02	; 2
- 43a:	80 93 d8 00 	sts	0x00D8, r24
+ 434:	82 e0       	ldi	r24, 0x02	; 2
+ 436:	80 93 d8 00 	sts	0x00D8, r24
 	
 	// wait until the CAN Controller has left standby mode
 	while ((CANGSTA & (1 << ENFG)) == 0)
- 43e:	80 91 d9 00 	lds	r24, 0x00D9
- 442:	82 ff       	sbrs	r24, 2
- 444:	fc cf       	rjmp	.-8      	; 0x43e <can_disable_filter+0x9a>
+ 43a:	80 91 d9 00 	lds	r24, 0x00D9
+ 43e:	82 ff       	sbrs	r24, 2
+ 440:	fc cf       	rjmp	.-8      	; 0x43a <can_disable_filter+0x9a>
 	
 	// re-enable CAN Controller 
 	_leave_standby_mode();
 	
 	return true;
- 446:	81 e0       	ldi	r24, 0x01	; 1
- 448:	08 95       	ret
+ 442:	81 e0       	ldi	r24, 0x01	; 1
+ 444:	08 95       	ret
 			
 			return true;
 		}
 		
 		// it is only possible to serve a maximum of 15 filters
 		return false;
- 44a:	80 e0       	ldi	r24, 0x00	; 0
+ 446:	80 e0       	ldi	r24, 0x00	; 0
 	
 	// re-enable CAN Controller 
 	_leave_standby_mode();
 	
 	return true;
 }
- 44c:	08 95       	ret
+ 448:	08 95       	ret
 
-0000044e <can_set_filter>:
+0000044a <can_set_filter>:
 #include "at90can_private.h"
 #ifdef	SUPPORT_FOR_AT90CAN__
 
 // ----------------------------------------------------------------------------
 bool at90can_set_filter(uint8_t number, const can_filter_t *filter)
 {
- 44e:	fb 01       	movw	r30, r22
+ 44a:	fb 01       	movw	r30, r22
 	if (number > 14) {
- 450:	8f 30       	cpi	r24, 0x0F	; 15
- 452:	08 f0       	brcs	.+2      	; 0x456 <can_set_filter+0x8>
- 454:	70 c0       	rjmp	.+224    	; 0x536 <can_set_filter+0xe8>
+ 44c:	8f 30       	cpi	r24, 0x0F	; 15
+ 44e:	08 f0       	brcs	.+2      	; 0x452 <can_set_filter+0x8>
+ 450:	70 c0       	rjmp	.+224    	; 0x532 <can_set_filter+0xe8>
 // enter standby mode => messages are not transmitted nor received
 
 extern __attribute__ ((gnu_inline)) inline void _enter_standby_mode(void)
 {
 	// request abort
 	CANGCON = (1 << ABRQ);
- 456:	90 e8       	ldi	r25, 0x80	; 128
- 458:	90 93 d8 00 	sts	0x00D8, r25
+ 452:	90 e8       	ldi	r25, 0x80	; 128
+ 454:	90 93 d8 00 	sts	0x00D8, r25
 	
 	// wait until receiver is not busy
 	while (CANGSTA & (1 << RXBSY))
- 45c:	90 91 d9 00 	lds	r25, 0x00D9
- 460:	93 fd       	sbrc	r25, 3
- 462:	fc cf       	rjmp	.-8      	; 0x45c <can_set_filter+0xe>
+ 458:	90 91 d9 00 	lds	r25, 0x00D9
+ 45c:	93 fd       	sbrc	r25, 3
+ 45e:	fc cf       	rjmp	.-8      	; 0x458 <can_set_filter+0xe>
 		;
 	
 	// request standby mode
 	CANGCON = 0;
- 464:	10 92 d8 00 	sts	0x00D8, r1
+ 460:	10 92 d8 00 	sts	0x00D8, r1
 	
 	// wait until the CAN Controller has entered standby mode
 	while (CANGSTA & (1 << ENFG))
- 468:	90 91 d9 00 	lds	r25, 0x00D9
- 46c:	92 fd       	sbrc	r25, 2
- 46e:	fc cf       	rjmp	.-8      	; 0x468 <can_set_filter+0x1a>
+ 464:	90 91 d9 00 	lds	r25, 0x00D9
+ 468:	92 fd       	sbrc	r25, 2
+ 46a:	fc cf       	rjmp	.-8      	; 0x464 <can_set_filter+0x1a>
 	}
 	
 	// set CAN Controller to standby mode
 	_enter_standby_mode();
 	
 	CANPAGE = number << 4;
- 470:	98 2f       	mov	r25, r24
- 472:	92 95       	swap	r25
- 474:	90 7f       	andi	r25, 0xF0	; 240
- 476:	90 93 ed 00 	sts	0x00ED, r25
+ 46c:	98 2f       	mov	r25, r24
+ 46e:	92 95       	swap	r25
+ 470:	90 7f       	andi	r25, 0xF0	; 240
+ 472:	90 93 ed 00 	sts	0x00ED, r25
 	
 	CANSTMOB = 0;
- 47a:	10 92 ee 00 	sts	0x00EE, r1
+ 476:	10 92 ee 00 	sts	0x00EE, r1
 	CANCDMOB = 0;
- 47e:	10 92 ef 00 	sts	0x00EF, r1
+ 47a:	10 92 ef 00 	sts	0x00EF, r1
 		CANIDM1 = (uint16_t) filter->mask >> 3;
 	}
 	
 	#else
 	
 	CANIDT4 = 0;
- 482:	10 92 f0 00 	sts	0x00F0, r1
+ 47e:	10 92 f0 00 	sts	0x00F0, r1
 	CANIDT3 = 0;
- 486:	10 92 f1 00 	sts	0x00F1, r1
+ 482:	10 92 f1 00 	sts	0x00F1, r1
 	CANIDT2 = (uint8_t)  filter->id << 5;
- 48a:	90 81       	ld	r25, Z
- 48c:	92 95       	swap	r25
- 48e:	99 0f       	add	r25, r25
- 490:	90 7e       	andi	r25, 0xE0	; 224
- 492:	90 93 f2 00 	sts	0x00F2, r25
+ 486:	90 81       	ld	r25, Z
+ 488:	92 95       	swap	r25
+ 48a:	99 0f       	add	r25, r25
+ 48c:	90 7e       	andi	r25, 0xE0	; 224
+ 48e:	90 93 f2 00 	sts	0x00F2, r25
 	CANIDT1 = (uint16_t) filter->id >> 3;
- 496:	20 81       	ld	r18, Z
- 498:	31 81       	ldd	r19, Z+1	; 0x01
- 49a:	43 e0       	ldi	r20, 0x03	; 3
- 49c:	36 95       	lsr	r19
- 49e:	27 95       	ror	r18
- 4a0:	4a 95       	dec	r20
- 4a2:	e1 f7       	brne	.-8      	; 0x49c <can_set_filter+0x4e>
- 4a4:	20 93 f3 00 	sts	0x00F3, r18
+ 492:	20 81       	ld	r18, Z
+ 494:	31 81       	ldd	r19, Z+1	; 0x01
+ 496:	43 e0       	ldi	r20, 0x03	; 3
+ 498:	36 95       	lsr	r19
+ 49a:	27 95       	ror	r18
+ 49c:	4a 95       	dec	r20
+ 49e:	e1 f7       	brne	.-8      	; 0x498 <can_set_filter+0x4e>
+ 4a0:	20 93 f3 00 	sts	0x00F3, r18
 	
 	CANIDM4 = (1 << IDEMSK);
- 4a8:	91 e0       	ldi	r25, 0x01	; 1
- 4aa:	90 93 f4 00 	sts	0x00F4, r25
+ 4a4:	91 e0       	ldi	r25, 0x01	; 1
+ 4a6:	90 93 f4 00 	sts	0x00F4, r25
 	CANIDM3 = 0;
- 4ae:	10 92 f5 00 	sts	0x00F5, r1
+ 4aa:	10 92 f5 00 	sts	0x00F5, r1
 	CANIDM2 = (uint8_t)  filter->mask << 5;
- 4b2:	92 81       	ldd	r25, Z+2	; 0x02
- 4b4:	92 95       	swap	r25
- 4b6:	99 0f       	add	r25, r25
- 4b8:	90 7e       	andi	r25, 0xE0	; 224
- 4ba:	90 93 f6 00 	sts	0x00F6, r25
+ 4ae:	92 81       	ldd	r25, Z+2	; 0x02
+ 4b0:	92 95       	swap	r25
+ 4b2:	99 0f       	add	r25, r25
+ 4b4:	90 7e       	andi	r25, 0xE0	; 224
+ 4b6:	90 93 f6 00 	sts	0x00F6, r25
 	CANIDM1 = (uint16_t) filter->mask >> 3;
- 4be:	22 81       	ldd	r18, Z+2	; 0x02
- 4c0:	33 81       	ldd	r19, Z+3	; 0x03
- 4c2:	93 e0       	ldi	r25, 0x03	; 3
- 4c4:	36 95       	lsr	r19
- 4c6:	27 95       	ror	r18
- 4c8:	9a 95       	dec	r25
- 4ca:	e1 f7       	brne	.-8      	; 0x4c4 <can_set_filter+0x76>
- 4cc:	20 93 f7 00 	sts	0x00F7, r18
+ 4ba:	22 81       	ldd	r18, Z+2	; 0x02
+ 4bc:	33 81       	ldd	r19, Z+3	; 0x03
+ 4be:	93 e0       	ldi	r25, 0x03	; 3
+ 4c0:	36 95       	lsr	r19
+ 4c2:	27 95       	ror	r18
+ 4c4:	9a 95       	dec	r25
+ 4c6:	e1 f7       	brne	.-8      	; 0x4c0 <can_set_filter+0x76>
+ 4c8:	20 93 f7 00 	sts	0x00F7, r18
 	
 	#endif
 	
 	if (filter->flags.rtr & 0x2) {
- 4d0:	94 81       	ldd	r25, Z+4	; 0x04
- 4d2:	93 70       	andi	r25, 0x03	; 3
- 4d4:	91 ff       	sbrs	r25, 1
- 4d6:	0e c0       	rjmp	.+28     	; 0x4f4 <can_set_filter+0xa6>
+ 4cc:	94 81       	ldd	r25, Z+4	; 0x04
+ 4ce:	93 70       	andi	r25, 0x03	; 3
+ 4d0:	91 ff       	sbrs	r25, 1
+ 4d2:	0e c0       	rjmp	.+28     	; 0x4f0 <can_set_filter+0xa6>
 		CANIDM4 |= (1 << RTRMSK);
- 4d8:	90 91 f4 00 	lds	r25, 0x00F4
- 4dc:	94 60       	ori	r25, 0x04	; 4
- 4de:	90 93 f4 00 	sts	0x00F4, r25
+ 4d4:	90 91 f4 00 	lds	r25, 0x00F4
+ 4d8:	94 60       	ori	r25, 0x04	; 4
+ 4da:	90 93 f4 00 	sts	0x00F4, r25
 		
 		if (filter->flags.rtr & 0x1)
- 4e2:	94 81       	ldd	r25, Z+4	; 0x04
- 4e4:	93 70       	andi	r25, 0x03	; 3
- 4e6:	90 ff       	sbrs	r25, 0
- 4e8:	05 c0       	rjmp	.+10     	; 0x4f4 <can_set_filter+0xa6>
+ 4de:	94 81       	ldd	r25, Z+4	; 0x04
+ 4e0:	93 70       	andi	r25, 0x03	; 3
+ 4e2:	90 ff       	sbrs	r25, 0
+ 4e4:	05 c0       	rjmp	.+10     	; 0x4f0 <can_set_filter+0xa6>
 			CANIDT4 |= (1 << RTRMSK);		// only RTR-frames
- 4ea:	90 91 f0 00 	lds	r25, 0x00F0
- 4ee:	94 60       	ori	r25, 0x04	; 4
- 4f0:	90 93 f0 00 	sts	0x00F0, r25
+ 4e6:	90 91 f0 00 	lds	r25, 0x00F0
+ 4ea:	94 60       	ori	r25, 0x04	; 4
+ 4ec:	90 93 f0 00 	sts	0x00F0, r25
 	}
 	
 	CANCDMOB |= (1<<CONMOB1);
- 4f4:	90 91 ef 00 	lds	r25, 0x00EF
- 4f8:	90 68       	ori	r25, 0x80	; 128
- 4fa:	90 93 ef 00 	sts	0x00EF, r25
+ 4f0:	90 91 ef 00 	lds	r25, 0x00EF
+ 4f4:	90 68       	ori	r25, 0x80	; 128
+ 4f6:	90 93 ef 00 	sts	0x00EF, r25
 	
 	_enable_mob_interrupt(number);
- 4fe:	0e 94 0a 01 	call	0x214	; 0x214 <_enable_mob_interrupt>
+ 4fa:	0e 94 08 01 	call	0x210	; 0x210 <_enable_mob_interrupt>
 // leave standby mode => CAN Controller is connected to CAN Bus
 
 extern __attribute__ ((gnu_inline)) inline void _leave_standby_mode(void)
 {
 	// save CANPAGE register
 	uint8_t canpage = CANPAGE;
- 502:	90 91 ed 00 	lds	r25, 0x00ED
+ 4fe:	90 91 ed 00 	lds	r25, 0x00ED
 	
 	// reenable all MObs
 	for (uint8_t i=0;i<15;i++) {
- 506:	80 e0       	ldi	r24, 0x00	; 0
+ 502:	80 e0       	ldi	r24, 0x00	; 0
 		CANPAGE = i << 4;
- 508:	28 2f       	mov	r18, r24
- 50a:	22 95       	swap	r18
- 50c:	20 7f       	andi	r18, 0xF0	; 240
- 50e:	20 93 ed 00 	sts	0x00ED, r18
+ 504:	28 2f       	mov	r18, r24
+ 506:	22 95       	swap	r18
+ 508:	20 7f       	andi	r18, 0xF0	; 240
+ 50a:	20 93 ed 00 	sts	0x00ED, r18
 		CANCDMOB = CANCDMOB;
- 512:	20 91 ef 00 	lds	r18, 0x00EF
- 516:	20 93 ef 00 	sts	0x00EF, r18
+ 50e:	20 91 ef 00 	lds	r18, 0x00EF
+ 512:	20 93 ef 00 	sts	0x00EF, r18
 {
 	// save CANPAGE register
 	uint8_t canpage = CANPAGE;
 	
 	// reenable all MObs
 	for (uint8_t i=0;i<15;i++) {
- 51a:	8f 5f       	subi	r24, 0xFF	; 255
- 51c:	8f 30       	cpi	r24, 0x0F	; 15
- 51e:	a1 f7       	brne	.-24     	; 0x508 <can_set_filter+0xba>
+ 516:	8f 5f       	subi	r24, 0xFF	; 255
+ 518:	8f 30       	cpi	r24, 0x0F	; 15
+ 51a:	a1 f7       	brne	.-24     	; 0x504 <can_set_filter+0xba>
 		CANPAGE = i << 4;
 		CANCDMOB = CANCDMOB;
 	}
 	
 	// restore CANPAGE
 	CANPAGE = canpage;
- 520:	90 93 ed 00 	sts	0x00ED, r25
+ 51c:	90 93 ed 00 	sts	0x00ED, r25
 	
 	// request normal mode
 	CANGCON = (1 << ENASTB);
- 524:	82 e0       	ldi	r24, 0x02	; 2
- 526:	80 93 d8 00 	sts	0x00D8, r24
+ 520:	82 e0       	ldi	r24, 0x02	; 2
+ 522:	80 93 d8 00 	sts	0x00D8, r24
 	
 	// wait until the CAN Controller has left standby mode
 	while ((CANGSTA & (1 << ENFG)) == 0)
- 52a:	80 91 d9 00 	lds	r24, 0x00D9
- 52e:	82 ff       	sbrs	r24, 2
- 530:	fc cf       	rjmp	.-8      	; 0x52a <can_set_filter+0xdc>
+ 526:	80 91 d9 00 	lds	r24, 0x00D9
+ 52a:	82 ff       	sbrs	r24, 2
+ 52c:	fc cf       	rjmp	.-8      	; 0x526 <can_set_filter+0xdc>
 	
 	// re-enable CAN Controller 
 	_leave_standby_mode();
 	
 	return true;
- 532:	81 e0       	ldi	r24, 0x01	; 1
- 534:	08 95       	ret
+ 52e:	81 e0       	ldi	r24, 0x01	; 1
+ 530:	08 95       	ret
 // ----------------------------------------------------------------------------
 bool at90can_set_filter(uint8_t number, const can_filter_t *filter)
 {
 	if (number > 14) {
 		// it is only possible to serve a maximum of 15 filters
 		return false;
- 536:	80 e0       	ldi	r24, 0x00	; 0
+ 532:	80 e0       	ldi	r24, 0x00	; 0
 	
 	// re-enable CAN Controller 
 	_leave_standby_mode();
 	
 	return true;
 }
- 538:	08 95       	ret
+ 534:	08 95       	ret
 
-0000053a <at90can_copy_mob_to_message>:
+00000536 <at90can_copy_mob_to_message>:
 
 #include "at90can_private.h"
 #ifdef	SUPPORT_FOR_AT90CAN__
 
 void at90can_copy_mob_to_message(can_t *msg)
 {
- 53a:	fc 01       	movw	r30, r24
+ 536:	fc 01       	movw	r30, r24
 	// read status
 	uint8_t cancdmob = CANCDMOB;
- 53c:	80 91 ef 00 	lds	r24, 0x00EF
+ 538:	80 91 ef 00 	lds	r24, 0x00EF
 	
 	// read length
 	msg->length = cancdmob & 0x0f;
- 540:	98 2f       	mov	r25, r24
- 542:	9f 70       	andi	r25, 0x0F	; 15
- 544:	93 83       	std	Z+3, r25	; 0x03
+ 53c:	98 2f       	mov	r25, r24
+ 53e:	9f 70       	andi	r25, 0x0F	; 15
+ 540:	93 83       	std	Z+3, r25	; 0x03
 		msg->flags.extended = 0;
 	}
 	
 	#else
 	
 	if (cancdmob & (1 << IDE))
- 546:	84 ff       	sbrs	r24, 4
- 548:	0c c0       	rjmp	.+24     	; 0x562 <at90can_copy_mob_to_message+0x28>
+ 542:	84 ff       	sbrs	r24, 4
+ 544:	0c c0       	rjmp	.+24     	; 0x55e <at90can_copy_mob_to_message+0x28>
 	{
 		// mark message as processed
 		ENTER_CRITICAL_SECTION;
- 54a:	9f b7       	in	r25, 0x3f	; 63
+ 546:	9f b7       	in	r25, 0x3f	; 63
     return 1;
 }
 
 static __inline__ uint8_t __iCliRetVal(void)
 {
     cli();
- 54c:	f8 94       	cli
+ 548:	f8 94       	cli
 		_messages_waiting--;
- 54e:	80 91 01 01 	lds	r24, 0x0101
- 552:	81 50       	subi	r24, 0x01	; 1
- 554:	80 93 01 01 	sts	0x0101, r24
+ 54a:	80 91 01 01 	lds	r24, 0x0101
+ 54e:	81 50       	subi	r24, 0x01	; 1
+ 550:	80 93 01 01 	sts	0x0101, r24
     (void)__s;
 }
 
 static __inline__ void __iRestore(const  uint8_t *__s)
 {
     SREG = *__s;
- 558:	9f bf       	out	0x3f, r25	; 63
+ 554:	9f bf       	out	0x3f, r25	; 63
 		LEAVE_CRITICAL_SECTION;
 		
 		// clear flags
 		CANCDMOB = (1 << CONMOB1);
- 55a:	80 e8       	ldi	r24, 0x80	; 128
- 55c:	80 93 ef 00 	sts	0x00EF, r24
+ 556:	80 e8       	ldi	r24, 0x80	; 128
+ 558:	80 93 ef 00 	sts	0x00EF, r24
 		
 		return 0;
- 560:	08 95       	ret
+ 55c:	08 95       	ret
 	}
 	else
 	{
 		// standard identifier
 		msg->id  = (uint8_t)  CANIDT2 >> 5;
- 562:	20 91 f2 00 	lds	r18, 0x00F2
- 566:	22 95       	swap	r18
- 568:	26 95       	lsr	r18
- 56a:	27 70       	andi	r18, 0x07	; 7
- 56c:	30 e0       	ldi	r19, 0x00	; 0
- 56e:	31 83       	std	Z+1, r19	; 0x01
- 570:	20 83       	st	Z, r18
+ 55e:	20 91 f2 00 	lds	r18, 0x00F2
+ 562:	22 95       	swap	r18
+ 564:	26 95       	lsr	r18
+ 566:	27 70       	andi	r18, 0x07	; 7
+ 568:	30 e0       	ldi	r19, 0x00	; 0
+ 56a:	31 83       	std	Z+1, r19	; 0x01
+ 56c:	20 83       	st	Z, r18
 		msg->id |= (uint16_t) CANIDT1 << 3;
- 572:	80 91 f3 00 	lds	r24, 0x00F3
- 576:	90 e0       	ldi	r25, 0x00	; 0
- 578:	43 e0       	ldi	r20, 0x03	; 3
- 57a:	88 0f       	add	r24, r24
- 57c:	99 1f       	adc	r25, r25
- 57e:	4a 95       	dec	r20
- 580:	e1 f7       	brne	.-8      	; 0x57a <at90can_copy_mob_to_message+0x40>
- 582:	82 2b       	or	r24, r18
- 584:	93 2b       	or	r25, r19
- 586:	91 83       	std	Z+1, r25	; 0x01
- 588:	80 83       	st	Z, r24
+ 56e:	80 91 f3 00 	lds	r24, 0x00F3
+ 572:	90 e0       	ldi	r25, 0x00	; 0
+ 574:	43 e0       	ldi	r20, 0x03	; 3
+ 576:	88 0f       	add	r24, r24
+ 578:	99 1f       	adc	r25, r25
+ 57a:	4a 95       	dec	r20
+ 57c:	e1 f7       	brne	.-8      	; 0x576 <at90can_copy_mob_to_message+0x40>
+ 57e:	82 2b       	or	r24, r18
+ 580:	93 2b       	or	r25, r19
+ 582:	91 83       	std	Z+1, r25	; 0x01
+ 584:	80 83       	st	Z, r24
 	}
 	
 	#endif
 	
 	if (CANIDT4 & (1 << RTRTAG)) {
- 58a:	90 91 f0 00 	lds	r25, 0x00F0
- 58e:	82 81       	ldd	r24, Z+2	; 0x02
- 590:	92 ff       	sbrs	r25, 2
- 592:	03 c0       	rjmp	.+6      	; 0x59a <at90can_copy_mob_to_message+0x60>
+ 586:	90 91 f0 00 	lds	r25, 0x00F0
+ 58a:	82 81       	ldd	r24, Z+2	; 0x02
+ 58c:	92 ff       	sbrs	r25, 2
+ 58e:	03 c0       	rjmp	.+6      	; 0x596 <at90can_copy_mob_to_message+0x60>
 		msg->flags.rtr = 1;
- 594:	81 60       	ori	r24, 0x01	; 1
- 596:	82 83       	std	Z+2, r24	; 0x02
- 598:	08 95       	ret
+ 590:	81 60       	ori	r24, 0x01	; 1
+ 592:	82 83       	std	Z+2, r24	; 0x02
+ 594:	08 95       	ret
 	}
 	else {
 		msg->flags.rtr = 0;
- 59a:	8e 7f       	andi	r24, 0xFE	; 254
- 59c:	82 83       	std	Z+2, r24	; 0x02
+ 596:	8e 7f       	andi	r24, 0xFE	; 254
+ 598:	82 83       	std	Z+2, r24	; 0x02
 		
 		// read data
 		uint8_t *p = msg->data;
- 59e:	cf 01       	movw	r24, r30
- 5a0:	04 96       	adiw	r24, 0x04	; 4
- 5a2:	dc 01       	movw	r26, r24
+ 59a:	cf 01       	movw	r24, r30
+ 59c:	04 96       	adiw	r24, 0x04	; 4
+ 59e:	dc 01       	movw	r26, r24
 		for (uint8_t i = 0;i < msg->length;i++) {
- 5a4:	03 c0       	rjmp	.+6      	; 0x5ac <at90can_copy_mob_to_message+0x72>
+ 5a0:	03 c0       	rjmp	.+6      	; 0x5a8 <at90can_copy_mob_to_message+0x72>
 			*p++ = CANMSG;
- 5a6:	20 91 fa 00 	lds	r18, 0x00FA
- 5aa:	2d 93       	st	X+, r18
+ 5a2:	20 91 fa 00 	lds	r18, 0x00FA
+ 5a6:	2d 93       	st	X+, r18
 	else {
 		msg->flags.rtr = 0;
 		
 		// read data
 		uint8_t *p = msg->data;
 		for (uint8_t i = 0;i < msg->length;i++) {
- 5ac:	3a 2f       	mov	r19, r26
- 5ae:	38 1b       	sub	r19, r24
- 5b0:	23 81       	ldd	r18, Z+3	; 0x03
- 5b2:	32 17       	cp	r19, r18
- 5b4:	c0 f3       	brcs	.-16     	; 0x5a6 <at90can_copy_mob_to_message+0x6c>
- 5b6:	08 95       	ret
+ 5a8:	3a 2f       	mov	r19, r26
+ 5aa:	38 1b       	sub	r19, r24
+ 5ac:	23 81       	ldd	r18, Z+3	; 0x03
+ 5ae:	32 17       	cp	r19, r18
+ 5b0:	c0 f3       	brcs	.-16     	; 0x5a2 <at90can_copy_mob_to_message+0x6c>
+ 5b2:	08 95       	ret
 
-000005b8 <can_get_message>:
+000005b4 <can_get_message>:
 }
 
 // ----------------------------------------------------------------------------
 
 uint8_t at90can_get_message(can_t *msg)
 {
- 5b8:	0f 93       	push	r16
- 5ba:	1f 93       	push	r17
- 5bc:	cf 93       	push	r28
- 5be:	df 93       	push	r29
- 5c0:	ec 01       	movw	r28, r24
+ 5b4:	0f 93       	push	r16
+ 5b6:	1f 93       	push	r17
+ 5b8:	cf 93       	push	r28
+ 5ba:	df 93       	push	r29
+ 5bc:	ec 01       	movw	r28, r24
 	bool found = false;
 	uint8_t mob;
 	
 	// check if there is any waiting message
 	if (!at90can_check_message())
- 5c2:	0e 94 c4 01 	call	0x388	; 0x388 <can_check_message>
- 5c6:	88 23       	and	r24, r24
- 5c8:	49 f1       	breq	.+82     	; 0x61c <can_get_message+0x64>
- 5ca:	10 e0       	ldi	r17, 0x00	; 0
+ 5be:	0e 94 c2 01 	call	0x384	; 0x384 <can_check_message>
+ 5c2:	88 23       	and	r24, r24
+ 5c4:	49 f1       	breq	.+82     	; 0x618 <can_get_message+0x64>
+ 5c6:	10 e0       	ldi	r17, 0x00	; 0
 		return 0;
 	
 	// find the MOb with the received message
 	for (mob = 0; mob < 15; mob++)
 	{
 		CANPAGE = mob << 4;
- 5cc:	81 2f       	mov	r24, r17
- 5ce:	82 95       	swap	r24
- 5d0:	80 7f       	andi	r24, 0xF0	; 240
- 5d2:	80 93 ed 00 	sts	0x00ED, r24
+ 5c8:	81 2f       	mov	r24, r17
+ 5ca:	82 95       	swap	r24
+ 5cc:	80 7f       	andi	r24, 0xF0	; 240
+ 5ce:	80 93 ed 00 	sts	0x00ED, r24
 		
 		if (CANSTMOB & (1<<RXOK))
- 5d6:	80 91 ee 00 	lds	r24, 0x00EE
- 5da:	01 2f       	mov	r16, r17
- 5dc:	0f 5f       	subi	r16, 0xFF	; 255
- 5de:	85 ff       	sbrs	r24, 5
- 5e0:	1a c0       	rjmp	.+52     	; 0x616 <can_get_message+0x5e>
+ 5d2:	80 91 ee 00 	lds	r24, 0x00EE
+ 5d6:	01 2f       	mov	r16, r17
+ 5d8:	0f 5f       	subi	r16, 0xFF	; 255
+ 5da:	85 ff       	sbrs	r24, 5
+ 5dc:	1a c0       	rjmp	.+52     	; 0x612 <can_get_message+0x5e>
 		{
 			found = true;
 			
 			// clear flags
 			CANSTMOB &= 0;
- 5e2:	80 91 ee 00 	lds	r24, 0x00EE
- 5e6:	10 92 ee 00 	sts	0x00EE, r1
+ 5de:	80 91 ee 00 	lds	r24, 0x00EE
+ 5e2:	10 92 ee 00 	sts	0x00EE, r1
 	}
 	
 	if (!found)
 		return 0;		// should never happen
 
 	at90can_copy_mob_to_message( msg );
- 5ea:	ce 01       	movw	r24, r28
- 5ec:	0e 94 9d 02 	call	0x53a	; 0x53a <at90can_copy_mob_to_message>
+ 5e6:	ce 01       	movw	r24, r28
+ 5e8:	0e 94 9b 02 	call	0x536	; 0x536 <at90can_copy_mob_to_message>
 	
 	#if CAN_RX_BUFFER_SIZE == 0
 	// mark message as processed
 	ENTER_CRITICAL_SECTION;
- 5f0:	9f b7       	in	r25, 0x3f	; 63
+ 5ec:	9f b7       	in	r25, 0x3f	; 63
     return 1;
 }
 
 static __inline__ uint8_t __iCliRetVal(void)
 {
     cli();
- 5f2:	f8 94       	cli
+ 5ee:	f8 94       	cli
 	_messages_waiting--;
- 5f4:	80 91 01 01 	lds	r24, 0x0101
- 5f8:	81 50       	subi	r24, 0x01	; 1
- 5fa:	80 93 01 01 	sts	0x0101, r24
+ 5f0:	80 91 01 01 	lds	r24, 0x0101
+ 5f4:	81 50       	subi	r24, 0x01	; 1
+ 5f6:	80 93 01 01 	sts	0x0101, r24
     (void)__s;
 }
 
 static __inline__ void __iRestore(const  uint8_t *__s)
 {
     SREG = *__s;
- 5fe:	9f bf       	out	0x3f, r25	; 63
+ 5fa:	9f bf       	out	0x3f, r25	; 63
 	LEAVE_CRITICAL_SECTION;
 	#endif
 	
 	// re-enable interrupts
 	_enable_mob_interrupt( mob );
- 600:	81 2f       	mov	r24, r17
- 602:	0e 94 0a 01 	call	0x214	; 0x214 <_enable_mob_interrupt>
+ 5fc:	81 2f       	mov	r24, r17
+ 5fe:	0e 94 08 01 	call	0x210	; 0x210 <_enable_mob_interrupt>
 	
 	// clear flags
 	CANCDMOB = (1 << CONMOB1) | (CANCDMOB & (1 << IDE));
- 606:	80 91 ef 00 	lds	r24, 0x00EF
- 60a:	80 71       	andi	r24, 0x10	; 16
- 60c:	80 68       	ori	r24, 0x80	; 128
- 60e:	80 93 ef 00 	sts	0x00EF, r24
+ 602:	80 91 ef 00 	lds	r24, 0x00EF
+ 606:	80 71       	andi	r24, 0x10	; 16
+ 608:	80 68       	ori	r24, 0x80	; 128
+ 60a:	80 93 ef 00 	sts	0x00EF, r24
 	
 	return (mob + 1);
- 612:	80 2f       	mov	r24, r16
- 614:	04 c0       	rjmp	.+8      	; 0x61e <can_get_message+0x66>
+ 60e:	80 2f       	mov	r24, r16
+ 610:	04 c0       	rjmp	.+8      	; 0x61a <can_get_message+0x66>
 	// check if there is any waiting message
 	if (!at90can_check_message())
 		return 0;
 	
 	// find the MOb with the received message
 	for (mob = 0; mob < 15; mob++)
- 616:	10 2f       	mov	r17, r16
- 618:	0f 30       	cpi	r16, 0x0F	; 15
- 61a:	c1 f6       	brne	.-80     	; 0x5cc <can_get_message+0x14>
+ 612:	10 2f       	mov	r17, r16
+ 614:	0f 30       	cpi	r16, 0x0F	; 15
+ 616:	c1 f6       	brne	.-80     	; 0x5c8 <can_get_message+0x14>
 	bool found = false;
 	uint8_t mob;
 	
 	// check if there is any waiting message
 	if (!at90can_check_message())
 		return 0;
- 61c:	80 e0       	ldi	r24, 0x00	; 0
+ 618:	80 e0       	ldi	r24, 0x00	; 0
 	
 	// clear flags
 	CANCDMOB = (1 << CONMOB1) | (CANCDMOB & (1 << IDE));
 	
 	return (mob + 1);
 }
- 61e:	df 91       	pop	r29
- 620:	cf 91       	pop	r28
- 622:	1f 91       	pop	r17
- 624:	0f 91       	pop	r16
- 626:	08 95       	ret
+ 61a:	df 91       	pop	r29
+ 61c:	cf 91       	pop	r28
+ 61e:	1f 91       	pop	r17
+ 620:	0f 91       	pop	r16
+ 622:	08 95       	ret
 
-00000628 <_exit>:
- 628:	f8 94       	cli
+00000624 <_exit>:
+ 624:	f8 94       	cli
 
-0000062a <__stop_program>:
- 62a:	ff cf       	rjmp	.-2      	; 0x62a <__stop_program>
+00000626 <__stop_program>:
+ 626:	ff cf       	rjmp	.-2      	; 0x626 <__stop_program>

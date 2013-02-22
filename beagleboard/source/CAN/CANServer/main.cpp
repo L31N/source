@@ -84,7 +84,7 @@ int main () {
                 short senderID = ipc_buffer->getSenderID();
 
                 debug.send("data: %s\tsenderID: %i", data.c_str(), senderID);
-                std::cout << "data: " << data << "\tsenderID: " << senderID << std::endl;
+                std::cout << "data: " << (int)data << "\tsenderID: " << senderID << std::endl;
 
                 char command = data[0];
 
