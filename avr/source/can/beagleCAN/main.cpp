@@ -31,6 +31,14 @@ int main () {
 
     PORTA = 0x01;
 
+    while(true) {
+        PORTA = uart_count();
+        _delay_ms(1000);
+        PORTA = 0x00;
+        _delay_ms(250);
+
+    }
+
     bool f_pressed = false;
 
     while(true) {
