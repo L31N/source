@@ -14,7 +14,7 @@ const unsigned int LED_REMOTE_ID [8] = {229, 230, 231, 232, 233, 234, 235, 236};
 const unsigned int LED_REMOTE_PREFIX = 7;
 
 int main () {
-    uart_init(9600);
+    uart_init(57600);
     can_init(BITRATE_100_KBPS);
     sei();
 
@@ -30,13 +30,26 @@ int main () {
     DDRA |= 0xFF;       // leds as output
 
     PORTA = 0x01;
+    _delay_ms(1000);
 
-    while(true) {
+    /*while(true) {
+        PORTA = 0xFF;
+        uart_putc(111);
+        _delay_ms(900);
+        PORTA = 0x01;
+        _delay_ms(100);
+    }*/
+
+    /*while(true) {
         if (uart_isnewdata()) {
             uart_putc(uart_getc());
             uart_putc('.');
         }
-    }
+    }*/
+
+    /*while(true) {
+        PORTA = uart_count();
+    }*/
 
     bool f_pressed = false;
 
