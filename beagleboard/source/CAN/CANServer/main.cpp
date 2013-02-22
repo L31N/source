@@ -83,6 +83,7 @@ int main () {
 
                 debug.send("data: %s\tsenderID: %i", data.c_str(), senderID);
                 std::cout << "data: " << data << "\tsenderID: " << senderID << std::endl;
+                std::cout << "command: " << data[0] << std::endl;
 
                 char command = data[0];
 
