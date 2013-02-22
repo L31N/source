@@ -34,7 +34,7 @@ int main () {
     msg.data[5] = 6;
     msg.data[6] = 7;
     msg.data[7] = 8;*/
-    msg.data[0] = 'A';
+    msg.data[0] = 243;
     msg.data[1] = 'B';
     msg.data[2] = 'C';
     msg.data[3] = 'D';

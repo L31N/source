@@ -4,7 +4,7 @@
 
 #include "can/bbcan.h"
 
-int main () {
+/*int main () {
     CAN* can = new CAN("MOTION_CONTROLLER");
     can->init_member("LASER_SENSOR2");
 
@@ -21,5 +21,15 @@ int main () {
 
     sleep(10);
 
+    return 0;
+}*/
+
+int main () {
+    CAN* can = new CAN("MOTION_CONTROLLER");
+    can->init_member("MOTOR0");
+
+    can->setValue("MOTOR0", 129);
+
+    sleep(1);
     return 0;
 }
