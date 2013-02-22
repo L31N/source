@@ -28,11 +28,6 @@ int main () {
     CAN* can = new CAN("MOTION_CONTROLLER");
     can->init_member("MOTOR0");
 
-    char* data = new char[8];
-    //char data[8];
-
-    //for (int i = 0; i < 8; i++) data[i] = 0xF0;
-
     can->setValue("MOTOR0", 111);
 
     sleep(1);
