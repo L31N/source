@@ -14,7 +14,7 @@ const unsigned int LED_REMOTE_ID [8] = {229, 230, 231, 232, 233, 234, 235, 236};
 const unsigned int LED_REMOTE_PREFIX = 7;
 
 int main () {
-    uart_init(19200);
+    uart_init(9600);
     can_init(BITRATE_100_KBPS);
     sei();
 
@@ -39,7 +39,7 @@ int main () {
 
     while(true) {
        if (uart_count() >= 12) {  /// neue serial massages vorhanden
-            PORTA = 0xFF;
+            PORTA = 0x02;
             _delay_ms(1000);
             PORTA = 0x01;
 
