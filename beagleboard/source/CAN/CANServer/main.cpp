@@ -50,7 +50,7 @@ int main () {
                 char can_data[8];
                 for (int i = 0; i < 8; i++) can_data[i] = serial_buffer[3+i];
 
-                std::string ipc_output ((char* )&can_id, 1);
+                std::string ipc_output ((char*)&can_id);
                 ipc_output += std::string(can_data, 8);
 
                 /*std::cout << "can_id: " << int(can_id) << std::endl;
