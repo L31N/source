@@ -28,7 +28,7 @@ int main () {
     CAN* can = new CAN("MOTION_CONTROLLER");
     can->init_member("MOTOR0");
 
-    can->setValue("MOTOR0", 'X');
+    can->setValue("MOTOR0", 111);
 
     sleep(1);
     return 0;
