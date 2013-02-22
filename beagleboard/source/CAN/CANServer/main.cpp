@@ -78,7 +78,7 @@ int main () {
 
             if (ipcRCon.checkForNewData()) {        /// new ipc data available ...
                 ipc_buffer = ipcRCon.readDataFromBuffer();
-                if (data == NULL) std::cout << "################### data = NULL !!!" << std::endl;
+           	std::cout << "IPC_BUFFER: " << ipc_buffer << std::endl;
                 std::string data = ipc_buffer->getData();
                 short senderID = ipc_buffer->getSenderID();
 
