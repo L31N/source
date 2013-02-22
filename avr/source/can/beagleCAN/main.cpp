@@ -14,7 +14,7 @@ const unsigned int LED_REMOTE_ID [8] = {229, 230, 231, 232, 233, 234, 235, 236};
 const unsigned int LED_REMOTE_PREFIX = 7;
 
 int main () {
-    uart_init(57600);
+    uart_init(38400);
     can_init(BITRATE_100_KBPS);
     sei();
 
