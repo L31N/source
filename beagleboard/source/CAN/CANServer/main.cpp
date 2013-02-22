@@ -108,6 +108,7 @@ int main () {
                 if (command == 's') {  /// send data via CAN
 
                     unsigned short can_id = data[0];
+                    std::cout << "can_id: " << can_id << std::endl;
                     data.erase(0, 1);
                     char serial_data[12];
                     serial_data[0] = 's';

@@ -63,7 +63,7 @@ int main () {
             memset(incomming_serial_data, 0, 12);
 
             uart_read(incomming_serial_data, 12);
-            for (int i = 0; i < 12; i++) uart_putc(incomming_serial_data[i]);
+            //for (int i = 0; i < 12; i++) uart_putc(incomming_serial_data[i]);
 
             if (incomming_serial_data[0] == 's') {
                 PORTA = 0xFF;
