@@ -4,7 +4,7 @@
 
 #include "sensor/cmpsSensor.h"
 #include "sensor/laserSensor.h"
-#include "irSensor.h"
+#include "sensor/irSensor.h"
 
 int main () {
     std::cout << "starting programm " << std::endl;
@@ -12,12 +12,12 @@ int main () {
     std::cout << "before getAngle()" << std::endl;
     std::cout << "cmps: " << cmps->getAngle() << std::endl;*/
 
-    irSensor bsensor = new irSensor("BALL_SENSOR0", "BALL_SENSOR0", irSensor::G0);
+    IRSensor* bsensor = new IRSensor("BALL_SENSOR0", "BALL_SENSOR0", IRSensor::G0);
     sleep(1);
     while(true) {
         unsigned int status = bsensor->getStatus();
-        std::cout << "status: " << dist << std::endl;
-        sleep();
+        std::cout << "status: " << status << std::endl;
+        sleep(1);
     }
     //delete cmps;
     return 0;
