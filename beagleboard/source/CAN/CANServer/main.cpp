@@ -42,6 +42,10 @@ int main () {
                 debug.send("serial data received: %s", serial_buffer.c_str());
                 std::cout << "received new serialdata: " << serial_buffer << std::endl;
 
+                /*for (int i = 0; i < 11; i++) {
+                    std::cout << "[" << i << "]: " << int(serial_buffer[i]) << std::endl;
+                }*/
+
                 //bool can_rtr = serial_buffer[0];
                 unsigned short can_id = serial_buffer[1];
                 //unsigned short can_length = serial_buffer[2];
