@@ -29,6 +29,7 @@ int main () {
     can->init_member("MOTOR0");
 
     char* data = new char[8];
+    //char data[8];
 
     data[0] = 0x0F;
     data[1] = 0xF0;
