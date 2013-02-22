@@ -31,9 +31,9 @@ int main () {
     char* data = new char[8];
     //char data[8];
 
-    for (int i = 0; i < 8; i++) data[i] = 0xF0;
+    //for (int i = 0; i < 8; i++) data[i] = 0xF0;
 
-    can->setValue("MOTOR0", data);
+    can->setValue("MOTOR0", 111);
 
     sleep(1);
     return 0;
