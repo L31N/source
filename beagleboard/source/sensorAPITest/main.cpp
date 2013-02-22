@@ -4,7 +4,7 @@
 
 #include "sensor/cmpsSensor.h"
 #include "sensor/laserSensor.h"
-#include "irSensor.h"
+#include "sensor/irSensor.h"
 
 int main () {
     std::cout << "starting programm " << std::endl;
