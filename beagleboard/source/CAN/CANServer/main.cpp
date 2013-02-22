@@ -107,6 +107,7 @@ int main () {
                 }*/
                 if (command == 's') {  /// send data via CAN
 
+                    data.erase(0, 1);
                     unsigned short can_id = data[0];
                     data.erase(0, 1);
                     char serial_data[12];

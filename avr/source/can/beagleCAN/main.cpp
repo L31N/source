@@ -66,6 +66,9 @@ int main () {
             for (int i = 0; i < 12; i++) uart_putc(incomming_serial_data[i]);
 
             if (incomming_serial_data[0] == 's') {
+                PORTA = 0xFF;
+                _delay_ms(1000);
+                PORTA = 0x01;
                 if (((unsigned int)incomming_serial_data[2] >> 5) != LED_REMOTE_PREFIX) {    /// real CAN frame
 
                     can_t outgoing_can_data;
