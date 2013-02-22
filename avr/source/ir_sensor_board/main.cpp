@@ -17,8 +17,8 @@ int main () {
     can_init(BITRATE_1_MBPS);
 
     can_filter_t filter0;
-    filter0.id = 0x00F;
-    filter0.mask = 0x7FF;
+    filter0.id = 129;
+    filter0.mask = 0x7E0;
 
     filter0.flags.rtr = 0;
 
@@ -60,7 +60,7 @@ int main () {
 
         can_t data_frame;
         data_frame.flags.rtr = 0;
-        data_frame.id = 0x000;
+        data_frame.id = 0x129;
         data_frame.length = 3;
 
         data_frame.data[0] = regC;
@@ -68,6 +68,8 @@ int main () {
         data_frame.data[2] = regE;
 
         can_send_message (&data_frame);
+
+        _delay_ms(1);
 
     }
 }
