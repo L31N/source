@@ -14,7 +14,7 @@ int main () {
     Button* button = new Button("USER_BUTTON0", "USER_BUTTON0");
 
     while(true) {
-        std::cout << "BUTTON0 status: " << button->getStatus() << std::endl;
+        std::cout << "BUTTON0 status: " << button->getButton(0) << std::endl;
         sleep(1);
     }
 }
