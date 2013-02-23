@@ -7,34 +7,21 @@
 
 int main () {
 
-    const unsigned short MOTOR1 = 0x005;
-    const unsigned short MOTOR2 = 0x006;
-    const unsigned short DRIBBLER = 0x007;
+    const unsigned short MOTOR1 = 1;
+    const unsigned short MOTOR2 = 2;
+//    const unsigned short MOTOR1 = 33;
+//    const unsigned short MOTOR2 = 34;
 
 
-    can_init(BITRATE_1_MBPS);
+    can_init(BITRATE_100_KBPS);
 
     // motor 1
     can_filter_t filter0;
     filter0.id = MOTOR1;
-    filter0.mask = 0x7FF;
+    filter0.mask = 0x7E0;
     filter0.flags.rtr = 0;
 
-    // motor 2
-    can_filter_t filter1;
-    filter1.id = MOTOR2;
-    filter1.mask = 0x7FF;
-    filter1.flags.rtr = 0;
-
-    // dribbler
-    can_filter_t filter2;
-    filter2.id = DRIBBLER;
-    filter2.mask = 0x7FF;
-    filter2.flags.rtr = 0;
-
     can_set_filter(0, &filter0);
-    can_set_filter(1, &filter1);
-    can_set_filter(2, &filter2);
 
     while(42) {
         if (can_check_message()) {
@@ -43,17 +30,20 @@ int main () {
 
             // values +/- 255
             short tmp = 0;
-            tmp |= (message.data[0] << 8);
-            tmp |= (message.data[1] << 0);
+            tmp = message.data[2];
+
+            if(message.data[1] == 1)
+            {
+            	tmp *= -1;
+            }
 
             long value = tmp;
             value += 255;
             value *= 1000;
             value /= (2*255);
 
-            if (message.id == MOTOR1) pwm_set((unsigned long)value, 0);
-            if (message.id == MOTOR2) pwm_set((unsigned long)value, 1);
-            if (message.id == DRIBBLER) pwm_set((unsigned long) value, 2);
+            if (message.data[0] == 0) pwm_set((unsigned long)value, 0);
+            if (message.data[0] == 1) pwm_set((unsigned long)value, 1);
         }
     }
 
