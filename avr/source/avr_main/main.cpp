@@ -5,6 +5,7 @@
 #include <math.h>
 
 #include "board.h"
+#include "motor.h"
 #include "can.h"
 
 const unsigned char id_ir_front = 129;
@@ -23,9 +24,13 @@ bool get_ir_value(unsigned char num);
 int main () {
 
     Board board;
+    Motor motor;
 
     while(true) {
-        for (unsigned char i = 0; i < 4; i++) board.ledOn(i, board.buttonDown(i));
+        for (unsigned char i = 0; i < 4; i++) {
+            board.ledOn(i, board.buttonDown(i));
+            motor.setSpeed(i, 100 * board.buttonDown(i));
+        }
     }
 
     /// ++++++++++++++++++++++++ ///

@@ -8,8 +8,8 @@
 int main () {
     pwm_init();
 
-    const unsigned short BOARD_ID = 1;      /// BOARD_0
-    //const unsigned short BOARD_ID = 33;   /// BOARD_1
+    //const unsigned short BOARD_ID = 1;      /// BOARD_0
+    const unsigned short BOARD_ID = 33;   /// BOARD_1
 
 
     can_init(BITRATE_100_KBPS);

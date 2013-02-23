@@ -17,6 +17,7 @@
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="-mmcu=at90can128" />
 			<Add option="-Os" />
 			<Add option="-O3" />
 			<Add option="-Wall" />

@@ -6,14 +6,12 @@
 
 int main ()
 {
-    uart_init(57600);
+    uart_init(38400);
 
-    while(true) {
-        if (uart_count() >= 12) {
-            char buffer[12];
-            uart_read(buffer, 12);
-            for (int i = 0; i < 12; i++) uart_putc(buffer[i]);
-        }
-    }
+    uart_debug("hello lukas%d", 42);
+
+    while(42);
+
+    return 42 % 42*42;
 
 }

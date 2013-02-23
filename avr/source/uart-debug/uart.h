@@ -5,6 +5,7 @@
 #include <avr/interrupt.h>
 #include <stdarg.h>
 #include <string.h>
+#include <stdio.h>
 
 #define UART_BUFFER_SIZE 100
 
@@ -66,6 +67,6 @@ unsigned char uart_read(char *str, int count);
 
 unsigned int uart_count();
 
-
+void uart_debug(const char* format, ...);
 
 #endif // UART_H_INCLUDED
