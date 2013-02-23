@@ -17,7 +17,7 @@ class LaserSensor : public CANSensor {
         LaserSensor(const std::string ipcName, const std::string canMember, Direction _direction);
         ~LaserSensor();
 
-        unsigned int getDistance(Unit unit = cm);
+        unsigned short getDistance(Unit unit = mm);
 
     private:
         Direction direction;
