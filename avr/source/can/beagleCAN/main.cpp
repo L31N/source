@@ -51,9 +51,8 @@ int main () {
         PORTA = uart_count();
     }*/
 
-    bool f_pressed = false;
-
     while(true) {
+        _delay_ms(20);
        if (uart_count() >= 12) {  /// neue serial massages vorhanden
             char incomming_serial_data[12];
             memset(incomming_serial_data, 0, 12);
@@ -115,44 +114,55 @@ int main () {
             }
             PORTA &= ~(0xFF);
         }
+
+        bool button_high = false;
         if (PINE < 0xF0) {  /// button pressed
-            if (!f_pressed) {
-                // send the signal that a button was pressed ...
-                char outgoing_serial_data[11];
+            button_high = true;
+            // send the signal that a button was pressed ...
+            char outgoing_serial_data[11];
 
-                outgoing_serial_data[0] = 0;
+            outgoing_serial_data[0] = 0;
 
-                /*unsigned char tmp = (PINE >> 0);
-                switch (tmp) {
-                    case 1:
-                        outgoing_serial_data[1] = BUTTON_ID[0];
-                        break;
-                    case 2:
-                        outgoing_serial_data[1] = BUTTON_ID[1];
-                        break;
-                    case 4:
-                        outgoing_serial_data[1] = BUTTON_ID[2];
-                        break;
-                    case 8:
-                        outgoing_serial_data[1] = BUTTON_ID[3];
-                        break;
-                    default:
-                        for (int i = 0; tmp & (unsigned char)pow(2, i); i++) outgoing_serial_data[1] = BUTTON_ID[i];
-                }*/
+            /*unsigned char tmp = (PINE >> 0);
+            switch (tmp) {
+                case 1:
+                    outgoing_serial_data[1] = BUTTON_ID[0];
+                    break;
+                case 2:
+                    outgoing_serial_data[1] = BUTTON_ID[1];
+                    break;
+                case 4:
+                    outgoing_serial_data[1] = BUTTON_ID[2];
+                    break;
+                case 8:
+                    outgoing_serial_data[1] = BUTTON_ID[3];
+                    break;
+                default:
+                    for (int i = 0; tmp & (unsigned char)pow(2, i); i++) outgoing_serial_data[1] = BUTTON_ID[i];
+            }*/
 
-                outgoing_serial_data[1] = BUTTON_ID[0];
+            outgoing_serial_data[1] = BUTTON_ID[0];
 
 
-                outgoing_serial_data[2] = 8;
-                outgoing_serial_data[3] = PINE & 0xF0;
-                for (int i = 4; i < 8; i++) outgoing_serial_data[i] = 0xFF;
+            outgoing_serial_data[2] = 8;
+            outgoing_serial_data[3] = PINE & 0xF0;
+            for (int i = 4; i < 8; i++) outgoing_serial_data[i] = 0xFF;
 
-                for (int i = 0; i < 11; i++) {
-                    uart_putc(outgoing_serial_data[i]);
-                }
+            for (int i = 0; i < 11; i++) {
+                uart_putc(outgoing_serial_data[i]);
             }
-            f_pressed = true;
         }
-        else f_pressed = false;
+        else if (button_high) {
+            button_high = false;
+            char outgoing_serial_data[11];
+            outgoing_serial_data[0] = 0;
+            outgoing_serial_data[1] = BUTTON_ID[0];
+            outgoing_serial_data[2] = 8;
+            outgoing_serial_data[3] = 0x00;
+            for (int i = 4; i < 8; i++) outgoing_serial_data[i] = 0x00;
+
+            for (int i = 0; i < 11; i++) uart_putc(outgoing_serial_data[i]);
+            _delay_ms(1);
+        }
     }
 }
