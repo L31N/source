@@ -10,7 +10,7 @@
 int main () {
     std::cout << "reflex_switch testing ..." << std::endl;
 
-    ReflexSwitch* rswitch = new ReflexSwitch("REFLEX_BUTTON0", "REFLEX_BUTTON_0");
+    ReflexSwitch* rswitch = new ReflexSwitch("REFLEX_BUTTON0", "REFLEX_BUTTON0");
     while(true) {
         std::cout << "status: " << rswitch->getStatus() << std::endl;
         sleep(1);
