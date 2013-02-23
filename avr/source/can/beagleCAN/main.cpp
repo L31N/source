@@ -115,7 +115,7 @@ int main () {
             }
             PORTA &= ~(0xFF);
         }
-        if (PINE & 0xF0) {  /// button pressed
+        if (PINE < 0xF0) {  /// button pressed
             if (!f_pressed) {
                 // send the signal that a button was pressed ...
                 char outgoing_serial_data[11];
