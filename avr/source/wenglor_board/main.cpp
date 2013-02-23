@@ -60,7 +60,7 @@ int main(void)
         can_send_message (&data_laser_1);
         can_send_message (&data_reflex);
 
-        _sleep_ms(2);
+        _delay_ms(2);
 	}
 
 
