@@ -51,6 +51,8 @@ int main () {
         PORTA = uart_count();
     }*/
 
+    bool button_high = false;
+
     while(true) {
         _delay_ms(20);
        if (uart_count() >= 12) {  /// neue serial massages vorhanden
@@ -115,7 +117,6 @@ int main () {
             PORTA &= ~(0xFF);
         }
 
-        bool button_high = false;
         if (PINE < 0xF0) {  /// button pressed
             button_high = true;
             // send the signal that a button was pressed ...
@@ -162,7 +163,6 @@ int main () {
             for (int i = 4; i < 8; i++) outgoing_serial_data[i] = 0x00;
 
             for (int i = 0; i < 11; i++) uart_putc(outgoing_serial_data[i]);
-            _delay_ms(1);
         }
     }
 }
