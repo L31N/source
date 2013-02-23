@@ -105,6 +105,7 @@ void Vector::setLength(double l)
 /*
     Diese Methode Addiert das Objekt und den vector sum
 */
+
 Vector Vector::operator+(Vector sum)
 {
     x += sum.getX();

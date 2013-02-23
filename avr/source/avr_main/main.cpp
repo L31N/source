@@ -4,6 +4,7 @@
 #include <avr/interrupt.h>
 #include <math.h>
 
+#include "board.h"
 #include "can.h"
 
 const unsigned char id_ir_front = 129;
@@ -20,6 +21,15 @@ bool get_ir_value(unsigned char num);
 
 
 int main () {
+
+    Board board;
+
+    while(true) {
+        for (unsigned char i = 0; i < 4; i++) board.ledOn(i, board.buttonDown(i));
+    }
+
+    /// ++++++++++++++++++++++++ ///
+
     init_avr();
     can_init(BITRATE_100_KBPS);
     sei();
@@ -33,19 +43,8 @@ int main () {
     PORTA = 0x02;
 
     while(42) {
-        /*if (button()) {
-            motor(0, 50);
-            _delay_ms(100);
-            motor(0, 0);
-        }*/
         PORTA = (get_ir_value(0));
         _delay_ms(10);
-        /*if (can_check_message()) {
-            PORTA = 0x10;
-            _delay_ms(500);
-            PORTA = 0x00;
-            _delay_ms(500);
-        }*/
     }
 }
 

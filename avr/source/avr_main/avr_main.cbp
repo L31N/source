@@ -17,22 +17,26 @@
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-Wall" />
 			<Add option="-mmcu=at90can128" />
+			<Add option="-Wall" />
 			<Add option="-DF_CPU=16000000UL" />
+			<Add directory="/avrusr/include" />
 		</Compiler>
 		<Linker>
 			<Add option="-mmcu=at90can128" />
-			<Add option="-Wl,--section-start=.data=0x801100" />
+			<Add option="-lcan" />
+			<Add directory="/avrusr/lib" />
 		</Linker>
 		<ExtraCommands>
 			<Add after="avr-size $(TARGET_OUTPUT_FILE)" />
 			<Add after="avr-objcopy -O ihex -R .eeprom -R .eesafe $(TARGET_OUTPUT_FILE) $(TARGET_OUTPUT_FILE).hex" />
 			<Add after="avr-objcopy --no-change-warnings -j .eeprom --change-section-lma .eeprom=0 -O ihex $(TARGET_OUTPUT_FILE) $(TARGET_OUTPUT_FILE).eep.hex" />
 		</ExtraCommands>
-		<Unit filename="main.c">
-			<Option compilerVar="CC" />
-		</Unit>
+		<Unit filename="board.cpp" />
+		<Unit filename="board.h" />
+		<Unit filename="main.cpp" />
+		<Unit filename="motor.cpp" />
+		<Unit filename="motor.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
