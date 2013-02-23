@@ -11,6 +11,8 @@ int main () {
     std::cout << "reflex_switch testing ..." << std::endl;
 
     ReflexSwitch* rswitch = new ReflexSwitch("REFLEX_BUTTON0", "REFLEX_BUTTON0");
+
+    std::cout << "after ctor" << std::endl;
     while(true) {
         std::cout << "status: " << rswitch->getStatus() << std::endl;
         sleep(1);
