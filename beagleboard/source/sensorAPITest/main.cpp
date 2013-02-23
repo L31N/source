@@ -8,11 +8,16 @@
 #include "sensor/reflexSwitch.h"
 
 int main () {
+    std::cout << "reflex_switch testing ..." << std::endl;
+
     ReflexSwitch* rswitch = new ReflexSwitch("REFLEX_BUTTON0", "REFLEX_BUTTON_0");
     while(true) {
         std::cout << "status: " << rswitch->getStatus() << std::endl;
         sleep(1);
     }
+
+    delete rswitch;
+    return 0;
 }
 
 /*int main () {
