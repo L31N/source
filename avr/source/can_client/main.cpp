@@ -8,9 +8,9 @@
 int main () {
 
     // initialisation of the buttons and leds //
-    DDRE &= ~(0xF0);    // buttons as input
-    PORTE |= 0xF0;      // activate internal pull-ups
-    DDRA |= 0xFF;       // leds as output
+    //DDRE &= ~(0xF0);    // buttons as input
+    //PORTE |= 0xF0;      // activate internal pull-ups
+    //DDRA |= 0xFF;       // leds as output
 
     can_init(BITRATE_100_KBPS);
     sei();
@@ -43,21 +43,21 @@ int main () {
     msg.data[6] = 'G';
     msg.data[7] = 'H';
 
-    PORTA |= 0x02;
+    //PORTA |= 0x02;
 
     while(true) {
         _delay_ms(200);
         if (can_send_message(&msg)) {
-            PORTA |= 0xFF;
+            //PORTA |= 0xFF;
             _delay_ms(1000);
-            PORTA &= ~(0xFF);
+            //PORTA &= ~(0xFF);
             _delay_ms(1000);
             // comment
         }
         else {
-            PORTA |= 0xF0;
+            //PORTA |= 0xF0;
             _delay_ms(500);
-            PORTA &= ~(0xF0);
+            //PORTA &= ~(0xF0);
             _delay_ms(500);
         }
         //_delay_ms(1000);

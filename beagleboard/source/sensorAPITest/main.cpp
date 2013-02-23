@@ -5,8 +5,17 @@
 #include "sensor/cmpsSensor.h"
 #include "sensor/laserSensor.h"
 #include "sensor/irSensor.h"
+#include "sensor/reflexSwitch.h"
 
 int main () {
+    ReflexSwitch* rswitch = new ReflexSwitch("REFLEX_BUTTON0", "REFLEX_BUTTON_0");
+    while(true) {
+        std::cout << "status: " << rswitch->getStatus() << std::endl;
+        sleep(1);
+    }
+}
+
+/*int main () {
 	std::cout << "starting ..." << std::endl;
 	LaserSensor* laser = new LaserSensor("LASER_SENSOR0", "LASER_SENSOR0", LaserSensor::back);
 
@@ -16,7 +25,7 @@ int main () {
 	}
 
 	return 0;
-}
+}*/
 
 //int main () {
     //std::cout << "starting programm " << std::endl;
