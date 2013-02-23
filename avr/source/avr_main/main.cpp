@@ -8,7 +8,7 @@
 #include "motor.h"
 #include "can.h"
 
-const unsigned char id_ir_front = 129;
+/*const unsigned char id_ir_front = 129;
 const unsigned char id_ir_right = 135;
 const unsigned char id_ir_back = 144;
 const unsigned char id_ir_left = 150;
@@ -17,25 +17,59 @@ void init_avr();
 bool button(unsigned char num = 5);     // 5 is anybutton
 void set_ir_can_filter();
 void motor(unsigned short num, signed short speed);
-bool get_ir_value(unsigned char num);
+bool get_ir_value(unsigned char num);*/
 //unsigned short get_ball_dir();
 
 
 int main () {
 
+    uart_init(38400);
+    can_init(BITRATE_100_KBPS);
+    sei();
+
     Board board;
     Motor motor;
 
     while(true) {
+
+        if(board.buttonDown(0))
+        {
+            board.ledOn(0, true);
+            board.ledOn(7, false);
+            board.ledOn(4, false);
+            motor.setSpeed(2, 255);
+        }
+        if(board.buttonDown(1))
+        {
+            board.ledOn(7, true);
+            board.ledOn(0, false);
+            board.ledOn(4, false);
+            motor.setSpeed(2, 0);
+        }
+        if(board.buttonDown(3))
+        {
+            board.ledOn(7, false);
+            board.ledOn(0, false);
+            board.ledOn(4, true);
+            motor.setSpeed(2, -255);
+        }
+
+        _delay_ms(200);
+    }
+
+    while(true);
+
+    /*while(true) {
         for (unsigned char i = 0; i < 4; i++) {
             board.ledOn(i, board.buttonDown(i));
             motor.setSpeed(i, 100 * board.buttonDown(i));
         }
-    }
+    }*/
+}
 
     /// ++++++++++++++++++++++++ ///
 
-    init_avr();
+    /*init_avr();
     can_init(BITRATE_100_KBPS);
     sei();
 
@@ -119,6 +153,6 @@ bool get_ir_value(unsigned char num) {
     }
 
     return ~(value) & (1 << num);
-}
+}*/
 
 //unsigned short get_ball_dir() {}

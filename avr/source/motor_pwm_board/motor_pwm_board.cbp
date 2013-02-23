@@ -35,6 +35,8 @@
 		<Unit filename="main.cpp" />
 		<Unit filename="pwm.cpp" />
 		<Unit filename="pwm.h" />
+		<Unit filename="uart.cpp" />
+		<Unit filename="uart.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
