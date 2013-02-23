@@ -44,8 +44,6 @@
 			<Add option="-lpthread" />
 			<Add directory="/bbusr/lib/" />
 		</Linker>
-		<Unit filename="ballDetection.cpp" />
-		<Unit filename="ballDetection.h" />
 		<Unit filename="button.cpp" />
 		<Unit filename="button.h" />
 		<Unit filename="canSensor.cpp" />

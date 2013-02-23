@@ -122,8 +122,8 @@ int main () {
 
                 outgoing_serial_data[0] = 0;
 
-                unsigned char tmp = (PINE >> 0);
-                /*switch (tmp) {
+                /*unsigned char tmp = (PINE >> 0);
+                switch (tmp) {
                     case 1:
                         outgoing_serial_data[1] = BUTTON_ID[0];
                         break;

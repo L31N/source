@@ -8,8 +8,8 @@ Button::Button(const std::string ipcName, const std::string canMember) : CANSens
 Button::~Button() {}
 
 bool Button::anybutton() {
-    if (can->checkForNewData()) {
-        status = *(can->getValue());
+    if (can->checkForNewData(canMember)) {
+        status = *(can->getValue(canMember));
     }
 
     return bool (status);
@@ -23,9 +23,9 @@ bool Button::getButton(unsigned char buttonnum) {
         return false;
     }
 
-    if (can->checkForNewData()) {
-        status = *(can->getValue());
+    if (can->checkForNewData(canMember)) {
+        status = *(can->getValue(canMember));
     }
 
-    return ((status >> 4+buttonnum) & 0x01);
+    return ((status >> (4 + buttonnum)) & 0x01);
 }
