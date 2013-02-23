@@ -6,6 +6,7 @@
 #include "sensor/laserSensor.h"
 #include "sensor/irSensor.h"
 #include "sensor/reflexSwitch.h"
+#include "sensor/button.h"
 
 int main () {
     std::cout << "button testing ..." << std::endl;
