@@ -7,7 +7,7 @@
 
 #include "canSensor.h"
 
-extern const unsigned int error_value_distance;
+extern const unsigned short error_value_distance;
 
 class LaserSensor : public CANSensor {
     public:
@@ -21,7 +21,7 @@ class LaserSensor : public CANSensor {
 
     private:
         Direction direction;
-        unsigned int mmDistance;
+        unsigned short mmDistance;
 };
 
 #endif // _LASER_SENSOR_H_
