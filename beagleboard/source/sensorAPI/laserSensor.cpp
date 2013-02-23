@@ -14,7 +14,7 @@ LaserSensor::LaserSensor(const std::string ipcName, const std::string canMember,
 LaserSensor::~LaserSensor() {}
 
 unsigned int LaserSensor::getDistance(Unit unit) {
-    if (can->checkForNewData(canMember)) mmDistance = int(*can->getValue(canMember));
+    if (can->checkForNewData(canMember)) mmDistance = short(*can->getValue(canMember));
 
     switch (unit) {
         case mm:
