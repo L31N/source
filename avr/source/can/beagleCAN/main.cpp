@@ -55,10 +55,6 @@ int main () {
 
     while(true) {
        if (uart_count() >= 12) {  /// neue serial massages vorhanden
-            PORTA = 0x02;
-            _delay_ms(1000);
-            PORTA = 0x01;
-
             char incomming_serial_data[12];
             memset(incomming_serial_data, 0, 12);
 
@@ -66,9 +62,9 @@ int main () {
             //for (int i = 0; i < 12; i++) uart_putc(incomming_serial_data[i]);
 
             if (incomming_serial_data[0] == 's') {
-                PORTA = 0xFF;
-                _delay_ms(1000);
-                PORTA = 0x01;
+                //PORTA = 0xFF;
+                //_delay_ms(1000);
+                //PORTA = 0x01;
                 if (((unsigned int)incomming_serial_data[2] >> 5) != LED_REMOTE_PREFIX) {    /// real CAN frame
 
                     can_t outgoing_can_data;
@@ -117,7 +113,6 @@ int main () {
                     uart_putc(outgoing_serial_data[i]);
                 }
             }
-            _delay_ms(500);
             PORTA &= ~(0xFF);
         }
         if (PINE & 0xF0) {  /// button pressed
