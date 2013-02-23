@@ -4,7 +4,7 @@
 
 #include "laserSensor.h"
 
-const unsigned int error_value_distance = std::numeric_limits<unsigned int>::max();
+const unsigned short error_value_distance = std::numeric_limits<unsigned int>::max();
 
 LaserSensor::LaserSensor(const std::string ipcName, const std::string canMember, Direction _direction) : CANSensor(ipcName, canMember) {
     direction = _direction;
@@ -13,7 +13,7 @@ LaserSensor::LaserSensor(const std::string ipcName, const std::string canMember,
 
 LaserSensor::~LaserSensor() {}
 
-unsigned int LaserSensor::getDistance(Unit unit) {
+unsigned short LaserSensor::getDistance(Unit unit) {
     if (can->checkForNewData(canMember)) mmDistance = short(*can->getValue(canMember));
 
     switch (unit) {
