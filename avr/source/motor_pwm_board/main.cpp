@@ -7,8 +7,46 @@
 
 int main () {
 
+    pwm_init();
+    //pwm_set(500, 0);
+    //_delay_ms(1000);
+    /*pwm_set(1000, 0);
+    _delay_ms(1000);
+    pwm_set(500, 0);
+    _delay_ms(1000);
+    pwm_set(300, 0);*/
+    //pwm_set(800, 0);
+    //_delay_ms(1000);
+    pwm_set(500, 0);
+    _delay_ms(10000);
+
+    /*for (int i = 500; i < 1000; i++) {
+        pwm_set(i, 0);
+        _delay_ms(10);
+    }*/
+
+    pwm_set(550, 0);        /// 555 is minimum value
+    //_delay_ms(500);
+    //pwm_set(1000, 0);
+
+    /*for (int i = 600; i > 500; i-=5) {
+        pwm_set(i, 0);
+        _delay_ms(2000);
+    }*/
+
+    //_delay_ms(2000);
+    //pwm_set (545, 0);
+
+    /*pwm_set(700, 0);
+    _delay_ms(1000);
+    pwm_set(999, 0);*/
+    //_delay_ms(5000);
+    //pwm_set(500, 0);
+
+    while(1);
+
     const unsigned short MOTOR1 = 1;
-    const unsigned short MOTOR2 = 2;
+//    const unsigned short MOTOR2 = 2;
 //    const unsigned short MOTOR1 = 33;
 //    const unsigned short MOTOR2 = 34;
 

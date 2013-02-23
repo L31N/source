@@ -2,52 +2,82 @@
 #include <avr/io.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
+#include <math.h>
 
 #include "can.h"
+
+const unsigned char id_ir_front = 129;
+const unsigned char id_ir_right = 135;
+const unsigned char id_ir_back = 144;
+const unsigned char id_ir_left = 150;
 
 void init_avr();
 bool button(unsigned char num = 5);     // 5 is anybutton
 void set_ir_can_filter();
 void motor(unsigned short num, signed short speed);
+bool get_ir_value(unsigned char num);
+//unsigned short get_ball_dir();
+
 
 int main () {
-    avr_init();
+    init_avr();
     can_init(BITRATE_100_KBPS);
+    sei();
 
     set_ir_can_filter();
 
+    PORTA = 0x01;
+
     while(!button());
 
+    PORTA = 0x02;
+
     while(42) {
-        if (button()) {
+        /*if (button()) {
             motor(0, 50);
-            _delay_ms(5000);
+            _delay_ms(100);
             motor(0, 0);
-        }
+        }*/
+        PORTA = (get_ir_value(0));
+        _delay_ms(10);
+        /*if (can_check_message()) {
+            PORTA = 0x10;
+            _delay_ms(500);
+            PORTA = 0x00;
+            _delay_ms(500);
+        }*/
     }
 }
 
 void init_avr() {
     DDRA = 0xFF;        // leds
     DDRE &= ~(0xF0);       // buttons
+    PORTE |= 0xF0;
 }
 
 bool button(unsigned char num) {
-
+    if (num == 5) {
+        if (PINE < 0xF0) return true;
+        else return false;
+    }
+    else {
+        if (PINE & (1 << (4 + num))) return true;
+        else return false;
+    }
 }
 
 
 void set_ir_can_filter() {
     can_filter_t filter_ir;
-    filter_ir.rtr = 0;
+    filter_ir.flags.rtr = 0;
     filter_ir.id = 0x01;
     filter_ir.mask = 0x00;
 
-    can_set_filter(&filter_ir);
+    can_set_filter(0, &filter_ir);
 }
 
 void motor(unsigned short num, signed short speed) {
-    if (motor > 3) {
+    if (num > 3) {
         return;
     }
     else {
@@ -61,10 +91,30 @@ void motor(unsigned short num, signed short speed) {
         motor_frame.length = 8;
 
         motor_frame.data[0] = num%2;
-        if (speed < 0) motor_frame.data[1] = 0;
-        else motor_frame.data[1] = 1;
-        motor_frame.data[2] = abs(speed);
+        if (speed < 0) {
+            motor_frame.data[1] = 0;
+            motor_frame.data[2] = -speed;
+        }
+        else {
+            motor_frame.data[1] = 1;
+            motor_frame.data[2] = speed;
+        }
 
         can_send_message(&motor_frame);
     }
 }
+
+bool get_ir_value(unsigned char num) {
+    unsigned long value = 0;
+    if (can_check_message()) {
+        can_t ir_data;
+        can_get_message(&ir_data);
+        value = (unsigned long)ir_data.data[0];
+        value |= ((unsigned long)ir_data.data[1] << 8);
+        value |= ((unsigned long)ir_data.data[2] << 16);
+    }
+
+    return ~(value) & (1 << num);
+}
+
+//unsigned short get_ball_dir() {}
