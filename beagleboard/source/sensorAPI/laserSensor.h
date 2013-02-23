@@ -21,7 +21,7 @@ class LaserSensor : public CANSensor {
 
     private:
         Direction direction;
-        unsigned int mmDistance;
+        unsigned short mmDistance;
 };
 
 #endif // _LASER_SENSOR_H_
