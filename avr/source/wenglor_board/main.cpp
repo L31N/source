@@ -14,8 +14,8 @@ int main(void)
 	sei();
 
     can_filter_t filter0;
-    filter0.id = 65;        /// board0
-    //filter0.id = 97;        /// board1
+    filter0.id = 65;            /// board0
+    //filter0.id = 97;          /// board1
     filter0.mask = 0x7E0;
 
     filter0.flags.rtr = 0;
@@ -47,7 +47,8 @@ int main(void)
 		adc_laser_0 = adc_read(0);
 		//adc_laser_0 = 2506;
 		adc_laser_1 = adc_read(1);
-		status_reflex = ( (unsigned long)PINE & (1<<4) ) >> 4;
+		//status_reflex = ( (unsigned long)PINE & (1<<4) ) >> 4;
+		status_reflex = (PINE &  (1 << 4));
 
         //data_laser_0.data[0] = adc_laser_0 & 0xFF00;
         //data_laser_0.data[1] = adc_laser_0 & 0x00FF;
