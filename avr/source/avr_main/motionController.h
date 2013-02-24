@@ -2,7 +2,7 @@
 #ifndef _MOTION_CONTROLLER_H_
 #define _MOTION_CONTROLLER_H_
 
-#include "avrvector.h"
+#include "vector.h"
 #include "motor.h"
 
 class MotionController {
@@ -16,7 +16,7 @@ class MotionController {
         void pbreak();
 
     private:
-        Motors motor;
+        Motor motor;
         short* motorSpeeds;
 };
 

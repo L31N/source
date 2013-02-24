@@ -1,20 +1,21 @@
 
 // motionController.cpp
 
-#include <cmath>
+#include <math.h>
+#include <stdlib.h>
 
 #include "motionController.h"
 
 MotionController::MotionController() {
-	motorSpeeds = (short*)malloc (4, sizeof(short));
+	motorSpeeds = (short*)malloc (4 * sizeof(short));
 	for (int i = 0; i < 4; i++) {
-		motor->setSpeed(i, 0);
+		motor.setSpeed(i, 0);
 		motorSpeeds[i] = 0;
 	}
 }
 
 MotionController::~MotionController() {
-    free (motorSpeeds)
+    free(motorSpeeds);
 }
 
 void MotionController::drive(Vector vector, short rotationSpeed) {
@@ -140,7 +141,7 @@ void MotionController::drive(Vector vector, short rotationSpeed) {
     motorSpeeds[3] += rotationSpeed;
 
     //for (int i = 0; i < 4; i++) motors[i]->setSpeed(motorSpeeds[i]);
-    for (int i = 0; i < 4; i++) motor->setSpeed(motorSpeeds[i]);
+    for (int i = 0; i < 4; i++) motor.setSpeed(i, motorSpeeds[i]);
 
     return;
 }

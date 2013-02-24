@@ -41,6 +41,8 @@
 		<Unit filename="motor.h" />
 		<Unit filename="uart.cpp" />
 		<Unit filename="uart.h" />
+		<Unit filename="vector.cpp" />
+		<Unit filename="vector.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
