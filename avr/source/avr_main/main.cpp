@@ -30,9 +30,25 @@ int main () {
     Board board;
     Motor motor;
 
+    while(!board.buttonDown());
+    motor.test(0);
+    motor.test(1);
+    motor.test(2);
+    motor.test(3);
+
+    board.ledOn(2, 1);
+
     while(true) {
 
-        if(board.buttonDown(0))
+        /*for (int i = 0; i < 4; i++) {
+            board.ledOn(i, board.buttonDown(i));
+            motor.setSpeed(i, board.buttonDown(i)*-200);
+            _delay_ms(100);
+        }*/
+
+
+
+        /*if(board.buttonDown(0))
         {
             board.ledOn(0, true);
             board.ledOn(7, false);
@@ -52,7 +68,7 @@ int main () {
             board.ledOn(0, false);
             board.ledOn(4, true);
             motor.setSpeed(2, -255);
-        }
+        }*/
 
         _delay_ms(200);
     }

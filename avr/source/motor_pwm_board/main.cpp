@@ -9,8 +9,13 @@
 int main () {
     pwm_init();
 
-    //const unsigned short BOARD_ID = 1;      /// BOARD_0
-    const unsigned short BOARD_ID = 33;   /// BOARD_1
+    //const bool BOARD_0 = true;      /// board0
+    const bool BOARD_0 = false;     /// board1
+
+    unsigned short BOARD_ID = 0;
+
+    if (BOARD_0) BOARD_ID = 1;
+    else BOARD_ID = 33;
 
     uart_init(38400);
 
@@ -40,6 +45,8 @@ int main () {
             {
             	tmp *= -1;
             }
+
+            if (!BOARD_0) tmp *= (-1);
 
             long value = tmp;
 
