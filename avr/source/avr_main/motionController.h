@@ -1,4 +1,3 @@
-
 #ifndef _MOTION_CONTROLLER_H_
 #define _MOTION_CONTROLLER_H_
 
