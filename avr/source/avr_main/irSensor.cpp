@@ -15,10 +15,16 @@ bool IRSensor::getStatus(unsigned char num) {
     if (can_check_message()) {
         can_t ir_frame = can_get_message(&ir_frame);
 
-        for (int j = 0; j <= NUM_OF_SENSORS / 8; j++) {
-            for (int i = 0; i < 8 && (j*8+i) < NUM_OF_SENSORS; i++) {
-                irValues[i] = (ir_frame.data[j] >> num) & 0x01;
-            }
+        /// SENSORS 0 - 6
+        for (int i = 0; i < 7; i++) {
+            irValues[i] = ir_frame.data[0] >> i & 0x01;
+        }
+
+        /// SENSORS 12 - 15
+        for (int i = 7; i < NUM_OF_SENSORS; i++) {
+            irValues[i] = ir_frame.data[1] >> i & 0x01;
         }
     }
+
+    return ~(irValues[num]);
 }
