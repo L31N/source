@@ -29,12 +29,24 @@ int main () {
 
     Board board;
     Motor motor;
+    board.ledOn(7,true);
 
     while(!board.buttonDown());
-    motor.test(0);
-    motor.test(1);
-    motor.test(2);
-    motor.test(3);
+    board.ledOn(2,true);
+
+    motor.setSpeed(0, 100);
+    motor.setSpeed(1, 100);
+    motor.setSpeed(2, -100);
+    motor.setSpeed(3, -100);
+
+    _delay_ms(3000);
+
+    motor.setSpeed(0, 0);
+    motor.setSpeed(1, 0);
+    motor.setSpeed(2, 0);
+    motor.setSpeed(3, 0);
+
+    while(1);
 
     board.ledOn(2, 1);
 
