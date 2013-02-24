@@ -52,7 +52,7 @@ void MotionController::drive(Vector vector, short rotationSpeed) {
         length_h = 1;
     }
     else {
-        /// ERROR
+        uart_debug("Error wrong angle\n\r");
     }
 
     g.setLength(cos(abs(vector.getAngle(g, false, false))) * vector.absolute());
@@ -62,6 +62,7 @@ void MotionController::drive(Vector vector, short rotationSpeed) {
     length_h *= h.absolute();
 
     if (length_g > 255 || length_g < (-255) || length_h > 255 || length_h < (-255)) {
+        uart_debug("Invalid calculation result\n\r");
         return; /// Error occured !
     }
 
@@ -70,7 +71,7 @@ void MotionController::drive(Vector vector, short rotationSpeed) {
     motorSpeeds[2] = length_h;
     motorSpeeds[3] = length_g;
 
-
+/*
     /// calculate motor-values dependend to the turn
 
     /// check here for speed overflows and step down the values if neccessary ...
@@ -139,9 +140,9 @@ void MotionController::drive(Vector vector, short rotationSpeed) {
     motorSpeeds[1] -= rotationSpeed;
     motorSpeeds[2] += rotationSpeed;
     motorSpeeds[3] += rotationSpeed;
-
-    //for (int i = 0; i < 4; i++) motors[i]->setSpeed(motorSpeeds[i]);
-    for (int i = 0; i < 4; i++) motor.setSpeed(i, motorSpeeds[i]);
+*/
+    //for (int i = 0; i < 4; i++) motor.setSpeed(i, motorSpeeds[i]);
+    for (int i = 0; i < 4; i++) uart_debug("\n\rmotor%d: %d", i, motorSpeeds[i]);
 
     return;
 }
@@ -156,5 +157,8 @@ void MotionController::drive(Vector vector, short rotationSpeed) {
 
 void MotionController::pbreak() {
     /// implement power-break functionality here !
+    for (int i = 0; i < 4; i++) {
+        motor.setSpeed(i, 0);
+    }
 }
 

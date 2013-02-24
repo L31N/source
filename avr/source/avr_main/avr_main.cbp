@@ -34,6 +34,8 @@
 		</ExtraCommands>
 		<Unit filename="board.cpp" />
 		<Unit filename="board.h" />
+		<Unit filename="irSensor.cpp" />
+		<Unit filename="irSensor.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="motionController.cpp" />
 		<Unit filename="motionController.h" />
