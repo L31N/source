@@ -2,22 +2,28 @@
 #ifndef _MOTION_CONTROLLER_H_
 #define _MOTION_CONTROLLER_H_
 
-#include "avrvector.h"
 #include "motor.h"
+
+enum Direction{FRONT,
+				FRONTRIGHT,
+				RIGHT,
+				BACKRIGHT,
+				BACK,
+				BACKLEFT,
+				LEFT,
+				FRONTLEFT};
 
 class MotionController {
     public:
         MotionController();
         ~MotionController();
 
-        void drive(Vector vector, short rotationSpeed = 0);
-        //void drive(Angle angle, unsigned char speed, short rotationSpeed = 0);
+        void drive(Direction dir, unsigned short speed);
 
         void pbreak();
 
     private:
         Motors motor;
-        short* motorSpeeds;
 };
 
 #endif // _MOTION_CONTROLLER_H_
