@@ -347,7 +347,7 @@ Vector Vector::operator--(int)
 */
 bool Vector::operator<(Vector vect)
 {
-    if(this->abs()<vect.abs())
+    if(this->absolute()<vect.absolute())
     {
         return true;
     }
@@ -363,7 +363,7 @@ bool Vector::operator<(Vector vect)
 */
 bool Vector::operator<=(Vector vect)
 {
-    if(this->abs()<=vect.abs())
+    if(this->absolute()<=vect.absolute())
     {
         return true;
     }
@@ -379,7 +379,7 @@ bool Vector::operator<=(Vector vect)
 */
 bool Vector::operator>(Vector vect)
 {
-    if(this->abs()>vect.abs())
+    if(this->absolute()>vect.absolute())
     {
         return true;
     }
@@ -395,7 +395,7 @@ bool Vector::operator>(Vector vect)
 */
 bool Vector::operator>=(Vector vect)
 {
-    if(this->abs()>=vect.abs())
+    if(this->absolute()>=vect.absolute())
     {
         return true;
     }
@@ -422,7 +422,7 @@ Vector Vector::operator!()
 /*
     Gibt den Betrag des Vektors zurück
 */
-double Vector::abs()
+double Vector::absolute()
 {
 	return sqrt(x*x+y*y);
 }
@@ -434,7 +434,7 @@ double Vector::abs()
 Vector Vector::getUnitVector()
 {
 	Vector tmp = *this;
-	tmp /= tmp.abs();
+	tmp /= tmp.absolute();
 	return tmp;
 }
 
@@ -520,7 +520,7 @@ void Vector::setAngle(double angle, bool deg, bool fullCircle)
 
     if(fullCircle && angle > M_PI) angle -= 2* M_PI;
 
-	double absolute = this->abs();
+	double absolute = this->absolute();
 
 	this->x = absolute*sin(angle);
 	this->y = absolute*cos(angle);

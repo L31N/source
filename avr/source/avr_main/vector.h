@@ -79,7 +79,7 @@ class Vector
 
         //***********************************
 
-        double abs();
+        double absolute();
         Vector getUnitVector();
 
         void setLength(double l);

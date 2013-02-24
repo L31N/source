@@ -23,8 +23,8 @@ void MotionController::drive(Vector vector, short rotationSpeed) {
     Vector h;
 
     double length_g, length_h;
-    length_g = g.abs();
-    length_h = h.abs();
+    length_g = g.absolute();
+    length_h = h.absolute();
 
 
     if (vector.getAngle() > (315) || vector.getAngle() <= 45) {
@@ -55,11 +55,11 @@ void MotionController::drive(Vector vector, short rotationSpeed) {
         /// ERROR
     }
 
-    g.setLength(cos(abs(vector.getAngle(g, false, false))) * vector.abs());
-    h.setLength(sin(abs(vector.getAngle(g, false, false))) * vector.abs());
+    g.setLength(cos(abs(vector.getAngle(g, false, false))) * vector.absolute());
+    h.setLength(sin(abs(vector.getAngle(g, false, false))) * vector.absolute());
 
-    length_g *= g.abs();
-    length_h *= h.abs();
+    length_g *= g.absolute();
+    length_h *= h.absolute();
 
     if (length_g > 255 || length_g < (-255) || length_h > 255 || length_h < (-255)) {
         return; /// Error occured !

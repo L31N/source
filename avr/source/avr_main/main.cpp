@@ -32,7 +32,7 @@ int main () {
     Motor motor;
     board.ledOn(7,true);
 
-    //MotionController mc;
+    MotionController mc;
 
     while(!board.buttonDown());
     board.ledOn(2,true);
