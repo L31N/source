@@ -9,8 +9,8 @@
 int main () {
     pwm_init();
 
-    //const bool BOARD_0 = true;      /// board0
-    const bool BOARD_0 = false;     /// board1
+    const bool BOARD_0 = true;      /// board0
+//    const bool BOARD_0 = false;     /// board1
 
     unsigned short BOARD_ID = 0;
 
@@ -31,8 +31,6 @@ int main () {
     can_set_filter(0, &filter0);
 
     while(42) {
-        //uart_debug("in while");
-        _delay_ms(100);
         if (can_check_message()) {
             can_t message;
             can_get_message(&message);
@@ -59,15 +57,6 @@ int main () {
             if (message.data[0] == 0) pwm_set((unsigned long)value, 0);
             if (message.data[0] == 1) pwm_set((unsigned long)value, 1);
 
-            /*uart_debug("\n\rid: %d data[0]: %d data[1]: %d data[2]: %d data[3]: %d data[4]: %d data[5]: %d data[6]: %d data[7]: %d ", message.id,
-                                                                                                                                message.data[0],
-                                                                                                                                message.data[1],
-                                                                                                                                message.data[2],
-                                                                                                                                message.data[3],
-                                                                                                                                message.data[4],
-                                                                                                                                message.data[5],
-                                                                                                                                message.data[6],
-                                                                                                                                message.data[7]);*/
         }
     }
 
