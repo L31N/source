@@ -35,6 +35,8 @@
 		<Unit filename="board.cpp" />
 		<Unit filename="board.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="motionController.cpp" />
+		<Unit filename="motionController.h" />
 		<Unit filename="motor.cpp" />
 		<Unit filename="motor.h" />
 		<Unit filename="uart.cpp" />
