@@ -34,12 +34,28 @@ int main () {
     while(!board.buttonDown());
     board.ledOn(2,true);
 
-    motor.setSpeed(0, 100);
-    motor.setSpeed(1, 100);
-    motor.setSpeed(2, -100);
-    motor.setSpeed(3, -100);
+    const short speed = 255;
 
-    _delay_ms(3000);
+    motor.setSpeed(0, speed);
+    motor.setSpeed(1, speed);
+    motor.setSpeed(2, speed);
+    motor.setSpeed(3, speed);
+
+    _delay_ms(500);
+
+    motor.setSpeed(0, 0);
+    motor.setSpeed(1, 0);
+    motor.setSpeed(2, 0);
+    motor.setSpeed(3, 0);
+
+    _delay_ms(1000);
+
+    motor.setSpeed(0, -speed);
+    motor.setSpeed(1, -speed);
+    motor.setSpeed(2, -speed);
+    motor.setSpeed(3, -speed);
+
+    _delay_ms(500);
 
     motor.setSpeed(0, 0);
     motor.setSpeed(1, 0);
