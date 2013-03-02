@@ -40,11 +40,11 @@ int main () {
    while(true) {
         if (can_check_message()) {
             can_t msg;
-            PORTA = 0xFF;
+            PORTA = 0xF0;
             _delay_ms(100);
             PORTA = 0x00;
             if (can_get_message(&msg)) {
-                PORTA = 0xFF;
+                PORTA = 0xF0;
                 _delay_ms(500);
                 PORTA = 0x00;
                 _delay_ms(500);

@@ -6,9 +6,9 @@
 
 #include "digitalSensor.h"
 
-class IRSensor : public DigitalSensor {
+class IRSensor : public CANSensor {
     public:
-        enum Angle {
+        /*enum Angle {
             G0      = 0,
             G22_5   = 22,
             G45     = 45,
@@ -25,14 +25,16 @@ class IRSensor : public DigitalSensor {
             G292_5  = 293,
             G315    = 315,
             G337_5  = 338,
-        };
+        };*/
 
-        IRSensor(const std::string ipcName, const std::string canMember, Angle _angle);
+        IRSensor(const std::string ipcName, const std::string canMember);
         ~IRSensor();
 
-    private:
-        Angle angle;
+        bool getStatus(unsigned char num);
+        unsigned char getBallNum(unsigned char num_of_sensors = 22);
 
+    private:
+        unsigned int values;
 };
 
 #endif // _IR_SENSOR_H_

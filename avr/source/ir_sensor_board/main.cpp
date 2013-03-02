@@ -15,6 +15,7 @@ ISR(TIMER1_OVF_vect)
 
 int main () {
     can_init(BITRATE_100_KBPS);
+    sei();
 
     can_filter_t filter0;
     filter0.id = 129;
@@ -60,12 +61,12 @@ int main () {
 
         can_t data_frame;
         data_frame.flags.rtr = 0;
-        data_frame.id = 0x129;
+        data_frame.id = 129;
         data_frame.length = 8;
 
-        data_frame.data[0] = regC;
-        data_frame.data[1] = regA;
-        data_frame.data[2] = regE;
+        data_frame.data[0] = ~regC;
+        data_frame.data[1] = ~regA;
+        data_frame.data[2] = ~regE;
         for (int i = 3; i < 8; i++) data_frame.data[i] = 0xFF;
 
         can_send_message (&data_frame);

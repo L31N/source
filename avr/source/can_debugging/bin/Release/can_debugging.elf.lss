@@ -156,8 +156,8 @@ Disassembly of section .text:
  13c:	00 c0       	rjmp	.+0      	; 0x13e <main+0x6a>
  13e:	00 00       	nop
  140:	12 b8       	out	0x02, r1	; 2
- 142:	ff 24       	eor	r15, r15
- 144:	fa 94       	dec	r15
+ 142:	80 ef       	ldi	r24, 0xF0	; 240
+ 144:	f8 2e       	mov	r15, r24
  146:	8e 01       	movw	r16, r28
  148:	0a 5f       	subi	r16, 0xFA	; 250
  14a:	1f 4f       	sbci	r17, 0xFF	; 255

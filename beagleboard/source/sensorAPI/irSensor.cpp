@@ -17,6 +17,7 @@ bool IRSensor::getStatus(unsigned char num) {
 
     if (can->checkForNewData()) {
         unsigned char* tmp = can->getValue();
+
         values = 0;
         values |= ((unsigned int)*tmp << 2*8);
         values |= ((unsigned int)*(tmp+1) << 8);
@@ -38,7 +39,7 @@ unsigned char getBallNum(unsigned char num_of_sensors) {
     unsigned int maxConnected = 0;
     unsigned short max_angle_num = 0;
 
-    for (unsigned int i = 0; i < num_of_sensors; i++) {
+    for (int i = 0; i < num_of_sensors; i++) {
         if(this->getStatus(i)) {
             tmp ++;
             if (i == num_of_sensors - 1) {      // check for Zero-Intersection
@@ -59,7 +60,12 @@ unsigned char getBallNum(unsigned char num_of_sensors) {
         }
     }
 
+<<<<<<< HEAD
     maxAngleNum = (maxAngleNum + 1 - maxConnected + maxConnected/2) % (num_of_sensors + 1);     // calculates the central angle of the "high-section".
     return maxAngleNum;
+=======
+    max_angle_num = (max_angle_num + 1 - maxConnected + maxConnected/2) % (num_of_sensors + 1);     // calculates the central angle of the "high-section".
+    return max_angle_num;
+>>>>>>> 83a40c8bec75fadced99ac52c7410df8e6864320
 }
 

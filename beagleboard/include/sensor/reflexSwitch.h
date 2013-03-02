@@ -8,7 +8,7 @@
 
 class ReflexSwitch : public DigitalSensor {
     public:
-        ReflexSwitch(const std::string ipcName, const std::string canMember);
+        ReflexSwitch(const std::string _ipcName, const std::string _canMember);
         ~ReflexSwitch();
 };
 
