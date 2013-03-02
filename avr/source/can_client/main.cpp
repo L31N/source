@@ -20,7 +20,7 @@ int main () {
     //msg.id = 0x0234567C;
     //msg.id = 0x0234567F;
 
-    msg.id = 65;
+    msg.id = 129;
 
     msg.flags.rtr = 0;
     //msg.flags.extended = 0;
@@ -34,7 +34,7 @@ int main () {
     msg.data[5] = 6;
     msg.data[6] = 7;
     msg.data[7] = 8;*/
-    msg.data[0] = 243;
+    msg.data[0] = 0b11111111;
     msg.data[1] = 'B';
     msg.data[2] = 'C';
     msg.data[3] = 'D';

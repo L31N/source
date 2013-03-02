@@ -4,6 +4,7 @@
 
 #include "can.h"
 #include "uart.h"
+#include "board.h"
 
 class Motor {
     public:
@@ -15,6 +16,7 @@ class Motor {
 
     private:
         unsigned char* ID_MOTOR;
+        Board* board;
 };
 
 #endif // _MOTOR_H_

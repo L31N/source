@@ -14,10 +14,13 @@ Motor::Motor() {
     ID_MOTOR[1] = 2;
     ID_MOTOR[2] = 33;
     ID_MOTOR[3] = 34;
+
+    board = (Board*)malloc(sizeof(Board));
 }
 
 Motor::~Motor() {
     free(ID_MOTOR);
+    free(board);
 }
 
 void Motor::setSpeed(unsigned char num, signed short speed) {
@@ -40,7 +43,13 @@ void Motor::setSpeed(unsigned char num, signed short speed) {
 
     for (int i = 3; i < 8; i++) motor_frame.data[i] = 0xFF;
 
-    can_send_message(&motor_frame);
+    if (!can_send_message(&motor_frame)) {
+        /// ERROR WHILE SEND DATA TO MOTOR BOARD
+        uart_debug("ERROR WHILE SEND DATA TO MOTOR BOARD");
+        board->ledOn(4, true);
+        _delay_ms(100);
+        board->ledOn(4, false);
+    }
 }
 
 void Motor::test(unsigned char num) {

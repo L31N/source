@@ -4,7 +4,7 @@
 
 class IRSensor {
     public:
-        static const unsigned char NUM_OF_SENSORS = 10;
+        static const unsigned char NUM_OF_SENSORS = 4;
 
         IRSensor();
         ~IRSensor();
@@ -13,8 +13,7 @@ class IRSensor {
         unsigned char getBallNum();
 
     private:
-        unsigned char* irValues;
-
+        unsigned long irValues;
 };
 
 #endif // _IR_SENSOR_H_

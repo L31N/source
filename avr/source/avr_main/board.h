@@ -13,6 +13,7 @@ class Board {
 
         bool buttonDown(unsigned char num = anybutton);
         void ledOn(unsigned char num, bool on);
+        void ledSwitch(unsigned char);
 
 };
 

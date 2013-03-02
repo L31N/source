@@ -35,3 +35,6 @@ void Board::ledOn(unsigned char num, bool on) {
 }
 
 
+void Board::ledSwitch(unsigned char num) {
+    PORTA ^= (1 << num);
+}

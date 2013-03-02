@@ -1,164 +1,95 @@
 
 // motionController.cpp
 
-#include <math.h>
-#include <stdlib.h>
 
 #include "motionController.h"
 
 MotionController::MotionController() {
-	motorSpeeds = (short*)malloc (4 * sizeof(short));
-	for (int i = 0; i < 4; i++) {
-		motor.setSpeed(i, 0);
-		motorSpeeds[i] = 0;
-	}
+
 }
 
 MotionController::~MotionController() {
-    free(motorSpeeds);
 }
 
-void MotionController::drive(Vector vector, short rotationSpeed) {
-    Vector g;
-    Vector h;
+void MotionController::drive(Direction dir, unsigned short speed) {
+	if(speed > 255) {
+		uart_debug("Bad motor speed");
+		return;
+	}
 
-    double length_g, length_h;
-    length_g = g.absolute();
-    length_h = h.absolute();
+	switch(dir)
+	{
+		case FRONT:
+			motor.setSpeed(0, speed);
+			motor.setSpeed(1, speed);
+			motor.setSpeed(2, speed);
+			motor.setSpeed(3, speed);
+			break;
+		case FRONTRIGHT:
+			motor.setSpeed(0, 0);
+			motor.setSpeed(1, speed);
+			motor.setSpeed(2, 0);
+			motor.setSpeed(3, speed);
+			break;
+		case RIGHT:
+			motor.setSpeed(0, -speed);
+			motor.setSpeed(1, speed);
+			motor.setSpeed(2, -speed);
+			motor.setSpeed(3, speed);
+			break;
+		case BACKRIGHT:
+			motor.setSpeed(0, -speed);
+			motor.setSpeed(1, 0);
+			motor.setSpeed(2, -speed);
+			motor.setSpeed(3, 0);
+			break;
+		case BACK:
+			motor.setSpeed(0, -speed);
+			motor.setSpeed(1, -speed);
+			motor.setSpeed(2, -speed);
+			motor.setSpeed(3, -speed);
+			break;
+		case BACKLEFT:
+			motor.setSpeed(0, 0);
+			motor.setSpeed(1, -speed);
+			motor.setSpeed(2, 0);
+			motor.setSpeed(3, -speed);
+			break;
+		case LEFT:
+			motor.setSpeed(0, speed);
+			motor.setSpeed(1, -speed);
+			motor.setSpeed(2, speed);
+			motor.setSpeed(3, -speed);
+			break;
+		case FRONTLEFT:
+			motor.setSpeed(0, speed);
+			motor.setSpeed(1, 0);
+			motor.setSpeed(2, speed);
+			motor.setSpeed(3, 0);
+			break;
+        case ROTATERIGHT:
+			motor.setSpeed(0, -speed);
+			motor.setSpeed(1, -speed);
+			motor.setSpeed(2, speed);
+			motor.setSpeed(3, speed);
+			break;
+        case ROTATELEFT:
+			motor.setSpeed(0, speed);
+			motor.setSpeed(1, speed);
+			motor.setSpeed(2, -speed);
+			motor.setSpeed(3, -speed);
+			break;
 
-
-    if (vector.getAngle() > (315) || vector.getAngle() <= 45) {
-        g.set(1, 1);
-        h.set(-1, 1);
-        length_g = 1;
-        length_h = 1;
-    }
-    else if (vector.getAngle() > 45 && vector.getAngle() <= 135) {
-        g.set(1, 1);
-        h.set(1, -1);
-        length_g = 1;
-        length_h = -1;
-    }
-    else if (vector.getAngle() > 135 && vector.getAngle() <= 225) {
-        g.set(-1, -1);
-        h.set(1, -1);
-        length_g = -1;
-        length_h = -1;
-    }
-    else if (vector.getAngle() > 225 && vector.getAngle() <= 315) {
-        g.set(-1, -1);
-        h.set(-1, 1);
-        length_g = -1;
-        length_h = 1;
-    }
-    else {
-        uart_debug("Error wrong angle\n\r");
-    }
-
-    g.setLength(cos(abs(vector.getAngle(g, false, false))) * vector.absolute());
-    h.setLength(sin(abs(vector.getAngle(g, false, false))) * vector.absolute());
-
-    length_g *= g.absolute();
-    length_h *= h.absolute();
-
-    if (length_g > 255 || length_g < (-255) || length_h > 255 || length_h < (-255)) {
-        uart_debug("Invalid calculation result\n\r");
-        return; /// Error occured !
-    }
-
-    motorSpeeds[0] = length_h;
-    motorSpeeds[1] = length_g;
-    motorSpeeds[2] = length_h;
-    motorSpeeds[3] = length_g;
-
-/*
-    /// calculate motor-values dependend to the turn
-
-    /// check here for speed overflows and step down the values if neccessary ...
-    if (rotationSpeed < 0) {
-        if (motorSpeeds[0] + rotationSpeed > 255) {
-            double factor = (motorSpeeds[0] - (abs(rotationSpeed) - 255 + motorSpeeds[0])) / abs(motorSpeeds[0]);
-
-            for (int i = 0; i < 4; i++) {
-                motorSpeeds[i] = double(motorSpeeds[i]) * factor;
-            }
-        }
-        if (motorSpeeds[1] + rotationSpeed > 255) {
-            double factor = (motorSpeeds[1] - (abs(rotationSpeed) - 255 + motorSpeeds[1])) / abs(motorSpeeds[1]);
-
-            for (int i = 0; i < 4; i++) {
-                motorSpeeds[i] = double(motorSpeeds[i]) * factor;
-            }
-        }
-        if (motorSpeeds[2] - rotationSpeed < (-255)) {
-            double factor = (motorSpeeds[2] - (abs(rotationSpeed) - 255 + motorSpeeds[2])) / abs(motorSpeeds[2]);
-
-            for (int i = 0; i < 4; i++) {
-                motorSpeeds[i] = double(motorSpeeds[i]) * factor;
-            }
-        }
-        if (motorSpeeds[3] - rotationSpeed < (-255)) {
-            double factor = (motorSpeeds[3] - (abs(rotationSpeed) - 255 + motorSpeeds[3])) / abs(motorSpeeds[3]);
-
-            for (int i = 0; i < 4; i++) {
-                motorSpeeds[i] = double(motorSpeeds[i]) * factor;
-            }
-        }
-    }
-    else {
-        if (motorSpeeds[0] - rotationSpeed < (-255)) {
-            double factor = (motorSpeeds[0] - (abs(rotationSpeed) - 255 + motorSpeeds[0])) / abs(motorSpeeds[0]);
-
-            for (int i = 0; i < 4; i++) {
-                motorSpeeds[i] = double(motorSpeeds[i]) * factor;
-            }
-        }
-        if (motorSpeeds[1] - rotationSpeed < (-255)) {
-            double factor = (motorSpeeds[1] - (abs(rotationSpeed) - 255 + motorSpeeds[1])) / abs(motorSpeeds[1]);
-
-            for (int i = 0; i < 4; i++) {
-                motorSpeeds[i] = double(motorSpeeds[i]) * factor;
-            }
-        }
-        if (motorSpeeds[2] + rotationSpeed > 255) {
-            double factor = (motorSpeeds[2] - (abs(rotationSpeed) - 255 + motorSpeeds[2])) / abs(motorSpeeds[2]);
-
-            for (int i = 0; i < 4; i++) {
-                motorSpeeds[i] = double(motorSpeeds[i]) * factor;
-            }
-        }
-        if (motorSpeeds[3] + rotationSpeed > 255) {
-            double factor = (motorSpeeds[3] - (abs(rotationSpeed) - 255 + motorSpeeds[3])) / abs(motorSpeeds[3]);
-
-            for (int i = 0; i < 4; i++) {
-                motorSpeeds[i] = double(motorSpeeds[i]) * factor;
-            }
-        }
-    }
-
-    motorSpeeds[0] -= rotationSpeed;
-    motorSpeeds[1] -= rotationSpeed;
-    motorSpeeds[2] += rotationSpeed;
-    motorSpeeds[3] += rotationSpeed;
-*/
-    //for (int i = 0; i < 4; i++) motor.setSpeed(i, motorSpeeds[i]);
-    for (int i = 0; i < 4; i++) uart_debug("\n\rmotor%d: %d", i, motorSpeeds[i]);
+	}
 
     return;
 }
 
-/*void MotionController::drive(Angle angle, unsigned char speed, short rotationSpeed) {
-    Vector vector(1,1);
-    vector.setLength(speed);
-    vector.setAngle(angle.value());
-
-    drive(vector, rotationSpeed);
-}*/
-
 void MotionController::pbreak() {
-    /// implement power-break functionality here !
-    for (int i = 0; i < 4; i++) {
-        motor.setSpeed(i, 0);
-    }
-}
+    motor.setSpeed(0, 0);
+    motor.setSpeed(1, 0);
+    motor.setSpeed(2, 0);
+    motor.setSpeed(3, 0);
 
+    return;
+}
