@@ -123,7 +123,7 @@ int main () {
                 outgoing_serial_data[0] = 0;
 
                 unsigned char tmp = (PINE >> 0);
-                switch (tmp) {
+                /*switch (tmp) {
                     case 1:
                         outgoing_serial_data[1] = BUTTON_ID[0];
                         break;
@@ -138,14 +138,14 @@ int main () {
                         break;
                     default:
                         for (int i = 0; tmp & (unsigned char)pow(2, i); i++) outgoing_serial_data[1] = BUTTON_ID[i];
-                }
+                }*/
 
-                outgoing_serial_data[2] = 1;
-                outgoing_serial_data[3] = 1;
+                outgoing_serial_data[1] = BUTTON_ID[0];
 
-                for (int i = 0; i < 7; i++) {
-                    outgoing_serial_data[4+i] = 0;
-                }
+
+                outgoing_serial_data[2] = 8;
+                outgoing_serial_data[3] = PINE & 0xF0;
+                for (int i = 4; i < 8; i++) outgoing_serial_data[i] = 0xFF;
 
                 for (int i = 0; i < 11; i++) {
                     uart_putc(outgoing_serial_data[i]);
