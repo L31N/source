@@ -1,1 +1,7 @@
 f(time) = (start_speed - end_speed)*e^(-0.05*time)+end_speed
+
+The funtion works good,
+but it is easier to have a threshold.
+If the speed is smaller than the threshold,
+than send a 20ms pik with the threshold.
+
