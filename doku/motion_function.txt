@@ -1,0 +1,1 @@
+f(time) = (start_speed - end_speed)*e^(-0.05*time)+end_speed
