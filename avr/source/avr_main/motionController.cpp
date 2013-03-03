@@ -25,10 +25,7 @@ void MotionController::drive(Direction dir, unsigned short speed) {
 	switch(dir)
 	{
 		case FRONT:
-			motor.setSpeed(0, speed);
-			motor.setSpeed(1, speed);
-			motor.setSpeed(2, speed);
-			motor.setSpeed(3, speed);
+			motor.setSpeed(speed, speed, speed, speed);
 
 			speeds[0] = speed;
 			speeds[1] = speed;
@@ -37,77 +34,103 @@ void MotionController::drive(Direction dir, unsigned short speed) {
 
 			break;
 		case FRONTRIGHT:
-			motor.setSpeed(0, 0);
-			motor.setSpeed(1, speed);
-			motor.setSpeed(2, 0);
-			motor.setSpeed(3, speed);
+			motor.setSpeed(0, speed, 0, speed);
+
+			speeds[0] = 0;
+			speeds[1] = speed;
+			speeds[2] = 0;
+			speeds[3] = speed;
+
 			break;
 		case RIGHT:
-			motor.setSpeed(0, -speed);
-			motor.setSpeed(1, speed);
-			motor.setSpeed(2, -speed);
-			motor.setSpeed(3, speed);
+			motor.setSpeed(-speed, speed, -speed, speed);
+
+			speeds[0] = -speed;
+			speeds[1] = speed;
+			speeds[2] = -speed;
+			speeds[3] = speed;
+
 			break;
 		case BACKRIGHT:
-			motor.setSpeed(0, -speed);
-			motor.setSpeed(1, 0);
-			motor.setSpeed(2, -speed);
-			motor.setSpeed(3, 0);
+            motor.setSpeed(-speed, 0, -speed, 0);
+
+			speeds[0] = -speed;
+			speeds[1] = 0;
+			speeds[2] = -speed;
+			speeds[3] = 0;
+
 			break;
 		case BACK:
-			motor.setSpeed(0, -speed);
-			motor.setSpeed(1, -speed);
-			motor.setSpeed(2, -speed);
-			motor.setSpeed(3, -speed);
+			motor.setSpeed(-speed, -speed, -speed, -speed);
+
+			speeds[0] = -speed;
+			speeds[1] = -speed;
+			speeds[2] = -speed;
+			speeds[3] = -speed;
+
 			break;
 		case BACKLEFT:
-			motor.setSpeed(0, 0);
-			motor.setSpeed(1, -speed);
-			motor.setSpeed(2, 0);
-			motor.setSpeed(3, -speed);
+			motor.setSpeed(0, -speed, 0, -speed);
+
+			speeds[0] = 0;
+			speeds[1] = -speed;
+			speeds[2] = 0;
+			speeds[3] = -speed;
+
 			break;
 		case LEFT:
-			motor.setSpeed(0, speed);
-			motor.setSpeed(1, -speed);
-			motor.setSpeed(2, speed);
-			motor.setSpeed(3, -speed);
+            motor.setSpeed(speed, -speed, speed, -speed);
+
+			speeds[0] = speed;
+			speeds[1] = -speed;
+			speeds[2] = speed;
+			speeds[3] = -speed;
+
 			break;
 		case FRONTLEFT:
-			motor.setSpeed(0, speed);
-			motor.setSpeed(1, 0);
-			motor.setSpeed(2, speed);
-			motor.setSpeed(3, 0);
+			motor.setSpeed(speed, 0, speed, 0);
+
+			speeds[0] = speed;
+			speeds[1] = 0;
+			speeds[2] = speed;
+			speeds[3] = 0;
+
 			break;
         case ROTATERIGHT:
-			motor.setSpeed(0, -speed);
-			motor.setSpeed(1, -speed);
-			motor.setSpeed(2, speed);
-			motor.setSpeed(3, speed);
+			motor.setSpeed(-speed, -speed, speed, speed);
+
+			speeds[0] = -speed;
+			speeds[1] = -speed;
+			speeds[2] = speed;
+			speeds[3] = speed;
+
 			break;
         case ROTATELEFT:
-			motor.setSpeed(0, speed);
-			motor.setSpeed(1, speed);
-			motor.setSpeed(2, -speed);
-			motor.setSpeed(3, -speed);
-			break;
+			motor.setSpeed(speed, speed, -speed, -speed);
 
+			speeds[0] = speed;
+			speeds[1] = speed;
+			speeds[2] = -speed;
+			speeds[3] = -speed;
+
+			break;
 	}
 
     return;
 }
 
 void MotionController::pbreak() {
-    motor.setSpeed(0, 0);
+    /*motor.setSpeed(0, 0);
     motor.setSpeed(1, 0);
     motor.setSpeed(2, 0);
-    motor.setSpeed(3, 0);
+    motor.setSpeed(3, 0);*/
 
-    _delay_ms(20);
-
-    motor.setSpeed(0, -speeds[0]);
+    /*motor.setSpeed(0, -speeds[0]);
     motor.setSpeed(1, -speeds[1]);
     motor.setSpeed(2, -speeds[2]);
-    motor.setSpeed(3, -speeds[3]);
+    motor.setSpeed(3, -speeds[3]);*/
+
+    motor.setSpeed(-speeds[0], -speeds[1], -speeds[2], -speeds[3]);
 
     /*motor.setSpeed(0, -speeds[0]);
     motor.setSpeed(1, -speeds[1]);
@@ -117,12 +140,9 @@ void MotionController::pbreak() {
     motor.setSpeed(2, -speeds[2]);
     motor.setSpeed(3, -speeds[3]);*/
 
-    _delay_ms(1000);
+    _delay_ms(60);
 
-    motor.setSpeed(0, 0);
-    motor.setSpeed(1, 0);
-    motor.setSpeed(2, 0);
-    motor.setSpeed(3, 0);
+    motor.setSpeed(0, 0, 0, 0);
 
     for (int i = 0; i < 4; i++) speeds[i] = 0;
 

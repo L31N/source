@@ -1,0 +1,13 @@
+can_frame:
+
+data[0]:	+/-	M0
+data[1]:	speed	M0
+
+data[2]:	+/-	M1
+data[3]:	speed	M1
+
+data[4]:	+/-	M2
+data[5]:	speed	M2
+
+data[6]:	+/-	M3
+data[7]:	speed	M3

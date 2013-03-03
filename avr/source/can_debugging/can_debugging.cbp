@@ -34,6 +34,8 @@
 			<Add after="avr-objdump -h -S $(TARGET_OUTPUT_FILE) &gt; $(TARGET_OUTPUT_FILE).lss" />
 		</ExtraCommands>
 		<Unit filename="main.cpp" />
+		<Unit filename="uart.cpp" />
+		<Unit filename="uart.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

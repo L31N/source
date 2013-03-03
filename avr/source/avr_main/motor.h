@@ -12,10 +12,12 @@ class Motor {
         ~Motor();
 
         void setSpeed(unsigned char number, signed short speed);
+        void setSpeed(signed short speed0, signed short speed1, signed short speed2, signed short speed3);
         void test(unsigned char num);
 
     private:
-        unsigned char* ID_MOTOR;
+        static const unsigned char MOTOR_CAN_ID = 1;
+        signed short* speeds;
         Board* board;
 };
 
