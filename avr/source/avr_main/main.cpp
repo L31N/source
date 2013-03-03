@@ -11,7 +11,7 @@
 #include "can.h"
 #include "irSensor.h"
 
-const short speed = 50;
+const short speed = 100;
 
 int main () {
 
@@ -36,8 +36,8 @@ int main () {
 
     _delay_ms(500);
 
-    while(!board.buttonDown());
-    _delay_ms(200);
+    //while(!board.buttonDown());
+    //_delay_ms(200);
 
     /*for (int j = 200; j > 0; j--) {
         for(int i = 0; i < 4; i++) motor.setSpeed(i, 150);
@@ -150,6 +150,12 @@ int main () {
         mc.pbreak();
         _delay_ms(1000);
 	}*/
+
+    /*while(!board.buttonDown());
+    motor.test(0);
+    motor.test(1);
+    motor.test(2);
+    motor.test(3);*/
 
     while(!board.buttonDown());
     mc.drive(FRONT, speed);

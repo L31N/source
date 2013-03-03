@@ -1,14 +1,19 @@
 
 // motionController.cpp
 
+#include <util/delay.h>
+#include <stdlib.h>
 
 #include "motionController.h"
 
 MotionController::MotionController() {
+    speeds = (unsigned short*)malloc(4*sizeof(unsigned char));
 
+    for (int i = 0; i < 4; i++) speeds[i] = 0;
 }
 
 MotionController::~MotionController() {
+    free(speeds);
 }
 
 void MotionController::drive(Direction dir, unsigned short speed) {
@@ -24,6 +29,12 @@ void MotionController::drive(Direction dir, unsigned short speed) {
 			motor.setSpeed(1, speed);
 			motor.setSpeed(2, speed);
 			motor.setSpeed(3, speed);
+
+			speeds[0] = speed;
+			speeds[1] = speed;
+			speeds[2] = speed;
+			speeds[3] = speed;
+
 			break;
 		case FRONTRIGHT:
 			motor.setSpeed(0, 0);
@@ -90,6 +101,31 @@ void MotionController::pbreak() {
     motor.setSpeed(1, 0);
     motor.setSpeed(2, 0);
     motor.setSpeed(3, 0);
+
+    _delay_ms(20);
+
+    motor.setSpeed(0, -speeds[0]);
+    motor.setSpeed(1, -speeds[1]);
+    motor.setSpeed(2, -speeds[2]);
+    motor.setSpeed(3, -speeds[3]);
+
+    /*motor.setSpeed(0, -speeds[0]);
+    motor.setSpeed(1, -speeds[1]);
+
+    _delay_ms(1000);
+
+    motor.setSpeed(2, -speeds[2]);
+    motor.setSpeed(3, -speeds[3]);*/
+
+    _delay_ms(1000);
+
+    motor.setSpeed(0, 0);
+    motor.setSpeed(1, 0);
+    motor.setSpeed(2, 0);
+    motor.setSpeed(3, 0);
+
+    for (int i = 0; i < 4; i++) speeds[i] = 0;
+
 
     return;
 }

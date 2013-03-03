@@ -12,8 +12,8 @@ Motor::Motor() {
 
     ID_MOTOR[0] = 1;
     ID_MOTOR[1] = 2;
-    ID_MOTOR[2] = 33;
-    ID_MOTOR[3] = 34;
+    ID_MOTOR[2] = 3;
+    ID_MOTOR[3] = 4;
 
     board = (Board*)malloc(sizeof(Board));
 }
