@@ -23,10 +23,11 @@ int main () {
 	//Objekte erstellen
     Board board;
     MotionController mc;
+    Motor motor;
 
 	//Startenstellungen herstelln
     board.ledOn(7,true);
-    mc.pbreak();
+    //mc.pbreak();
     board.ledOn(0,true);
 
     //IRSensor ir;
@@ -34,6 +35,80 @@ int main () {
     //while(!board.buttonDown());
 
     _delay_ms(500);
+
+    while(!board.buttonDown());
+    _delay_ms(200);
+
+    /*for (int j = 200; j > 0; j--) {
+        for(int i = 0; i < 4; i++) motor.setSpeed(i, 150);
+        _delay_ms(500);
+        for(int i = 0; i < 4; i++) motor.setSpeed(i, 0);
+        _delay_ms(j);
+        for(int i = 0; i < 4; i++) motor.setSpeed(i, -150);
+        _delay_ms(500);
+        for(int i = 0; i < 4; i++) motor.setSpeed(i, 0);
+        _delay_ms(j);
+    }*/
+
+    /*const int delay = 1000;
+
+    while(true) {
+        for(int i = 0; i < 4; i++) motor.setSpeed(i, 150);
+        _delay_ms(500);
+        for(int i = 0; i < 4; i++) motor.setSpeed(i, 0);
+        _delay_ms(delay);
+        for(int i = 0; i < 4; i++) motor.setSpeed(i, -150);
+        _delay_ms(500);
+        for(int i = 0; i < 4; i++) motor.setSpeed(i, 0);
+        _delay_ms(delay);
+    }*/
+
+    //while(true) {
+
+
+
+    //while(!board.buttonDown());
+
+        //for(int i = 0; i < 4; i++) motor.setSpeed(i, 150);
+        //_delay_ms(20);
+        /*for (int i = 0; i < 4; i++) motor.setSpeed(i, 77);
+        _delay_ms(20);
+        for(int i = 0; i < 4; i++) motor.setSpeed(i, 50);
+        _delay_ms(20);
+        for(int i = 0; i < 4; i++) motor.setSpeed(i, 41);
+        _delay_ms(20);
+        for(int i = 0; i < 4; i++) motor.setSpeed(i, 37);
+        _delay_ms(20);*/
+        //for(int i = 0; i < 4; i++) motor.setSpeed(i, 35);
+
+
+        //_delay_ms(1000);
+        //for (unsigned int i = 0; i < 4; i++) motor.setSpeed(i, 0);
+        //_delay_ms(100);
+
+
+        //for(int i = 0; i < 4; i++) motor.setSpeed(i, -150);
+        //_delay_ms(20);
+        /*for(int i = 0; i < 4; i++) motor.setSpeed(i, -77);
+        _delay_ms(20);
+        for(int i = 0; i < 4; i++) motor.setSpeed(i, -50);
+        _delay_ms(20);
+        for(int i = 0; i < 4; i++) motor.setSpeed(i, -41);
+        _delay_ms(20);
+        for(int i = 0; i < 4; i++) motor.setSpeed(i, -37);
+        _delay_ms(20);*/
+        //for(int i = 0; i < 4; i++) motor.setSpeed(i, -35);
+
+        //_delay_ms(1000);
+        //for (unsigned int i = 0; i < 4; i++) motor.setSpeed(i, 0);
+
+    //}
+
+    //while(true);
+
+    //(255-speed)*pow(e, (-0.05)*x)+speed;
+
+
 	//mc.drive(FRONT, speed);
 	/*motors.setSpeed(0, 100);
 	motors.setSpeed(1, 100);
@@ -56,6 +131,25 @@ int main () {
 	//mc.pbreak();
 
 	//while(true);
+
+	/*motor.test(0);
+	_delay_ms(500);
+	motor.test(1);
+	_delay_ms(500);
+    motor.test(2);
+	_delay_ms(500);
+	motor.test(3);*/
+
+	/*while(true) {
+        mc.drive(FRONT, speed);
+        _delay_ms(500);
+        mc.pbreak();
+        _delay_ms(1000);
+        mc.drive(BACK, speed);
+        _delay_ms(500);
+        mc.pbreak();
+        _delay_ms(1000);
+	}*/
 
     while(!board.buttonDown());
     mc.drive(FRONT, speed);

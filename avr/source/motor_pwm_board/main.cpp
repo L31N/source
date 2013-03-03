@@ -59,20 +59,4 @@ int main () {
 
         }
     }
-
-//    while(42) {
-//        can_t data_frame;
-//        data_frame.flags.rtr = 0;
-//        data_frame.id = 0x000;
-//        data_frame.length = 3;
-//
-//        data_frame.data[0] = PINC;
-//        data_frame.data[1] = PINA;
-//        data_frame.data[2] = PINE;
-//
-//        can_send_message (&data_frame);
-//
-//        _delay_ms(2);
-//
-//    }
 }

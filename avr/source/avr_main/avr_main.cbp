@@ -13,6 +13,7 @@
 				<Option compiler="avrgcc" />
 				<Compiler>
 					<Add option="-Os" />
+					<Add option="-O" />
 				</Compiler>
 			</Target>
 		</Build>
@@ -25,6 +26,9 @@
 		<Linker>
 			<Add option="-mmcu=at90can128" />
 			<Add option="-lcan" />
+			<Add option="-lgcc" />
+			<Add option="-lc" />
+			<Add option="-lm" />
 			<Add directory="/avrusr/lib" />
 		</Linker>
 		<ExtraCommands>
