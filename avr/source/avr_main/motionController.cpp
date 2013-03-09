@@ -130,7 +130,10 @@ void MotionController::pbreak() {
     motor.setSpeed(2, -speeds[2]);
     motor.setSpeed(3, -speeds[3]);*/
 
-    motor.setSpeed(-speeds[0], -speeds[1], -speeds[2], -speeds[3]);
+    motor.setSpeed(0, 0, 0, 0);
+    //_delay_ms(20);
+
+    //motor.setSpeed(-speeds[0], -speeds[1], -speeds[2], -speeds[3]);
 
     /*motor.setSpeed(0, -speeds[0]);
     motor.setSpeed(1, -speeds[1]);
@@ -140,9 +143,9 @@ void MotionController::pbreak() {
     motor.setSpeed(2, -speeds[2]);
     motor.setSpeed(3, -speeds[3]);*/
 
-    _delay_ms(60);
+    //_delay_ms(60);
 
-    motor.setSpeed(0, 0, 0, 0);
+    //motor.setSpeed(0, 0, 0, 0);
 
     for (int i = 0; i < 4; i++) speeds[i] = 0;
 

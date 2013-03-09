@@ -11,8 +11,8 @@ int main () {
 
     pwm_init();
 
-    //const bool BOARD_0 = true;      /// board0
-    const bool BOARD_0 = false;     /// board1
+    const bool BOARD_0 = true;      /// board0
+    //const bool BOARD_0 = false;     /// board1
 
     unsigned short BOARD_ID = 1;
 
