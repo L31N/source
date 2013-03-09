@@ -1,0 +1,95 @@
+This are some simple examples to test the communication between two
+CAN channels.
+
+1) receive: blocking and non-blocking read() for receiving and
+
+2) transmit  transmit a bulk of CAN frames by writing to a blocking write()
+    Because of the blocking CAN device, a forke()-ed process is used
+    to read driver errors from the receive side of the CAN die descriptor.
+
+3) transmit3 transmit only one CAN frame using ioctl() 
+
+
+4) baud
+    simple driver test: change the bit rate registers with ioctl()
+    the change itself stays after program is finished.
+    you can check it by read
+    cat /proc/sys/Can/Baud
+    before and after using this command
+
+5) acceptance
+    simple driver test: change the message filter with ioctl()
+    the change itself stays after program is finished.
+    you can check it by read
+    cat /proc/sys/Can/AccCode /proc/sys/Can/AccMask
+    before and after using this command
+
+6) noiser
+    a simple noise transmitter, generates messages with random
+    CAN IDs and telegram content
+    useful for filter testing 
+
+7) can_send
+    simple command line tool for sending single or
+    cyclic CAN messages
+    can_send -h   tells you all
+    some special test-sequences are build-in
+
+8) ctest
+    very simple and basic driver test
+    I use it to see what the driver issues in /var/log/messages
+    when open and close the device.
+    If full debug is enabled and all register access is logged
+
+9) receive-select
+    simple receiving using the select() call to wait for CAN messages. 
+    The application  can monitor different CAN devices /dev/can*
+    at the same time showing received frames in different colors
+    for each CAN line.
+
+10) can_verify
+	verifies all received frames again a etimated sequence as
+	sent by using can_send -t10
+	the sequence counter is in all frames sent out.
+	But depending on the number of data bytes
+	the counter is checked as byte, 4 byte and 8 byte value.
+	Also the id of the sent frames is incremented.
+	the sequence 31512   looks like this:
+	  1319115549.797399  1674/0x68a : sd : 
+	  1319115549.797855  1675/0x68b : sd : 18 
+	  1319115549.798367  1676/0x68c : sd : 18 7b 
+	  1319115549.798959  1677/0x68d : sd : 18 7b 00 
+	  1319115549.799630  1678/0x68e : sd : 18 7b 00 00 
+	  1319115549.800374  1679/0x68f : sd : 18 7b 00 00 00 
+	  1319115549.801197  1680/0x690 : sd : 18 7b 00 00 00 00 
+	  1319115549.802084  1681/0x691 : sd : 18 7b 00 00 00 00 00 
+	  1319115549.803052  1682/0x692 : sd : 18 7b 00 00 00 00 00 00 
+
+
+Support and examples for Scripting Languages
+==============================================
+
+canLtwo.c 
+	simple CAN Layer-2 interface, C-Source
+canLtwo.i  
+	simple CAN Layer-2 interface, SWIG-Interface file
+
+
+canLtwo.tcl
+	simple application examples on how to use the CAN procedures
+
+can_read.tcl
+	simple example displaying CAN frames
+
+hb.tcl
+	CANopen Heart Beat Simulator for up to two CAN lines
+	and up to 127 HB producers per line
+
+==============================================
+ToDo
+
+Do we need a poll() example?
+http://daniel.haxx.se/docs/poll-vs-select.html
+
+Do we need a libev or libevent example?
+( See also http://libev.schmorp.de/bench.html )

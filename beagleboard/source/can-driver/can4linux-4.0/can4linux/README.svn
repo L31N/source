@@ -1,0 +1,62 @@
+Some words on using svn and can4linux on SourceForge
+====================================================
+
+To get a new working copy freshly from SourceForge do
+
+svn co https://can4linux.svn.sourceforge.net/svnroot/can4linux/trunk trunk
+
+results in two directories 
+
+    trunk/can4linux
+    trunk/can4linux-examples
+
+
+with one containing the driver sources, the other one containing some useful
+examples.
+
+
+TkCVS or any other tool can be used. Sometimes its faster using the 
+command line.
+
+To see what you have changed use
+% svn status
+
+The result displays a letter in the first column where
+  M - means modified
+  A - means added
+  D - deleted
+
+To see changes against the server
+% svn status -uv
+
+
+If you have created a new file, use
+% svn add file
+first.
+
+
+Later you have to commit your changes. Using the command line,
+svn will call an editor ( export SVN_EDITOR=elvis )
+
+
+You can get a clean version of the project by using
+% svn export
+e.g.
+$ svn export https://can4linux.svn.sourceforge.net/svnroot/can4linux/trunk  /tmp/can4linux
+
+
+and leter update your local copy using
+% svn update
+
+
+
+or if you have already a local copy of the repository
+$ svn export . /tmp/can4linux
+
+or 
+svn export  . ../can4linux_svn`svnversion .`
+
+
+To get the latest version number local or from the server
+svn info
+svn info https://can4linux.svn.sourceforge.net/svnroot/can4linux/
