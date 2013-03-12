@@ -1,0 +1,25 @@
+
+#ifndef _SPI_MCP_2515_H_
+#define _SPI_MCP_2515_H_
+
+#include <stdio.h>
+#include <fcntl.h>
+#include <stdlib.h>
+
+#include <string>
+
+class SpiMcp2515 {
+    public:
+        SpiMcp2515(const std::string spidev);
+        ~SpiMcp2515();
+
+        void mcp_write_register(char adress, char data);
+        char mcp_read_register(char address);
+        void mcp_bit_modify(char adress, char mask, char data);
+
+
+    protected:
+        int fd;
+};
+
+#endif // _SPI_MCP_2515_H_
