@@ -13,9 +13,9 @@ class SpiMcp2515 {
         SpiMcp2515(const std::string spidev);
         ~SpiMcp2515();
 
-        bool mcp_write_register(char adress, char data);
+        bool mcp_write_register(char address, char data);
         bool mcp_read_register(char address, char& data);
-        bool mcp_bit_modify(char adress, char mask, char data);
+        bool mcp_bit_modify(char address, char mask, char data);
 
 
     protected:
