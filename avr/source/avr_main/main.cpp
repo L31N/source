@@ -164,6 +164,34 @@ int main () {
     motor.test(2);
     motor.test(3);*/
 
+    while(true) {
+        if (board.buttonDown(0)) {
+            motor.setSpeed(0, 0, 0, 0);
+            board.ledOn(0, 1);
+            board.ledOn(1, 0);
+            board.ledOn(2, 0);
+            _delay_ms(500);
+        }
+
+        if (board.buttonDown(1)) {
+            motor.setSpeed(255, 0, 0, 0);
+            board.ledOn(0, 0);
+            board.ledOn(1, 1);
+            board.ledOn(2, 0);
+            _delay_ms(500);
+        }
+
+        if (board.buttonDown(2)) {
+            motor.setSpeed(-255, 0, 0, 0);
+            board.ledOn(0, 0);
+            board.ledOn(1, 0);
+            board.ledOn(2, 1);
+            _delay_ms(500);
+        }
+        _delay_ms(5);
+    }
+
+
 
     while(!board.buttonDown());
     mc.drive(FRONT, speed);
