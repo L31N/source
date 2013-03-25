@@ -15,12 +15,23 @@ class SpiMcp2515 {
         SpiMcp2515(const std::string spidev);
         ~SpiMcp2515();
 
+        typedef enum {
+            BITRATE_10_KBPS	= 0,	// ungetestet
+            BITRATE_20_KBPS	= 1,	// ungetestet
+            BITRATE_50_KBPS	= 2,	// ungetestet
+            BITRATE_100_KBPS = 3,	// ungetestet
+            BITRATE_125_KBPS = 4,
+            BITRATE_250_KBPS = 5,	// ungetestet
+            BITRATE_500_KBPS = 6,	// ungetestet
+            BITRATE_1_MBPS = 7,		// ungetestet
+        } can_bitrate_t;
+
         bool mcp_write_register(unsigned char address, unsigned char data);
         bool mcp_read_register(unsigned char address, unsigned char& data);
         bool mcp_bit_modify(unsigned char address, unsigned char mask, unsigned char data);
 
         char mcp_read_status(unsigned char type);
-        bool mcp_init(unsigned char bitrate);
+        bool mcp_init(can_bitrate_t bitrate);
 
 
     protected:
