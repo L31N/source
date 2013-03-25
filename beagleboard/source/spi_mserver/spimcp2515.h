@@ -5,10 +5,16 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include <stdlib.h>
+#include <inttypes.h>
 
 #include <string>
+#include <iostream>
 
 #include "mcp2515_defs.h"
+
+
+#define	MCP2515_INTERRUPTS			(1<<RX1IE)|(1<<RX0IE)
+
 
 class SpiMcp2515 {
     public:
@@ -37,48 +43,7 @@ class SpiMcp2515 {
     protected:
         int fd;
 
-        _mcp2515_cnf[8][3] = {
-            // 10 kbps
-            {	0x04,
-                0xb6,
-                0xe7
-            },
-            // 20 kbps
-            {	0x04,
-                0xb6,
-                0xd3
-            },
-            // 50 kbps
-            {	0x04,
-                0xb6,
-                0xc7
-            },
-            // 100 kbps
-            {	0x04,
-                0xb6,
-                0xc3
-            },
-            // 125 kbps
-            {	(1<<PHSEG21),					// CNF3
-                (1<<BTLMODE)|(1<<PHSEG11),		// CNF2
-                (1<<BRP2)|(1<<BRP1)|(1<<BRP0)	// CNF1
-            },
-            // 250 kbps
-            {	0x03,
-                0xac,
-                0x81
-            },
-            // 500 kbps
-            {	0x03,
-                0xac,
-                0x80
-            },
-            // 1 Mbps
-            {	(1<<PHSEG21),
-                (1<<BTLMODE)|(1<<PHSEG11),
-                0
-            }
-        };
+        static const uint8_t _mcp2515_cnf[8][3];
 };
 
 #endif // _SPI_MCP_2515_H_

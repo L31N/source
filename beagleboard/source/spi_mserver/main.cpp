@@ -6,6 +6,8 @@
 #include <string>
 #include <iostream>
 
+#include "spimcp2515.h"
+
 int main (int argc, char** argv) {
     if (argc != 2) {
         std::cerr << "usage: " << *argv << " BITRATE" << std::endl;
@@ -14,7 +16,7 @@ int main (int argc, char** argv) {
 
     SpiMcp2515 mcp("/dev/spidev3.0");
 
-    if (mcp.mcp_init(BITRATE_10_KBPS)) {
+    if (mcp.mcp_init(SpiMcp2515::BITRATE_10_KBPS)) {
         std::cout << "success !!!" << std::endl;
         return 0;
     }

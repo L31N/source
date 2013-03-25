@@ -16,55 +16,52 @@ SpiMcp2515::~SpiMcp2515() {
 }
 
 bool SpiMcp2515::mcp_write_register(unsigned char address, unsigned char data) {
-    unsigned char* buf = new char[3] = {SPI_WRITE, address, data};
+    unsigned char buf [3] = {SPI_WRITE, address, data};
 
     if (write(fd, buf, 3) != 3) {
         std::cerr << "spi write error" << std::endl;
-        delete buf;
         return false;
     }
-    delete buf;
-    else return true;
+    else {
+        return true;
+    }
 }
 
 bool SpiMcp2515::mcp_read_register(unsigned char address, unsigned char& data) {
-    unsigned char* buf = new char[2] = {SPI_READ, address};
-    unsigned char* rdbuf = new char;
+    unsigned char buf[2] = {SPI_READ, address};
+    unsigned char* rdbuf = new unsigned char;
 
     if (write(fd, buf, 2) != 2) {
         std::cerr << "spi write error" << std::endl;
-        delete buf;
         delete rdbuf;
         return false;
     }
 
     if (read(fd, rdbuf, 1) != 1) {
         std::cerr << "spi read error" << std::endl;
-        delete buf;
         delete rdbuf;
         return false;
     }
     else {
         data = *rdbuf;
-        delete buf;
         return true;
     }
 }
 
 bool SpiMcp2515::mcp_bit_modify(unsigned char address, unsigned char mask, unsigned char data) {
-    unsigned char* buf = new char[4] = {SPI_BIT_MODIFY, address, mask, data};
+    unsigned char buf[4] = {SPI_BIT_MODIFY, address, mask, data};
     if (write(fd, buf, 4) != 4) {
         std::cerr << "spi write error" << std::endl;
-        delete buf;
         return false;
     }
-    delete buf;
-    else return true;
+    else {
+        return true;
+    }
 }
 
 char SpiMcp2515::mcp_read_status(unsigned char type) {
     unsigned char rdbuf;
-    if (write(fd, type, 1) != 1) {
+    if (write(fd, &type, 1) != 1) {
         std::cerr << "spi write error" << std::endl;
         return false;
     }
@@ -75,13 +72,14 @@ char SpiMcp2515::mcp_read_status(unsigned char type) {
     else return rdbuf;
 }
 
-bool SpiMcp2515::mcp_init(unsigned char bitrate) {
+bool SpiMcp2515::mcp_init(can_bitrate_t bitrate) {
     if (bitrate >= 8) {
         std::cerr << "invalid bitrate" << std::endl;
         return false;
     }
 
-    if (write(fd, SPI_RESET, 1) != 1) {
+    int spireset = SPI_RESET;
+    if (write(fd, &spireset, 1) != 1) {
         std::cerr << "spi write error" << std::endl;
         return false;
     }
@@ -91,7 +89,7 @@ bool SpiMcp2515::mcp_init(unsigned char bitrate) {
     char buf[6];
     buf[0] = SPI_WRITE;
     buf[1] = CNF3;
-    for (int i = 2; i < 2+3; i++) _mcp2515_cnf[bitrate][i];
+    for (int i = 2; i < 5; i++) buf[i] = _mcp2515_cnf[bitrate][i];
     buf[5] = MCP2515_INTERRUPTS;
 
     if (write(fd, buf, 6) != 6) {
@@ -108,13 +106,62 @@ bool SpiMcp2515::mcp_init(unsigned char bitrate) {
 
     // test weather the chip is responding
     bool error = false;
-    if (mcp_read_register(CNF2) != pgm_read_byte(&_mcp2515_cnf[bitrate][1])) error = true;
+    unsigned char tmp;
+    mcp_read_register(CNF2, tmp);
+    if (tmp != _mcp2515_cnf[bitrate][1]) error = true;
 
     // put device back into the normal mode
-    mcp_write_register(CANCTRL, CLKOUT_PRESCALER_);
+    mcp_write_register(CANCTRL, 0);
     if (error) return false;
     else {
-        while ((mcp_read_register(CANSTAT) & 0xE0) != 0); // wait until the new mode was configured
+        unsigned char tmp;
+        mcp_read_register(CANSTAT, tmp);
+        while ((tmp & 0xE0) != 0) {   // wait until the new mode was configured
+            mcp_read_register(CANSTAT, tmp);
+        }
         return true;
     }
 }
+
+const uint8_t SpiMcp2515::_mcp2515_cnf[8][3] = {
+    // 10 kbps
+    {	0x04,
+        0xb6,
+        0xe7
+    },
+    // 20 kbps
+    {	0x04,
+        0xb6,
+        0xd3
+    },
+    // 50 kbps
+    {	0x04,
+        0xb6,
+        0xc7
+    },
+    // 100 kbps
+    {	0x04,
+        0xb6,
+        0xc3
+    },
+    // 125 kbps
+    {	(1<<PHSEG21),					// CNF3
+        (1<<BTLMODE)|(1<<PHSEG11),		// CNF2
+        (1<<BRP2)|(1<<BRP1)|(1<<BRP0)	// CNF1
+    },
+    // 250 kbps
+    {	0x03,
+        0xac,
+        0x81
+    },
+    // 500 kbps
+    {	0x03,
+        0xac,
+        0x80
+    },
+    // 1 Mbps
+    {	(1<<PHSEG21),
+        (1<<BTLMODE)|(1<<PHSEG11),
+        0
+    }
+};
