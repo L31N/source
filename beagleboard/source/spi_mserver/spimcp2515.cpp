@@ -99,7 +99,22 @@ bool SpiMcp2515::mcp_init(unsigned char bitrate) {
         return false;
     }
 
+    // Set TXnRTS Bits as inputs
+    mcp_write_register(TXRTSCTRL, 0);
+
+    // define interrupt pins for buffer full
+    mcp_write_register(BFPCTRL, (1<<B0BFE)|(1<<B1BFE)|(1<<B0BFM)|(1<<B1BFM));
 
 
+    // test weather the chip is responding
+    bool error = false;
+    if (mcp_read_register(CNF2) != pgm_read_byte(&_mcp2515_cnf[bitrate][1])) error = true;
 
+    // put device back into the normal mode
+    mcp_write_register(CANCTRL, CLKOUT_PRESCALER_);
+    if (error) return false;
+    else {
+        while ((mcp_read_register(CANSTAT) & 0xE0) != 0); // wait until the new mode was configured
+        return true;
+    }
 }
