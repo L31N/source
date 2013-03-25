@@ -1,0 +1,3 @@
+MISO:	P5
+MOSI:	P6
+SCK:	P7

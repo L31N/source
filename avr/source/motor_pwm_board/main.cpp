@@ -40,7 +40,7 @@ int main () {
 
             if (BOARD_0) {
                 value0 = message.data[1];
-                value1 = message.data[3];
+                value1 = -message.data[3];
 
                 if (message.data[0] == 1) value0 *= -1;
                 if (message.data[2] == 1) value1 *= -1;

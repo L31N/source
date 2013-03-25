@@ -55,8 +55,8 @@ int main(int argc, char* argv[]) {
 		absx += xd;
 		absy += yd;
 
-		float sxd = (absx/392.6);
-		float syd = (absy/392.6);
+		float sxd = (absx/257.5);
+		float syd = (absy/257.5);
 
         printf("%f cm\t%f cm\n", sxd, syd);
 		//printf("%lld\t%lld\n", absx, absy);

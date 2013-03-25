@@ -11,7 +11,7 @@
 #include "can.h"
 #include "irSensor.h"
 
-const short speed = 255;
+const short speed = 65;
 
 int main () {
 
@@ -164,8 +164,42 @@ int main () {
     motor.test(2);
     motor.test(3);*/
 
+    /*while(true) {
+        while(!board.buttonDown());
+        mc.drive(FRONT, 65);
+        _delay_ms(1000);
+        mc.pbreak();
+        _delay_ms(500);
+        mc.drive(LEFT, 65);
+        _delay_ms(500);
+        mc.pbreak();
+        _delay_ms(500);
+        mc.drive(BACK, 65);
+        _delay_ms(1000);
+        mc.pbreak();
+        _delay_ms(500);
+        mc.drive(RIGHT, 65);
+        _delay_ms(500);
+        mc.pbreak();
+        _delay_ms(500);
+    }*/
+
     while(true) {
-        if (board.buttonDown(0)) {
+        while(!board.buttonDown());
+        mc.drive(FRONT, 255);
+        //motor.setSpeed(speed, speed, speed, speed);
+        _delay_ms(1000);
+        motor.setSpeed(0, 0, 0, 0);
+        //mc.drive(FRONT, speed/2);
+
+        /*_delay_ms(400);
+        mc.drive(BACK, speed);
+        _delay_ms(1000);
+        mc.pbreak();*/
+    }
+
+    while(true) {
+        if (board.buttonDown(3)) {
             motor.setSpeed(0, 0, 0, 0);
             board.ledOn(0, 1);
             board.ledOn(1, 0);
@@ -174,7 +208,7 @@ int main () {
         }
 
         if (board.buttonDown(1)) {
-            motor.setSpeed(255, 0, 0, 0);
+            motor.setSpeed(speed, 0, 0, 0);
             board.ledOn(0, 0);
             board.ledOn(1, 1);
             board.ledOn(2, 0);
@@ -182,10 +216,17 @@ int main () {
         }
 
         if (board.buttonDown(2)) {
-            motor.setSpeed(-255, 0, 0, 0);
+            motor.setSpeed(-speed, 0, 0, 0);
             board.ledOn(0, 0);
             board.ledOn(1, 0);
             board.ledOn(2, 1);
+            _delay_ms(500);
+        }
+        if (board.buttonDown(0)) {
+            motor.setSpeed(speed/2, 0, 0, 0);
+            board.ledOn(0, 0);
+            board.ledOn(1, 1);
+            board.ledOn(2, 0);
             _delay_ms(500);
         }
         _delay_ms(5);
@@ -193,10 +234,11 @@ int main () {
 
 
 
-    while(!board.buttonDown());
+
+    /*while(!board.buttonDown());
     mc.drive(FRONT, speed);
     _delay_ms(1000);
-    mc.pbreak();
+    mc.pbreak();*/
 
     /*while(true) {
         mc.drive(FRONT, 120);
