@@ -32,6 +32,7 @@
 			<Add option="-Wall" />
 		</Compiler>
 		<Unit filename="main.cpp" />
+		<Unit filename="mcp2515_defs.h" />
 		<Unit filename="spimcp2515.cpp" />
 		<Unit filename="spimcp2515.h" />
 		<Extensions>
