@@ -70,8 +70,8 @@ bool SpiMcp2515::mcp_write(unsigned char* buf, size_t length) {
 
     tr.len = length;
     tr.delay_usecs = delay;
-    tr.speed_hz = maxspeedhz;
-    tr.bits_per_word = wordlength;
+    tr.speed_hz = maxspeedhzwr;
+    tr.bits_per_word = wordlengthwr;
 
     int ret = ioctl(fd, SPI_IOC_MESSAGE(1), &tr);
     if (ret < 1) {
@@ -95,8 +95,8 @@ bool SpiMcp2515::mcp_read(unsigned char* buf, size_t length) {
 
     tr.len = length;
     tr.delay_usecs = delay;
-    tr.speed_hz = maxspeedhz;
-    tr.bits_per_word = wordlength;
+    tr.speed_hz = maxspeedhzwr;
+    tr.bits_per_word = wordlengthwr;
 
     int ret = ioctl(fd, SPI_IOC_MESSAGE(1), &tr);
     for (unsigned int i = 0; i < length; i++) buf[i] = rx[i];
