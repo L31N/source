@@ -77,8 +77,8 @@ bool SpiMcp2515::mcp_write(unsigned char* buf, size_t length) {
 }
 
 bool SpiMcp2515::mcp_read(unsigned char* buf, size_t length) {
-    uint8_t tx[length];
-    for (unsigned int i = 0; i < length; i++) tx[i] = buf[i];
+    uint8_t tx[3];
+    for (unsigned int i = 0; i < 3; i++) tx[i] = buf[i];
 
     uint8_t rx[length];
     for (unsigned int i = 0; i < length; i++) rx[i] = 0;
