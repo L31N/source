@@ -1,0 +1,246 @@
+   1               		.file	"at90can_get_message.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__ = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+  15               	.Ltext0:
+  16               	.global	at90can_copy_mob_to_message
+  18               	at90can_copy_mob_to_message:
+  19               	.LFB17:
+  20               	.LM1:
+  21               	.LVL0:
+  22               	/* prologue: function */
+  23               	/* frame size = 0 */
+  24               	/* stack size = 0 */
+  25               	.L__stack_usage = 0
+  26 0000 FC01      		movw r30,r24
+  27               	.LM2:
+  28 0002 8091 EF00 		lds r24,239
+  29               	.LVL1:
+  30               	.LM3:
+  31 0006 982F      		mov r25,r24
+  32 0008 9F70      		andi r25,lo8(15)
+  33 000a 9383      		std Z+3,r25
+  34               	.LM4:
+  35 000c 84FF      		sbrs r24,4
+  36 000e 00C0      		rjmp .L2
+  37               	.LBB14:
+  38               	.LM5:
+  39 0010 9FB7      		in r25,__SREG__
+  40               	.LVL2:
+  41               	.LBB15:
+  42               	.LBB16:
+  43               	.LM6:
+  44               	/* #APP */
+  45               	 ;  50 "/usr/lib/gcc/avr/4.5.3/../../../avr/include/util/atomic.h" 1
+  46 0012 F894      		cli
+  47               	 ;  0 "" 2
+  48               	.LVL3:
+  49               	/* #NOAPP */
+  50               	.LBE16:
+  51               	.LBE15:
+  52               	.LM7:
+  53 0014 8091 0000 		lds r24,_messages_waiting
+  54               	.LVL4:
+  55 0018 8150      		subi r24,lo8(-(-1))
+  56               	.LVL5:
+  57 001a 8093 0000 		sts _messages_waiting,r24
+  58               	.LVL6:
+  59               	.LBB17:
+  60               	.LBB18:
+  61               	.LM8:
+  62 001e 9FBF      		out __SREG__,r25
+  63               	.LM9:
+  64               	.LBE18:
+  65               	.LBE17:
+  66               	.LBE14:
+  67               	.LM10:
+  68 0020 80E8      		ldi r24,lo8(-128)
+  69               	.LVL7:
+  70 0022 8093 EF00 		sts 239,r24
+  71               	.LM11:
+  72 0026 0895      		ret
+  73               	.LVL8:
+  74               	.L2:
+  75               	.LM12:
+  76 0028 2091 F200 		lds r18,242
+  77 002c 2295      		swap r18
+  78 002e 2695      		lsr r18
+  79 0030 2770      		andi r18,lo8(7)
+  80 0032 30E0      		ldi r19,lo8(0)
+  81 0034 3183      		std Z+1,r19
+  82 0036 2083      		st Z,r18
+  83               	.LM13:
+  84 0038 8091 F300 		lds r24,243
+  85               	.LVL9:
+  86 003c 90E0      		ldi r25,lo8(0)
+  87 003e 43E0      		ldi r20,3
+  88 0040 880F      	1:	lsl r24
+  89 0042 991F      		rol r25
+  90 0044 4A95      		dec r20
+  91 0046 01F4      		brne 1b
+  92 0048 822B      		or r24,r18
+  93 004a 932B      		or r25,r19
+  94 004c 9183      		std Z+1,r25
+  95 004e 8083      		st Z,r24
+  96               	.LM14:
+  97 0050 9091 F000 		lds r25,240
+  98 0054 8281      		ldd r24,Z+2
+  99 0056 92FF      		sbrs r25,2
+ 100 0058 00C0      		rjmp .L4
+ 101               	.LM15:
+ 102 005a 8160      		ori r24,lo8(1)
+ 103 005c 8283      		std Z+2,r24
+ 104 005e 0895      		ret
+ 105               	.L4:
+ 106               	.LBB19:
+ 107               	.LM16:
+ 108 0060 8E7F      		andi r24,lo8(-2)
+ 109 0062 8283      		std Z+2,r24
+ 110               	.LM17:
+ 111 0064 CF01      		movw r24,r30
+ 112 0066 0496      		adiw r24,4
+ 113               	.LVL10:
+ 114               	.LBB20:
+ 115 0068 DC01      		movw r26,r24
+ 116               	.LM18:
+ 117 006a 00C0      		rjmp .L5
+ 118               	.LVL11:
+ 119               	.L6:
+ 120               	.LM19:
+ 121 006c 2091 FA00 		lds r18,250
+ 122 0070 2D93      		st X+,r18
+ 123               	.LVL12:
+ 124               	.L5:
+ 125               	.LM20:
+ 126 0072 3A2F      		mov r19,r26
+ 127 0074 381B      		sub r19,r24
+ 128 0076 2381      		ldd r18,Z+3
+ 129 0078 3217      		cp r19,r18
+ 130 007a 00F0      		brlo .L6
+ 131 007c 0895      		ret
+ 132               	.LBE20:
+ 133               	.LBE19:
+ 134               	.LFE17:
+ 136               	.global	can_get_message
+ 138               	can_get_message:
+ 139               	.LFB18:
+ 140               	.LM21:
+ 141               	.LVL13:
+ 142 007e 0F93      		push r16
+ 143 0080 1F93      		push r17
+ 144 0082 CF93      		push r28
+ 145 0084 DF93      		push r29
+ 146               	/* prologue: function */
+ 147               	/* frame size = 0 */
+ 148               	/* stack size = 4 */
+ 149               	.L__stack_usage = 4
+ 150 0086 EC01      		movw r28,r24
+ 151               	.LVL14:
+ 152               	.LM22:
+ 153 0088 0E94 0000 		call can_check_message
+ 154               	.LVL15:
+ 155 008c 8823      		tst r24
+ 156 008e 01F0      		breq .L11
+ 157 0090 10E0      		ldi r17,lo8(0)
+ 158               	.L10:
+ 159               	.LM23:
+ 160 0092 812F      		mov r24,r17
+ 161 0094 8295      		swap r24
+ 162 0096 807F      		andi r24,lo8(-16)
+ 163 0098 8093 ED00 		sts 237,r24
+ 164               	.LM24:
+ 165 009c 8091 EE00 		lds r24,238
+ 166 00a0 012F      		mov r16,r17
+ 167 00a2 0F5F      		subi r16,lo8(-(1))
+ 168 00a4 85FF      		sbrs r24,5
+ 169 00a6 00C0      		rjmp .L9
+ 170               	.LVL16:
+ 171               	.LM25:
+ 172 00a8 8091 EE00 		lds r24,238
+ 173 00ac 1092 EE00 		sts 238,__zero_reg__
+ 174               	.LM26:
+ 175 00b0 CE01      		movw r24,r28
+ 176 00b2 0E94 0000 		call at90can_copy_mob_to_message
+ 177               	.LBB21:
+ 178               	.LM27:
+ 179 00b6 9FB7      		in r25,__SREG__
+ 180               	.LVL17:
+ 181               	.LBB22:
+ 182               	.LBB23:
+ 183               	.LM28:
+ 184               	/* #APP */
+ 185               	 ;  50 "/usr/lib/gcc/avr/4.5.3/../../../avr/include/util/atomic.h" 1
+ 186 00b8 F894      		cli
+ 187               	 ;  0 "" 2
+ 188               	/* #NOAPP */
+ 189               	.LBE23:
+ 190               	.LBE22:
+ 191               	.LM29:
+ 192 00ba 8091 0000 		lds r24,_messages_waiting
+ 193               	.LVL18:
+ 194 00be 8150      		subi r24,lo8(-(-1))
+ 195               	.LVL19:
+ 196 00c0 8093 0000 		sts _messages_waiting,r24
+ 197               	.LVL20:
+ 198               	.LBB24:
+ 199               	.LBB25:
+ 200               	.LM30:
+ 201 00c4 9FBF      		out __SREG__,r25
+ 202               	.LM31:
+ 203               	.LBE25:
+ 204               	.LBE24:
+ 205               	.LBE21:
+ 206               	.LM32:
+ 207 00c6 812F      		mov r24,r17
+ 208               	.LVL21:
+ 209 00c8 0E94 0000 		call _enable_mob_interrupt
+ 210               	.LVL22:
+ 211               	.LM33:
+ 212 00cc 8091 EF00 		lds r24,239
+ 213 00d0 8071      		andi r24,lo8(16)
+ 214 00d2 8068      		ori r24,lo8(-128)
+ 215 00d4 8093 EF00 		sts 239,r24
+ 216               	.LM34:
+ 217 00d8 802F      		mov r24,r16
+ 218 00da 00C0      		rjmp .L8
+ 219               	.LVL23:
+ 220               	.L9:
+ 221               	.LM35:
+ 222 00dc 102F      		mov r17,r16
+ 223               	.LVL24:
+ 224 00de 0F30      		cpi r16,lo8(15)
+ 225 00e0 01F4      		brne .L10
+ 226               	.LVL25:
+ 227               	.L11:
+ 228               	.LM36:
+ 229 00e2 80E0      		ldi r24,lo8(0)
+ 230               	.LVL26:
+ 231               	.L8:
+ 232               	/* epilogue start */
+ 233               	.LM37:
+ 234 00e4 DF91      		pop r29
+ 235 00e6 CF91      		pop r28
+ 236               	.LVL27:
+ 237 00e8 1F91      		pop r17
+ 238 00ea 0F91      		pop r16
+ 239 00ec 0895      		ret
+ 240               	.LFE18:
+ 274               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 at90can_get_message.c
+     /tmp/ccGfnctv.s:2      *ABS*:0000003f __SREG__
+     /tmp/ccGfnctv.s:3      *ABS*:0000003e __SP_H__
+     /tmp/ccGfnctv.s:4      *ABS*:0000003d __SP_L__
+     /tmp/ccGfnctv.s:5      *ABS*:00000034 __CCP__
+     /tmp/ccGfnctv.s:6      *ABS*:00000000 __tmp_reg__
+     /tmp/ccGfnctv.s:7      *ABS*:00000001 __zero_reg__
+     /tmp/ccGfnctv.s:18     .text:00000000 at90can_copy_mob_to_message
+     /tmp/ccGfnctv.s:138    .text:0000007e can_get_message
+
+UNDEFINED SYMBOLS
+_messages_waiting
+can_check_message
+_enable_mob_interrupt

@@ -6,31 +6,14 @@
    6               	__tmp_reg__ = 0
    7               	__zero_reg__ = 1
   15               	.Ltext0:
-  16               	.global	can_read_error_register
-  18               	can_read_error_register:
-  19               	.LFB17:
-  20               	.LM1:
-  21               	/* prologue: function */
-  22               	/* frame size = 0 */
-  23               	/* stack size = 0 */
-  24               	.L__stack_usage = 0
-  25               	.LM2:
-  26 0000 9091 EA00 		lds r25,234
-  27               	.LM3:
-  28 0004 8091 EB00 		lds r24,235
-  29               	/* epilogue start */
-  30               	.LM4:
-  31 0008 0895      		ret
-  32               	.LFE17:
-  58               	.Letext0:
+  16               	.Letext0:
 DEFINED SYMBOLS
                             *ABS*:00000000 at90can_error_register.c
-     /tmp/ccsHFexz.s:2      *ABS*:0000003f __SREG__
-     /tmp/ccsHFexz.s:3      *ABS*:0000003e __SP_H__
-     /tmp/ccsHFexz.s:4      *ABS*:0000003d __SP_L__
-     /tmp/ccsHFexz.s:5      *ABS*:00000034 __CCP__
-     /tmp/ccsHFexz.s:6      *ABS*:00000000 __tmp_reg__
-     /tmp/ccsHFexz.s:7      *ABS*:00000001 __zero_reg__
-     /tmp/ccsHFexz.s:18     .text:00000000 can_read_error_register
+     /tmp/ccx4QhsE.s:2      *ABS*:0000003f __SREG__
+     /tmp/ccx4QhsE.s:3      *ABS*:0000003e __SP_H__
+     /tmp/ccx4QhsE.s:4      *ABS*:0000003d __SP_L__
+     /tmp/ccx4QhsE.s:5      *ABS*:00000034 __CCP__
+     /tmp/ccx4QhsE.s:6      *ABS*:00000000 __tmp_reg__
+     /tmp/ccx4QhsE.s:7      *ABS*:00000001 __zero_reg__
 
 NO UNDEFINED SYMBOLS

@@ -17,13 +17,13 @@
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-mmcu=at90can128" />
+			<Add option="-mmcu=atmega644" />
 			<Add option="-Wall" />
 			<Add option="-DF_CPU=16000000UL" />
 			<Add directory="/avrusr/include" />
 		</Compiler>
 		<Linker>
-			<Add option="-mmcu=at90can128" />
+			<Add option="-mmcu=atmega644" />
 			<Add option="-lcan" />
 			<Add directory="/avrusr/lib" />
 		</Linker>

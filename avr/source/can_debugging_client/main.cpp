@@ -28,7 +28,7 @@ int main () {
     msg.data[7] = '3';
 
     while(true) {
-        if (can_send_message(&msg)) {
+        /*if (can_send_message(&msg)) {
             PORTA |= 0xF0;
             _delay_ms(1000);
             PORTA &= ~(0xF0);
@@ -39,9 +39,11 @@ int main () {
             _delay_ms(500);
             PORTA &= ~(0x0F);
             _delay_ms(500);
-        }
+        }*/
         //_delay_ms(1000);
         //msg.id --;
+        can_init(BITRATE_100_KBPS);
+
     }
 
     return 0;

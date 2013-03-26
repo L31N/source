@@ -6,42 +6,14 @@
    6               	__tmp_reg__ = 0
    7               	__zero_reg__ = 1
   15               	.Ltext0:
-  16               	.global	can_set_mode
-  18               	can_set_mode:
-  19               	.LFB17:
-  20               	.LM1:
-  21               	.LVL0:
-  22               	/* prologue: function */
-  23               	/* frame size = 0 */
-  24               	/* stack size = 0 */
-  25               	.L__stack_usage = 0
-  26               	.LM2:
-  27 0000 8230      		cpi r24,lo8(2)
-  28 0002 00F4      		brsh .L2
-  29               	.LM3:
-  30 0004 8091 D800 		lds r24,216
-  31               	.LVL1:
-  32 0008 8860      		ori r24,lo8(8)
-  33 000a 00C0      		rjmp .L4
-  34               	.LVL2:
-  35               	.L2:
-  36               	.LM4:
-  37 000c 8091 D800 		lds r24,216
-  38               	.LVL3:
-  39 0010 877F      		andi r24,lo8(-9)
-  40               	.L4:
-  41 0012 8093 D800 		sts 216,r24
-  42 0016 0895      		ret
-  43               	.LFE17:
-  69               	.Letext0:
+  16               	.Letext0:
 DEFINED SYMBOLS
                             *ABS*:00000000 at90can_set_mode.c
-     /tmp/cc9JCryy.s:2      *ABS*:0000003f __SREG__
-     /tmp/cc9JCryy.s:3      *ABS*:0000003e __SP_H__
-     /tmp/cc9JCryy.s:4      *ABS*:0000003d __SP_L__
-     /tmp/cc9JCryy.s:5      *ABS*:00000034 __CCP__
-     /tmp/cc9JCryy.s:6      *ABS*:00000000 __tmp_reg__
-     /tmp/cc9JCryy.s:7      *ABS*:00000001 __zero_reg__
-     /tmp/cc9JCryy.s:18     .text:00000000 can_set_mode
+     /tmp/ccQf0oFH.s:2      *ABS*:0000003f __SREG__
+     /tmp/ccQf0oFH.s:3      *ABS*:0000003e __SP_H__
+     /tmp/ccQf0oFH.s:4      *ABS*:0000003d __SP_L__
+     /tmp/ccQf0oFH.s:5      *ABS*:00000034 __CCP__
+     /tmp/ccQf0oFH.s:6      *ABS*:00000000 __tmp_reg__
+     /tmp/ccQf0oFH.s:7      *ABS*:00000001 __zero_reg__
 
 NO UNDEFINED SYMBOLS

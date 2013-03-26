@@ -1,0 +1,176 @@
+   1               		.file	"at90can_set_dyn_filter.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__ = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+  15               	.Ltext0:
+  16               	.global	can_set_filter
+  18               	can_set_filter:
+  19               	.LFB17:
+  20               	.LM1:
+  21               	.LVL0:
+  22               	/* prologue: function */
+  23               	/* frame size = 0 */
+  24               	/* stack size = 0 */
+  25               	.L__stack_usage = 0
+  26 0000 FB01      		movw r30,r22
+  27               	.LM2:
+  28 0002 8F30      		cpi r24,lo8(15)
+  29 0004 00F0      		brlo .+2
+  30 0006 00C0      		rjmp .L8
+  31               	.LBB7:
+  32               	.LBB8:
+  33               	.LM3:
+  34 0008 90E8      		ldi r25,lo8(-128)
+  35 000a 9093 D800 		sts 216,r25
+  36               	.L3:
+  37               	.LM4:
+  38 000e 9091 D900 		lds r25,217
+  39 0012 93FD      		sbrc r25,3
+  40 0014 00C0      		rjmp .L3
+  41               	.LM5:
+  42 0016 1092 D800 		sts 216,__zero_reg__
+  43               	.L4:
+  44               	.LM6:
+  45 001a 9091 D900 		lds r25,217
+  46 001e 92FD      		sbrc r25,2
+  47 0020 00C0      		rjmp .L4
+  48               	.LBE8:
+  49               	.LBE7:
+  50               	.LM7:
+  51 0022 982F      		mov r25,r24
+  52 0024 9295      		swap r25
+  53 0026 907F      		andi r25,lo8(-16)
+  54 0028 9093 ED00 		sts 237,r25
+  55               	.LM8:
+  56 002c 1092 EE00 		sts 238,__zero_reg__
+  57               	.LM9:
+  58 0030 1092 EF00 		sts 239,__zero_reg__
+  59               	.LM10:
+  60 0034 1092 F000 		sts 240,__zero_reg__
+  61               	.LM11:
+  62 0038 1092 F100 		sts 241,__zero_reg__
+  63               	.LM12:
+  64 003c 9081      		ld r25,Z
+  65 003e 9295      		swap r25
+  66 0040 990F      		lsl r25
+  67 0042 907E      		andi r25,lo8(-32)
+  68 0044 9093 F200 		sts 242,r25
+  69               	.LM13:
+  70 0048 2081      		ld r18,Z
+  71 004a 3181      		ldd r19,Z+1
+  72 004c 43E0      		ldi r20,3
+  73 004e 3695      	1:	lsr r19
+  74 0050 2795      		ror r18
+  75 0052 4A95      		dec r20
+  76 0054 01F4      		brne 1b
+  77 0056 2093 F300 		sts 243,r18
+  78               	.LM14:
+  79 005a 91E0      		ldi r25,lo8(1)
+  80 005c 9093 F400 		sts 244,r25
+  81               	.LM15:
+  82 0060 1092 F500 		sts 245,__zero_reg__
+  83               	.LM16:
+  84 0064 9281      		ldd r25,Z+2
+  85 0066 9295      		swap r25
+  86 0068 990F      		lsl r25
+  87 006a 907E      		andi r25,lo8(-32)
+  88 006c 9093 F600 		sts 246,r25
+  89               	.LM17:
+  90 0070 2281      		ldd r18,Z+2
+  91 0072 3381      		ldd r19,Z+3
+  92 0074 93E0      		ldi r25,3
+  93 0076 3695      	1:	lsr r19
+  94 0078 2795      		ror r18
+  95 007a 9A95      		dec r25
+  96 007c 01F4      		brne 1b
+  97 007e 2093 F700 		sts 247,r18
+  98               	.LM18:
+  99 0082 9481      		ldd r25,Z+4
+ 100 0084 9370      		andi r25,lo8(3)
+ 101 0086 91FF      		sbrs r25,1
+ 102 0088 00C0      		rjmp .L5
+ 103               	.LM19:
+ 104 008a 9091 F400 		lds r25,244
+ 105 008e 9460      		ori r25,lo8(4)
+ 106 0090 9093 F400 		sts 244,r25
+ 107               	.LM20:
+ 108 0094 9481      		ldd r25,Z+4
+ 109 0096 9370      		andi r25,lo8(3)
+ 110 0098 90FF      		sbrs r25,0
+ 111 009a 00C0      		rjmp .L5
+ 112               	.LM21:
+ 113 009c 9091 F000 		lds r25,240
+ 114 00a0 9460      		ori r25,lo8(4)
+ 115 00a2 9093 F000 		sts 240,r25
+ 116               	.L5:
+ 117               	.LM22:
+ 118 00a6 9091 EF00 		lds r25,239
+ 119 00aa 9068      		ori r25,lo8(-128)
+ 120 00ac 9093 EF00 		sts 239,r25
+ 121               	.LM23:
+ 122 00b0 0E94 0000 		call _enable_mob_interrupt
+ 123               	.LVL1:
+ 124               	.LBB9:
+ 125               	.LBB10:
+ 126               	.LM24:
+ 127 00b4 9091 ED00 		lds r25,237
+ 128               	.LVL2:
+ 129               	.LM25:
+ 130 00b8 80E0      		ldi r24,lo8(0)
+ 131               	.LVL3:
+ 132               	.L6:
+ 133               	.LBB11:
+ 134               	.LM26:
+ 135 00ba 282F      		mov r18,r24
+ 136 00bc 2295      		swap r18
+ 137 00be 207F      		andi r18,lo8(-16)
+ 138 00c0 2093 ED00 		sts 237,r18
+ 139               	.LM27:
+ 140 00c4 2091 EF00 		lds r18,239
+ 141 00c8 2093 EF00 		sts 239,r18
+ 142               	.LM28:
+ 143 00cc 8F5F      		subi r24,lo8(-(1))
+ 144               	.LVL4:
+ 145 00ce 8F30      		cpi r24,lo8(15)
+ 146 00d0 01F4      		brne .L6
+ 147               	.LBE11:
+ 148               	.LM29:
+ 149 00d2 9093 ED00 		sts 237,r25
+ 150               	.LM30:
+ 151 00d6 82E0      		ldi r24,lo8(2)
+ 152               	.LVL5:
+ 153 00d8 8093 D800 		sts 216,r24
+ 154               	.L7:
+ 155               	.LM31:
+ 156 00dc 8091 D900 		lds r24,217
+ 157 00e0 82FF      		sbrs r24,2
+ 158 00e2 00C0      		rjmp .L7
+ 159               	.LM32:
+ 160 00e4 81E0      		ldi r24,lo8(1)
+ 161 00e6 0895      		ret
+ 162               	.LVL6:
+ 163               	.L8:
+ 164               	.LBE10:
+ 165               	.LBE9:
+ 166               	.LM33:
+ 167 00e8 80E0      		ldi r24,lo8(0)
+ 168               	.LVL7:
+ 169               	.LM34:
+ 170 00ea 0895      		ret
+ 171               	.LFE17:
+ 197               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 at90can_set_dyn_filter.c
+     /tmp/ccWP2zry.s:2      *ABS*:0000003f __SREG__
+     /tmp/ccWP2zry.s:3      *ABS*:0000003e __SP_H__
+     /tmp/ccWP2zry.s:4      *ABS*:0000003d __SP_L__
+     /tmp/ccWP2zry.s:5      *ABS*:00000034 __CCP__
+     /tmp/ccWP2zry.s:6      *ABS*:00000000 __tmp_reg__
+     /tmp/ccWP2zry.s:7      *ABS*:00000001 __zero_reg__
+     /tmp/ccWP2zry.s:18     .text:00000000 can_set_filter
+
+UNDEFINED SYMBOLS
+_enable_mob_interrupt

@@ -9,11 +9,11 @@
   16               	.Letext0:
 DEFINED SYMBOLS
                             *ABS*:00000000 at90can_send_buf_message.c
-     /tmp/ccXITfTr.s:2      *ABS*:0000003f __SREG__
-     /tmp/ccXITfTr.s:3      *ABS*:0000003e __SP_H__
-     /tmp/ccXITfTr.s:4      *ABS*:0000003d __SP_L__
-     /tmp/ccXITfTr.s:5      *ABS*:00000034 __CCP__
-     /tmp/ccXITfTr.s:6      *ABS*:00000000 __tmp_reg__
-     /tmp/ccXITfTr.s:7      *ABS*:00000001 __zero_reg__
+     /tmp/ccFPzXFv.s:2      *ABS*:0000003f __SREG__
+     /tmp/ccFPzXFv.s:3      *ABS*:0000003e __SP_H__
+     /tmp/ccFPzXFv.s:4      *ABS*:0000003d __SP_L__
+     /tmp/ccFPzXFv.s:5      *ABS*:00000034 __CCP__
+     /tmp/ccFPzXFv.s:6      *ABS*:00000000 __tmp_reg__
+     /tmp/ccFPzXFv.s:7      *ABS*:00000001 __zero_reg__
 
 NO UNDEFINED SYMBOLS
