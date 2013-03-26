@@ -51,10 +51,10 @@ class SpiMcp2515 {
         int fd;
 
         static const uint8_t _mcp2515_cnf[8][3];
-        static const uint8_t wordlengthwr;
+        /*static const uint8_t wordlengthwr;
         static const uint8_t wordlengthrd;
         static const uint32_t maxspeedhzwr;
-        static const uint32_t maxspeedhzrd;
+        static const uint32_t maxspeedhzrd;*/
         static const uint16_t delay;
 
         int retval;

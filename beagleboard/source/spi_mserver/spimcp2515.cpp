@@ -6,6 +6,11 @@
 
 #include "spimcp2515.h"
 
+const uint8_t wordlengthwr = 8;
+const uint8_t wordlengthrd = 8;
+const uint32_t maxspeedhzwr = 100000;
+const uint32_t maxspeedhzrd = 100000;
+
 SpiMcp2515::SpiMcp2515(const std::string spidev) {
     fd = open(spidev.c_str(), O_RDWR);
     if (fd <= 0) {
@@ -258,8 +263,8 @@ const uint8_t SpiMcp2515::_mcp2515_cnf[8][3] = {
     }
 };
 
-const uint8_t SpiMcp2515::wordlengthwr = 8;
+/*const uint8_t SpiMcp2515::wordlengthwr = 8;
 const uint8_t SpiMcp2515::wordlengthrd = 8;
 const uint32_t SpiMcp2515::maxspeedhzwr = 100000;
-const uint32_t SpiMcp2515::maxspeedhzrd = 100000;
+const uint32_t SpiMcp2515::maxspeedhzrd = 100000;*/
 const uint16_t SpiMcp2515::delay = 0;
