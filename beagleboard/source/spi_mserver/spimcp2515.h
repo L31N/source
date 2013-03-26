@@ -2,16 +2,20 @@
 #ifndef _SPI_MCP_2515_H_
 #define _SPI_MCP_2515_H_
 
+#include <stdint.h>
+#include <unistd.h>
 #include <stdio.h>
-#include <fcntl.h>
 #include <stdlib.h>
-#include <inttypes.h>
+#include <getopt.h>
+#include <fcntl.h>
+#include <sys/ioctl.h>
+#include <linux/types.h>
+#include <linux/spi/spidev.h>
 
 #include <string>
 #include <iostream>
 
 #include "mcp2515_defs.h"
-
 
 #define	MCP2515_INTERRUPTS			(1<<RX1IE)|(1<<RX0IE)
 
@@ -32,6 +36,9 @@ class SpiMcp2515 {
             BITRATE_1_MBPS = 7,		// ungetestet
         } can_bitrate_t;
 
+        bool mcp_write(unsigned char* buf, size_t length);
+        bool mcp_read(unsigned char* buf, size_t length);
+
         bool mcp_write_register(unsigned char address, unsigned char data);
         bool mcp_read_register(unsigned char address, unsigned char& data);
         bool mcp_bit_modify(unsigned char address, unsigned char mask, unsigned char data);
@@ -44,6 +51,11 @@ class SpiMcp2515 {
         int fd;
 
         static const uint8_t _mcp2515_cnf[8][3];
+        static const uint8_t wordlength;
+        static const uint32_t maxspeedhz;
+        static const uint16_t delay;
+
+        int retval;
 };
 
 #endif // _SPI_MCP_2515_H_

@@ -16,12 +16,9 @@ int main (int argc, char** argv) {
 
     SpiMcp2515 mcp("/dev/spidev3.0");
 
-    if (mcp.mcp_init(SpiMcp2515::BITRATE_10_KBPS)) {
-        std::cout << "success !!!" << std::endl;
-        return 0;
-    }
-    else {
-        std::cerr << "error !!!" << std::endl;
-        return -1;
-    }
+    unsigned char buf[] = {SPI_READ, CNF3, 0};
+    mcp.mcp_read(buf, 1);
+
+    std::cout << "data: " << *buf << std::endl;
+    return 0;
 }
