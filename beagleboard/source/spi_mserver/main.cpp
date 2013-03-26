@@ -16,9 +16,12 @@ int main (int argc, char** argv) {
 
     SpiMcp2515 mcp("/dev/spidev3.0");
 
-    unsigned char buf[] = {SPI_READ, CNF3, 0};
-    mcp.mcp_read(buf, 1);
+    unsigned char buf0[] = {SPI_WRITE, CNF3, 0b11000111};
+    mcp.mcp_write(buf0, 3);
 
-    std::cout << "data: " << hex << "0x" << *buf << std::endl;
+    unsigned char buf1[] = {SPI_READ, CNF3, 0};
+    mcp.mcp_read(buf1, 1);
+
+    std::cout << "data: " << std::hex << "0x" << buf1[0] << std::endl;
     return 0;
 }
