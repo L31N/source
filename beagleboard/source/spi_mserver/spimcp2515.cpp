@@ -9,10 +9,97 @@ SpiMcp2515::SpiMcp2515(const std::string spidev) {
         std::cerr << "could not open device: " << spidev << std::endl;
         return;
     }
+
+    static uint8_t mode = 0;
+
+    retval = ioctl(fd, SPI_IOC_WR_MODE, &mode);
+    if (retval == -1) {
+        std::cout << "cannot set spi mode" << std::endl;
+    }
+
+    retval = ioctl(fd, SPI_IOC_RD_MODE, &mode);
+    if (retval == -1) {
+        std::cout << "cannot set spi mode" << std::endl;
+    }
+
+    retval = ioctl(fd, SPI_IOC_WR_BITS_PER_WORD, &wordlength);
+    if (retval == -1) {
+        std::cout << "cannot set spi mode" << std::endl;
+        return;
+    }
+
+    retval = ioctl(fd, SPI_IOC_RD_BITS_PER_WORD, &wordlength);
+    if (retval == -1) {
+        std::cout << "cannot set spi mode" << std::endl;
+        return;
+    }
+
+    retval = ioctl(fd, SPI_IOC_RD_MAX_SPEED_HZ, &maxspeedhz);
+    if (retval == -1) {
+        std::cout << "cannot set spi mode" << std::endl;
+        return;
+    }
+
+    retval = ioctl(fd, SPI_IOC_RD_MAX_SPEED_HZ, &maxspeedhz);
+    if (retval == -1) {
+        std::cout << "cannot set spi mode" << std::endl;
+        return;
+    }
 }
 
 SpiMcp2515::~SpiMcp2515() {
     close(fd);
+}
+
+bool SpiMcp2515::mcp_write(unsigned char* buf, size_t length) {
+    uint8_t tx[length];
+    for (unsigned int i = 0; i < length; i++) tx[i] = buf[i];
+
+    uint8_t rx[length];
+    for (unsigned int i = 0; i < length; i++) rx[i] = 0;
+
+    struct spi_ioc_transfer tr;
+
+    tr.tx_buf = (unsigned long)tx;
+    tr.rx_buf = (unsigned long)rx;
+
+    tr.len = length;
+    tr.delay_usecs = delay;
+    tr.speed_hz = maxspeedhz;
+    tr.bits_per_word = wordlength;
+
+    int ret = ioctl(fd, SPI_IOC_MESSAGE(1), &tr);
+    if (ret < 1) {
+        std::cerr << "cannot send spi message" << std::endl;
+        return false;
+    }
+    else return true;
+}
+
+bool SpiMcp2515::mcp_read(unsigned char* buf, size_t length) {
+    uint8_t tx[length];
+    for (unsigned int i = 0; i < length; i++) tx[i] = buf[i];
+
+    uint8_t rx[length];
+    for (unsigned int i = 0; i < length; i++) rx[i] = 0;
+
+    struct spi_ioc_transfer tr;
+
+    tr.tx_buf = (unsigned long)tx;
+    tr.rx_buf = (unsigned long)rx;
+
+    tr.len = length;
+    tr.delay_usecs = delay;
+    tr.speed_hz = maxspeedhz;
+    tr.bits_per_word = wordlength;
+
+    int ret = ioctl(fd, SPI_IOC_MESSAGE(1), &tr);
+    for (unsigned int i = 0; i < length; i++) buf[i] = rx[i];
+    if (ret < 1) {
+        std::cerr << "cannot send spi message" << std::endl;
+        return false;
+    }
+    else return true;
 }
 
 bool SpiMcp2515::mcp_write_register(unsigned char address, unsigned char data) {
@@ -165,3 +252,7 @@ const uint8_t SpiMcp2515::_mcp2515_cnf[8][3] = {
         0
     }
 };
+
+const uint8_t SpiMcp2515::wordlength = 8;
+const uint32_t SpiMcp2515::maxspeedhz = 100000;
+const uint16_t SpiMcp2515::delay = 0;

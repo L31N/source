@@ -9,11 +9,11 @@
   16               	.Letext0:
 DEFINED SYMBOLS
                             *ABS*:00000000 mcp2515.c
-     /tmp/ccWNH4jA.s:2      *ABS*:0000003f __SREG__
-     /tmp/ccWNH4jA.s:3      *ABS*:0000003e __SP_H__
-     /tmp/ccWNH4jA.s:4      *ABS*:0000003d __SP_L__
-     /tmp/ccWNH4jA.s:5      *ABS*:00000034 __CCP__
-     /tmp/ccWNH4jA.s:6      *ABS*:00000000 __tmp_reg__
-     /tmp/ccWNH4jA.s:7      *ABS*:00000001 __zero_reg__
+     /tmp/cc1WZJTP.s:2      *ABS*:0000003f __SREG__
+     /tmp/cc1WZJTP.s:3      *ABS*:0000003e __SP_H__
+     /tmp/cc1WZJTP.s:4      *ABS*:0000003d __SP_L__
+     /tmp/cc1WZJTP.s:5      *ABS*:00000034 __CCP__
+     /tmp/cc1WZJTP.s:6      *ABS*:00000000 __tmp_reg__
+     /tmp/cc1WZJTP.s:7      *ABS*:00000001 __zero_reg__
 
 NO UNDEFINED SYMBOLS

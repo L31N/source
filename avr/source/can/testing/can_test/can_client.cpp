@@ -8,6 +8,18 @@
 #include "can_testing.h"
 
 int main () {
+
+    can_init(BITRATE_100_KBPS);
+
+    init_leds();
+    led(false, true);
+    _delay_ms(1000);
+    led(true, false);
+
+    can_t msg2;
+    while(true) can_send_message(&msg2);
+
+
     init_leds();
 
     led(true, true);
@@ -41,7 +53,7 @@ int main () {
     //msg.data[9] = '5';
 
     while(true) {
-        if (can_send_message(&msg)) {
+        /*if (can_send_message(&msg)) {
             led(true, false);
             _delay_ms(1000);
             led(false, false);
@@ -52,9 +64,12 @@ int main () {
             _delay_ms(500);
             led(false, false);
             _delay_ms(500);
-        }
+        }*/
         //_delay_ms(1000);
         //msg.id --;
+        can_init(BITRATE_100_KBPS);
+        _delay_ms(10);
+        switch_led(true, true);
     }
 
     /** ** ++++++++++ ** **/

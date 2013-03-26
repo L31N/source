@@ -18,3 +18,8 @@ void led (bool green, bool red) {
     if (red) PORTB |= (1 << 1);
     else PORTB &= ~(1 << 1);
 }
+
+void switch_led(bool green, bool red) {
+    if (green) PORTB ^= (1 << 0);
+    if (red) PORTB ^= (1 << 1);
+}

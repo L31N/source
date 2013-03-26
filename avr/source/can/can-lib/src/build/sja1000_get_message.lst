@@ -9,11 +9,11 @@
   16               	.Letext0:
 DEFINED SYMBOLS
                             *ABS*:00000000 sja1000_get_message.c
-     /tmp/ccurH1cH.s:2      *ABS*:0000003f __SREG__
-     /tmp/ccurH1cH.s:3      *ABS*:0000003e __SP_H__
-     /tmp/ccurH1cH.s:4      *ABS*:0000003d __SP_L__
-     /tmp/ccurH1cH.s:5      *ABS*:00000034 __CCP__
-     /tmp/ccurH1cH.s:6      *ABS*:00000000 __tmp_reg__
-     /tmp/ccurH1cH.s:7      *ABS*:00000001 __zero_reg__
+     /tmp/ccQ2gajR.s:2      *ABS*:0000003f __SREG__
+     /tmp/ccQ2gajR.s:3      *ABS*:0000003e __SP_H__
+     /tmp/ccQ2gajR.s:4      *ABS*:0000003d __SP_L__
+     /tmp/ccQ2gajR.s:5      *ABS*:00000034 __CCP__
+     /tmp/ccQ2gajR.s:6      *ABS*:00000000 __tmp_reg__
+     /tmp/ccQ2gajR.s:7      *ABS*:00000001 __zero_reg__
 
 NO UNDEFINED SYMBOLS

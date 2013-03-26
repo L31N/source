@@ -9,11 +9,11 @@
   16               	.Letext0:
 DEFINED SYMBOLS
                             *ABS*:00000000 spi.c
-     /tmp/ccc9orem.s:2      *ABS*:0000003f __SREG__
-     /tmp/ccc9orem.s:3      *ABS*:0000003e __SP_H__
-     /tmp/ccc9orem.s:4      *ABS*:0000003d __SP_L__
-     /tmp/ccc9orem.s:5      *ABS*:00000034 __CCP__
-     /tmp/ccc9orem.s:6      *ABS*:00000000 __tmp_reg__
-     /tmp/ccc9orem.s:7      *ABS*:00000001 __zero_reg__
+     /tmp/ccEwQChk.s:2      *ABS*:0000003f __SREG__
+     /tmp/ccEwQChk.s:3      *ABS*:0000003e __SP_H__
+     /tmp/ccEwQChk.s:4      *ABS*:0000003d __SP_L__
+     /tmp/ccEwQChk.s:5      *ABS*:00000034 __CCP__
+     /tmp/ccEwQChk.s:6      *ABS*:00000000 __tmp_reg__
+     /tmp/ccEwQChk.s:7      *ABS*:00000001 __zero_reg__
 
 NO UNDEFINED SYMBOLS
