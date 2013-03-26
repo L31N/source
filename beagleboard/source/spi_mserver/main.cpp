@@ -19,6 +19,6 @@ int main (int argc, char** argv) {
     unsigned char buf[] = {SPI_READ, CNF3, 0};
     mcp.mcp_read(buf, 1);
 
-    std::cout << "data: " << *buf << std::endl;
+    std::cout << "data: " << hex << "0x" << *buf << std::endl;
     return 0;
 }
