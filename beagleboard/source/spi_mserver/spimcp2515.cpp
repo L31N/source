@@ -25,25 +25,21 @@ SpiMcp2515::SpiMcp2515(const std::string spidev) {
     retval = ioctl(fd, SPI_IOC_WR_BITS_PER_WORD, &wordlength);
     if (retval == -1) {
         std::cout << "cannot set spi mode length wr" << std::endl;
-        return;
     }
 
     retval = ioctl(fd, SPI_IOC_RD_BITS_PER_WORD, &wordlength);
     if (retval == -1) {
         std::cout << "cannot set spi mode length rd" << std::endl;
-        return;
     }
 
     retval = ioctl(fd, SPI_IOC_WR_MAX_SPEED_HZ, &maxspeedhz);
     if (retval == -1) {
         std::cout << "cannot set spi mode speed wr" << std::endl;
-        return;
     }
 
     retval = ioctl(fd, SPI_IOC_RD_MAX_SPEED_HZ, &maxspeedhz);
     if (retval == -1) {
         std::cout << "cannot set spi mode speed rd" << std::endl;
-        return;
     }
 }
 
