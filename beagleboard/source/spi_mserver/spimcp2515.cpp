@@ -27,25 +27,25 @@ SpiMcp2515::SpiMcp2515(const std::string spidev) {
         std::cerr << strerror(errno) << std::endl;
     }
 
-    retval = ioctl(fd, SPI_IOC_WR_BITS_PER_WORD, &wordlength);
+    retval = ioctl(fd, SPI_IOC_WR_BITS_PER_WORD, &wordlengthwr);
     if (retval == -1) {
         std::cout << "cannot set spi mode length wr" << std::endl;
         std::cerr << strerror(errno) << std::endl;
     }
 
-    retval = ioctl(fd, SPI_IOC_RD_BITS_PER_WORD, &wordlength);
+    retval = ioctl(fd, SPI_IOC_RD_BITS_PER_WORD, &wordlengthrd);
     if (retval == -1) {
         std::cout << "cannot set spi mode length rd" << std::endl;
         std::cerr << strerror(errno) << std::endl;
     }
 
-    retval = ioctl(fd, SPI_IOC_WR_MAX_SPEED_HZ, &maxspeedhz);
+    retval = ioctl(fd, SPI_IOC_WR_MAX_SPEED_HZ, &maxspeedhzwr);
     if (retval == -1) {
         std::cout << "cannot set spi mode speed wr" << std::endl;
         std::cerr << strerror(errno) << std::endl;
     }
 
-    retval = ioctl(fd, SPI_IOC_RD_MAX_SPEED_HZ, &maxspeedhz);
+    retval = ioctl(fd, SPI_IOC_RD_MAX_SPEED_HZ, &maxspeedhzrd);
     if (retval == -1) {
         std::cout << "cannot set spi mode speed rd" << std::endl;
         std::cerr << strerror(errno) << std::endl;
@@ -258,6 +258,8 @@ const uint8_t SpiMcp2515::_mcp2515_cnf[8][3] = {
     }
 };
 
-const uint8_t SpiMcp2515::wordlength = 8;
-const uint32_t SpiMcp2515::maxspeedhz = 100000;
+const uint8_t SpiMcp2515::wordlengthwr = 8;
+const uint8_t SpiMcp2515::wordlengthrd = 8;
+const uint32_t SpiMcp2515::maxspeedhzwr = 100000;
+const uint32_t SpiMcp2515::maxspeedhzrd = 100000;
 const uint16_t SpiMcp2515::delay = 0;
