@@ -15,8 +15,11 @@ int main () {
         return -1;
     }
 
-    if (write(fd, 0xC0, 1) != 1) {
+    while(true) {
+    unsigned char ctmp = 0x02;
+    if (write(fd, &ctmp, 1) != 1) {
         std::cerr << "write error !" << std::endl;
         return -1;
+    }
     }
 }
