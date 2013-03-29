@@ -6,10 +6,11 @@
 
 #include "spimcp2515.h"
 
-const uint8_t wordlengthwr = 8;
-const uint8_t wordlengthrd = 8;
-const uint32_t maxspeedhzwr = 100000;
-const uint32_t maxspeedhzrd = 100000;
+uint8_t wordlength = 8;
+uint32_t maxspeedhz = 100000;
+uint16_t delay = 0;
+uint8_t mode = 0;
+
 
 SpiMcp2515::SpiMcp2515(const std::string spidev) {
     fd = open(spidev.c_str(), O_RDWR);
@@ -17,8 +18,6 @@ SpiMcp2515::SpiMcp2515(const std::string spidev) {
         std::cerr << "could not open device: " << spidev << std::endl;
         return;
     }
-
-    static uint8_t mode = 0;
 
     retval = ioctl(fd, SPI_IOC_WR_MODE, &mode);
     if (retval == -1) {
@@ -32,25 +31,25 @@ SpiMcp2515::SpiMcp2515(const std::string spidev) {
         std::cerr << strerror(errno) << std::endl;
     }
 
-    retval = ioctl(fd, SPI_IOC_WR_BITS_PER_WORD, &wordlengthwr);
+    retval = ioctl(fd, SPI_IOC_WR_BITS_PER_WORD, &wordlength);
     if (retval == -1) {
         std::cout << "cannot set spi mode length wr" << std::endl;
         std::cerr << strerror(errno) << std::endl;
     }
 
-    retval = ioctl(fd, SPI_IOC_RD_BITS_PER_WORD, &wordlengthrd);
+    retval = ioctl(fd, SPI_IOC_RD_BITS_PER_WORD, &wordlength);
     if (retval == -1) {
         std::cout << "cannot set spi mode length rd" << std::endl;
         std::cerr << strerror(errno) << std::endl;
     }
 
-    retval = ioctl(fd, SPI_IOC_WR_MAX_SPEED_HZ, &maxspeedhzwr);
+    retval = ioctl(fd, SPI_IOC_WR_MAX_SPEED_HZ, &maxspeedhz);
     if (retval == -1) {
         std::cout << "cannot set spi mode speed wr" << std::endl;
         std::cerr << strerror(errno) << std::endl;
     }
 
-    retval = ioctl(fd, SPI_IOC_RD_MAX_SPEED_HZ, &maxspeedhzrd);
+    retval = ioctl(fd, SPI_IOC_RD_MAX_SPEED_HZ, &maxspeedhz);
     if (retval == -1) {
         std::cout << "cannot set spi mode speed rd" << std::endl;
         std::cerr << strerror(errno) << std::endl;
@@ -75,8 +74,8 @@ bool SpiMcp2515::mcp_write(unsigned char* buf, size_t length) {
 
     tr.len = length;
     tr.delay_usecs = delay;
-    tr.speed_hz = maxspeedhzwr;
-    tr.bits_per_word = wordlengthwr;
+    tr.speed_hz = maxspeedhz;
+    tr.bits_per_word = wordlength;
 
     int ret = ioctl(fd, SPI_IOC_MESSAGE(1), &tr);
     if (ret < 1) {
@@ -100,8 +99,8 @@ bool SpiMcp2515::mcp_read(unsigned char* buf, size_t length) {
 
     tr.len = length;
     tr.delay_usecs = delay;
-    tr.speed_hz = maxspeedhzwr;
-    tr.bits_per_word = wordlengthwr;
+    tr.speed_hz = maxspeedhz;
+    tr.bits_per_word = wordlength;
 
     int ret = ioctl(fd, SPI_IOC_MESSAGE(1), &tr);
     for (unsigned int i = 0; i < length; i++) buf[i] = rx[i];
@@ -170,7 +169,7 @@ char SpiMcp2515::mcp_read_status(unsigned char type) {
 }
 
 bool SpiMcp2515::mcp_init(can_bitrate_t bitrate) {
-    if (bitrate >= 8) {
+    /*if (bitrate >= 8) {
         std::cerr << "invalid bitrate" << std::endl;
         return false;
     }
@@ -217,7 +216,8 @@ bool SpiMcp2515::mcp_init(can_bitrate_t bitrate) {
             mcp_read_register(CANSTAT, tmp);
         }
         return true;
-    }
+    }*/
+    return true;
 }
 
 const uint8_t SpiMcp2515::_mcp2515_cnf[8][3] = {
@@ -266,5 +266,5 @@ const uint8_t SpiMcp2515::_mcp2515_cnf[8][3] = {
 /*const uint8_t SpiMcp2515::wordlengthwr = 8;
 const uint8_t SpiMcp2515::wordlengthrd = 8;
 const uint32_t SpiMcp2515::maxspeedhzwr = 100000;
-const uint32_t SpiMcp2515::maxspeedhzrd = 100000;*/
-const uint16_t SpiMcp2515::delay = 0;
+const uint32_t SpiMcp2515::maxspeedhzrd = 100000;
+const uint16_t SpiMcp2515::delay = 0;*/
