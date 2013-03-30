@@ -9,10 +9,10 @@
 #include "spimcp2515.h"
 
 int main (int argc, char** argv) {
-    if (argc != 2) {
+    /*if (argc != 2) {
         std::cerr << "usage: " << *argv << " BITRATE" << std::endl;
         return -1;
-    }
+    }*/
 
     SpiMcp2515 mcp("/dev/spidev3.0");
 
@@ -22,6 +22,6 @@ int main (int argc, char** argv) {
     unsigned char buf1[] = {SPI_READ, CNF3, 0};
     mcp.mcp_read(buf1, 1);
 
-    std::cout << "data: " << std::hex << "0x" << buf1[0] << std::endl;
+    std::cout << "data: " << std::hex << "0x" << int(buf1[0]) << std::endl;
     return 0;
 }
