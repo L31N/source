@@ -14,14 +14,14 @@ int main (int argc, char** argv) {
         return -1;
     }*/
 
-    SpiMcp2515 mcp("/dev/spidev3.0");
+    Mcp2515 mcp("/dev/spidev3.0");
 
-    unsigned char buf0[] = {SPI_WRITE, CNF3, 0b11000111};
-    mcp.mcp_write(buf0, 3);
+    if (mcp.mcp_init(Mcp2515::BITRATE_10_KBPS)) std::cout << "initialisation successfull" << std::endl;
+    else std::cout << "initialisation failure" << std::endl;
 
-    unsigned char buf1[] = {SPI_READ, CNF3, 0};
-    mcp.mcp_read(buf1, 1);
+    Mcp2515::can_t tmp;
 
-    std::cout << "data: " << std::hex << "0x" << int(buf1[0]) << std::endl;
+    mcp.mcp_write_can(&tmp);
+
     return 0;
 }

@@ -20,8 +20,21 @@ int main () {
     can_init(BITRATE_100_KBPS);
     sei();
 
+
+
 	//Objekte erstellen
     Board board;
+    board.ledOn(0, true);
+
+    while(true) {
+        if (can_check_message()) {
+            board.ledOn(1, true);
+            board.ledOn(2, true);
+            board.ledOn(3, true);
+            board.ledOn(4, true);
+        }
+    }
+
     MotionController mc;
     Motor motor;
 

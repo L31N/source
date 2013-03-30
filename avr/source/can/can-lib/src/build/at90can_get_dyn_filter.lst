@@ -6,14 +6,133 @@
    6               	__tmp_reg__ = 0
    7               	__zero_reg__ = 1
   15               	.Ltext0:
-  16               	.Letext0:
+  16               	.global	can_get_filter
+  18               	can_get_filter:
+  19               	.LFB17:
+  20               	.LM1:
+  21               	.LVL0:
+  22               	/* prologue: function */
+  23               	/* frame size = 0 */
+  24               	/* stack size = 0 */
+  25               	.L__stack_usage = 0
+  26 0000 FB01      		movw r30,r22
+  27               	.LM2:
+  28 0002 8F30      		cpi r24,lo8(15)
+  29 0004 00F0      		brlo .+2
+  30 0006 00C0      		rjmp .L6
+  31               	.LM3:
+  32 0008 8295      		swap r24
+  33               	.LVL1:
+  34 000a 807F      		andi r24,lo8(-16)
+  35 000c 8093 ED00 		sts 237,r24
+  36               	.LM4:
+  37 0010 8091 EF00 		lds r24,239
+  38 0014 807C      		andi r24,lo8(-64)
+  39 0016 01F4      		brne .+2
+  40 0018 00C0      		rjmp .L7
+  41               	.LM5:
+  42 001a 8091 EF00 		lds r24,239
+  43 001e 807C      		andi r24,lo8(-64)
+  44 0020 8038      		cpi r24,lo8(-128)
+  45 0022 01F4      		brne .L8
+  46               	.LBB2:
+  47               	.LM6:
+  48 0024 8091 F400 		lds r24,244
+  49 0028 82FF      		sbrs r24,2
+  50 002a 00C0      		rjmp .L3
+  51               	.LM7:
+  52 002c 9091 F000 		lds r25,240
+  53 0030 8481      		ldd r24,Z+4
+  54 0032 92FF      		sbrs r25,2
+  55 0034 00C0      		rjmp .L4
+  56               	.LM8:
+  57 0036 8360      		ori r24,lo8(3)
+  58 0038 00C0      		rjmp .L9
+  59               	.L4:
+  60               	.LM9:
+  61 003a 8C7F      		andi r24,lo8(-4)
+  62 003c 8260      		ori r24,lo8(2)
+  63 003e 00C0      		rjmp .L9
+  64               	.L3:
+  65               	.LM10:
+  66 0040 8481      		ldd r24,Z+4
+  67 0042 8C7F      		andi r24,lo8(-4)
+  68               	.L9:
+  69 0044 8483      		std Z+4,r24
+  70               	.LM11:
+  71 0046 8091 F600 		lds r24,246
+  72 004a 8295      		swap r24
+  73 004c 8695      		lsr r24
+  74 004e 8770      		andi r24,lo8(7)
+  75 0050 90E0      		ldi r25,lo8(0)
+  76               	.LVL2:
+  77               	.LM12:
+  78 0052 2091 F700 		lds r18,247
+  79 0056 30E0      		ldi r19,lo8(0)
+  80 0058 73E0      		ldi r23,3
+  81 005a 220F      	1:	lsl r18
+  82 005c 331F      		rol r19
+  83 005e 7A95      		dec r23
+  84 0060 01F4      		brne 1b
+  85 0062 282B      		or r18,r24
+  86 0064 392B      		or r19,r25
+  87               	.LVL3:
+  88               	.LM13:
+  89 0066 3383      		std Z+3,r19
+  90 0068 2283      		std Z+2,r18
+  91               	.LM14:
+  92 006a 4091 F200 		lds r20,242
+  93 006e 4295      		swap r20
+  94 0070 4695      		lsr r20
+  95 0072 4770      		andi r20,lo8(7)
+  96 0074 50E0      		ldi r21,lo8(0)
+  97               	.LVL4:
+  98               	.LM15:
+  99 0076 8091 F300 		lds r24,243
+ 100               	.LVL5:
+ 101 007a 90E0      		ldi r25,lo8(0)
+ 102 007c 63E0      		ldi r22,3
+ 103 007e 880F      	1:	lsl r24
+ 104 0080 991F      		rol r25
+ 105 0082 6A95      		dec r22
+ 106 0084 01F4      		brne 1b
+ 107               	.LVL6:
+ 108 0086 842B      		or r24,r20
+ 109 0088 952B      		or r25,r21
+ 110               	.LM16:
+ 111 008a 8223      		and r24,r18
+ 112 008c 9323      		and r25,r19
+ 113 008e 9183      		std Z+1,r25
+ 114 0090 8083      		st Z,r24
+ 115               	.LM17:
+ 116 0092 81E0      		ldi r24,lo8(1)
+ 117 0094 0895      		ret
+ 118               	.LVL7:
+ 119               	.L6:
+ 120               	.LBE2:
+ 121               	.LM18:
+ 122 0096 80E0      		ldi r24,lo8(0)
+ 123               	.LVL8:
+ 124 0098 0895      		ret
+ 125               	.L7:
+ 126               	.LM19:
+ 127 009a 82E0      		ldi r24,lo8(2)
+ 128 009c 0895      		ret
+ 129               	.L8:
+ 130               	.LM20:
+ 131 009e 8FEF      		ldi r24,lo8(-1)
+ 132               	.LM21:
+ 133 00a0 0895      		ret
+ 134               	.LFE17:
+ 160               	.Letext0:
 DEFINED SYMBOLS
                             *ABS*:00000000 at90can_get_dyn_filter.c
-     /tmp/ccEoIwYp.s:2      *ABS*:0000003f __SREG__
-     /tmp/ccEoIwYp.s:3      *ABS*:0000003e __SP_H__
-     /tmp/ccEoIwYp.s:4      *ABS*:0000003d __SP_L__
-     /tmp/ccEoIwYp.s:5      *ABS*:00000034 __CCP__
-     /tmp/ccEoIwYp.s:6      *ABS*:00000000 __tmp_reg__
-     /tmp/ccEoIwYp.s:7      *ABS*:00000001 __zero_reg__
+     /tmp/ccmUxTyi.s:2      *ABS*:0000003f __SREG__
+     /tmp/ccmUxTyi.s:3      *ABS*:0000003e __SP_H__
+     /tmp/ccmUxTyi.s:4      *ABS*:0000003d __SP_L__
+     /tmp/ccmUxTyi.s:5      *ABS*:00000034 __CCP__
+     /tmp/ccmUxTyi.s:6      *ABS*:00000000 __tmp_reg__
+     /tmp/ccmUxTyi.s:7      *ABS*:00000001 __zero_reg__
+     /tmp/ccmUxTyi.s:18     .text:00000000 can_get_filter
 
 NO UNDEFINED SYMBOLS

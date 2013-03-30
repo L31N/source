@@ -9,11 +9,11 @@
   16               	.Letext0:
 DEFINED SYMBOLS
                             *ABS*:00000000 mcp2515_send_message.c
-     /tmp/cc6518jV.s:2      *ABS*:0000003f __SREG__
-     /tmp/cc6518jV.s:3      *ABS*:0000003e __SP_H__
-     /tmp/cc6518jV.s:4      *ABS*:0000003d __SP_L__
-     /tmp/cc6518jV.s:5      *ABS*:00000034 __CCP__
-     /tmp/cc6518jV.s:6      *ABS*:00000000 __tmp_reg__
-     /tmp/cc6518jV.s:7      *ABS*:00000001 __zero_reg__
+     /tmp/ccXSKN6D.s:2      *ABS*:0000003f __SREG__
+     /tmp/ccXSKN6D.s:3      *ABS*:0000003e __SP_H__
+     /tmp/ccXSKN6D.s:4      *ABS*:0000003d __SP_L__
+     /tmp/ccXSKN6D.s:5      *ABS*:00000034 __CCP__
+     /tmp/ccXSKN6D.s:6      *ABS*:00000000 __tmp_reg__
+     /tmp/ccXSKN6D.s:7      *ABS*:00000001 __zero_reg__
 
 NO UNDEFINED SYMBOLS

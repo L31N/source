@@ -20,10 +20,10 @@
 #define	MCP2515_INTERRUPTS			(1<<RX1IE)|(1<<RX0IE)
 
 
-class SpiMcp2515 {
+class Mcp2515 {
     public:
-        SpiMcp2515(const std::string spidev);
-        ~SpiMcp2515();
+        Mcp2515(const std::string spidev);
+        ~Mcp2515();
 
         typedef enum {
             BITRATE_10_KBPS	= 0,	// ungetestet
@@ -36,6 +36,29 @@ class SpiMcp2515 {
             BITRATE_1_MBPS = 7,		// ungetestet
         } can_bitrate_t;
 
+        typedef struct {
+            uint16_t id;		//!< ID der Nachricht (11 Bit)
+            struct {
+                bool rtr;       //!< Remote-Transmit-Request-Frame?
+            } flags;
+
+            uint8_t length;	//!< Anzahl der Datenbytes
+            uint8_t data[8];	//!< Die Daten der CAN Nachricht
+
+        } can_t;
+
+        bool mcp_init(can_bitrate_t bitrate);
+
+        unsigned char mcp_read_status(unsigned char type);
+
+        bool mcp_write_can(Mcp2515::can_t* message);
+        Mcp2515::can_t mcp_read_can();
+        bool mcp_check_can();
+
+    protected:
+
+        bool mcp_reset();
+
         bool mcp_write(unsigned char* buf, size_t length);
         bool mcp_read(unsigned char* buf, size_t length);
 
@@ -43,19 +66,17 @@ class SpiMcp2515 {
         bool mcp_read_register(unsigned char address, unsigned char& data);
         bool mcp_bit_modify(unsigned char address, unsigned char mask, unsigned char data);
 
-        char mcp_read_status(unsigned char type);
-        bool mcp_init(can_bitrate_t bitrate);
 
+        /** +++++++++ **/
 
-    protected:
         int fd;
 
         static const uint8_t _mcp2515_cnf[8][3];
-        /*static const uint8_t wordlengthwr;
-        static const uint8_t wordlengthrd;
-        static const uint32_t maxspeedhzwr;
-        static const uint32_t maxspeedhzrd;
-        static const uint16_t delay;*/
+
+        uint8_t wordlength;
+        uint32_t maxspeedhz;
+        uint16_t delay;
+        uint8_t mode;
 
         int retval;
 };

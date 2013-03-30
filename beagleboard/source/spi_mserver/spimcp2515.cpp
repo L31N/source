@@ -6,13 +6,19 @@
 
 #include "spimcp2515.h"
 
-uint8_t wordlength = 8;
+/*uint8_t wordlength = 8;
 uint32_t maxspeedhz = 100000;
 uint16_t delay = 0;
-uint8_t mode = 0;
+uint8_t mode = 0;*/
 
 
-SpiMcp2515::SpiMcp2515(const std::string spidev) {
+Mcp2515::Mcp2515(const std::string spidev) {
+
+    wordlength = 8;
+    maxspeedhz = 100000;
+    delay = 0;
+    mode = 0;
+
     fd = open(spidev.c_str(), O_RDWR);
     if (fd <= 0) {
         std::cerr << "could not open device: " << spidev << std::endl;
@@ -56,11 +62,11 @@ SpiMcp2515::SpiMcp2515(const std::string spidev) {
     }
 }
 
-SpiMcp2515::~SpiMcp2515() {
+Mcp2515::~Mcp2515() {
     close(fd);
 }
 
-bool SpiMcp2515::mcp_write(unsigned char* buf, size_t length) {
+bool Mcp2515::mcp_write(unsigned char* buf, size_t length) {
     uint8_t tx[length];
     for (unsigned int i = 0; i < length; i++) tx[i] = buf[i];
 
@@ -85,7 +91,7 @@ bool SpiMcp2515::mcp_write(unsigned char* buf, size_t length) {
     else return true;
 }
 
-bool SpiMcp2515::mcp_read(unsigned char* buf, size_t length) {
+bool Mcp2515::mcp_read(unsigned char* buf, size_t length) {
     uint8_t tx[3];
     for (unsigned int i = 0; i < 3; i++) tx[i] = buf[i];
 
@@ -111,116 +117,111 @@ bool SpiMcp2515::mcp_read(unsigned char* buf, size_t length) {
     else return true;
 }
 
-bool SpiMcp2515::mcp_write_register(unsigned char address, unsigned char data) {
-    unsigned char buf [3] = {SPI_WRITE, address, data};
-
-    if (write(fd, buf, 3) != 3) {
-        std::cerr << "spi write error" << std::endl;
-        return false;
-    }
-    else {
-        return true;
-    }
+bool Mcp2515::mcp_reset() {
+    unsigned char reset = SPI_RESET;
+    return this->mcp_write(&reset, 1);
 }
 
-bool SpiMcp2515::mcp_read_register(unsigned char address, unsigned char& data) {
-    unsigned char buf[2] = {SPI_READ, address};
-    unsigned char* rdbuf = new unsigned char;
-
-    if (write(fd, buf, 2) != 2) {
-        std::cerr << "spi write error" << std::endl;
-        delete rdbuf;
-        return false;
-    }
-
-    if (read(fd, rdbuf, 1) != 1) {
-        std::cerr << "spi read error" << std::endl;
-        delete rdbuf;
-        return false;
-    }
-    else {
-        data = *rdbuf;
-        return true;
-    }
+bool Mcp2515::mcp_write_register(unsigned char address, unsigned char data) {
+    unsigned char buf [3] = { SPI_WRITE, address, data };
+    return this->mcp_write(buf, 3);
 }
 
-bool SpiMcp2515::mcp_bit_modify(unsigned char address, unsigned char mask, unsigned char data) {
-    unsigned char buf[4] = {SPI_BIT_MODIFY, address, mask, data};
-    if (write(fd, buf, 4) != 4) {
-        std::cerr << "spi write error" << std::endl;
-        return false;
-    }
-    else {
-        return true;
-    }
+bool Mcp2515::mcp_read_register(unsigned char address, unsigned char& data) {
+    unsigned char buf [3] = { SPI_READ, address, 0xff };
+    int retval = this->mcp_read(buf, 3);
+    data = buf[2];
+    return retval;
 }
 
-char SpiMcp2515::mcp_read_status(unsigned char type) {
-    unsigned char rdbuf;
-    if (write(fd, &type, 1) != 1) {
-        std::cerr << "spi write error" << std::endl;
-        return false;
-    }
-    if (read (fd, &rdbuf, 1) != 1) {
-        std::cerr << "spi read error" << std::endl;
-        return false;
-    }
-    else return rdbuf;
+bool Mcp2515::mcp_bit_modify(unsigned char address, unsigned char mask, unsigned char data) {
+    unsigned char buf[4] = { SPI_BIT_MODIFY, address, mask, data };
+    return this->mcp_write(buf, 4);
 }
 
-bool SpiMcp2515::mcp_init(can_bitrate_t bitrate) {
-    /*if (bitrate >= 8) {
-        std::cerr << "invalid bitrate" << std::endl;
+unsigned char Mcp2515::mcp_read_status(unsigned char type) {
+    unsigned char buf [2] = { type, 0xff };
+    this->mcp_read(buf, 2);
+    return buf[1];
+}
+
+bool Mcp2515::mcp_init(can_bitrate_t bitrate) {
+    if (bitrate >= 8) {
+        std::cerr << "invalid bitrate ..." << std::endl;
         return false;
     }
 
-    int spireset = SPI_RESET;
-    if (write(fd, &spireset, 1) != 1) {
-        std::cerr << "spi write error" << std::endl;
-        return false;
-    }
-
+    // reset chip
+    this->mcp_reset();
     usleep(10000);
 
-    char buf[6];
-    buf[0] = SPI_WRITE;
-    buf[1] = CNF3;
-    for (int i = 2; i < 5; i++) buf[i] = _mcp2515_cnf[bitrate][i];
-    buf[5] = MCP2515_INTERRUPTS;
+    // set baudrate (CNF1 .. 3 (Bittiming) / activate interrupts
+    unsigned char cnf [6] = { SPI_WRITE, CNF3 };
+    for (unsigned int i = 2; i < 3+2; i++) {
+        cnf[i] = _mcp2515_cnf [bitrate][i-2];
+    }
+    cnf [5] = (1<<RX1IE)|(1<<RX0IE);
+    this->mcp_write(cnf, 6);
 
-    if (write(fd, buf, 6) != 6) {
-        std::cerr << "spi write error" << std::endl;
-        return false;
+    // TXnRTS bits as interrupts
+    this->mcp_write_register(TXRTSCTRL, 0);
+
+    // activate pin-functions for RX0BF and RX1BF
+    this->mcp_write_register(BFPCTRL, (1<<B0BFE)|(1<<B1BFE)|(1<<B0BFM)|(1<<B1BFM));
+
+    // check the chips respondance
+    bool error = false;
+    unsigned char tmpbuf = 0;
+    this->mcp_read_register(CNF2, tmpbuf);
+    if (tmpbuf != _mcp2515_cnf[bitrate][1]) {
+        error = true;
+        std::cerr << "could not initiate mcp2515" << std::endl;
     }
 
-    // Set TXnRTS Bits as inputs
-    mcp_write_register(TXRTSCTRL, 0);
+    // put device back into normal mode
+    this->mcp_write_register(CANCTRL, 0);
 
-    // define interrupt pins for buffer full
-    mcp_write_register(BFPCTRL, (1<<B0BFE)|(1<<B1BFE)|(1<<B0BFM)|(1<<B1BFM));
-
-
-    // test weather the chip is responding
-    bool error = false;
-    unsigned char tmp;
-    mcp_read_register(CNF2, tmp);
-    if (tmp != _mcp2515_cnf[bitrate][1]) error = true;
-
-    // put device back into the normal mode
-    mcp_write_register(CANCTRL, 0);
     if (error) return false;
     else {
-        unsigned char tmp;
-        mcp_read_register(CANSTAT, tmp);
-        while ((tmp & 0xE0) != 0) {   // wait until the new mode was configured
-            mcp_read_register(CANSTAT, tmp);
-        }
-        return true;
-    }*/
+        unsigned char tmp = 0;
+        do {
+            this->mcp_read_register(CANSTAT, tmp);
+        } while((tmp & 0xe0) != 0);
+    }
+
     return true;
 }
 
-const uint8_t SpiMcp2515::_mcp2515_cnf[8][3] = {
+bool Mcp2515::mcp_write_can(can_t* message) {
+    /* Verschickt eine Nachricht ueber Puffer 0
+     * 2 Datenbytes (0x04, 0xf3)
+     * Standard ID: 0x0123
+     */
+    uint16_t id = 0x0123;
+
+    /* Nachrichten Puffer auf Hoechste Prioritaet einstellen
+       (braucht man nicht wenn man nur mit einem Puffer sendet, siehe Text) */
+    this->mcp_bit_modify( TXB0CTRL, (1<<TXP1)|(1<<TXP0), (1<<TXP1)|(1<<TXP0) );
+
+    // ID einstellen
+    this->mcp_write_register(TXB0SIDH, (uint8_t) (id>>3));
+    this->mcp_write_register(TXB0SIDL, (uint8_t) (id<<5));
+
+    // Nachrichten Laenge + RTR einstellen
+    this->mcp_write_register(TXB0DLC, 2);
+
+    // Daten
+    this->mcp_write_register(TXB0D0, 0x04);
+    this->mcp_write_register(TXB0D1, 0xf3);
+
+    // CAN Nachricht verschicken
+    unsigned char buf = (SPI_RTS | 0x01);
+    this->mcp_write(&buf, 1);
+
+    return true;
+}
+
+const uint8_t Mcp2515::_mcp2515_cnf[8][3] = {
     // 10 kbps
     {	0x04,
         0xb6,
@@ -263,8 +264,3 @@ const uint8_t SpiMcp2515::_mcp2515_cnf[8][3] = {
     }
 };
 
-/*const uint8_t SpiMcp2515::wordlengthwr = 8;
-const uint8_t SpiMcp2515::wordlengthrd = 8;
-const uint32_t SpiMcp2515::maxspeedhzwr = 100000;
-const uint32_t SpiMcp2515::maxspeedhzrd = 100000;
-const uint16_t SpiMcp2515::delay = 0;*/
