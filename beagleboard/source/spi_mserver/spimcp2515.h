@@ -37,10 +37,9 @@ class Mcp2515 {
         } can_bitrate_t;
 
         typedef struct {
-            uint16_t id;		//!< ID der Nachricht (11 Bit)
-            struct {
-                bool rtr;       //!< Remote-Transmit-Request-Frame?
-            } flags;
+            uint16_t id;        //!< ID der Nachricht (11 Bit)
+            bool rtr;           //!< Remote-Transmit-Request-Frame?
+
 
             uint8_t length;	//!< Anzahl der Datenbytes
             uint8_t data[8];	//!< Die Daten der CAN Nachricht

@@ -17,21 +17,39 @@ int main () {
 
 	//Schnittstellen initialisieren
     uart_init(38400);
-    can_init(BITRATE_100_KBPS);
+    uart_putstr((char*)"uart init ...\n\r");
+
+    can_init(BITRATE_10_KBPS);
     sei();
-
-
 
 	//Objekte erstellen
     Board board;
     board.ledOn(0, true);
 
+    can_filter_t filter0;
+    filter0.id = 1;
+    filter0.mask = 0x0;
+    filter0.flags.rtr = 0;
+
+    can_set_filter(0, &filter0);
+
+    can_t message;
+    message.id = 0x01;
+    message.flags.rtr = 0;
+    message.length = 1;
+    message.data[0] = 0xFF;
+
+    can_send_message(&message);
+
     while(true) {
         if (can_check_message()) {
-            board.ledOn(1, true);
-            board.ledOn(2, true);
-            board.ledOn(3, true);
-            board.ledOn(4, true);
+            can_t msg;
+            can_get_message(&msg);
+            for (int i = 0; i < msg.length; i++) uart_putc(msg.data[i]);
+            board.ledSwitch(1);
+            board.ledSwitch(2);
+            board.ledSwitch(3);
+            board.ledSwitch(4);
         }
     }
 

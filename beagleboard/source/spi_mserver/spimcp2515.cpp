@@ -193,26 +193,32 @@ bool Mcp2515::mcp_init(can_bitrate_t bitrate) {
 }
 
 bool Mcp2515::mcp_write_can(can_t* message) {
-    /* Verschickt eine Nachricht ueber Puffer 0
-     * 2 Datenbytes (0x04, 0xf3)
-     * Standard ID: 0x0123
-     */
-    uint16_t id = 0x0123;
 
-    /* Nachrichten Puffer auf Hoechste Prioritaet einstellen
-       (braucht man nicht wenn man nur mit einem Puffer sendet, siehe Text) */
-    this->mcp_bit_modify( TXB0CTRL, (1<<TXP1)|(1<<TXP0), (1<<TXP1)|(1<<TXP0) );
+     uint8_t length = message->length;
 
     // ID einstellen
-    this->mcp_write_register(TXB0SIDH, (uint8_t) (id>>3));
-    this->mcp_write_register(TXB0SIDL, (uint8_t) (id<<5));
+    this->mcp_write_register(TXB0SIDH, (uint8_t) (message->id>>3));
+    this->mcp_write_register(TXB0SIDL, (uint8_t) (message->id<<5));
 
-    // Nachrichten Laenge + RTR einstellen
-    this->mcp_write_register(TXB0DLC, 2);
+    // Ist die Nachricht ein "Remote Transmit Request"
+    if (message->rtr)
+    {
+        /* Eine RTR Nachricht hat zwar eine Laenge,
+           aber keine Daten */
 
-    // Daten
-    this->mcp_write_register(TXB0D0, 0x04);
-    this->mcp_write_register(TXB0D1, 0xf3);
+        // Nachrichten Laenge + RTR einstellen
+        this->mcp_write_register(TXB0DLC, (1<<RTR) | length);
+    }
+    else
+    {
+        // Nachrichten Laenge einstellen
+        this->mcp_write_register(TXB0DLC, length);
+
+        // Daten
+        for (uint8_t i = 0; i < length; i++) {
+            this->mcp_write_register(TXB0D0 + i, message->data[i]);
+        }
+    }
 
     // CAN Nachricht verschicken
     unsigned char buf = (SPI_RTS | 0x01);

@@ -21,6 +21,13 @@ int main (int argc, char** argv) {
 
     Mcp2515::can_t tmp;
 
+    tmp.id = 0x01;
+    tmp.rtr = 0;
+    tmp.length = 2;
+
+    tmp.data[0] = '4';
+    tmp.data[1] = '2';
+
     mcp.mcp_write_can(&tmp);
 
     return 0;
