@@ -26,6 +26,28 @@ int main () {
     Board board;
     board.ledOn(0, true);
 
+    /*can_t message;
+    message.id = 0x01;
+    message.flags.rtr = 0;
+    message.length = 8;
+
+    message.data[0] = 'L';
+    message.data[1] = '3';
+    message.data[0] = '1';
+    message.data[1] = 'N';
+    message.data[1] = '4';
+    message.data[1] = '2';
+    message.data[1] = 'P';
+    message.data[1] = 'I';
+
+    while(true) {
+        if (board.buttonDown()) {
+            can_send_message(&message);
+            board.ledSwitch(3);
+            _delay_ms(1000);
+        }
+    }*/
+
     can_filter_t filter0;
     filter0.id = 1;
     filter0.mask = 0x0;
