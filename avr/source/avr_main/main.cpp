@@ -26,19 +26,29 @@ int main () {
     Board board;
     board.ledOn(0, true);
 
-    /*can_t message;
+    can_t message;
     message.id = 0x01;
     message.flags.rtr = 0;
     message.length = 8;
 
     message.data[0] = 'L';
     message.data[1] = '3';
-    message.data[0] = '1';
-    message.data[1] = 'N';
-    message.data[1] = '4';
-    message.data[1] = '2';
-    message.data[1] = 'P';
-    message.data[1] = 'I';
+    message.data[2] = '1';
+    message.data[3] = 'N';
+    message.data[4] = '4';
+    message.data[5] = '2';
+    message.data[6] = 'P';
+    message.data[7] = 'I';
+
+//    message.data[0] = '0';
+//    message.data[1] = '1';
+//    message.data[2] = '2';
+//    message.data[3] = '3';
+//    message.data[4] = '4';
+//    message.data[5] = '5';
+//    message.data[6] = '6';
+//    message.data[7] = '7';
+
 
     while(true) {
         if (board.buttonDown()) {
@@ -46,9 +56,9 @@ int main () {
             board.ledSwitch(3);
             _delay_ms(1000);
         }
-    }*/
+    }
 
-    can_filter_t filter0;
+    /*can_filter_t filter0;
     filter0.id = 1;
     filter0.mask = 0x0;
     filter0.flags.rtr = 0;
@@ -73,7 +83,7 @@ int main () {
             board.ledSwitch(3);
             board.ledSwitch(4);
         }
-    }
+    }*/
 
     MotionController mc;
     Motor motor;

@@ -357,7 +357,8 @@ bool Mcp2515::mcp_write_can(can_t* message) {
 
 unsigned char Mcp2515::mcp_read_can(Mcp2515::can_t* msg) {
 
-    unsigned char status = this->mcp_read_rx_status();
+    unsigned char status;
+    this->mcp_read_register(CANINTF, status);
 
     unsigned char rbuf_len = 14;
     unsigned char rbuf [rbuf_len];
@@ -365,8 +366,8 @@ unsigned char Mcp2515::mcp_read_can(Mcp2515::can_t* msg) {
     std::cout << std::hex;
     std::cout << "status: " << int(status) << std::endl;
 
-    if (status & (1 << 6)) rbuf[0] = SPI_READ_RX;                   // message in buffer 0
-    else if (status & (1 << 7)) rbuf[0] = SPI_READ_RX | 0x04;      // message in buffer 1
+    if (status & (1 << 0)) rbuf[0] = SPI_READ_RX;                   // message in buffer 0
+    else if (status & (1 << 1)) rbuf[0] = SPI_READ_RX | 0x04;      // message in buffer 1
     else {                                                          // fault, no new messages ...
         std::cerr << "error: no new can messages in buffer" << std::endl;
         return 0xff;
@@ -385,9 +386,9 @@ unsigned char Mcp2515::mcp_read_can(Mcp2515::can_t* msg) {
     this->mcp_read(rbuf, rbuf_len);
 
     //std::cerr << std::hex;
-    for (unsigned int i = 0; i < 14; i++) {
+    /*for (unsigned int i = 0; i < 14; i++) {
         std::cout << "rbuf" << i << ": " << rbuf[i] << std::endl;
-    }
+    }*/
 
     // extract data from buffer and fill data into the new can message
 
