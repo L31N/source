@@ -229,6 +229,9 @@ bool Mcp2515::mcp_init(can_bitrate_t bitrate) {
     // TXnRTS bits as interrupts
     this->mcp_write_register(TXRTSCTRL, 0);
 
+    // activate roll-over functionality
+    this->mcp_bit_modify(RXB0CTRL, 0b00000110, 0xFF);
+
     // activate pin-functions for RX0BF and RX1BF
     this->mcp_write_register(BFPCTRL, (1<<B0BFE)|(1<<B1BFE)|(1<<B0BFM)|(1<<B1BFM));
 
@@ -407,10 +410,10 @@ unsigned char Mcp2515::mcp_read_can(Mcp2515::can_t* msg) {
     else msg->rtr = 0;
 
     // reset interrupt flag
-    if (status & (1 << 6)) this->mcp_bit_modify(CANINTF, (1 << RX0IF), 0);
-    else this->mcp_bit_modify(CANINTF, (1 << RX1IF), 0);
+    if (status & (1 << 0)) this->mcp_bit_modify(CANINTF, (1 << 0), 0);
+    else this->mcp_bit_modify(CANINTF, (1 << 1), 0);
 
-    return (status & 0x07);
+    return (status & 0x03);
 
 }
 
