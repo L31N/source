@@ -16,10 +16,10 @@ int main (int argc, char** argv) {
 
     Mcp2515 mcp("/dev/spidev3.0");
 
-    /*if (mcp.mcp_init(Mcp2515::BITRATE_10_KBPS)) std::cout << "initialisation successfull" << std::endl;
-    else std::cout << "initialisation failure" << std::endl;*/
+    if (mcp.mcp_init(Mcp2515::BITRATE_10_KBPS)) std::cout << "initialisation successfull" << std::endl;
+    else std::cout << "initialisation failure" << std::endl;
 
-    Mcp2515::can_t tmp;
+    /*Mcp2515::can_t tmp;
 
     tmp.id = 0x01;
     tmp.rtr = 0;
@@ -42,7 +42,7 @@ int main (int argc, char** argv) {
     std::cout << std::hex << std::endl;
     for (int i = 0; i < 8; i++) {
         std::cout << "[" << i << "]: " << tmp.data[i] << std::endl;
-    }
+    }*/
 
     return 0;
 }

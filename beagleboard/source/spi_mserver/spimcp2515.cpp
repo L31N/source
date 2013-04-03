@@ -207,24 +207,24 @@ bool Mcp2515::mcp_init(can_bitrate_t bitrate) {
     cnf [5] = (1<<RX1IE)|(1<<RX0IE);
     this->mcp_write(cnf, 6);
 
-//    /** set the filters to accept all messages **/
-//    // Buffer 0 : Empfangen aller Nachrichten
-//    this->mcp_write_register( RXB0CTRL, (1<<RXM1)|(1<<RXM0) );
-//
-//    // Buffer 1 : Empfangen aller Nachrichten
-//    this->mcp_write_register( RXB1CTRL, (1<<RXM1)|(1<<RXM0) );
-//
-//    // Alle Bits der Empfangsmaske loeschen,
-//    // damit werden alle Nachrichten empfangen
-//    this->mcp_write_register( RXM0SIDH, 0 );
-//    this->mcp_write_register( RXM0SIDL, 0 );
-//    this->mcp_write_register( RXM0EID8, 0 );
-//    this->mcp_write_register( RXM0EID0, 0 );
-//
-//    this->mcp_write_register( RXM1SIDH, 0 );
-//    this->mcp_write_register( RXM1SIDL, 0 );
-//    this->mcp_write_register( RXM1EID8, 0 );
-//    this->mcp_write_register( RXM1EID0, 0 );
+    /** set the filters to accept all messages **/
+    // Buffer 0 : Empfangen aller Nachrichten
+    this->mcp_write_register( RXB0CTRL, (1<<RXM1)|(1<<RXM0) );
+
+    // Buffer 1 : Empfangen aller Nachrichten
+    this->mcp_write_register( RXB1CTRL, (1<<RXM1)|(1<<RXM0) );
+
+    // Alle Bits der Empfangsmaske loeschen,
+    // damit werden alle Nachrichten empfangen
+    this->mcp_write_register( RXM0SIDH, 0 );
+    this->mcp_write_register( RXM0SIDL, 0 );
+    this->mcp_write_register( RXM0EID8, 0 );
+    this->mcp_write_register( RXM0EID0, 0 );
+
+    this->mcp_write_register( RXM1SIDH, 0 );
+    this->mcp_write_register( RXM1SIDL, 0 );
+    this->mcp_write_register( RXM1EID8, 0 );
+    this->mcp_write_register( RXM1EID0, 0 );
 
     // TXnRTS bits as interrupts
     this->mcp_write_register(TXRTSCTRL, 0);
