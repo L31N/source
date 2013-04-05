@@ -59,13 +59,9 @@ class Mcp2515 {
         bool mcp_write(unsigned char* buf, size_t length);
         bool mcp_read(unsigned char* buf, size_t length);
 
-        unsigned char mcp_read_status(unsigned char type);
-
         bool mcp_write_register(unsigned char address, unsigned char data);
         bool mcp_read_register(unsigned char address, unsigned char& data);
         bool mcp_bit_modify(unsigned char address, unsigned char mask, unsigned char data);
-
-        unsigned char mcp_read_rx_status();
 
 
         /** +++++++++ **/

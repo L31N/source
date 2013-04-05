@@ -6,11 +6,6 @@
 
 #include "spimcp2515.h"
 
-/*uint8_t wordlength = 8;
-uint32_t maxspeedhz = 100000;
-uint16_t delay = 0;
-uint8_t mode = 0;*/
-
 
 Mcp2515::Mcp2515(const std::string spidev) {
 
@@ -139,56 +134,6 @@ bool Mcp2515::mcp_bit_modify(unsigned char address, unsigned char mask, unsigned
     return this->mcp_write(buf, 4);
 }
 
-unsigned char Mcp2515::mcp_read_status(unsigned char type) {
-    unsigned char buf [2] = { type, 0xff };
-    this->mcp_read(buf, 2);
-    return buf[1];
-}
-
-//bool Mcp2515::mcp_init(can_bitrate_t bitrate) {
-//    if (bitrate >= 8) {
-//        std::cerr << "invalid bitrate ..." << std::endl;
-//        return false;
-//    }
-//
-//    this->mcp_reset();
-//    usleep(10000);
-//
-//    unsigned char bcnf[3];
-//    for (unsigned int i = 0; i < 3; i++) bcnf[i] = _mcp2515_cnf [bitrate][i];
-//    this->mcp_write_register(CNF3, bcnf[0]);
-//    this->mcp_write_register(CNF2, bcnf[1]);
-//    this->mcp_write_register(CNF1, bcnf[2]);
-//
-//    this->mcp_write_register(CANINTE, (1<<RX1IE)|(1<<RX0IE));
-//
-//    // Buffer 0 : Empfangen aller Nachrichten
-//    this->mcp_write_register( RXB0CTRL, (1<<RXM1)|(1<<RXM0) );
-//
-//    // Buffer 1 : Empfangen aller Nachrichten
-//    this->mcp_write_register( RXB1CTRL, (1<<RXM1)|(1<<RXM0) );
-//
-//    // Alle Bits der Empfangsmaske loeschen,
-//    // damit werden alle Nachrichten empfangen
-//    this->mcp_write_register( RXM0SIDH, 0 );
-//    this->mcp_write_register( RXM0SIDL, 0 );
-//    this->mcp_write_register( RXM0EID8, 0 );
-//    this->mcp_write_register( RXM0EID0, 0 );
-//
-//    this->mcp_write_register( RXM1SIDH, 0 );
-//    this->mcp_write_register( RXM1SIDL, 0 );
-//    this->mcp_write_register( RXM1EID8, 0 );
-//    this->mcp_write_register( RXM1EID0, 0 );
-//
-//    this->mcp_write_register(BFPCTRL, 0);
-//
-//    this->mcp_write_register(TXRTSCTRL, 0);
-//
-//    this->mcp_bit_modify(CANCTRL, 0xe0, 0);
-//
-//    return true;
-//}
-
 bool Mcp2515::mcp_init(can_bitrate_t bitrate) {
     if (bitrate >= 8) {
         std::cerr << "invalid bitrate ..." << std::endl;
@@ -258,45 +203,8 @@ bool Mcp2515::mcp_init(can_bitrate_t bitrate) {
     return true;
 }
 
-unsigned char Mcp2515::mcp_read_rx_status() {
-    return this->mcp_read_status(SPI_RX_STATUS);
-}
 
 bool Mcp2515::mcp_write_can(can_t* message) {
-
-     /*uint8_t length = message->length;
-
-    // ID einstellen
-    this->mcp_write_register(TXB0SIDH, (uint8_t) (message->id>>3));
-    this->mcp_write_register(TXB0SIDL, (uint8_t) (message->id<<5));
-
-    // Ist die Nachricht ein "Remote Transmit Request"
-    if (message->rtr)
-    {
-        // Eine RTR Nachricht hat zwar eine Laenge,
-        // aber keine Daten
-
-        // Nachrichten Laenge + RTR einstellen
-        this->mcp_write_register(TXB0DLC, (1<<RTR) | length);
-    }
-    else
-    {
-        // Nachrichten Laenge einstellen
-        this->mcp_write_register(TXB0DLC, length);
-
-        // Daten
-        for (uint8_t i = 0; i < length; i++) {
-            this->mcp_write_register(TXB0D0 + i, message->data[i]);
-        }
-    }
-
-    // CAN Nachricht verschicken
-    unsigned char buf = (SPI_RTS | 0x01);
-    this->mcp_write(&buf, 1);
-
-    return true;*/
-
-    //uint8_t status, address;
 
     // Status des MCP2515 auslesen
     unsigned char status, address;
@@ -327,9 +235,9 @@ bool Mcp2515::mcp_write_can(can_t* message) {
     }
 
     unsigned char sbuf_len = 6;
-    unsigned char sbuf[14] = { SPI_WRITE | address, message->id >> 3, message->id << 5, 0x00, 0x00 };
+    unsigned char sbuf[14] = { SPI_WRITE_TX | address, message->id >> 3, message->id << 5, 0x00, 0x00 };
 
-    unsigned char length = message->length;
+    unsigned char length = message->length & 0x0F;
     if (length > 8) length = 8;
 
     if (message->rtr) sbuf[5] = (1 << RTR) | length;
@@ -388,11 +296,6 @@ unsigned char Mcp2515::mcp_read_can(Mcp2515::can_t* msg) {
 
     this->mcp_read(rbuf, rbuf_len);
 
-    //std::cerr << std::hex;
-    /*for (unsigned int i = 0; i < 14; i++) {
-        std::cout << "rbuf" << i << ": " << rbuf[i] << std::endl;
-    }*/
-
     // extract data from buffer and fill data into the new can message
 
     msg->id = (uint16_t) rbuf[1] << 3;
@@ -415,6 +318,14 @@ unsigned char Mcp2515::mcp_read_can(Mcp2515::can_t* msg) {
 
     return (status & 0x03);
 
+}
+
+bool Mcp2515::mcp_check_can() {
+    unsigned char status;
+    this->mcp_read_register(CANINTF, status);
+
+    if (status & 0x06) return true;
+    else return false;
 }
 
 const uint8_t Mcp2515::_mcp2515_cnf[8][3] = {

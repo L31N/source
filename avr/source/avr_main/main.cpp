@@ -26,10 +26,10 @@ int main () {
     Board board;
     board.ledOn(0, true);
 
-    can_t message;
+    /*can_t message;
     message.id = 0x01;
     message.flags.rtr = 0;
-    message.length = 8;
+    message.length = 3;
 
     message.data[0] = 'L';
     message.data[1] = '3';
@@ -56,9 +56,9 @@ int main () {
             board.ledSwitch(3);
             _delay_ms(1000);
         }
-    }
+    }*/
 
-    /*can_filter_t filter0;
+    can_filter_t filter0;
     filter0.id = 1;
     filter0.mask = 0x0;
     filter0.flags.rtr = 0;
@@ -78,12 +78,13 @@ int main () {
             can_t msg;
             can_get_message(&msg);
             for (int i = 0; i < msg.length; i++) uart_putc(msg.data[i]);
+            uart_putc(' ');
             board.ledSwitch(1);
             board.ledSwitch(2);
             board.ledSwitch(3);
             board.ledSwitch(4);
         }
-    }*/
+    }
 
     MotionController mc;
     Motor motor;

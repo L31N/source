@@ -30,9 +30,17 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
+			<Add directory="/bbusr/include/" />
 		</Compiler>
+		<Linker>
+			<Add option="-lboost_thread" />
+			<Add library="/bbusr/lib/libbbipc.a" />
+			<Add directory="/bbusr/lib/" />
+		</Linker>
 		<Unit filename="main.cpp" />
 		<Unit filename="mcp2515_defs.h" />
+		<Unit filename="spi_mserver.cpp" />
+		<Unit filename="spi_mserver.h" />
 		<Unit filename="spimcp2515.cpp" />
 		<Unit filename="spimcp2515.h" />
 		<Extensions>
