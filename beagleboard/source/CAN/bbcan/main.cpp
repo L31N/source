@@ -1,45 +1,26 @@
 
-#include <string>
 #include <iostream>
+#include <string>
 
-#include "can/bbcan.h"
-
-/*int main () {
-    CAN* can = new CAN("MOTION_CONTROLLER");
-    can->init_member("LASER_SENSOR2");
-
-    sleep(1);
-
-    //can->setValue("MOTOR_2", (char*)"hello123");
-    while(true) {
-        char* buffer;
-        if (can->checkForNewData("LASER_SENSOR2")) {
-            buffer = can->getValue("LASER_SENSOR2");
-            for (int i = 0; i < 8; i++) std::cout << "data[" << i << "]: " << int(buffer[i]) << std::endl;
-        }
-    }
-
-    sleep(10);
-
-    return 0;
-}*/
+#include "bbcan.h"
 
 int main () {
-    CAN* can = new CAN("MOTION_CONTROLLER");
-    can->init_member("MOTOR0");
+    CAN motor0("MOTOR0");
 
-    char* data = new char[8];
-    data[0] = 'X';
-    data[1] = 'Y';
-    data[2] = 'Z';
-    data[3] = 'U';
-    data[4] = '4';
-    data[5] = '3';
-    data[6] = '2';
-    data[7] = '1';
+    CAN::can_t msg;
+    msg.rtr = 0;
+    msg.length = 8;
 
-    can->setValue("MOTOR0", data);
+    msg.data[0] = 'E';
+    msg.data[1] = 'N';
+    msg.data[2] = 'I';
+    msg.data[3] = 'G';
+    msg.data[4] = 'M';
+    msg.data[5] = 'A';
+    msg.data[6] = '4';
+    msg.data[7] = '2';
 
-    sleep(1);
+    motor0.write(msg);
+
     return 0;
 }
