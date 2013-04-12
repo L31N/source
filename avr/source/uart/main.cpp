@@ -35,7 +35,7 @@
     while(1);
 }*/
 
-int main () {
+/*int main () {
     DDRB |= (1 << 0);
     PORTB |= (1 << 0);
 
@@ -49,4 +49,23 @@ int main () {
         }
     }
 
+}*/
+
+int main () {
+    uart_init(38400);
+    uart1_init(38400);
+
+    while(true) {
+        if (uart_isnewdata()) {
+            uart1_putc(uart_getc());
+        }
+    }
+
+    /*while(true) {
+        _delay_ms(1000);
+        uart_putc('#');
+        uart1_putc('#');
+    }*/
+
+    return 0;
 }
