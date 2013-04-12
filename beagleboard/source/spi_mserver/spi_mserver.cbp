@@ -37,6 +37,8 @@
 			<Add library="/bbusr/lib/libbbipc.a" />
 			<Add directory="/bbusr/lib/" />
 		</Linker>
+		<Unit filename="can_config.cpp" />
+		<Unit filename="can_config.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="mcp2515_defs.h" />
 		<Unit filename="spi_mserver.cpp" />

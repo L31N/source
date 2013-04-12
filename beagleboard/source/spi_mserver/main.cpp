@@ -24,7 +24,9 @@ int main (int argc, char** argv) {
     /*if (mcp.mcp_init(Mcp2515::BITRATE_10_KBPS)) std::cout << "initialisation successfull" << std::endl;
     else std::cout << "initialisation failure" << std::endl;*/
 
-    Mcp2515::can_t tmp;
+    SpiMServer ms;
+
+    /*Mcp2515::can_t tmp;
 
     tmp.id = 0x01;
     tmp.rtr = 0;
@@ -39,7 +41,7 @@ int main (int argc, char** argv) {
     tmp.data[6] = '2';
     tmp.data[7] = 'P';
 
-    mcp.mcp_write_can(&tmp);
+    mcp.mcp_write_can(&tmp);*/
 
 
     /*mcp.mcp_read_can(&tmp);
