@@ -10,6 +10,7 @@ const std::string CAN_CONFIG_FILE_PATH = "/bbusr/etc/can.conf";
 SpiMServer::SpiMServer() {
     rcon = new ipcReceivingConnection("SPI_MSERVER", 10);
     mcp2515 = new Mcp2515("/dev/spidev3.0");
+    mcp2515->mcp_init(Mcp2515::BITRATE_10_KBPS);
 
     th_recv = new boost::thread(SpiMServer::th_recv_fctn, &mtx, mcp2515);
     th_snd = new boost::thread(SpiMServer::th_snd_fctn, &mtx, mcp2515, rcon);
