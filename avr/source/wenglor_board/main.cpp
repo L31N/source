@@ -1,90 +1,87 @@
 
-	#include <avr/io.h>
-	#include <avr/interrupt.h>
-	#include <util/delay.h>
+#include <avr/io.h>
+#include <avr/interrupt.h>
+#include <util/delay.h>
 
-	#include "can.h"
-	#include "adc.h"
+#include "can.h"
+#include "uart.h"
 
-int main(void)
-{
-	adc_init();
+const uint32_t ERROR_OVERFLOW = 4294967293UL;
+const uint32_t ERROR_INVAL_NUM = 0xFFFFFFFF;
+const unsigned char CANID = 0x00;
 
-	can_init(BITRATE_100_KBPS);
-	sei();
+uint32_t getDistance (unsigned char sensor_num);       // needs called the uart_init() function !!!
+bool getReflex();       /// not valid yet !!!
 
-    can_filter_t filter0;
-    filter0.id = 65;            /// board0
-    //filter0.id = 97;          /// board1
-    filter0.mask = 0x7E0;
+int main(void) {
+    can_init(BITRATE_100_KBPS);
+    sei();
 
-    filter0.flags.rtr = 0;
+    uart_init(38400);
+    uart1_init(38400);
 
-    can_set_filter(0, &filter0);
+    can_t can_data;
+    can_data.id = CANID;
+    can_data.flags.rtr = false;
+    can_data.length = 7;
 
-	while(1)
-	{
-		can_t data_laser_0;
-		can_t data_laser_1;
-		can_t data_reflex;
-
-		data_laser_0.flags.rtr = 0;
-		data_laser_0.id = 65;
-		data_laser_0.length = 8;
-
-		data_laser_1.flags.rtr = 0;
-		data_laser_1.id = 66;
-		data_laser_1.length = 2;
-
-		data_reflex.flags.rtr = 0;
-		data_reflex.id = 67;
-		data_reflex.length = 1;
-
-		unsigned short adc_laser_0;
-		unsigned short adc_laser_1;
-		bool status_reflex;
-
-		adc_laser_0 = adc_read(0);
-		//adc_laser_0 = 2506;
-		adc_laser_1 = adc_read(1);
-		//status_reflex = ( (unsigned long)PINE & (1<<4) ) >> 4;
-		status_reflex = (PINE &  (1 << 4));
-
-        //data_laser_0.data[0] = adc_laser_0 & 0xFF00;
-        //data_laser_0.data[1] = adc_laser_0 & 0x00FF;
-        data_laser_0.data[0] = adc_laser_0;
-        data_laser_0.data[1] = adc_laser_0 >> 8;
-        for (int i = 2; i < 8; i++) data_laser_0.data[i] = 255;
-
-        data_laser_1.data[0] = adc_laser_1 & 0xFF00;
-        data_laser_1.data[1] = adc_laser_1 & 0x00FF;
-        for (int i = 2; i < 8; i++) data_laser_1.data[i] = 255;
-
-        data_reflex.data[0] = status_reflex;
-        for (int i = 1; i < 8; i++) data_reflex.data[i] = 255;
-
-        /*data_laser_0.data[0] = 243;
-        data_laser_0.data[1] = 'A';
-        data_laser_0.data[2] = 'B';
-        data_laser_0.data[3] = 'C';
-        data_laser_0.data[4] = 'D';
-        data_laser_0.data[5] = 'E';
-        data_laser_0.data[6] = 'F';
-        data_laser_0.data[7] = 'G';
-
-        data_laser_1.data[0] = 0x20;
-        data_laser_1.data[1] = 0x00;
-
-        data_reflex.data[0] = 1;*/
+    unsigned int distance[2];
 
 
-        can_send_message (&data_laser_0);
-        can_send_message (&data_laser_1);
-        can_send_message (&data_reflex);
+    while(true) {
 
-        _delay_ms(500);
-	}
+        // read the distance laser sensors
+        distance[0] = getDistance(0);
+        distance[1] = getDistance(1);
 
+        if (distance[0] == ERROR_OVERFLOW || distance[0] == ERROR_INVAL_NUM) for (int i = 0; i < 3; i++) can_data.data[i] = 0xFF;
+        else for (int i = 0; i < 4; i++) can_data.data[i] &= ( distance[0] << i*8 );
+
+        if (distance[1] == ERROR_OVERFLOW || distance[1] == ERROR_INVAL_NUM) for (int i = 0; i < 3; i++) can_data.data[3+i] = 0xFF;
+        else for (int i = 0; i < 4; i++) can_data.data[i+4] &= ( distance[1] << i*8 );
+
+        // fill in the digital sensor value
+        can_data.data[6] = (unsigned char)getReflex();
+
+        can_data.data[7] = 0;    // dummy byte ... not used !!!
+
+        can_send_message(&can_data);
+
+        _delay_ms(2);
+
+    }
 
     return 0;
+}
+
+uint32_t getDistance (unsigned char sensor_num) {
+    if (sensor_num > 1) return ERROR_INVAL_NUM;
+
+    // initialize the data request frame
+    unsigned char sdata[32] = {
+                                    0x24, 0x00, 0x01, 0x00, 0x20, 0x00, 0x00, 0x00, 0x00,
+                                    0x00, 0x00, 0x00, 0x0A, 0x00, 0x00, 0x00, 0x00, 0x00,
+                                    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                                    0x00, 0x0f, 0x00, 0x2E, 0x3B
+                                };
+
+    // send the request frame
+    if (sensor_num == 0) for (int i = 0; i < 32; i++) uart_putc(sdata[i]);
+    else for (int i = 0; i < 32; i++) uart1_putc(sdata[i]);
+
+    // read the incomming data frame
+    char buffer[68];
+
+    if (sensor_num == 0) uart_read(buffer, 68);
+    else uart1_read(buffer, 68);
+
+    uint32_t distance = 0;
+    for (int i = 0; i < 4; i++) distance |= (buffer[36+i] << 8*i);
+
+    return distance;
+}
+
+bool getReflex() {
+    /// not valid yet !
+    return false;
 }
