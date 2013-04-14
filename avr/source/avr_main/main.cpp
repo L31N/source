@@ -11,7 +11,7 @@
 #include "can.h"
 #include "irSensor.h"
 
-const short speed = 65;
+const short speed = 60;
 
 int main () {
 
@@ -19,7 +19,7 @@ int main () {
     uart_init(38400);
     uart_putstr((char*)"uart init ...\n\r");
 
-    can_init(BITRATE_10_KBPS);
+    can_init(BITRATE_100_KBPS);
     sei();
 
 	//Objekte erstellen
@@ -58,7 +58,7 @@ int main () {
         }
     }*/
 
-    can_filter_t filter0;
+    /*can_filter_t filter0;
     filter0.id = 1;
     filter0.mask = 0x0;
     filter0.flags.rtr = 0;
@@ -84,7 +84,7 @@ int main () {
             board.ledSwitch(3);
             board.ledSwitch(4);
         }
-    }
+    }*/
 
     MotionController mc;
     Motor motor;
@@ -230,25 +230,25 @@ int main () {
 
     /*while(true) {
         while(!board.buttonDown());
-        mc.drive(FRONT, 65);
+        mc.drive(FRONT, speed);
         _delay_ms(1000);
         mc.pbreak();
         _delay_ms(500);
-        mc.drive(LEFT, 65);
+        mc.drive(LEFT, speed);
         _delay_ms(500);
         mc.pbreak();
         _delay_ms(500);
-        mc.drive(BACK, 65);
+        mc.drive(BACK, speed);
         _delay_ms(1000);
         mc.pbreak();
         _delay_ms(500);
-        mc.drive(RIGHT, 65);
+        mc.drive(RIGHT, speed);
         _delay_ms(500);
         mc.pbreak();
         _delay_ms(500);
     }*/
 
-    while(true) {
+    /*while(true) {
         while(!board.buttonDown());
         mc.drive(FRONT, 255);
         //motor.setSpeed(speed, speed, speed, speed);
@@ -256,13 +256,13 @@ int main () {
         motor.setSpeed(0, 0, 0, 0);
         //mc.drive(FRONT, speed/2);
 
-        /*_delay_ms(400);
+        _delay_ms(400);
         mc.drive(BACK, speed);
         _delay_ms(1000);
-        mc.pbreak();*/
-    }
+        mc.pbreak();
+    }*/
 
-    while(true) {
+    /*while(true) {
         if (board.buttonDown(3)) {
             motor.setSpeed(0, 0, 0, 0);
             board.ledOn(0, 1);
@@ -294,7 +294,7 @@ int main () {
             _delay_ms(500);
         }
         _delay_ms(5);
-    }
+    }*/
 
 
 
@@ -322,6 +322,38 @@ int main () {
         mc.pbreak();
         _delay_ms(500);
     }*/
+
+    while(!board.buttonDown());
+    for (int i = 0; i < 3; i++) {
+        mc.drive(FRONTRIGHT, speed);
+        _delay_ms(800);
+        mc.pbreak();
+        _delay_ms(200);
+        mc.drive(BACKRIGHT, speed);
+        _delay_ms(800);
+        mc.pbreak();
+        _delay_ms(200);
+        mc.drive(BACKLEFT, speed);
+        _delay_ms(800);
+        mc.pbreak();
+        _delay_ms(200);
+        mc.drive(FRONTLEFT, speed);
+        _delay_ms(800);
+        mc.pbreak();
+        _delay_ms(200);
+    }
+        mc.drive(BACKRIGHT, speed);
+        _delay_ms(800);
+        mc.pbreak();
+        _delay_ms(500);
+        mc.drive(FRONT, speed);
+        _delay_ms(800);
+        mc.pbreak();
+        _delay_ms(300);
+        mc.drive(BACK, speed);
+        _delay_ms(800);
+        mc.pbreak();
+        _delay_ms(300);
 
     while(!board.buttonDown());
     mc.drive(FRONT, speed);

@@ -14,7 +14,7 @@ uint32_t getDistance (unsigned char sensor_num);       // needs called the uart_
 bool getReflex();       /// not valid yet !!!
 
 int main(void) {
-    can_init(BITRATE_100_KBPS);
+    can_init(BITRATE_10_KBPS);
     sei();
 
     uart_init(38400);
@@ -25,8 +25,17 @@ int main(void) {
     can_data.flags.rtr = false;
     can_data.length = 7;
 
-    unsigned int distance[2];
+    uint32_t distance[2];
 
+    getDistance(0);
+    while(true);
+
+    while(true) {
+        distance[0] = getDistance(1);
+        /*for(int i = 0; i < 4; i++) uart1_putc(distance[0] & (1 >> i*0));
+        uart1_putc('x');*/
+        _delay_ms(500);
+    }
 
     while(true) {
 
@@ -74,6 +83,8 @@ uint32_t getDistance (unsigned char sensor_num) {
 
     if (sensor_num == 0) uart_read(buffer, 68);
     else uart1_read(buffer, 68);
+
+    for (int i = 0; i < 68; i++) uart1_putc(buffer[i]);
 
     uint32_t distance = 0;
     for (int i = 0; i < 4; i++) distance |= (buffer[36+i] << 8*i);
