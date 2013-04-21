@@ -24,11 +24,11 @@ int main (int argc, char** argv) {
     /*if (mcp.mcp_init(Mcp2515::BITRATE_10_KBPS)) std::cout << "initialisation successfull" << std::endl;
     else std::cout << "initialisation failure" << std::endl;*/
 
-    SpiMServer ms;
+    //SpiMServer ms;
 
-    /*Mcp2515::can_t tmp;
+    Mcp2515::can_t tmp;
 
-    tmp.id = 0x01;
+    /*tmp.id = 0x01;
     tmp.rtr = 0;
     tmp.length = 8;
 
@@ -44,13 +44,15 @@ int main (int argc, char** argv) {
     mcp.mcp_write_can(&tmp);*/
 
 
-    /*mcp.mcp_read_can(&tmp);
+    mcp.mcp_read_can(&tmp);
 
     //std::cout << tmp.data[0] << tmp.data[1] << tmp.data[2] << tmp.data[3] << tmp.data[4] << tmp.data[5] << tmp.data[6] << tmp.data[7] << std::endl;
     std::cout << std::hex << std::endl;
     for (int i = 0; i < tmp.length; i++) {
-        std::cout << "[" << i << "]: " << tmp.data[i] << std::endl;
-    }*/
+        std::cout << "[" << i << "]: " << (int)tmp.data[i] << std::endl;
+    }
+
+    //while(true) sleep(1);
 
     return 0;
 }
