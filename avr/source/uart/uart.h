@@ -74,7 +74,7 @@ unsigned char uart_write(char* buffer, unsigned short len);
 unsigned char uart_isnewdata();
 unsigned char uart_read(char *str, int count);
 unsigned int uart_count();
-
+void uart_clear();
 
 //Definitions für the second uart on some devices
 #if defined (TWO_UARTS)
@@ -97,6 +97,7 @@ unsigned char uart1_putstr(char str[]);
 unsigned char uart1_isnewdata();
 unsigned char uart1_read(char *str, int count);
 unsigned int uart1_count();
+void uart1_clear();
 
 #endif
 

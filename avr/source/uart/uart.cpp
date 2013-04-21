@@ -198,6 +198,11 @@ unsigned char uart_write(char* buffer, unsigned short len)
 	return 0;
 }
 
+void uart_clear()
+{
+	uart_rx_read = uart_rx_write;
+
+}
 
 /***************************************************************************************
 *	relevant information for the second uart on some devices						   *
@@ -401,6 +406,12 @@ unsigned char uart1_write(char* buffer, unsigned short len)
 	}
 
 	return 0;
+}
+
+void uart1_clear()
+{
+	uart1_rx_read = uart1_rx_write;
+
 }
 
 #endif
