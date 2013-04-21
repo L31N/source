@@ -1,6 +1,7 @@
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
+#include <avr/eeprom.h>
 #include <util/delay.h>
 
 #include "can.h"
@@ -8,9 +9,10 @@
 
 
 const uint32_t ERROR_OVERFLOW_IN = 4294967293UL;
-const uint32_t ERROR_OVERFLOW = 0xFFFFFFFD;
-const uint32_t ERROR_NO_TARGET = 0xFFFFFFFE;
-const uint32_t ERROR_INVAL_NUM = 0xFFFFFFFC;
+const uint32_t ERROR_OVERFLOW = 0xAAAAAAAD;
+const uint32_t ERROR_NO_TARGET = 0xAAAAAAAE;
+const uint32_t ERROR_INVAL_NUM = 0xAAAAAAAC;
+const uint32_t ERROR_INVAL_CHECKSUM = 0xAAAAAAAB;
 const unsigned char CANID = 0x00;
 
 uint32_t getDistance (unsigned char sensor_num);       // needs called the uart_init() function !!!
@@ -46,7 +48,7 @@ int main(void) {
 
         can_send_message(&can_data);
 
-        _delay_ms(1000);
+        _delay_ms(200);
 
     }
 
@@ -65,22 +67,31 @@ uint32_t getDistance (unsigned char sensor_num) {
                                 };
 
     // send the request frame
-    if (sensor_num == 0) for (int i = 0; i < 32; i++) uart_putc(sdata[i]);
-    else for (int i = 0; i < 32; i++) uart1_putc(sdata[i]);
+    if (sensor_num == 0) uart_write((char*)sdata, 32);
+    else uart1_write((char*)sdata, 32);
+
+    //_delay_ms(10);
 
     // read the incomming data frame
-    char buffer[68] = { 0 };
+    unsigned char buffer[68] = { 0 };
 
     if (sensor_num == 0) {
-        if (uart_read(buffer, 68) != 0) {
+        if (uart_read((char*)buffer, 68) != 0) {
+            eeprom_write_block (buffer, (unsigned char*)100, sizeof(buffer));
+            //eeprom_write_block (&distance, (unsigned char*)180, sizeof(distance));
             return ERROR_NO_TARGET;
         }
     }
     else {
-        if (uart1_read(buffer, 68) != 0) {
+        if (uart1_read((char*)buffer, 68) != 0) {
             return ERROR_NO_TARGET;
         }
     }
+
+    /*// calculating checksum
+    uint16_t checksum = buffer[0];
+    for (int i = 0; i < 31; i++) { checksum ^= buffer[i+1]; }*/
+
 
     for(int i =  0 ; i < 68; i++)
     {
@@ -92,6 +103,36 @@ uint32_t getDistance (unsigned char sensor_num) {
     for (int i = 0; i < 4; i++) distance |= (buffer[36+i] << 8*i);
 
     if(distance == ERROR_OVERFLOW_IN) distance = ERROR_OVERFLOW;
+
+    //if(((distance >> 8) & 0xFF) == 0xAA)
+    /*if (true)
+    {
+        //if(((distance) & 0xFF) == 0xAE)
+        if (distance == 0xAAAAAAAE)
+        {
+            eeprom_write_block (buffer, 0, sizeof(buffer));
+            eeprom_write_block (&distance, (unsigned char*)80, sizeof(distance));
+        }
+
+        else
+        {
+            eeprom_write_block (buffer, (unsigned char*)100, sizeof(buffer));
+            eeprom_write_block (&distance, (unsigned char*)180, sizeof(distance));
+        }
+    }
+
+    if(distance == ERROR_NO_TARGET)
+    {
+        eeprom_write_block (buffer, (unsigned char*)200, sizeof(buffer));
+        eeprom_write_block (&distance, (unsigned char*)280, sizeof(distance));
+    }
+    else {
+        eeprom_write_block (buffer, (unsigned char*)300, sizeof(buffer));
+        eeprom_write_block (&distance, (unsigned char*)380, sizeof(distance));
+    }*/
+
+    if (sensor_num == 0) while(uart_isnewdata()) { uart_getc(); }
+    else while(uart1_isnewdata()) { uart1_getc(); }
 
     return distance;
 }
