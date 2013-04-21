@@ -44,13 +44,23 @@ int main (int argc, char** argv) {
     mcp.mcp_write_can(&tmp);*/
 
 
-    mcp.mcp_read_can(&tmp);
+    //mcp.mcp_read_can(&tmp);
 
     //std::cout << tmp.data[0] << tmp.data[1] << tmp.data[2] << tmp.data[3] << tmp.data[4] << tmp.data[5] << tmp.data[6] << tmp.data[7] << std::endl;
-    std::cout << std::hex << std::endl;
+    /*std::cout << std::hex << std::endl;
     for (int i = 0; i < tmp.length; i++) {
         std::cout << "[" << i << "]: " << (int)tmp.data[i] << std::endl;
         std::cout << "[" << i << "]: " << tmp.data[i] << std::endl;
+    }*/
+
+    while(true) {
+        mcp.mcp_read_can(&tmp);
+        unsigned int length = 0;
+
+        for (int i = 0; i < 3; i++) length |= (tmp.data[i] << 8*i);
+        std::cout << "length: " << length << std::endl;
+
+        usleep(1000 * 1000);
     }
 
     //while(true) sleep(1);

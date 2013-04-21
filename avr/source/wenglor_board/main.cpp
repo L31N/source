@@ -36,10 +36,10 @@ int main(void) {
 
         // read the distance laser sensors
         distance[0] = getDistance(0);
-        //distance[1] = getDistance(1);
+        distance[1] = getDistance(1);
 
         for (int i = 0; i < 3; i++) can_data.data[i] = ( distance[0] >> i*8 ) & 0xFF;
-        //for (int i = 0; i < 3; i++) can_data.data[i+3] = ( distance[1] >> i*8 ) & 0xFF;
+        for (int i = 0; i < 3; i++) can_data.data[i+3] = ( distance[1] >> i*8 ) & 0xFF;
 
         // fill in the digital sensor value
         can_data.data[6] = (unsigned char)getReflex();
@@ -48,7 +48,7 @@ int main(void) {
 
         can_send_message(&can_data);
 
-        _delay_ms(200);
+        _delay_ms(500);
 
     }
 
@@ -70,67 +70,30 @@ uint32_t getDistance (unsigned char sensor_num) {
     if (sensor_num == 0) uart_write((char*)sdata, 32);
     else uart1_write((char*)sdata, 32);
 
-    //_delay_ms(10);
-
     // read the incomming data frame
     unsigned char buffer[68] = { 0 };
 
     if (sensor_num == 0) {
-        if (uart_read((char*)buffer, 68) != 0) {
-            eeprom_write_block (buffer, (unsigned char*)100, sizeof(buffer));
-            //eeprom_write_block (&distance, (unsigned char*)180, sizeof(distance));
-            return ERROR_NO_TARGET;
-        }
+        if (uart_read((char*)buffer, 68) != 0) return ERROR_NO_TARGET;
     }
     else {
-        if (uart1_read((char*)buffer, 68) != 0) {
-            return ERROR_NO_TARGET;
-        }
+        if (uart1_read((char*)buffer, 68) != 0) return ERROR_NO_TARGET;
     }
 
     /*// calculating checksum
     uint16_t checksum = buffer[0];
     for (int i = 0; i < 31; i++) { checksum ^= buffer[i+1]; }*/
 
-
-    for(int i =  0 ; i < 68; i++)
-    {
-        uart1_putc(buffer[i]);
-    }
-    //for (int i = 0; i < 68; i++) uart1_putc(buffer[i]);
+    for (int i = 0; i < 68; i++) uart1_putc(buffer[i]);
 
     uint32_t distance = 0;
     for (int i = 0; i < 4; i++) distance |= (buffer[36+i] << 8*i);
 
     if(distance == ERROR_OVERFLOW_IN) distance = ERROR_OVERFLOW;
 
-    //if(((distance >> 8) & 0xFF) == 0xAA)
-    /*if (true)
-    {
-        //if(((distance) & 0xFF) == 0xAE)
-        if (distance == 0xAAAAAAAE)
-        {
-            eeprom_write_block (buffer, 0, sizeof(buffer));
-            eeprom_write_block (&distance, (unsigned char*)80, sizeof(distance));
-        }
+    eeprom_write_block(buffer, (unsigned char*)100, 68);
 
-        else
-        {
-            eeprom_write_block (buffer, (unsigned char*)100, sizeof(buffer));
-            eeprom_write_block (&distance, (unsigned char*)180, sizeof(distance));
-        }
-    }
-
-    if(distance == ERROR_NO_TARGET)
-    {
-        eeprom_write_block (buffer, (unsigned char*)200, sizeof(buffer));
-        eeprom_write_block (&distance, (unsigned char*)280, sizeof(distance));
-    }
-    else {
-        eeprom_write_block (buffer, (unsigned char*)300, sizeof(buffer));
-        eeprom_write_block (&distance, (unsigned char*)380, sizeof(distance));
-    }*/
-
+     // clearing the uart buffers
     if (sensor_num == 0) while(uart_isnewdata()) { uart_getc(); }
     else while(uart1_isnewdata()) { uart1_getc(); }
 
