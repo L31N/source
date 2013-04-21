@@ -49,6 +49,7 @@ int main (int argc, char** argv) {
     //std::cout << tmp.data[0] << tmp.data[1] << tmp.data[2] << tmp.data[3] << tmp.data[4] << tmp.data[5] << tmp.data[6] << tmp.data[7] << std::endl;
     std::cout << std::hex << std::endl;
     for (int i = 0; i < tmp.length; i++) {
+        std::cout << "[" << i << "]: " << (int)tmp.data[i] << std::endl;
         std::cout << "[" << i << "]: " << tmp.data[i] << std::endl;
     }
 
