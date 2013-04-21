@@ -274,13 +274,13 @@ unsigned char Mcp2515::mcp_read_can(Mcp2515::can_t* msg) {
     unsigned char rbuf_len = 14;
     unsigned char rbuf [rbuf_len];
 
-    std::cout << std::hex;
-    std::cout << "status: " << int(status) << std::endl;
+    //std::cout << std::hex;
+    //std::cout << "status: " << int(status) << std::endl;
 
     if (status & (1 << 0)) rbuf[0] = SPI_READ_RX;                   // message in buffer 0
     else if (status & (1 << 1)) rbuf[0] = SPI_READ_RX | 0x04;      // message in buffer 1
     else {                                                          // fault, no new messages ...
-        std::cerr << "error: no new can messages in buffer" << std::endl;
+        //std::cerr << "error: no new can messages in buffer" << std::endl;
         return 0xff;
     }
 

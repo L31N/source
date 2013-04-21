@@ -17,14 +17,14 @@
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-mmcu=atmega644" />
+			<Add option="-mmcu=at90can128" />
 			<Add option="-Os" />
 			<Add option="-O3" />
 			<Add option="-Wall" />
-			<Add option="-DF_CPU=14745600UL" />
+			<Add option="-DF_CPU=16000000UL" />
 		</Compiler>
 		<Linker>
-			<Add option="-mmcu=atmega644" />
+			<Add option="-mmcu=at90can128" />
 		</Linker>
 		<ExtraCommands>
 			<Add after="avr-size $(TARGET_OUTPUT_FILE)" />

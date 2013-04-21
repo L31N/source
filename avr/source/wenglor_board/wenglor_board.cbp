@@ -25,6 +25,7 @@
 		<Linker>
 			<Add option="-mmcu=at90can128" />
 			<Add option="-lcan" />
+			<Add option="-luart" />
 			<Add directory="../../lib" />
 		</Linker>
 		<ExtraCommands>
