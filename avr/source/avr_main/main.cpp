@@ -19,14 +19,14 @@ int main () {
     uart_init(38400);
     uart_putstr((char*)"uart init ...\n\r");
 
-    can_init(BITRATE_100_KBPS);
+    can_init(BITRATE_10_KBPS);
     sei();
 
 	//Objekte erstellen
     Board board;
     board.ledOn(0, true);
 
-    /*can_t message;
+    can_t message;
     message.id = 0x01;
     message.flags.rtr = 0;
     message.length = 3;
@@ -39,6 +39,12 @@ int main () {
     message.data[5] = '2';
     message.data[6] = 'P';
     message.data[7] = 'I';
+
+    while(true){can_send_message(&message);_delay_ms(2000);}
+
+    while(true);
+
+    /*
 
 //    message.data[0] = '0';
 //    message.data[1] = '1';

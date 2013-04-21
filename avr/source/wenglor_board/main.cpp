@@ -6,8 +6,11 @@
 #include "can.h"
 #include "uart.h"
 
-const uint32_t ERROR_OVERFLOW = 4294967293UL;
-const uint32_t ERROR_INVAL_NUM = 0xFFFFFFFF;
+
+const uint32_t ERROR_OVERFLOW_IN = 4294967293UL;
+const uint32_t ERROR_OVERFLOW = 0xFFFFFFFD;
+const uint32_t ERROR_NO_TARGET = 0xFFFFFFFE;
+const uint32_t ERROR_INVAL_NUM = 0xFFFFFFFC;
 const unsigned char CANID = 0x00;
 
 uint32_t getDistance (unsigned char sensor_num);       // needs called the uart_init() function !!!
@@ -25,29 +28,16 @@ int main(void) {
     can_data.flags.rtr = false;
     can_data.length = 7;
 
-    uint32_t distance[2];
-
-    getDistance(0);
-    while(true);
-
-    while(true) {
-        distance[0] = getDistance(1);
-        /*for(int i = 0; i < 4; i++) uart1_putc(distance[0] & (1 >> i*0));
-        uart1_putc('x');*/
-        _delay_ms(500);
-    }
+    uint32_t distance[2] = { 0 };
 
     while(true) {
 
         // read the distance laser sensors
         distance[0] = getDistance(0);
-        distance[1] = getDistance(1);
+        //distance[1] = getDistance(1);
 
-        if (distance[0] == ERROR_OVERFLOW || distance[0] == ERROR_INVAL_NUM) for (int i = 0; i < 3; i++) can_data.data[i] = 0xFF;
-        else for (int i = 0; i < 4; i++) can_data.data[i] &= ( distance[0] << i*8 );
-
-        if (distance[1] == ERROR_OVERFLOW || distance[1] == ERROR_INVAL_NUM) for (int i = 0; i < 3; i++) can_data.data[3+i] = 0xFF;
-        else for (int i = 0; i < 4; i++) can_data.data[i+4] &= ( distance[1] << i*8 );
+        for (int i = 0; i < 3; i++) can_data.data[i] = ( distance[0] >> i*8 ) & 0xFF;
+        //for (int i = 0; i < 3; i++) can_data.data[i+3] = ( distance[1] >> i*8 ) & 0xFF;
 
         // fill in the digital sensor value
         can_data.data[6] = (unsigned char)getReflex();
@@ -56,7 +46,7 @@ int main(void) {
 
         can_send_message(&can_data);
 
-        _delay_ms(36);
+        _delay_ms(1000);
 
     }
 
@@ -79,15 +69,29 @@ uint32_t getDistance (unsigned char sensor_num) {
     else for (int i = 0; i < 32; i++) uart1_putc(sdata[i]);
 
     // read the incomming data frame
-    char buffer[68];
+    char buffer[68] = { 0 };
 
-    if (sensor_num == 0) uart_read(buffer, 68);
-    else uart1_read(buffer, 68);
+    if (sensor_num == 0) {
+        if (uart_read(buffer, 68) != 0) {
+            return ERROR_NO_TARGET;
+        }
+    }
+    else {
+        if (uart1_read(buffer, 68) != 0) {
+            return ERROR_NO_TARGET;
+        }
+    }
 
-    for (int i = 0; i < 68; i++) uart1_putc(buffer[i]);
+    for(int i =  0 ; i < 68; i++)
+    {
+        uart1_putc(buffer[i]);
+    }
+    //for (int i = 0; i < 68; i++) uart1_putc(buffer[i]);
 
     uint32_t distance = 0;
     for (int i = 0; i < 4; i++) distance |= (buffer[36+i] << 8*i);
+
+    if(distance == ERROR_OVERFLOW_IN) distance = ERROR_OVERFLOW;
 
     return distance;
 }
