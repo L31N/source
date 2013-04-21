@@ -14,6 +14,7 @@ int main()
 	SerialStream serial;
 	serial.Open("/dev/ttyUSB0");
 	serial.SetBaudRate( SerialStreamBuf::BAUD_38400 );
+	//serial.SetBaudRate( SerialStreamBuf::BAUD_115200);
 
 
     while(true) {
@@ -23,17 +24,22 @@ int main()
             serial.put(sdata[i]);
         }
 
+        //Serial lesen
         unsigned char rdata[4];
 
         for (int i = 0; i < 68; i++) {
             unsigned char buf = serial.get();
+            printf("%x", buf);
             if (i >= 36 && i <= 39) rdata[i-36] = buf;
         }
+        printf("\n");
 
         unsigned int length = 0;
         for (int i = 0; i < 4; i++) length |= (rdata[i] << 8*i);
         std::cout << "length: " << length << std::endl;
-        sleep(1);
+        //sleep(1);
+        usleep(36 * 1000);
+        //usleep(100 * 1000);
     }
 
 	serial.Close();

@@ -50,6 +50,7 @@ int main (int argc, char** argv) {
     std::cout << std::hex << std::endl;
     for (int i = 0; i < tmp.length; i++) {
         std::cout << "[" << i << "]: " << (int)tmp.data[i] << std::endl;
+        std::cout << "[" << i << "]: " << tmp.data[i] << std::endl;
     }
 
     //while(true) sleep(1);

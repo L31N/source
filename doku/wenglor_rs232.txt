@@ -1,0 +1,2 @@
+you HAVE to use AT LEAST 36 ms delay between two requests !!!
+
