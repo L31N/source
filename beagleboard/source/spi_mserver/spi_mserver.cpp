@@ -14,9 +14,6 @@ SpiMServer::SpiMServer() {
 
     th_recv = new boost::thread(SpiMServer::th_recv_fctn, &mtx, mcp2515);
     th_snd = new boost::thread(SpiMServer::th_snd_fctn, &mtx, mcp2515, rcon);
-
-    th_recv->detach();
-    th_snd->detach();
 }
 
 SpiMServer::~SpiMServer() {
@@ -24,6 +21,13 @@ SpiMServer::~SpiMServer() {
     delete mcp2515;
     delete th_recv;
     delete th_snd;
+}
+
+void SpiMServer::run() {
+    th_recv->detach();
+    th_snd->detach();
+
+    while(true) sleep(1);
 }
 
 void SpiMServer::th_recv_fctn(boost::mutex* mtx, Mcp2515* mcp2515) {

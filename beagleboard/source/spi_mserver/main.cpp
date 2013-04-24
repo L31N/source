@@ -15,7 +15,7 @@ int main (int argc, char** argv) {
         return -1;
     }*/
 
-    Mcp2515 mcp("/dev/spidev3.0");
+    //Mcp2515 mcp("/dev/spidev3.0");
 
     //SpiMServer ms;
 
@@ -24,9 +24,10 @@ int main (int argc, char** argv) {
     /*if (mcp.mcp_init(Mcp2515::BITRATE_10_KBPS)) std::cout << "initialisation successfull" << std::endl;
     else std::cout << "initialisation failure" << std::endl;*/
 
-    //SpiMServer ms;
+    SpiMServer ms;
+    ms.run();
 
-    Mcp2515::can_t tmp;
+    //Mcp2515::can_t tmp;
 
     /*tmp.id = 0x01;
     tmp.rtr = 0;
@@ -53,7 +54,7 @@ int main (int argc, char** argv) {
         std::cout << "[" << i << "]: " << tmp.data[i] << std::endl;
     }*/
 
-    while(true) {
+    /*while(true) {
         mcp.mcp_read_can(&tmp);
         unsigned int length = 0;
 
@@ -61,7 +62,7 @@ int main (int argc, char** argv) {
         std::cout << "length: " << length << std::endl;
 
         usleep(1000 * 1000);
-    }
+    }*/
 
     //while(true) sleep(1);
 

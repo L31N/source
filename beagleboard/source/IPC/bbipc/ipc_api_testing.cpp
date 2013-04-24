@@ -13,7 +13,11 @@ using namespace std;
 
 int main () {
 
-    ipcReceivingConnection rc("DEBUG", 5, 13);
+    ipcSendingConnection scon("SPI_MSERVER", "MOTOR0", 16, IPC_LOCAL);
+    scon.sendData("12345678");
+
+
+    /*ipcReceivingConnection rc("DEBUG", 5, 13);
     std::cout << "rc_open: " << rc.is_open() << std::endl;
 
     ipcReceivingConnection rc2("DEBUG", 10, 13);
@@ -38,7 +42,7 @@ int main () {
         Data* data = rc2.readDataFromBuffer();
         std::cout << "rc2 data: " << data->getData();
         std::cout << "\tfrom: " << data->getSenderID() << std::endl;
-    }
+    }*/
 
     //ipcConfig ipcconfig("../../../../../etc/ipc.conf");
 

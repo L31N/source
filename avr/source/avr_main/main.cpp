@@ -40,7 +40,13 @@ int main () {
     message.data[6] = 'P';
     message.data[7] = 'I';
 
-    while(true){can_send_message(&message);_delay_ms(2000);}
+    while(true){
+        while(!board.buttonDown());
+        can_send_message(&message);
+        board.ledSwitch(3);
+        board.ledSwitch(4);
+        _delay_ms(500);
+    }
 
     while(true);
 

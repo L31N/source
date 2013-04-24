@@ -7,20 +7,30 @@
 int main () {
     CAN motor0("MOTOR0");
 
+    std::cout << "waiting for messages ";
+
+    while(!motor0.checkNew()) {
+        std::cout << '.';
+        sleep(1);
+    }
+
     CAN::can_t msg;
     msg.rtr = 0;
     msg.length = 8;
 
-    msg.data[0] = 'E';
-    msg.data[1] = 'N';
-    msg.data[2] = 'I';
-    msg.data[3] = 'G';
-    msg.data[4] = 'M';
-    msg.data[5] = 'A';
-    msg.data[6] = '4';
-    msg.data[7] = '2';
+    msg.data[0] = 'F';
+    msg.data[1] = 'F';
+    msg.data[2] = 'F';
+    msg.data[3] = 'F';
+    msg.data[4] = 'F';
+    msg.data[5] = 'F';
+    msg.data[6] = 'F';
+    msg.data[7] = 'F';
 
-    motor0.write(msg);
+    if (motor0.read(msg)) {
+        for (unsigned int i = 0; i < msg.length; i++) std::cout << "[" << i << "]: " << msg.data[i] << std::endl;
+    }
+    else std::cout << "error while reading message" << std::endl;
 
     return 0;
 }
