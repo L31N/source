@@ -23,7 +23,6 @@
 			<Add option="-Wall" />
 		</Compiler>
 		<Linker>
-			<Add option="-static" />
 			<Add option="-lserial" />
 		</Linker>
 		<Unit filename="main.cpp" />

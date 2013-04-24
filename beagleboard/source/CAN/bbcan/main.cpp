@@ -7,10 +7,10 @@
 int main () {
     CAN motor0("MOTOR0");
 
-    std::cout << "waiting for messages ";
+    printf("waiting for messages ");
 
     while(!motor0.checkNew()) {
-        std::cout << '.';
+        printf(".");
         sleep(1);
     }
 

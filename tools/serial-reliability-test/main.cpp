@@ -57,7 +57,7 @@ int main (int argc, char** argv) {
         }
     }
 
-    std::cout << "test complete ...\n error rate: " << (errors / count) * 100 << "%" << std::endl;
+    std::cout << "test complete ...\n error rate: " << (float(errors) / float(count)) * 100.0 << "%" << std::endl;
 
     return 0;
 }
