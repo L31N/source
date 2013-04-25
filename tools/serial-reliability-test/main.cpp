@@ -55,6 +55,7 @@ int main (int argc, char** argv) {
         if (!serial.get() == databyte) {    // transmission error !!!
             errors++;
         }
+        if ((tries % (tries/10)) == 0) std::cout << ".";
     }
 
     std::cout << "test complete ...\n error rate: " << (float(errors) / float(count)) * 100.0 << "%" << std::endl;
