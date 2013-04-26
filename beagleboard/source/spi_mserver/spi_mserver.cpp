@@ -52,7 +52,7 @@ void SpiMServer::th_recv_fctn(boost::mutex* mtx, Mcp2515* mcp2515) {
             CANConfig cancnf(CAN_CONFIG_FILE_PATH);
 
             std::cout << "received new CAN message: [" << cancnf.getCanMember(can_id) << "] : ";
-            for (unsigned int i = 0; i < length; i++) std::cout << int(datastr[i+2]) << "  " << std::flush;
+            for (unsigned int i = 0; i < length; i++) std::cout << (unsigned int)datastr[i+2] << "  " << std::flush;
             std::cout << std::endl;
 
             ipcSendingConnection scon("SPI_MSERVER", cancnf.getIpcSynonym(can_id), 16, ipcSendingConnection::local);
@@ -88,7 +88,7 @@ void SpiMServer::th_snd_fctn(boost::mutex* mtx, Mcp2515* mcp2515, ipcReceivingCo
             mtx->unlock();
 
             std::cout << "sent CAN message: [" << cancnf.getCanMember(canmsg.id) << "] : ";
-            for (unsigned int i = 0; i < canmsg.length; i++) std::cout << str[3+i] << "  " << std::flush;
+            for (unsigned int i = 0; i < canmsg.length; i++) std::cout << (unsigned int)str[3+i] << "  " << std::flush;
             std::cout << std::endl;
         }
         else usleep(200);
