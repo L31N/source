@@ -28,6 +28,8 @@ int main () {
     msg.data[7] = 'F';
 
     if (motor0.read(msg)) {
+        std::cout << "\nreading message now" << std::endl;
+        std::cout << "message length: " << int(msg.length) << std::endl;
         for (unsigned int i = 0; i < msg.length; i++) std::cout << "[" << i << "]: " << msg.data[i] << std::endl;
     }
     else std::cout << "error while reading message" << std::endl;
