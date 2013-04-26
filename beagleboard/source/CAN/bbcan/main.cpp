@@ -5,12 +5,13 @@
 #include "bbcan.h"
 
 int main () {
-    CAN motor0("MOTOR0");
+    //CAN motor0("MOTOR0");
 
-    printf("waiting for messages ");
+    std::cout << "waiting for messages " << std::endl;
 
-    while(!motor0.checkNew()) {
-        printf(".");
+    //while(!motor0.checkNew()) {
+    while(42) {
+        std::cout << ".";
         sleep(1);
     }
 
@@ -27,10 +28,10 @@ int main () {
     msg.data[6] = 'F';
     msg.data[7] = 'F';
 
-    if (motor0.read(msg)) {
+    /*if (motor0.read(msg)) {
         for (unsigned int i = 0; i < msg.length; i++) std::cout << "[" << i << "]: " << msg.data[i] << std::endl;
     }
-    else std::cout << "error while reading message" << std::endl;
+    else std::cout << "error while reading message" << std::endl;*/
 
     return 0;
 }
