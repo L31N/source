@@ -1,10 +1,10 @@
 #include "uart.h"
 
-volatile char uart_tx_buffer[UART_BUFFER_SIZE];
+volatile unsigned char uart_tx_buffer[UART_BUFFER_SIZE];
 volatile short uart_tx_write;
 volatile short uart_tx_read;
 
-volatile char uart_rx_buffer[UART_BUFFER_SIZE];
+volatile unsigned char uart_rx_buffer[UART_BUFFER_SIZE];
 volatile short uart_rx_write;
 volatile short uart_rx_read;
 
@@ -76,7 +76,7 @@ void uart_init(long baud)
 }
 
 
-unsigned char uart_putc(char c)
+unsigned char uart_putc(unsigned char c)
 {
     if(uart_tx_write + 1 == uart_tx_read || (uart_tx_read == 0 && uart_tx_write + 1 == UART_BUFFER_SIZE))
     {
@@ -115,7 +115,7 @@ unsigned char uart_getc()
     return tmp;
 }
 
-unsigned char uart_putstr(char str[])
+unsigned char uart_putstr(unsigned char str[])
 {
     unsigned short i;
 
@@ -143,7 +143,7 @@ unsigned char uart_isnewdata()
     }
 }
 
-unsigned char uart_read(char *str, int count)
+unsigned char uart_read(unsigned char *str, int count)
 {
     int i;
 
@@ -183,7 +183,7 @@ unsigned int uart_count()
     }
 }
 
-unsigned char uart_write(char* buffer, unsigned short len)
+unsigned char uart_write(unsigned char* buffer, unsigned short len)
 {
 	unsigned short i;
 
@@ -210,11 +210,11 @@ void uart_clear()
 
 #if defined (TWO_UARTS)
 
-volatile char uart1_tx_buffer[UART_BUFFER_SIZE];
+volatile unsigned char uart1_tx_buffer[UART_BUFFER_SIZE];
 volatile short uart1_tx_write;
 volatile short uart1_tx_read;
 
-volatile char uart1_rx_buffer[UART_BUFFER_SIZE];
+volatile unsigned char uart1_rx_buffer[UART_BUFFER_SIZE];
 volatile short uart1_rx_write;
 volatile short uart1_rx_read;
 
@@ -286,7 +286,7 @@ void uart1_init(long baud)
 }
 
 
-unsigned char uart1_putc(char c)
+unsigned char uart1_putc(unsigned char c)
 {
     if(uart1_tx_write + 1 == uart1_tx_read || (uart1_tx_read == 0 && uart1_tx_write + 1 == UART_BUFFER_SIZE))
     {
@@ -325,7 +325,7 @@ unsigned char uart1_getc()
     return tmp;
 }
 
-unsigned char uart1_putstr(char str[])
+unsigned char uart1_putstr(unsigned char str[])
 {
     unsigned short i;
 
@@ -353,7 +353,7 @@ unsigned char uart1_isnewdata()
     }
 }
 
-unsigned char uart1_read(char *str, int count)
+unsigned char uart1_read(unsigned char *str, int count)
 {
     int i;
 
@@ -393,7 +393,7 @@ unsigned int uart1_count()
     }
 }
 
-unsigned char uart1_write(char* buffer, unsigned short len)
+unsigned char uart1_write(unsigned char* buffer, unsigned short len)
 {
 	unsigned short i;
 
