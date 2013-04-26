@@ -11,7 +11,7 @@ int main () {
 
     //while(!motor0.checkNew()) {
     while(42) {
-        std::cout << ".";
+        std::cout << "." << std::flush;
         sleep(1);
     }
 

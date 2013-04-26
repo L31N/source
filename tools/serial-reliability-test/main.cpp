@@ -48,17 +48,23 @@ int main (int argc, char** argv) {
     }
 
     for (unsigned long tries = 0; tries < count; tries ++) {
-        time_t dtime = time(NULL);
+        /*time_t dtime = time(NULL);
         tm* tmtime = localtime(&dtime);
-        unsigned char databyte = ((unsigned char)tmtime->tm_sec) % 255;
-        serial.put(databyte);
-        if (!serial.get() == databyte) {    // transmission error !!!
-            errors++;
+        unsigned char databyte = ((unsigned char)tmtime->tm_sec) % 255;*/
+        unsigned char databyte = 42;
+        for (int i = 0; i < 100; i++) serial.put(databyte);
+        for (int i = 0; i < 100; i++) {
+            unsigned char buf = serial.get();
+            //std::cout << (int)buf << std::endl;
+            if (buf != databyte) errors++;
         }
-        if ((tries % (tries/10)) == 0) std::cout << ".";
+
+        if ((tries % (count/100)) == 0) std::cout << "." << std::flush;
     }
 
-    std::cout << "test complete ...\n error rate: " << (float(errors) / float(count)) * 100.0 << "%" << std::endl;
+    std::cout << "\ntest complete ..." << std::endl;
+    std::cout << "\nerrors: " << errors << std::endl;
+    std::cout << "error rate: " << (float(errors) / float(count*100.0)) * 100.0 << "%" << std::endl;
 
     return 0;
 }
