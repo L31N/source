@@ -414,20 +414,4 @@ void uart1_clear()
 
 }
 
-unsigned char uart1_write(unsigned char* buffer, unsigned short len)
-{
-	unsigned short i;
-
-	for(i=0; i<len; i++)
-	{
-		if( uart1_putc(buffer[i]) != 0 )
-        {
-            return 1;
-        }
-	}
-
-	return 0;
-}
-
-
 #endif
