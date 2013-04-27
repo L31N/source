@@ -13,7 +13,9 @@ const uint32_t ERROR_OVERFLOW = 0xAAAAAAAD;
 const uint32_t ERROR_NO_TARGET = 0xAAAAAAAE;
 const uint32_t ERROR_INVAL_NUM = 0xAAAAAAAC;
 const uint32_t ERROR_INVAL_CHECKSUM = 0xAAAAAAAB;
-const unsigned char CANID = 0x00;
+
+const unsigned char CANID = 68;     // WENGLORS0
+//const unsigned char CANID = 100     // WENGLORS1
 
 uint32_t getDistance (unsigned char sensor_num);       // needs called the uart_init() function !!!
 bool getReflex();       /// not valid yet !!!
@@ -67,17 +69,17 @@ uint32_t getDistance (unsigned char sensor_num) {
                                 };
 
     // send the request frame
-    if (sensor_num == 0) uart_write((char*)sdata, 32);
-    else uart1_write((char*)sdata, 32);
+    if (sensor_num == 0) uart_write(sdata, 32);
+    else uart1_write(sdata, 32);
 
     // read the incomming data frame
     unsigned char buffer[68] = { 0 };
 
     if (sensor_num == 0) {
-        if (uart_read((char*)buffer, 68) != 0) return ERROR_NO_TARGET;
+        if (uart_read(buffer, 68) != 0) return ERROR_NO_TARGET;
     }
     else {
-        if (uart1_read((char*)buffer, 68) != 0) return ERROR_NO_TARGET;
+        if (uart1_read(buffer, 68) != 0) return ERROR_NO_TARGET;
     }
 
     /*// calculating checksum
