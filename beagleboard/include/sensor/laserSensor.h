@@ -11,17 +11,15 @@ extern const unsigned short error_value_distance;
 
 class LaserSensor : public CANSensor {
     public:
-        enum Direction {front, right, back, left};
         enum Unit {mm, cm};
 
-        LaserSensor(const std::string ipcName, const std::string canMember, Direction _direction);
+        LaserSensor(const std::string ipcName, const std::string canName);
         ~LaserSensor();
 
-        unsigned short getDistance(Unit unit = mm);
+        unsigned int getDistance(Unit unit = mm);
 
     private:
-        Direction direction;
-        unsigned short mmDistance;
+        unsigned int mmDistance;
 };
 
 #endif // _LASER_SENSOR_H_
