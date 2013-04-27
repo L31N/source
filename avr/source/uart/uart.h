@@ -104,7 +104,7 @@ void uart1_init(long baud);
 unsigned char uart1_putc(unsigned char c);
 unsigned char uart1_getc();
 unsigned char uart1_putstr(unsigned char str[]);
-unsigned char uart_write(unsigned char* buffer, unsigned short len);
+unsigned char uart1_write(unsigned char* buffer, unsigned short len);
 unsigned char uart1_isnewdata();
 unsigned char uart1_read(unsigned char *str, int count);
 unsigned int uart1_count();
