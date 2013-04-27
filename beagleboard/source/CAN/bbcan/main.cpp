@@ -5,7 +5,7 @@
 #include "bbcan.h"
 
 int main () {
-    CAN motor0("MOTOR0");
+    /*CAN motor0("MOTOR0");
 
     std::cout << "waiting for messages " << std::endl;
 
@@ -33,6 +33,28 @@ int main () {
         for (unsigned int i = 0; i < msg.length; i++) std::cout << "[" << i << "]: " << msg.data[i] << std::endl;
     }
     else std::cout << "error while reading message" << std::endl;
+
+    return 0;*/
+
+    CAN motor0("MOTOR0");
+    CAN::can_t msg;
+    msg.rtr = 0;
+    msg.length = 5;
+
+    msg.data[0] = 'A';
+    msg.data[1] = 'B';
+    msg.data[2] = 'C';
+    msg.data[3] = 'D';
+    msg.data[4] = 'E';
+    msg.data[5] = 'F';
+    msg.data[6] = 'G';
+    msg.data[7] = 'H';
+
+    if (motor0.write(msg)) std::cout << "CAN message written." << std::endl;
+    else {
+        std::cerr << "could not send CAN message." << std::endl;
+        return -1;
+    }
 
     return 0;
 }
