@@ -2,19 +2,16 @@
 #include <string>
 #include <iostream>
 
-#include "sensor/cmpsSensor.h"
 #include "sensor/laserSensor.h"
-#include "sensor/irSensor.h"
-#include "sensor/reflexSwitch.h"
-#include "sensor/button.h"
+
 
 int main () {
-    std::cout << "button testing ..." << std::endl;
+    std::cout << "laser-sensor-testing ..." << std::endl;
 
-    Button* button = new Button("USER_BUTTON0", "USER_BUTTON0");
+    LaserSensor laser0("LASER_SENSOR0", "WENGLORS0");
 
     while(true) {
-        std::cout << "BUTTON0 status: " << button->getButton(0) << std::endl;
+        std::cout << "distance: " << laser0.getDistance(LaserSensor::mm) << std::endl;
         sleep(1);
     }
 }
