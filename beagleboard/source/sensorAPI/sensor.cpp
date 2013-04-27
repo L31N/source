@@ -3,8 +3,7 @@
 
 #include "sensor.h"
 
-Sensor::Sensor(const std::string _ipcName) {
-    ipcName = _ipcName;
+Sensor::Sensor(const std::string ipcName) {
     debug = new Debug(ipcName);
 }
 

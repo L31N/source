@@ -1,2 +1,5 @@
 you HAVE to use AT LEAST 36 ms delay between two requests !!!
 
+Protocol:
+	byte[0]	byte[1] byte[2]	byte[3]	byte[4]	byte[5]	byte[6]	byte[7]
+	ls0-hg	ls0-md	ls0-lw	ls1-hg	ls1-md	ls1-lw	reflex	N/A
