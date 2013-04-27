@@ -6,15 +6,19 @@
 
 const unsigned short error_value_distance = std::numeric_limits<unsigned int>::max();
 
-LaserSensor::LaserSensor(const std::string ipcName, const std::string canMember, Direction _direction) : CANSensor(ipcName, canMember) {
-    direction = _direction;
+LaserSensor::LaserSensor(const std::string ipcName, const std::string canName) : CANSensor(ipcName, canName) {
     mmDistance = error_value_distance;
 }
 
 LaserSensor::~LaserSensor() {}
 
-unsigned short LaserSensor::getDistance(Unit unit) {
-    if (can->checkForNewData(canMember)) mmDistance = short(*can->getValue(canMember));
+unsigned int LaserSensor::getDistance(Unit unit) {
+    if (can->checkNew()) {
+        CAN::can_t frame;
+        can->read(frame);
+        mmDistance = 0;
+        for (int i = 0; i < 3; i++) mmDistance |= (frame.data[i] << 8*i);
+    }
 
     switch (unit) {
         case mm:
@@ -26,7 +30,7 @@ unsigned short LaserSensor::getDistance(Unit unit) {
             return mmDistance/10;
 
         default:
-            debug->send("ERROR: LaserSensor(%i): unknown unit: %i", direction, unit);
+            debug->send("ERROR: unknown unit: %i", unit);
             return mmDistance/10;
     }
 }
