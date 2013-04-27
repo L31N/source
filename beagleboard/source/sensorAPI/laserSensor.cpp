@@ -6,7 +6,7 @@
 
 const unsigned short error_value_distance = std::numeric_limits<unsigned int>::max();
 
-LaserSensor::LaserSensor(const std::string ipcName, const std::string canName) : CANSensor(ipcName, canName) {
+LaserSensor::LaserSensor(const std::string ipcName, const std::string canName, const unsigned short _number) : CANSensor(ipcName, canName) {
     mmDistance = error_value_distance;
     number = _number;
 }
