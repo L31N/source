@@ -8,11 +8,10 @@
 
 class Sensor {
     public:
-        Sensor(const std::string _ipcName);
+        Sensor(const std::string ipcName);
         virtual ~Sensor();
 
     protected:
-        std::string ipcName;
         Debug* debug;
 };
 
