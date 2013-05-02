@@ -14,8 +14,8 @@ const uint32_t ERROR_NO_TARGET = 0xAAAAAAAE;
 const uint32_t ERROR_INVAL_NUM = 0xAAAAAAAC;
 const uint32_t ERROR_INVAL_CHECKSUM = 0xAAAAAAAB;
 
-const unsigned char CANID = 68;     // WENGLORS0
-//const unsigned char CANID = 100     // WENGLORS1
+//const unsigned char CANID = 68;     // WENGLORS0
+const unsigned char CANID = 100;     // WENGLORS1
 
 uint32_t getDistance (unsigned char sensor_num);       // needs called the uart_init() function !!!
 bool getReflex();       /// not valid yet !!!
