@@ -50,7 +50,7 @@ int main(void) {
 
         can_send_message(&can_data);
 
-        _delay_ms(1000);
+        _delay_ms(200);
 
     }
 

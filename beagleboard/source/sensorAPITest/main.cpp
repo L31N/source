@@ -16,7 +16,7 @@ int main () {
         //std::cout << "distance[1]: " << laser1.getDistance(LaserSensor::mm) << std::endl;
         std::cout << std::endl;
         //sleep(1);
-        usleep(500 * 1000);
+        usleep(50 * 1000);
     }
 }
 
