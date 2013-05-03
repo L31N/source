@@ -13,9 +13,10 @@ int main () {
 
     while(true) {
         std::cout << "distance[0]: " << laser0.getDistance(LaserSensor::mm) << std::endl;
-        std::cout << "distance[1]: " << laser1.getDistance(LaserSensor::mm) << std::endl;
+        //std::cout << "distance[1]: " << laser1.getDistance(LaserSensor::mm) << std::endl;
         std::cout << std::endl;
-        sleep(1);
+        //sleep(1);
+        usleep(500 * 1000);
     }
 }
 

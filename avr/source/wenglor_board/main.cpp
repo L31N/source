@@ -14,8 +14,8 @@ const uint32_t ERROR_NO_TARGET = 0xAAAAAAAE;
 const uint32_t ERROR_INVAL_NUM = 0xAAAAAAAC;
 const uint32_t ERROR_INVAL_CHECKSUM = 0xAAAAAAAB;
 
-//const unsigned char CANID = 68;     // WENGLORS0
-const unsigned char CANID = 100;     // WENGLORS1
+const unsigned char CANID = 68;     // WENGLORS0
+//const unsigned char CANID = 100;     // WENGLORS1
 
 uint32_t getDistance (unsigned char sensor_num);       // needs called the uart_init() function !!!
 bool getReflex();       /// not valid yet !!!
@@ -50,7 +50,7 @@ int main(void) {
 
         can_send_message(&can_data);
 
-        _delay_ms(500);
+        _delay_ms(1000);
 
     }
 
@@ -73,27 +73,30 @@ uint32_t getDistance (unsigned char sensor_num) {
     else uart1_write(sdata, 32);
 
     // read the incomming data frame
-    unsigned char buffer[68] = { 0 };
+    unsigned char buffer[44];
+    for (int i = 0; i < 44; i++) buffer[i] = 0xFF;
+
+    _delay_ms(2);
 
     if (sensor_num == 0) {
-        if (uart_read(buffer, 68) != 0) return ERROR_NO_TARGET;
+        unsigned char tmp[24];  // discard the first 24 bytes
+        uart_read(tmp, 24);
+        uart_read(buffer, 44);
     }
     else {
-        if (uart1_read(buffer, 68) != 0) return ERROR_NO_TARGET;
+        unsigned char tmp[24];  // discard the first 24 bytes
+        uart1_read(tmp, 24);
+        uart1_read(buffer, 44);
     }
 
     /*// calculating checksum
     uint16_t checksum = buffer[0];
     for (int i = 0; i < 31; i++) { checksum ^= buffer[i+1]; }*/
 
-    for (int i = 0; i < 68; i++) uart1_putc(buffer[i]);
-
     uint32_t distance = 0;
-    for (int i = 0; i < 4; i++) distance |= (buffer[36+i] << 8*i);
+    for (int i = 0; i < 4; i++) distance |= (buffer[12+i] << 8*i);
 
     if(distance == ERROR_OVERFLOW_IN) distance = ERROR_OVERFLOW;
-
-    eeprom_write_block(buffer, (unsigned char*)100, 68);
 
      // clearing the uart buffers
     if (sensor_num == 0) while(uart_isnewdata()) { uart_getc(); }
