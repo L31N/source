@@ -67,35 +67,35 @@ uint32_t getDistance (unsigned char sensor_num) {
                                 };
 
     // send the request frame
-    if (sensor_num == 0) uart_write((char*)sdata, 32);
-    else uart1_write((char*)sdata, 32);
+    if (sensor_num == 0) uart_write((unsigned char*)sdata, 32);
+    else uart1_write((unsigned char*)sdata, 32);
 
     // read the incomming data frame
     unsigned char buffer[68] = { 0 };
 
     if (sensor_num == 0) {
-        if (uart_read((char*)buffer, 68) != 0) return ERROR_NO_TARGET;
+        if (uart_read((unsigned char*)buffer, 68) != 0) return ERROR_NO_TARGET;
     }
     else {
-        if (uart1_read((char*)buffer, 68) != 0) return ERROR_NO_TARGET;
+        if (uart1_read((unsigned char*)buffer, 68) != 0) return ERROR_NO_TARGET;
     }
 
     /*// calculating checksum
     uint16_t checksum = buffer[0];
     for (int i = 0; i < 31; i++) { checksum ^= buffer[i+1]; }*/
 
-    for (int i = 0; i < 68; i++) uart1_putc(buffer[i]);
+    //for (int i = 0; i < 68; i++) uart1_putc(buffer[i]);
 
     uint32_t distance = 0;
-    for (int i = 0; i < 4; i++) distance |= (buffer[36+i] << 8*i);
+    for (int i = 0; i < 4; i++) distance |= ((uint32_t)buffer[36+i] << 8*i);
 
     if(distance == ERROR_OVERFLOW_IN) distance = ERROR_OVERFLOW;
 
     eeprom_write_block(buffer, (unsigned char*)100, 68);
 
      // clearing the uart buffers
-    if (sensor_num == 0) while(uart_isnewdata()) { uart_getc(); }
-    else while(uart1_isnewdata()) { uart1_getc(); }
+    if (sensor_num == 0) uart_clear();
+    else uart_clear();
 
     return distance;
 }
