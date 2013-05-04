@@ -52,12 +52,12 @@ bool CAN::write(CAN::can_t& msg) {
         return false;
     }
 
-    std::string data;
-    data[0] = canID;
-    data[1] = msg.rtr;
-    data[2] = msg.length;
+    std::string data = "";
+    data += canID;
+    data += msg.rtr;
+    data += msg.length;
 
-    for (unsigned int i = 0; i < msg.length; i ++) data[3+i] = msg.data[i];
+    for (unsigned int i = 0; i < msg.length; i ++) data += msg.data[i];
 
     return scon.sendData(data);
 }

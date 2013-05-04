@@ -26,7 +26,7 @@ int main () {
     Board board;
     board.ledOn(0, true);
 
-    can_t message;
+    /*can_t message;
     message.id = 0x01;
     message.flags.rtr = 0;
     message.length = 3;
@@ -41,14 +41,21 @@ int main () {
     message.data[7] = 'I';
 
     while(true){
-        while(!board.buttonDown());
+        while(!board.buttonDown(1));
         can_send_message(&message);
         board.ledSwitch(3);
         board.ledSwitch(4);
         _delay_ms(500);
     }
 
-    while(true);
+    while(true);*/
+
+
+
+
+
+
+
 
     /*
 
@@ -70,7 +77,7 @@ int main () {
         }
     }*/
 
-    /*can_filter_t filter0;
+    can_filter_t filter0;
     filter0.id = 1;
     filter0.mask = 0x0;
     filter0.flags.rtr = 0;
@@ -96,7 +103,17 @@ int main () {
             board.ledSwitch(3);
             board.ledSwitch(4);
         }
-    }*/
+    }
+
+
+
+
+
+
+
+
+
+
 
     MotionController mc;
     Motor motor;

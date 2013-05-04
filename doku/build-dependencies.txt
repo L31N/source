@@ -14,7 +14,7 @@ bbipc:			-lpthread
 
 bbmotion:		-lbbvector -lbbcan -lbbipc -lbbdebug -lpthread
 
-bbsensor:		-lbbcan -lbbdebug -lbbipc -lpthread
+bbsensor:		-lbbcan -lbbdebug -lbbipc -lbbvector -lpthread
 
 bbvector:		none
 
@@ -30,8 +30,8 @@ possible build order:
 * bbdebug		x
 * debug-user		x
 * bbcan			x
-* can_server		x
-* bbmotion		x
+* spi_mserver		x
 * bbsensor		x
+* bbmotion		x
 * idlebot		x
 

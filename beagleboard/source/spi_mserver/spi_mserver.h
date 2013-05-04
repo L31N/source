@@ -18,7 +18,7 @@ class SpiMServer {
         void run();     // blocking funktion, that represents the running process.
 
     private:
-        static void th_recv_fctn(boost::mutex* mtx, Mcp2515* mcp2515);                                  // receives the CAN messages via SPI and redirects them via IPC
+        static void th_recv_fctn(boost::mutex* mtx, Mcp2515* mcp2515);                                  // receives the CAN messages via SPI and redirects them to IPC
         static void th_snd_fctn(boost::mutex* mtx, Mcp2515* mcp2515, ipcReceivingConnection* rcon);     // receives the messages via IPC and redirect them via SPI to CAN
 
         /** ++++++++++++++++++ **/

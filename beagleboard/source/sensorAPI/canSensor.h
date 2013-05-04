@@ -11,11 +11,10 @@
 
 class CANSensor : public Sensor {
     public:
-        CANSensor(const std::string _ipcName, const std::string _canMember);
+        CANSensor(const std::string ipcName, const std::string canName);        // ipcName is used to print debug-output; canName to identify for spi_mserver
         virtual ~CANSensor();
 
     protected:
-        std::string canMember;
         CAN* can;
 };
 
