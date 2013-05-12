@@ -13,8 +13,8 @@ int main()
 
 	SerialStream serial;
 	serial.Open("/dev/ttyUSB0");
-	serial.SetBaudRate( SerialStreamBuf::BAUD_38400 );
-	//serial.SetBaudRate( SerialStreamBuf::BAUD_115200);
+	//serial.SetBaudRate( SerialStreamBuf::BAUD_38400 );
+	serial.SetBaudRate( SerialStreamBuf::BAUD_115200);
 
 
     while(true) {
@@ -48,8 +48,8 @@ int main()
 
         for (int i = 0; i < 4; i++) length |= (rdata[i] << 8*i);
         std::cout << "length: " << length << std::endl;
-        //sleep(1);
-        usleep(50 * 1000);
+        sleep(1);
+        //usleep(50 * 1000);
         //usleep(100 * 1000);
     }
 

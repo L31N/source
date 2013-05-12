@@ -21,6 +21,9 @@ uint32_t getDistance (unsigned char sensor_num);       // needs called the uart_
 bool getReflex();       /// not valid yet !!!
 
 int main(void) {
+
+    DDRE &= ~(1 << 4);  // set the reflex pin as input
+
     can_init(BITRATE_10_KBPS);
     sei();
 
@@ -38,19 +41,23 @@ int main(void) {
 
         // read the distance laser sensors
         distance[0] = getDistance(0);
-        distance[1] = getDistance(1);
+        //distance[1] = getDistance(1);
 
-        for (int i = 0; i < 3; i++) can_data.data[i] = ( distance[0] >> i*8 ) & 0xFF;
-        for (int i = 0; i < 3; i++) can_data.data[i+3] = ( distance[1] >> i*8 ) & 0xFF;
+
+        //for (int i = 0; i < 3; i++) uart1_putc((distance[0] >> i*8) & 0xFF);
+        //uart1_putc(0xAA);
+        /*for (int i = 0; i < 3; i++) can_data.data[i] = ( distance[0] >> i*8 ) & 0xFF;
+        for (int i = 0; i < 3; i++) can_data.data[i+3] = ( distance[1] >> i*8 ) & 0xFF;*/
 
         // fill in the digital sensor value
         can_data.data[6] = (unsigned char)getReflex();
+        uart1_putc(can_data.data[6]);
 
         can_data.data[7] = 0;    // dummy byte ... not used !!!
 
         can_send_message(&can_data);
 
-        _delay_ms(200);
+        _delay_ms(500);
 
     }
 
@@ -72,40 +79,58 @@ uint32_t getDistance (unsigned char sensor_num) {
     if (sensor_num == 0) uart_write(sdata, 32);
     else uart1_write(sdata, 32);
 
-    // read the incomming data frame
-    unsigned char buffer[44];
-    for (int i = 0; i < 44; i++) buffer[i] = 0xFF;
+    _delay_ms(500);
 
-    _delay_ms(2);
+    // read the frame
+    unsigned char buffer[500] = {0};
+    if (sensor_num == 0) uart_read(buffer, uart_count());
+    else uart1_read(buffer, uart_count());
 
-    if (sensor_num == 0) {
-        unsigned char tmp[24];  // discard the first 24 bytes
-        uart_read(tmp, 24);
-        uart_read(buffer, 44);
+    unsigned int i = 0;
+    uint32_t distance = 0xFFFFFFFF;
+
+    while (i < 500) {
+
+        //uart1_putc('*');
+
+        for (; i < sizeof(buffer) && buffer[i] != 0x24; i++);
+
+        unsigned short protlen = (buffer[i + 4]);
+        protlen |= (buffer[i+5] << 8);
+
+        unsigned short stop = (buffer[i + protlen - 2] << 8) | (buffer[i + protlen - 1]);
+        if (stop == 0x2e3b) {   // could be an valid frame
+            unsigned short check = 0x24;
+
+            for (unsigned int j = 1; j < protlen - 5;j++ )check ^= buffer[i+j];
+            unsigned short bcheck = (buffer[i + protlen - 4]) | (buffer[i + protlen - 3] << 8);
+
+            /*uart1_putc('|');
+            uart1_putc(bcheck);
+            uart1_putc(bcheck >> 8);
+            uart1_putc('=');
+            uart1_putc(check);
+            uart1_putc(check >> 8);
+            uart1_putc('|');*/
+
+            if (bcheck == check) {
+                // extract the distance information
+                //distance = 0xAA;
+                for (int l = 0; l < 4; l++) distance |= (buffer[i + l + 36] << 8*l);
+                break;
+            }
+            else i++;
+        }
+        else i++;
+
+        //uart1_putc('#');
     }
-    else {
-        unsigned char tmp[24];  // discard the first 24 bytes
-        uart1_read(tmp, 24);
-        uart1_read(buffer, 44);
-    }
 
-    /*// calculating checksum
-    uint16_t checksum = buffer[0];
-    for (int i = 0; i < 31; i++) { checksum ^= buffer[i+1]; }*/
-
-    uint32_t distance = 0;
-    for (int i = 0; i < 4; i++) distance |= (buffer[12+i] << 8*i);
-
-    if(distance == ERROR_OVERFLOW_IN) distance = ERROR_OVERFLOW;
-
-     // clearing the uart buffers
-    if (sensor_num == 0) while(uart_isnewdata()) { uart_getc(); }
-    else while(uart1_isnewdata()) { uart1_getc(); }
+    //uart1_putc('%');
 
     return distance;
 }
 
 bool getReflex() {
-    /// not valid yet !
-    return false;
+    return !bool((PINE & (1 << 4)));
 }
