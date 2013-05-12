@@ -1,22 +1,31 @@
 
 #include <iostream>
+//#include <curses.h>
 
 #include "bbvector.h"
 #include "motion/motionController.h"
 #include "motion/motor.h"
 
 int main () {
-    //MotionController* mc = new MotionController;
+    MotionController* mc = new MotionController;
 
-    //mc->drive(Vector(10, 10));
-    Motors motors("MOTORS", "MOTORS");
-    motors.setSpeed(255, 255, 255, 255);
+    double x, y, rotspeed;
 
-    sleep(3);
+    std::cout << "x: " << std::flush; std::cin >> x;
+    std::cout << "y: " << std::flush; std::cin >> y;
+    std::cout << "rotation-speed: " << std::flush; std::cin >> rotspeed;
+    std::cout << std::endl;
 
-    //mc->pbreak();
+    sleep(1);
 
-    motors.setSpeed(0, 0, 0, 0);
+    mc->drive(Vector(x, y), rotspeed);
+    //Motors motors("MOTORS", "MOTORS");
+    //motors.setSpeed(255, 255, 255, 255);
+
+    sleep(1);
+    mc->pbreak();
+
+    //motors.setSpeed(0, 0, 0, 0);
 
     //delete mc;
     return 0;
