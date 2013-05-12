@@ -16,7 +16,7 @@ class Motor {
         void test(unsigned char num);
 
     private:
-        static const unsigned char MOTOR_CAN_ID = 1;
+        static const unsigned char MOTOR_CAN_ID = 9;
         signed short* speeds;
         Board* board;
 };

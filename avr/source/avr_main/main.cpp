@@ -77,33 +77,33 @@ int main () {
         }
     }*/
 
-    can_filter_t filter0;
-    filter0.id = 1;
-    filter0.mask = 0x0;
-    filter0.flags.rtr = 0;
-
-    can_set_filter(0, &filter0);
-
-    can_t message;
-    message.id = 0x01;
-    message.flags.rtr = 0;
-    message.length = 1;
-    message.data[0] = 0xFF;
-
-    can_send_message(&message);
-
-    while(true) {
-        if (can_check_message()) {
-            can_t msg;
-            can_get_message(&msg);
-            for (int i = 0; i < msg.length; i++) uart_putc(msg.data[i]);
-            uart_putc(' ');
-            board.ledSwitch(1);
-            board.ledSwitch(2);
-            board.ledSwitch(3);
-            board.ledSwitch(4);
-        }
-    }
+//    can_filter_t filter0;
+//    filter0.id = 1;
+//    filter0.mask = 0x0;
+//    filter0.flags.rtr = 0;
+//
+//    can_set_filter(0, &filter0);
+//
+//    can_t message;
+//    message.id = 0x01;
+//    message.flags.rtr = 0;
+//    message.length = 1;
+//    message.data[0] = 0xFF;
+//
+//    can_send_message(&message);
+//
+//    while(true) {
+//        if (can_check_message()) {
+//            can_t msg;
+//            can_get_message(&msg);
+//            for (int i = 0; i < msg.length; i++) uart_putc(msg.data[i]);
+//            uart_putc(' ');
+//            board.ledSwitch(1);
+//            board.ledSwitch(2);
+//            board.ledSwitch(3);
+//            board.ledSwitch(4);
+//        }
+//    }
 
 
 
@@ -128,6 +128,13 @@ int main () {
     //while(!board.buttonDown());
 
     _delay_ms(500);
+
+    while(true) {
+        while(!board.buttonDown(1));
+        motor.setSpeed(150, 150, 150, 150);
+        _delay_ms(1000);
+        motor.setSpeed(0, 0, 0, 0);
+    }
 
     //while(!board.buttonDown());
     //_delay_ms(200);

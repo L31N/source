@@ -21,7 +21,7 @@ class MotionController {
         Debug* debug;
 
     private:
-        Motor** motors;
+        Motors* motors;
         short* motorSpeeds;
 };
 

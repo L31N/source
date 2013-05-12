@@ -5,19 +5,19 @@
 #include <string>
 #include "can/bbcan.h"
 
-class Motor {
+class Motors {
     public:
-        Motor(const std::string _ipcName, const std::string _canMember);
-        ~Motor();
+        Motors(const std::string _ipcName = "MOTORS", const std::string _canName = "MOTORS");
+        ~Motors();
 
-        void setSpeed(short _speed);
-        short getSpeed();
+        void setSpeed(short speed0, short speed1, short speed2, short speed3);
+        void getSpeed(short& speed0, short& speed1, short& speed2, short& speed3);
 
     private:
-        short speed;
+        short* speeds;
         CAN* can;
         std::string ipcName;
-        std::string canMember;
+        std::string canName;
 };
 
 #endif // _MOTOR_H_

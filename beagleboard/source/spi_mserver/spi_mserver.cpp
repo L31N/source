@@ -84,12 +84,17 @@ void SpiMServer::th_snd_fctn(boost::mutex* mtx, Mcp2515* mcp2515, ipcReceivingCo
             for(int i = 0; i < canmsg.length; i++) canmsg.data[i] = str[3+i];
 
             mtx->lock();
-            mcp2515->mcp_write_can(&canmsg);
+            bool stat = mcp2515->mcp_write_can(&canmsg);
             mtx->unlock();
 
-            std::cout << "sent CAN message: [" << cancnf.getCanMember(canmsg.id) << "] : ";
-            for (unsigned int i = 0; i < canmsg.length; i++) std::cout << (unsigned int)str[3+i] << "  " << std::flush;
-            std::cout << std::endl;
+            if (stat) {
+                std::cout << "sent CAN message: [" << cancnf.getCanMember(canmsg.id) << "] : ";
+                for (unsigned int i = 0; i < canmsg.length; i++) std::cout << (unsigned int)str[3+i] << "  " << std::flush;
+                std::cout << std::endl;
+            }
+            else {
+                std::cerr << "error: could not send CAN message" << std::endl;
+            }
         }
         else usleep(200);
     }
