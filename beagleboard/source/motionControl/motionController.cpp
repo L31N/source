@@ -12,7 +12,7 @@ MotionController::MotionController() {
     for (int i = 0; i < 4; i++) motorSpeeds[i] = 0;
     motors->setSpeed(0, 0, 0, 0);
 
-    debug = new Debug("MOTION_CONTROLLER");
+    debug = new Debug("MOTION_CONTROLLER_DBG");
 }
 
 MotionController::~MotionController() {
