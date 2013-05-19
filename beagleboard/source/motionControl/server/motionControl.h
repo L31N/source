@@ -25,6 +25,8 @@ class MotionControl {
 
         ExtendedMotionController* extMtnCtrlr;
         ipcReceivingConnection* ipcRcon;
+
+        Debug* dbg;
 };
 
 #endif // _MOTION_CONTROL_H_

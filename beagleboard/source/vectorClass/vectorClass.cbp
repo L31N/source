@@ -32,10 +32,8 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Linker>
-			<Add option="-lbbvector" />
-			<Add option="-L." />
-		</Linker>
+		<Unit filename="bbvector.cpp" />
+		<Unit filename="bbvector.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />
