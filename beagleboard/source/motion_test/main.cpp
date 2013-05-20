@@ -1,6 +1,5 @@
 
 #include <iostream>
-//#include <curses.h>
 
 #include "bbvector.h"
 #include "motion/motionController.h"
@@ -8,23 +7,27 @@
 
 int main () {
     MotionController* mc = new MotionController;
+    //Motors motors("MOTORS", "MOTORS");
+    //motors.setSpeed(0,0,0,0);
 
     double x, y, rotspeed;
 
-    std::cout << "x: " << std::flush; std::cin >> x;
-    std::cout << "y: " << std::flush; std::cin >> y;
+    //std::cout << "x: " << std::flush; std::cin >> x;
+    //std::cout << "y: " << std::flush; std::cin >> y;
     std::cout << "rotation-speed: " << std::flush; std::cin >> rotspeed;
     std::cout << std::endl;
 
-    sleep(1);
+    /*Motors motors;
+    motors.setSpeed(255, 255, 255, 255);*/
 
-    mc->drive(Vector(x, y), rotspeed);
-    //Motors motors("MOTORS", "MOTORS");
-    //motors.setSpeed(255, 255, 255, 255);
+    Vector vect(0,1);
+    vect.setLength(50);
 
-    sleep(1);
+    mc->drive(vect, 0);
+
+    sleep(2);
+
     mc->pbreak();
-
     //motors.setSpeed(0, 0, 0, 0);
 
     //delete mc;
