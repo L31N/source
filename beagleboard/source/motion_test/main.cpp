@@ -7,30 +7,23 @@
 
 int main () {
     MotionController* mc = new MotionController;
-    //Motors motors("MOTORS", "MOTORS");
-    //motors.setSpeed(0,0,0,0);
 
-    double x, y, rotspeed;
+    double x, y;
 
     //std::cout << "x: " << std::flush; std::cin >> x;
     //std::cout << "y: " << std::flush; std::cin >> y;
-    std::cout << "rotation-speed: " << std::flush; std::cin >> rotspeed;
-    std::cout << std::endl;
+    //std::cout << std::endl;
 
-    /*Motors motors;
-    motors.setSpeed(255, 255, 255, 255);*/
-
-    Vector vect(0,1);
-    vect.setLength(50);
-
-    mc->drive(vect, 0);
+    Vector vector(1, 1);
+    vector.setLength(50);
+    mc->drive(vector, 0);
 
     sleep(2);
 
     mc->pbreak();
-    //motors.setSpeed(0, 0, 0, 0);
 
-    //delete mc;
+    delete mc;
+
     return 0;
 }
 
