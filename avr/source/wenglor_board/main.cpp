@@ -7,6 +7,8 @@
 #include "can.h"
 #include "uart.h"
 
+#include "adc.h"
+
 
 const uint32_t ERROR_OVERFLOW_IN = 4294967293UL;
 const uint32_t ERROR_OVERFLOW = 0xAAAAAAAD;
@@ -36,6 +38,20 @@ int main(void) {
     can_data.length = 7;
 
     uint32_t distance[2] = { 0 };
+
+    /** ONLY TESTING ZONE HERE **/
+
+    adc_init();
+
+    while(42) {
+        unsigned short adc_value = adc_read(1);
+        unsigned char cval = adc_value >> 2;
+        uart1_putc(cval);
+
+        _delay_ms(1000);
+    }
+
+    /** TESTING ZONE END HERE  **/
 
     while(true) {
 
