@@ -14,9 +14,9 @@ int main () {
     const bool BOARD_0 = true;      /// board0
     //const bool BOARD_0 = false;     /// board1
 
-    unsigned short BOARD_ID = 1;
+    unsigned short BOARD_ID = 9;
 
-    can_init(BITRATE_100_KBPS);
+    can_init(BITRATE_10_KBPS);
     sei();
 
     // motor 1

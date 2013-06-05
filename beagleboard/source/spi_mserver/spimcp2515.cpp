@@ -208,7 +208,10 @@ bool Mcp2515::mcp_write_can(can_t* message) {
 
     // Status des MCP2515 auslesen
     unsigned char status, address;
-    this->mcp_read_register(SPI_READ_STATUS, status);
+    //this->mcp_read_register(SPI_READ_STATUS, status);
+    unsigned char statbuf[3] = { SPI_READ_STATUS, 0xff, 0xff };
+    this->mcp_read(statbuf, 3);
+    status = statbuf[1];
 
     // Statusbyte:
     //
@@ -231,6 +234,7 @@ bool Mcp2515::mcp_write_can(can_t* message) {
         // Alle Puffer sind belegt,
         // Nachricht kann nicht verschickt werden
         std::cerr << "cannot send message -> all sending buffers are full" << std::endl;
+
         return false;
     }
 

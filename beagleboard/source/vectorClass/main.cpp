@@ -7,6 +7,8 @@ using namespace std;
 
 int main()
 {
+    std::cout << "sizeof(Vector): " << sizeof(Vector) << std::endl;
+
     /*cout << "This Programm is to test the general 2d vector class." << endl;
     Vector v1(0, 1);
 	Vector v2(1, 0);

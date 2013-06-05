@@ -6,29 +6,18 @@
 #include "motionController.h"
 
 MotionController::MotionController() {
-    motors = new Motor* [4];
-
-    motors[0] = new Motor("MOTOR0", "MOTOR0");
-    motors[1] = new Motor("MOTOR1", "MOTOR1");
-    motors[2] = new Motor("MOTOR2", "MOTOR2");
-    motors[3] = new Motor("MOTOR3", "MOTOR3");
+    motors = new Motors("MOTORS", "MOTORS");
 
     motorSpeeds = new short[4];
     for (int i = 0; i < 4; i++) motorSpeeds[i] = 0;
+    motors->setSpeed(0, 0, 0, 0);
 
-    debug = new Debug("MOTION_CONTROLLER");
+    debug = new Debug("MOTION_CONTROLLER_DBG");
 }
 
 MotionController::~MotionController() {
-    delete motors[0];
-    delete motors[1];
-    delete motors[2];
-    delete motors[3];
-
     delete motors;
-
     delete motorSpeeds;
-
     delete debug;
 }
 
@@ -158,7 +147,7 @@ void MotionController::drive(Vector vector, short rotationSpeed) {
     motorSpeeds[2] += rotationSpeed;
     motorSpeeds[3] += rotationSpeed;
 
-    for (int i = 0; i < 4; i++) motors[i]->setSpeed(motorSpeeds[i]);
+    motors->setSpeed(motorSpeeds[0], motorSpeeds[1], motorSpeeds[2], motorSpeeds[3]);
 
     return;
 }
@@ -173,5 +162,6 @@ void MotionController::drive(Angle angle, unsigned char speed, short rotationSpe
 
 void MotionController::pbreak() {
     /// implement power-break functionality here !
+    motors->setSpeed(0, 0, 0, 0);
 }
 
