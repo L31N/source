@@ -11,18 +11,19 @@ bool spi_init(void);
 bool spi_write(unsigned char address, unsigned char data);
 bool spi_read(unsigned char address, unsigned char& data);
 
+bool mpu_init();
+
 unsigned short get_temperature(void);
 
 
 int main(void) {
     //uart_init(38400);
     spi_init();
+    _delay_ms(2);
 
-    _delay_ms(50);
+    mpu_init();
+    get_temperature();
 
-    unsigned char tmp;
-    //spi_read(0x42, tmp);
-    spi_read(0x42, tmp);
     while(true);
     return 0;
 
@@ -58,7 +59,7 @@ bool spi_init() {
     DDRB |= (1<<5);
 
     // Set SPI-Enable, SPI-Master, 1MHz
-    SPCR |= ( (1 << SPE) | (1 << MSTR) | (1 << SPR0) );
+    SPCR |= ( (1 << SPE) | (1 << MSTR) | (1 << SPR1) | (1 << CPOL) );
 
     // SS high
     PORTB |= (1 << 2);
@@ -110,6 +111,16 @@ bool spi_read(unsigned char address, unsigned char& data) {
 
     return true;
 }
+
+bool mpu_init() {
+    spi_write(0x6B, 0x80);
+    _delay_ms(100);
+
+    spi_write(0x6A, 0x10);
+
+    return true;
+}
+
 
 unsigned short get_temperature(void) {
     unsigned char templ, temph;
