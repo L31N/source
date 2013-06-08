@@ -21,7 +21,15 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
+			<Add directory="/bbusr/include" />
 		</Compiler>
+		<Linker>
+			<Add option="-lbbvector" />
+			<Add option="-lbbcan" />
+			<Add option="-lbbdebug" />
+			<Add option="-lbbipc" />
+			<Add directory="/bbusr/lib" />
+		</Linker>
 		<Unit filename="extendedMotionController.cpp" />
 		<Unit filename="extendedMotionController.h" />
 		<Unit filename="main.cpp" />

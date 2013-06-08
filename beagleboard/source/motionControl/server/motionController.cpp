@@ -152,13 +152,13 @@ void MotionController::drive(Vector vector, short rotationSpeed) {
     return;
 }
 
-void MotionController::drive(Angle angle, unsigned char speed, short rotationSpeed) {
+/*void MotionController::drive(Angle angle, unsigned char speed, short rotationSpeed) {
     Vector vector(1,1);
     vector.setLength(speed);
     vector.setAngle(angle.value());
 
     drive(vector, rotationSpeed);
-}
+}*/
 
 void MotionController::pbreak() {
     /// implement power-break functionality here !

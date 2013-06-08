@@ -18,16 +18,18 @@ class MotionControl {
 
         static void thDrive_fctn(Vector vector, short rotationSpeed);
         static void thMoveto_fctn(Vector vector, unsigned char speed, Vector dir);
-        static void thMove_fctn(Vector, vector, unsigned char speed, Vector dir);
+        static void thMove_fctn(Vector vector, unsigned char speed, Vector dir);
         static void thTurnto_fctn(Vector dir, unsigned char speed, ExtendedMotionController::Direction turndir);
         static void thTurn_fctn(Vector dir, unsigned char speed, ExtendedMotionController::Direction turndir);
         static void thPBreak_fctn();
         static void thIdle_fctn();
         static void thTest_fctn();
 
+        void killThreads();
+
         /** ++++++++++++++++++ **/
 
-        ExtendedMotionController* extMtnCtrlr;
+        static ExtendedMotionController* extMtnCtrlr;
         ipcReceivingConnection* ipcRcon;
 
         Debug* dbg;
