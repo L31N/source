@@ -24,7 +24,7 @@ JJoystick::JJoystick(QObject *parent) : QThread(parent)
 
 JJoystick::~JJoystick()
 {
-    SDL_JoystickClose(stick);
+    if(SDL_JoystickOpened(0)) SDL_JoystickClose(stick);
     SDL_Quit();
 }
 
