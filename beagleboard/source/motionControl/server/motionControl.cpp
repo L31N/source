@@ -7,28 +7,42 @@ MotionControl::MotionControl() {
     ipcRcon = new ipcReceivingConnection("MOTION_CONTROL", 1, 34);
     extMtnCtrlr = new ExtendedMotionController();
 
-    thReceive = new boost::thread(MotionControl::thReceive_fctn, ipcRcon);
-    thControl = new boost::thread(MotionControl::thControl_fctn, extMtnCtrlr);
+    //thReceive = new boost::thread(MotionControl::thReceive_fctn, ipcRcon);
+    //thControl = new boost::thread(MotionControl::thControl_fctn, extMtnCtrlr);
 
     dbg = new Debug("MOTION_CONTROL_DBG");
 }
 
 MotionControl::~MotionControl() {
-    delete thReceive;
-    delete thControl;
+    delete thDrive;
+    delete thMoveto;
+    delete thMove;
+    delete thTurnto;
+    delete thTurn;
+    delete thPBreak;
+    delete thIdle;
+    delete thTest;
 
     delete extMtnCtrlr;
     delete ipcRcon;
+
+    delete dbg;
 }
 
 void MotionControl::run() {
-    thReceive->detach();
-    thControl->detach();
+    while(42) {
+        if (ipcRcon->checkForNewData()) {   // handle new data
+            std::string datastr = ipcRcon->readDataFromBuffer()->getData();
 
-    while(true) sleep(1);
+        }
+        else {
+            // idle to avoid a cpu-time loss from prescaler
+            usleep(500);
+        }
+    }
 }
 
-void MotionControl::thReceive_fctn(ipcReceivingConnection* rcon) {
+/*void MotionControl::thReceive_fctn(ipcReceivingConnection* rcon) {
     while(42) {
         if (rcon->checkForNewData()) {
             std::string datastr = rcon->readDataFromBuffer()->getData();
@@ -92,4 +106,6 @@ void MotionControl::thReceive_fctn(ipcReceivingConnection* rcon) {
 
 void MotionControl::thControl_fctn(ExtendedMotionController* emctrlr) {
 
-}
+}*/
+
+
