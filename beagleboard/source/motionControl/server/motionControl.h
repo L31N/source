@@ -15,18 +15,32 @@ class MotionControl {
         void run();
 
     private:
-        static void thReceive_fctn(ipcReceivingConnection* rcon);
-        static void thControl_fctn(ExtendedMotionController* emctrlr);
+
+        static void thDrive_fctn(Vector vector, short rotationSpeed);
+        static void thMoveto_fctn(Vector vector, unsigned char speed, Vector dir);
+        static void thMove_fctn(Vector, vector, unsigned char speed, Vector dir);
+        static void thTurnto_fctn(Vector dir, unsigned char speed, ExtendedMotionController::Direction turndir);
+        static void thTurn_fctn(Vector dir, unsigned char speed, ExtendedMotionController::Direction turndir);
+        static void thPBreak_fctn();
+        static void thIdle_fctn();
+        static void thTest_fctn();
 
         /** ++++++++++++++++++ **/
-
-        boost::thread* thReceive;
-        boost::thread* thControl;
 
         ExtendedMotionController* extMtnCtrlr;
         ipcReceivingConnection* ipcRcon;
 
         Debug* dbg;
+
+        boost::thread* thDrive;
+        boost::thread* thMoveto;
+        boost::thread* thMove;
+        boost::thread* thTurnto;
+        boost::thread* thTurn;
+        boost::thread* thPBreak;
+        boost::thread* thIdle;
+        boost::thread* thTest;
+
 };
 
 #endif // _MOTION_CONTROL_H_
