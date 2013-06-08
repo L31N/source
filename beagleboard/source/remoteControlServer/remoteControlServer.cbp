@@ -22,6 +22,12 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Linker>
+			<Add option="-lboost_system" />
+			<Add option="-lboost_thread" />
+			<Add option="-lpthread" />
+		</Linker>
+		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

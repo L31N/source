@@ -93,6 +93,15 @@ void Motion::turnto(Angle dir, unsigned char speed, Motion::Direction turndir) {
 
 }
 
+void Motion::turn(Vector dir, unsigned char speed, Direction turndir) {
+
+}
+
+void Motion::turn(Angle dir, unsigned char speed, Direction turndir) {
+
+}
+
+
 void Motion::pbreak() {
 
 }
@@ -100,3 +109,5 @@ void Motion::pbreak() {
 void Motion::idle() {
 
 }
+
+void Motion::test(unsigned char speed);
