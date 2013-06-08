@@ -39,7 +39,7 @@ void MotionControl::run() {
                 short rotationSpeed = 0;
                 memcpy(&rotationSpeed, datastr.substr(17, 2).c_str(), sizeof(rotationSpeed));
 
-                thDrive = new boost::thread(MotionControl::thDrive_fctn, vector, rotationSpeed);
+                thDrive = new boost::thread(MotionControl::thDrive_fctn, extMtnCtrlr,ļ vector, rotationSpeed);
                 thDrive->detach();
             }
             else if (datastr[0] == 1) {
@@ -69,36 +69,36 @@ void MotionControl::run() {
     }
 }
 
- void MotionControl::thDrive_fctn(Vector vector, short rotationSpeed) {
-    extMtnCtrlr->drive(vector, rotationSpeed);
+ void MotionControl::thDrive_fctn(ExtendedMotionController* emCtrlr, Vector vector, short rotationSpeed) {
+    emCtrlr->drive(vector, rotationSpeed);
     while(42) sleep(1);
  }
 
- void MotionControl::thMoveto_fctn(Vector vector, unsigned char speed, Vector dir) {
+ void MotionControl::thMoveto_fctn(ExtendedMotionController* emCtrlr, Vector vector, unsigned char speed, Vector dir) {
 
  }
 
- void MotionControl::thMove_fctn(Vector vector, unsigned char speed, Vector dir) {
+ void MotionControl::thMove_fctn(ExtendedMotionController* emCtrlr, Vector vector, unsigned char speed, Vector dir) {
 
  }
 
- void MotionControl::thTurnto_fctn(Vector dir, unsigned char speed, ExtendedMotionController::Direction turndir) {
+ void MotionControl::thTurnto_fctn(ExtendedMotionController* emCtrlr, Vector dir, unsigned char speed, ExtendedMotionController::Direction turndir) {
 
  }
 
- void MotionControl::thTurn_fctn(Vector dir, unsigned char speed, ExtendedMotionController::Direction turndir) {
+ void MotionControl::thTurn_fctn(ExtendedMotionController* emCtrlr, Vector dir, unsigned char speed, ExtendedMotionController::Direction turndir) {
 
  }
 
- void MotionControl::thPBreak_fctn() {
+ void MotionControl::thPBreak_fctn(ExtendedMotionController* emCtrlr) {
 
  }
 
- void MotionControl::thIdle_fctn() {
+ void MotionControl::thIdle_fctn(ExtendedMotionController* emCtrlr) {
 
  }
 
- void MotionControl::thTest_fctn() {
+ void MotionControl::thTest_fctn(ExtendedMotionController* emCtrlr) {
 
  }
 
