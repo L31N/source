@@ -183,16 +183,16 @@ for (( j=0; j<${#project_to_build[@]}; j++ )) do
         # check for rebuild and delete old files ...
         if [ "$build_type" == "rebuild" ]
         then
-            rm *.o;
+            rm -v *.o;
 
             if [ "${binary_directory[$j]}" != "false" ]
             then
-                rm "bin/${target_name[$j]}/${project_to_build[$j]%????}";
+                rm -v "bin/${target_name[$j]}/${project_to_build[$j]%????}";
             fi
 
             if [ "${library_directory[$j]}" != "false" ]
             then
-                rm *.a;
+                rm -v *.a;
             fi
         fi
 
