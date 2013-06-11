@@ -50,7 +50,7 @@ target_name[3]='Release';
 # debug-user
 project_to_build[4]='debug-user.cbp';
 #project_to_build[4]='false';
-project_directory[4]='/bbusr/source/debug/';
+project_directory[4]='/bbusr/source/debug/debug-user/';
 library_directory[4]='false';
 include_directory[4]='false';
 binary_directory[4]='/bbusr/bin/';
