@@ -48,8 +48,8 @@ binary_directory[3]='false';
 target_name[3]='Release';
 
 # debug-user
-#project_to_build[4]='debug-user.cbp';
-project_to_build[4]='false';
+project_to_build[4]='debug-user.cbp';
+#project_to_build[4]='false';
 project_directory[4]='/bbusr/source/debug/';
 library_directory[4]='false';
 include_directory[4]='false';
@@ -57,8 +57,8 @@ binary_directory[4]='/bbusr/bin/';
 target_name[4]='Release';
 
 # bbcan
-#project_to_build[5]='bbcan.cbp';
-project_to_build[5]='false';
+project_to_build[5]='bbcan.cbp';
+#project_to_build[5]='false';
 project_directory[5]='/bbusr/source/CAN/bbcan/';
 library_directory[5]='/bbusr/lib/';
 include_directory[5]='/bbusr/include/can/';
@@ -66,8 +66,8 @@ binary_directory[5]='false';
 target_name[5]='Release';
 
 # spi_mserver
-#project_to_build[6]='spi_mserver.cbp';
-project_to_build[6]='false';
+project_to_build[6]='spi_mserver.cbp';
+#project_to_build[6]='false';
 project_directory[6]='/bbusr/source/spi_mserver/';
 library_directory[6]='false';
 include_directory[6]='false';
@@ -84,8 +84,8 @@ binary_directory[7]='false';
 target_name[7]='Release';
 
 # bbmotion
-#project_to_build[8]='bbmotion.cbp';
-project_to_build[8]='false';
+project_to_build[8]='bbmotion.cbp';
+#project_to_build[8]='false';
 project_directory[8]='/bbusr/source/motionControl/bbmotion/';
 library_directory[8]='/bbusr/lib/';
 include_directory[8]='/bbusr/include/motion/';
@@ -93,8 +93,8 @@ binary_directory[8]='false';
 target_name[8]='Release';
 
 # motionControl
-#project_to_build[9]='motionControl.cbp';
-project_to_build[9]='false';
+project_to_build[9]='motionControl.cbp';
+#project_to_build[9]='false';
 project_directory[9]='/bbusr/source/motionControl/server/';
 library_directory[9]='false';
 include_directory[9]='false';
