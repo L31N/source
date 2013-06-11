@@ -101,7 +101,38 @@ include_directory[9]='false';
 binary_directory[9]='/bbusr/bin/';
 target_name[9]='Release';
 
+
+# ..........................
+
+
+build_type='intelligent';
+#build_type='rebuild';
+
 ###############################################################################
+
+if [ $# -gt 0 ]
+then
+    if [ "$1" == "--help" ]
+    then
+        echo "";
+        echo "Usage: $0 [OPTION]";
+        echo "Builds the bb-sourcetree.";
+        echo "";
+        echo "Options:";
+        echo -e "-r, --rebuild\t\tmake a new and clean rebuild instead of an intelligent build.";
+        echo -e "-i, --intelligent\tonly build non-existing outputfiles.\n";
+        exit 0;
+    elif [ "$1" == "-r" ] || [ "$1" == "--rebuild" ]
+    then
+        build_type='rebuild';
+    elif [ "$1" == "-i" ] || [ "$1" == "--intelligent" ]
+    then
+        build_type='intelligent';
+    else
+        echo -e "\ninvalid option used: \"$1\"\n";
+        exit 3;
+    fi
+fi
 
 echo "This script will build the whole beagleboard-sourcetree";
 echo -e "#######################################################\n";
@@ -111,7 +142,10 @@ for (( i=0; i<${#project_to_build[@]}; i++ )) do
     [ "${project_to_build[$i]}" != "false" ] && echo -e "[$i]:\t${project_to_build[$i]}";
 done
 
-echo "";
+if [ "$build_type" == "rebuild" ]
+then
+    echo -e "\nWARNING: rebuild enabled -> all old object-, library- and binary- files will be deleted !!!\n";
+fi
 
 read -p "Do you want to continue [Y/n]?" choice;
 case "$choice" in
@@ -142,8 +176,25 @@ for (( j=0; j<${#project_to_build[@]}; j++ )) do
         echo -e "\naccessing directory ${project_directory[$j]} for \"${project_to_build[$j]}\"";
 
         cd "${project_directory[$j]}";
+
         # check weather the bin/$target_name directory already exists ...
         [ -d "bin/${target_name[$j]}" ] || mkdir -p "bin/${target_name[$j]}";
+
+        # check for rebuild and delete old files ...
+        if [ "$build_type" == "rebuild" ]
+        then
+            rm *.o;
+
+            if [ "${binary_directory[$j]}" != "false" ]
+            then
+                rm "bin/${target_name[$j]}/${project_to_build[$j]%????}";
+            fi
+
+            if [ "${library_directory[$j]}" != "false" ]
+            then
+                rm *.a;
+            fi
+        fi
 
         # the build process self ...
         if /usr/bin/native-build "${project_to_build[$j]}" "${target_name[$j]}"
