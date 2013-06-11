@@ -39,7 +39,7 @@ void MotionControl::run() {
                 short rotationSpeed = 0;
                 memcpy(&rotationSpeed, datastr.substr(17, 2).c_str(), sizeof(rotationSpeed));
 
-                thDrive = new boost::thread(MotionControl::thDrive_fctn, extMtnCtrlr,ļ vector, rotationSpeed);
+                thDrive = new boost::thread(MotionControl::thDrive_fctn, extMtnCtrlr, vector, rotationSpeed);
                 thDrive->detach();
             }
             else if (datastr[0] == 1) {
