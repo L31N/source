@@ -75,8 +75,8 @@ binary_directory[6]='/bbusr/bin/';
 target_name[6]='Release';
 
 # bbsensor
-#project_to_build[7]='bbsensor.cbp';
-project_to_build[7]='false';
+project_to_build[7]='bbsensor.cbp';
+#project_to_build[7]='false';
 project_directory[7]='/bbusr/source/sensorAPI/';
 library_directory[7]='/bbusr/lib/';
 include_directory[7]='/bbusr/include/sensor/';
@@ -100,6 +100,14 @@ library_directory[9]='false';
 include_directory[9]='false';
 binary_directory[9]='/bbusr/bin/';
 target_name[9]='Release';
+
+#remoteControlServer
+project_to_build[10]='remoteControlServer.cbp';
+project_directory[10]='/bbusr/source/remoteControlServer/';
+library_directory[10]='false';
+include_directory[10]='false';
+binary_directory[10]='/bbusr/bin/';
+target_name[10]='Release';
 
 
 # ..........................
@@ -141,10 +149,11 @@ echo -e "Following projects will be builded:\n";
 for (( i=0; i<${#project_to_build[@]}; i++ )) do
     [ "${project_to_build[$i]}" != "false" ] && echo -e "[$i]:\t${project_to_build[$i]}";
 done
+echo "";
 
 if [ "$build_type" == "rebuild" ]
 then
-    echo -e "\nWARNING: rebuild enabled -> all old object-, library- and binary- files will be deleted !!!\n";
+    echo -e "WARNING: rebuild enabled -> all old object-, library- and binary- files will be deleted !!!\n";
 fi
 
 read -p "Do you want to continue [Y/n]?" choice;
