@@ -33,6 +33,33 @@ void MotionControl::run() {
     while(42) {
         if (ipcRcon->checkForNewData()) {   // handle new data
             std::string datastr = ipcRcon->readDataFromBuffer()->getData();
+            if (datastr[0] == 0) {
+                Vector vector(datastr.substr(1, 16));
+
+                short rotationSpeed = 0;
+                memcpy(&rotationSpeed, datastr.substr(17, 2).c_str(), sizeof(rotationSpeed));
+
+                thDrive = new boost::thread(MotionControl::thDrive_fctn, extMtnCtrlr, vector, rotationSpeed);
+                thDrive->detach();
+            }
+            else if (datastr[0] == 1) {
+            }
+            else if (datastr[0] == 2) {
+            }
+            else if (datastr[0] == 3) {
+            }
+            else if (datastr[0] == 4) {
+            }
+            else if (datastr[0] == 5) {
+            }
+            else if (datastr[0] == 6) {
+            }
+            else if (datastr[0] == 7) {
+            }
+
+            else {  /// unknown command byte
+                std::cerr << "error: received unknown command-byte ..." << std::endl;
+            }
 
         }
         else {
@@ -41,6 +68,50 @@ void MotionControl::run() {
         }
     }
 }
+
+ void MotionControl::thDrive_fctn(ExtendedMotionController* emCtrlr, Vector vector, short rotationSpeed) {
+    emCtrlr->drive(vector, rotationSpeed);
+    while(42) sleep(1);
+ }
+
+ void MotionControl::thMoveto_fctn(ExtendedMotionController* emCtrlr, Vector vector, unsigned char speed, Vector dir) {
+
+ }
+
+ void MotionControl::thMove_fctn(ExtendedMotionController* emCtrlr, Vector vector, unsigned char speed, Vector dir) {
+
+ }
+
+ void MotionControl::thTurnto_fctn(ExtendedMotionController* emCtrlr, Vector dir, unsigned char speed, ExtendedMotionController::Direction turndir) {
+
+ }
+
+ void MotionControl::thTurn_fctn(ExtendedMotionController* emCtrlr, Vector dir, unsigned char speed, ExtendedMotionController::Direction turndir) {
+
+ }
+
+ void MotionControl::thPBreak_fctn(ExtendedMotionController* emCtrlr) {
+
+ }
+
+ void MotionControl::thIdle_fctn(ExtendedMotionController* emCtrlr) {
+
+ }
+
+ void MotionControl::thTest_fctn(ExtendedMotionController* emCtrlr) {
+
+ }
+
+ void MotionControl::killThreads() {
+    delete thDrive;
+    delete thMoveto;
+    delete thMove;
+    delete thTurnto;
+    delete thTurn;
+    delete thPBreak;
+    delete thIdle;
+    delete thTest;
+ }
 
 /*void MotionControl::thReceive_fctn(ipcReceivingConnection* rcon) {
     while(42) {

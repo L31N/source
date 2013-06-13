@@ -21,11 +21,17 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
+			<Add directory="/bbusr/include" />
 		</Compiler>
 		<Linker>
+			<Add option="-lbbvector" />
+			<Add option="-lbbmotion" />
+			<Add option="-lbbdebug" />
+			<Add option="-lbbipc" />
 			<Add option="-lboost_system" />
 			<Add option="-lboost_thread" />
 			<Add option="-lpthread" />
+			<Add directory="/bbusr/lib" />
 		</Linker>
 		<Unit filename="main.cpp" />
 		<Extensions>

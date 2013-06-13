@@ -153,7 +153,7 @@ bool ipcSendingConnection::sendData(const std::string data) {
 //        std::cout << "\tpackage_size: " << package_size << std::endl;
         data_to_send.resize(package_size, 0);
     }
-data
+
     if (host == IPC_BLUETOOTH) {
         data_to_send.insert(0,1,btEndpointID);
     }

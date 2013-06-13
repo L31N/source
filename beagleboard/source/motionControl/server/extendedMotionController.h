@@ -2,7 +2,6 @@
 #ifndef _EXTENDED_MOTION_CONTROLLER_H_
 #define _EXTENDED_MOTION_CONTROLLER_H_
 
-#include "angle.h"
 #include "motor.h"
 #include "motionController.h"
 #include "bbvector.h"
@@ -21,13 +20,13 @@ class ExtendedMotionController : public MotionController {
         ~ExtendedMotionController();
 
         void moveto(Vector vector, unsigned char speed = 255, Vector dir = Vector());
-        void moveto(Vector vector, unsigned char speed = 255, Angle dir = Angle(0));
+        //void moveto(Vector vector, unsigned char speed = 255, Angle dir = Angle(0));
 
         void move(Vector vector, unsigned char speed = 255, Vector dir = Vector());
-        void move(Vector vector, unsigned char speed = 255, Angle dir = Angle(0));
+        //void move(Vector vector, unsigned char speed = 255, Angle dir = Angle(0));
 
         void turnto(Vector dir, unsigned char speed = 255, Direction turndir = automatic);
-        void turnto(Angle dir, unsigned char speed = 255, Direction turndir = automatic);
+        //void turnto(Angle dir, unsigned char speed = 255, Direction turndir = automatic);
 
     private:
         //Navigation* navi;
