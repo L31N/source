@@ -45,6 +45,8 @@ int main () {
             y = data[3];
             y |= (data[2] << 8);
 
+            std::cout << "x: " << x << "\ty: " << y << std::endl;
+
             motion.drive(Vector(double(x), double(y)), 0);
         }
     }

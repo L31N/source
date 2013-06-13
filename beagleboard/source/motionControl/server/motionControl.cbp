@@ -24,13 +24,13 @@
 			<Add directory="/bbusr/include" />
 		</Compiler>
 		<Linker>
-			<Add option="-lbbvector" />
 			<Add option="-lbbcan" />
 			<Add option="-lbbdebug" />
 			<Add option="-lbbipc" />
 			<Add option="-lboost_system" />
 			<Add option="-lboost_thread" />
 			<Add option="-pthread" />
+			<Add option="-lbbvector" />
 			<Add directory="/bbusr/lib" />
 		</Linker>
 		<Unit filename="extendedMotionController.cpp" />

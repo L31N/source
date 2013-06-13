@@ -24,6 +24,14 @@ unsigned short CANConfig::getCanID(std::string can_member) {
         ifs->getline(cline, 256);
         std::string line(cline);
         if (line[0] == '#' || line.length() <= 0) continue;       /// its a comment line or a blank line
+        else {                                                     /// cut off the blanks at the end of line
+            size_t epos = line.find_first_of(' ');
+            if (epos == string::npos) size_t epos = line.find_first_of('#');
+
+            if (epos != string::npos) {
+                line = line.substr(0, epos);
+            }
+        }
 
         size_t firstDP = line.find_first_of(':');
         size_t lastDP = line.find_last_of(':');
@@ -51,6 +59,15 @@ std::string CANConfig::getCanMember(unsigned short can_id) {
         ifs->getline(cline, 256);
         std::string line(cline);
         if (line[0] == '#' || line.length() <= 0) continue;       /// its a comment line or a blank line
+        else {                                                     /// cut off the blanks at the end of line
+            size_t epos = line.find_first_of(' ');
+            if (epos == string::npos) size_t epos = line.find_first_of('#');
+
+            if (epos != string::npos) {
+                line = line.substr(0, epos);
+            }
+        }
+
 
         size_t firstDP = line.find_first_of(':');
         size_t lastDP = line.find_last_of(':');
@@ -80,6 +97,15 @@ std::string CANConfig::getIpcSynonym(unsigned short can_id) {
         ifs->getline(cline, 256);
         std::string line(cline);
         if (line[0] == '#' || line.length() <= 0) continue;       /// its a comment line or a blank line
+        else {                                                     /// cut off the blanks at the end of line
+            size_t epos = line.find_first_of(' ');
+            if (epos == string::npos) size_t epos = line.find_first_of('#');
+
+            if (epos != string::npos) {
+                line = line.substr(0, epos);
+            }
+        }
+
 
         size_t firstDP = line.find_first_of(':');
         size_t lastDP = line.find_last_of(':');
@@ -109,6 +135,15 @@ std::string CANConfig::getIpcSynonym(std::string can_member) {
         ifs->getline(cline, 256);
         std::string line(cline);
         if (line[0] == '#' || line.length() <= 0) continue;       /// its a comment line or a blank line
+        else {                                                     /// cut off the blanks at the end of line
+            size_t epos = line.find_first_of(' ');
+            if (epos == string::npos) size_t epos = line.find_first_of('#');
+
+            if (epos != string::npos) {
+                line = line.substr(0, epos);
+            }
+        }
+
 
         size_t firstDP = line.find_first_of(':');
         size_t lastDP = line.find_last_of(':');

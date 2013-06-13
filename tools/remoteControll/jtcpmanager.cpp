@@ -23,6 +23,7 @@ void JTcpManager::sendValues()
         stream << Xaxis;
         stream << Yaxis;
         stream << Rotation;
+        stream << char(1);
     }
 }
 
