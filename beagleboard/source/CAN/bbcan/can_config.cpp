@@ -26,9 +26,9 @@ unsigned short CANConfig::getCanID(std::string can_member) {
         if (line[0] == '#' || line.length() <= 0) continue;       /// its a comment line or a blank line
         else {                                                     /// cut off the blanks at the end of line
             size_t epos = line.find_first_of(' ');
-            if (epos == string::npos) size_t epos = line.find_first_of('#');
+            if (epos == std::string::npos) epos = line.find_first_of('#');
 
-            if (epos != string::npos) {
+            if (epos != std::string::npos) {
                 line = line.substr(0, epos);
             }
         }
@@ -61,9 +61,9 @@ std::string CANConfig::getCanMember(unsigned short can_id) {
         if (line[0] == '#' || line.length() <= 0) continue;       /// its a comment line or a blank line
         else {                                                     /// cut off the blanks at the end of line
             size_t epos = line.find_first_of(' ');
-            if (epos == string::npos) size_t epos = line.find_first_of('#');
+            if (epos == std::string::npos) epos = line.find_first_of('#');
 
-            if (epos != string::npos) {
+            if (epos != std::string::npos) {
                 line = line.substr(0, epos);
             }
         }
@@ -99,9 +99,9 @@ std::string CANConfig::getIpcSynonym(unsigned short can_id) {
         if (line[0] == '#' || line.length() <= 0) continue;       /// its a comment line or a blank line
         else {                                                     /// cut off the blanks at the end of line
             size_t epos = line.find_first_of(' ');
-            if (epos == string::npos) size_t epos = line.find_first_of('#');
+            if (epos == std::string::npos) epos = line.find_first_of('#');
 
-            if (epos != string::npos) {
+            if (epos != std::string::npos) {
                 line = line.substr(0, epos);
             }
         }
@@ -137,9 +137,9 @@ std::string CANConfig::getIpcSynonym(std::string can_member) {
         if (line[0] == '#' || line.length() <= 0) continue;       /// its a comment line or a blank line
         else {                                                     /// cut off the blanks at the end of line
             size_t epos = line.find_first_of(' ');
-            if (epos == string::npos) size_t epos = line.find_first_of('#');
+            if (epos == std::string::npos) epos = line.find_first_of('#');
 
-            if (epos != string::npos) {
+            if (epos != std::string::npos) {
                 line = line.substr(0, epos);
             }
         }
