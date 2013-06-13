@@ -236,4 +236,5 @@ for (( j=0; j<${#project_to_build[@]}; j++ )) do
 
 done
 
-echo -e "\n************************************\n";
+echo -e "\n************************************";
+echo -e "-- build successfully done --\n";
