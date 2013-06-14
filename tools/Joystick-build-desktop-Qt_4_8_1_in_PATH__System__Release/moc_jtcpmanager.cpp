@@ -1,8 +1,8 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'jtcpmanager.h'
 **
-** Created: Sat Jun 8 14:11:14 2013
-**      by: The Qt Meta Object Compiler version 63 (Qt 4.8.1)
+** Created: Fri Jun 14 08:16:19 2013
+**      by: The Qt Meta Object Compiler version 63 (Qt 4.8.4)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -11,7 +11,7 @@
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'jtcpmanager.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 63
-#error "This file was generated using the moc from 4.8.1. It"
+#error "This file was generated using the moc from 4.8.4. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -23,7 +23,7 @@ static const uint qt_meta_data_JTcpManager[] = {
        6,       // revision
        0,       // classname
        0,    0, // classinfo
-      10,   14, // methods
+      11,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -40,9 +40,10 @@ static const uint qt_meta_data_JTcpManager[] = {
      116,  110,   12,   12, 0x0a,
      131,  110,   12,   12, 0x0a,
      146,  110,   12,   12, 0x0a,
-     168,   12,   12,   12, 0x08,
-     189,   12,   12,   12, 0x08,
-     234,   12,   12,   12, 0x08,
+     168,   41,   12,   12, 0x0a,
+     187,   12,   12,   12, 0x08,
+     208,   12,   12,   12, 0x08,
+     253,   12,   12,   12, 0x08,
 
        0        // eod
 };
@@ -52,7 +53,8 @@ static const char qt_meta_stringdata_JTcpManager[] = {
     "enabled\0newStatus(bool)\0ip\0"
     "connectServer(QString)\0disconnectServer()\0"
     "value\0updateX(float)\0updateY(float)\0"
-    "updateRotation(float)\0connectSuccessfull()\0"
+    "updateRotation(float)\0setSpeedMode(bool)\0"
+    "connectSuccessfull()\0"
     "connectFailure(QAbstractSocket::SocketError)\0"
     "disconnectSuccessfull()\0"
 };
@@ -70,9 +72,10 @@ void JTcpManager::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
         case 4: _t->updateX((*reinterpret_cast< float(*)>(_a[1]))); break;
         case 5: _t->updateY((*reinterpret_cast< float(*)>(_a[1]))); break;
         case 6: _t->updateRotation((*reinterpret_cast< float(*)>(_a[1]))); break;
-        case 7: _t->connectSuccessfull(); break;
-        case 8: _t->connectFailure((*reinterpret_cast< QAbstractSocket::SocketError(*)>(_a[1]))); break;
-        case 9: _t->disconnectSuccessfull(); break;
+        case 7: _t->setSpeedMode((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 8: _t->connectSuccessfull(); break;
+        case 9: _t->connectFailure((*reinterpret_cast< QAbstractSocket::SocketError(*)>(_a[1]))); break;
+        case 10: _t->disconnectSuccessfull(); break;
         default: ;
         }
     }
@@ -110,9 +113,9 @@ int JTcpManager::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 10)
+        if (_id < 11)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 10;
+        _id -= 11;
     }
     return _id;
 }

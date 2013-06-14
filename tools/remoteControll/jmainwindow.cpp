@@ -19,6 +19,8 @@ JMainWindow::JMainWindow(QWidget *parent) : QMainWindow(parent)
     connect(tcpManager, SIGNAL(newMessage(QString)), this->ui->statusBar, SLOT(showMessage(QString)));
     connect(tcpManager, SIGNAL(newStatus(bool)), this, SLOT(connect_enabled(bool)));
 
+    speedOn = true;
+
 }
 
 JMainWindow::~JMainWindow()
@@ -29,9 +31,27 @@ JMainWindow::~JMainWindow()
 
 void JMainWindow::onButtonChanged(int num, bool status)
 {
-    //qDebug() << "Button changed: " << num << " : " << status;
+    switch(num)
+    {
+        case 7:
+            if(status == false)
+            {
+                if(speedOn == true)
+                {
+                    speedOn = false;
+                }
+                else
+                {
+                    speedOn = true;
+                }
 
-    if(num == 11 && status == false) simu->setRotation(0);
+                ui->checkSpeedOn->setChecked(speedOn);
+                simu->setSpeedMode(speedOn);
+            }
+            break;
+        default:
+            break;
+    }
 
 }
 
