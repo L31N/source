@@ -19,17 +19,18 @@ CANConfig::~CANConfig() {
 unsigned short CANConfig::getCanID(std::string can_member) {
     ifs->clear();
     ifs->seekg(0);
+
+    std::cout << "getCanID(std::string can_member)" << std::endl;
+
     while(!ifs->eof()) {
         char cline[256];
         ifs->getline(cline, 256);
         std::string line(cline);
         if (line[0] == '#' || line.length() <= 0) continue;       /// its a comment line or a blank line
         else {                                                     /// cut off the blanks at the end of line
-            size_t epos = line.find_first_of(' ');
-            if (epos == std::string::npos) epos = line.find_first_of('#');
-
-            if (epos != std::string::npos) {
-                line = line.substr(0, epos);
+            line = line.substr(0, line.find_first_of('#'));
+            while(line[line.size()-1] == ' ' || line[line.size()-1] == '\t') {
+                line.erase(line.size()-1);
             }
         }
 
@@ -54,26 +55,28 @@ unsigned short CANConfig::getCanID(std::string can_member) {
 std::string CANConfig::getCanMember(unsigned short can_id) {
     ifs->clear();
     ifs->seekg(0);
+
+    std::cout << "getCanMember(unsigned short can_id)" << std::endl;
+
     while(!ifs->eof()) {
         char cline[256];
         ifs->getline(cline, 256);
         std::string line(cline);
         if (line[0] == '#' || line.length() <= 0) continue;       /// its a comment line or a blank line
         else {                                                     /// cut off the blanks at the end of line
-            size_t epos = line.find_first_of(' ');
-            if (epos == std::string::npos) epos = line.find_first_of('#');
-
-            if (epos != std::string::npos) {
-                line = line.substr(0, epos);
+            line = line.substr(0, line.find_first_of('#'));
+            while(line[line.size()-1] == ' ' || line[line.size()-1] == '\t') {
+                line.erase(line.size()-1);
             }
         }
-
 
         size_t firstDP = line.find_first_of(':');
         size_t lastDP = line.find_last_of(':');
 
         std::string can_mem = line.substr(0, firstDP);
         std::string str_can_id = line.substr(lastDP+1, std::string::npos);
+
+        std::cout << "str_can_id:" << str_can_id << ":" << std::endl;
 
         std::stringstream ss;
         ss << str_can_id;
@@ -90,7 +93,9 @@ std::string CANConfig::getCanMember(unsigned short can_id) {
 
 std::string CANConfig::getIpcSynonym(unsigned short can_id) {
     ifs->clear();
-    ifs->seekg(0);
+    ifs->seekg(0, ifs->beg);
+
+    std::cout << "getIpcSynonym(" << can_id << ")" << std::endl;
 
     while(!ifs->eof()) {
         char cline[256];
@@ -98,11 +103,9 @@ std::string CANConfig::getIpcSynonym(unsigned short can_id) {
         std::string line(cline);
         if (line[0] == '#' || line.length() <= 0) continue;       /// its a comment line or a blank line
         else {                                                     /// cut off the blanks at the end of line
-            size_t epos = line.find_first_of(' ');
-            if (epos == std::string::npos) epos = line.find_first_of('#');
-
-            if (epos != std::string::npos) {
-                line = line.substr(0, epos);
+            line = line.substr(0, line.find_first_of('#'));
+            while(line[line.size()-1] == ' ' || line[line.size()-1] == '\t') {
+                line.erase(line.size()-1);
             }
         }
 
@@ -113,10 +116,14 @@ std::string CANConfig::getIpcSynonym(unsigned short can_id) {
         std::string ipc_syn = line.substr(firstDP+1, lastDP-firstDP-1);
         std::string str_can_id = line.substr(lastDP+1, std::string::npos);
 
+        std::cout << "str_can_id:" << str_can_id << ":";
+
         std::stringstream ss;
         ss << str_can_id;
         unsigned short id;
         ss >> id;
+
+        std::cout << id << std::endl;
 
         if (id == can_id) {
             return ipc_syn;
@@ -130,17 +137,17 @@ std::string CANConfig::getIpcSynonym(std::string can_member) {
     ifs->clear();
     ifs->seekg(0);
 
+    std::cout << "getIpcSynonym(std::string can_member)" << std::endl;
+
     while(!ifs->eof()) {
         char cline[256];
         ifs->getline(cline, 256);
         std::string line(cline);
         if (line[0] == '#' || line.length() <= 0) continue;       /// its a comment line or a blank line
         else {                                                     /// cut off the blanks at the end of line
-            size_t epos = line.find_first_of(' ');
-            if (epos == std::string::npos) epos = line.find_first_of('#');
-
-            if (epos != std::string::npos) {
-                line = line.substr(0, epos);
+            line = line.substr(0, line.find_first_of('#'));
+            while(line[line.size()-1] == ' ' || line[line.size()-1] == '\t') {
+                line.erase(line.size()-1);
             }
         }
 
