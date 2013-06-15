@@ -12,6 +12,8 @@ JBotSimulator::JBotSimulator(QObject *parent) : QObject(parent)
     timer = new QTimer;
     connect(timer, SIGNAL(timeout()), this, SLOT(updatePos()));
     timer->start(1);
+
+    speedMode = true;
 }
 
 void JBotSimulator::setRotationSpeed(int speed)
@@ -39,18 +41,34 @@ void JBotSimulator::setRotation(float rot)
     currrot = rot;
 }
 
+void JBotSimulator::setSpeedMode(bool enabled)
+{
+    speedMode = enabled;
+}
+
 
 void JBotSimulator::updatePos()
 {
     //Rotation berechnen
-    currrot += 0.00141176*rotspeed;
+    if(speedMode)
+    {
+        currrot += 0.0141176*rotspeed;
+    }
+    else
+    {
+        currrot += 0.00141176*rotspeed;
+    }
 
     while(currrot > 360) currrot -= 360;
     while(currrot < 0) currrot += 360;
 
     //Movement berechnen
     JVector movement = movvect;
-    movement /= 10;
+
+    if(!speedMode)
+    {
+        movement /= 10;
+    }
 
     int newmoveangle = currrot + movement.getAngle();
     newmoveangle = newmoveangle % 360;

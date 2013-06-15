@@ -19,6 +19,7 @@ class JTcpManager : public QObject
         qint16 Xaxis;
         qint16 Yaxis;
         qint16 Rotation;
+        char speedmode;
 
         void sendValues();
 
@@ -32,6 +33,7 @@ class JTcpManager : public QObject
         void updateX(float value);
         void updateY(float value);
         void updateRotation(float value);
+        void setSpeedMode(bool enabled);
 
     private slots:
         void connectSuccessfull();

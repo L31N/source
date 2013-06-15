@@ -1,8 +1,8 @@
 /********************************************************************************
 ** Form generated from reading UI file 'jmainwindow.ui'
 **
-** Created: Sat Jun 8 14:11:04 2013
-**      by: Qt User Interface Compiler version 4.8.1
+** Created: Fri Jun 14 08:07:53 2013
+**      by: Qt User Interface Compiler version 4.8.4
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -14,6 +14,7 @@
 #include <QtGui/QAction>
 #include <QtGui/QApplication>
 #include <QtGui/QButtonGroup>
+#include <QtGui/QCheckBox>
 #include <QtGui/QHBoxLayout>
 #include <QtGui/QHeaderView>
 #include <QtGui/QLineEdit>
@@ -36,6 +37,7 @@ public:
     QHBoxLayout *horizontalLayout;
     JDirectionalPad *directionalPad1;
     JDirectionalPad *directionalPad2;
+    QCheckBox *checkSpeedOn;
     QHBoxLayout *horizontalLayout_2;
     QLineEdit *editAdress;
     QPushButton *buttonConnect;
@@ -74,6 +76,14 @@ public:
 
         verticalLayout->addLayout(horizontalLayout);
 
+        checkSpeedOn = new QCheckBox(centralWidget);
+        checkSpeedOn->setObjectName(QString::fromUtf8("checkSpeedOn"));
+        checkSpeedOn->setEnabled(false);
+        checkSpeedOn->setCheckable(true);
+        checkSpeedOn->setChecked(true);
+
+        verticalLayout->addWidget(checkSpeedOn);
+
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setSpacing(6);
         horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
@@ -109,6 +119,7 @@ public:
     void retranslateUi(QMainWindow *JMainWindow)
     {
         JMainWindow->setWindowTitle(QApplication::translate("JMainWindow", "MainWindow", 0, QApplication::UnicodeUTF8));
+        checkSpeedOn->setText(QApplication::translate("JMainWindow", "Speed Mode On", 0, QApplication::UnicodeUTF8));
         buttonConnect->setText(QApplication::translate("JMainWindow", "Connect", 0, QApplication::UnicodeUTF8));
         buttonDisconnect->setText(QApplication::translate("JMainWindow", "Disconnect", 0, QApplication::UnicodeUTF8));
     } // retranslateUi

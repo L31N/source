@@ -78,6 +78,6 @@ void JJoystick::timeout()
 
 void JJoystick::check()
 {
-    if(SDL_JoystickOpened(0)) emit statusChanged("Joystick erfolgreich geöffnet!");
-    else emit statusChanged("Fehler beim Öffnen des Joysticks");
+    if(SDL_JoystickOpened(0)) emit statusChanged("Joystick opened sucessfully!");
+    else emit statusChanged("An error occured during opening of the joystick");
 }

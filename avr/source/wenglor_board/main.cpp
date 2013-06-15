@@ -41,7 +41,7 @@ int main(void) {
 
     /** ONLY TESTING ZONE HERE **/
 
-    adc_init();
+    /*adc_init();
 
     while(42) {
         unsigned short adc_value = adc_read(1);
@@ -49,7 +49,7 @@ int main(void) {
         uart1_putc(cval);
 
         _delay_ms(1000);
-    }
+    }*/
 
     /** TESTING ZONE END HERE  **/
 
@@ -57,17 +57,18 @@ int main(void) {
 
         // read the distance laser sensors
         distance[0] = getDistance(0);
-        //distance[1] = getDistance(1);
-
+        distance[1] = getDistance(1);
+        //distance[0] = 42;
+        //distance[1] = 21;
 
         //for (int i = 0; i < 3; i++) uart1_putc((distance[0] >> i*8) & 0xFF);
         //uart1_putc(0xAA);
-        /*for (int i = 0; i < 3; i++) can_data.data[i] = ( distance[0] >> i*8 ) & 0xFF;
-        for (int i = 0; i < 3; i++) can_data.data[i+3] = ( distance[1] >> i*8 ) & 0xFF;*/
+        for (int i = 0; i < 3; i++) can_data.data[i] = ( distance[0] >> i*8 ) & 0xFF;
+        for (int i = 0; i < 3; i++) can_data.data[i+3] = ( distance[1] >> i*8 ) & 0xFF;
 
         // fill in the digital sensor value
         can_data.data[6] = (unsigned char)getReflex();
-        uart1_putc(can_data.data[6]);
+        //uart1_putc(can_data.data[6]);
 
         can_data.data[7] = 0;    // dummy byte ... not used !!!
 
@@ -103,7 +104,7 @@ uint32_t getDistance (unsigned char sensor_num) {
     else uart1_read(buffer, uart_count());
 
     unsigned int i = 0;
-    uint32_t distance = 0xFFFFFFFF;
+    uint32_t distance = 0x0;
 
     while (i < 500) {
 
@@ -129,7 +130,8 @@ uint32_t getDistance (unsigned char sensor_num) {
             uart1_putc(check >> 8);
             uart1_putc('|');*/
 
-            if (bcheck == check) {
+            //if (bcheck == check) {
+            if (42) {
                 // extract the distance information
                 //distance = 0xAA;
                 for (int l = 0; l < 4; l++) distance |= (buffer[i + l + 36] << 8*l);

@@ -21,12 +21,12 @@ class JMainWindow : public QMainWindow
         void onButtonChanged(int num, bool status);
         void onAxisChanged(int num, float value);
 
-private slots:
+    private slots:
         void on_buttonConnect_clicked();
         void on_buttonDisconnect_clicked();
         void connect_enabled(bool status);
 
-private:
+    private:
         Ui::JMainWindow *ui;
 
         JJoystick *stick;
@@ -34,6 +34,8 @@ private:
         JBotSimulator *simu;
 
         JTcpManager *tcpManager;
+
+        bool speedOn;
 };
 
 #endif // MAINWINDOW_H

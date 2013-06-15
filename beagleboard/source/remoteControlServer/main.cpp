@@ -45,7 +45,12 @@ int main () {
             y = data[3];
             y |= (data[2] << 8);
 
-            motion.drive(Vector(double(x), double(y)), 0);
+            std::cout << "x: " << x << "\ty: " << y << std::endl;
+
+            Vector vect(double(x), double(y));
+            if(vect.abs() > 255) vect.setLength(255);
+
+            motion.drive(vect, 0);
         }
     }
 
