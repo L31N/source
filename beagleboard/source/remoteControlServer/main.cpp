@@ -58,7 +58,10 @@ int main () {
 
             std::cout << "x: " << x << "\ty: " << y << std::endl;
 
-            for(int i = 0; i<10; i++)motion.drive(Vector(double(x), double(y)), 0);
+            Vector vect(double(x), double(y));
+            if(vect.abs() > 255) vect.setLength(255);
+
+            motion.drive(vect, 0);
         }
     }*/
 

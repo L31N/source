@@ -20,6 +20,7 @@ class JBotSimulator : public QObject
         void setMovementY(float py);
 
         void setRotation(float rot);
+        void setSpeedMode(bool enabled);
 
     private:
         QTimer *timer;
@@ -31,6 +32,8 @@ class JBotSimulator : public QObject
         float currrot;
 
         JVector size;
+
+        bool speedMode;
 
     private slots:
         void updatePos();

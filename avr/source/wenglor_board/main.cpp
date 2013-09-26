@@ -68,7 +68,7 @@ int main(void) {
 
         // fill in the digital sensor value
         can_data.data[6] = (unsigned char)getReflex();
-        uart1_putc(can_data.data[6]);
+        //uart1_putc(can_data.data[6]);
 
         can_data.data[7] = 0;    // dummy byte ... not used !!!
 

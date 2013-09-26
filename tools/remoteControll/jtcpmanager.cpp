@@ -23,7 +23,7 @@ void JTcpManager::sendValues()
         stream << Xaxis;
         stream << Yaxis;
         stream << Rotation;
-        stream << char(1);
+        stream << speedmode;
     }
 }
 
@@ -59,6 +59,12 @@ void JTcpManager::updateY(float value)
 void JTcpManager::updateRotation(float value)
 {
     Rotation = value*255.0;
+    sendValues();
+}
+
+void JTcpManager::setSpeedMode(bool enabled)
+{
+    speedmode = char(enabled);
     sendValues();
 }
 

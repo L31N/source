@@ -29,6 +29,22 @@
      </layout>
     </item>
     <item>
+     <widget class="QCheckBox" name="checkSpeedOn">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="text">
+       <string>Speed Mode On</string>
+      </property>
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item>
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <property name="sizeConstraint">
        <enum>QLayout::SetDefaultConstraint</enum>
