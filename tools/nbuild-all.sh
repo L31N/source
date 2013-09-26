@@ -12,8 +12,8 @@
 # binary_directory[n]='...'     name the destination folder for the executable if available else 'false'
 
 # ipc_mserver_boost
-project_to_build[0]='ipc_mserver_boost.cbp';
-#project_to_build[0]='false';
+#project_to_build[0]='ipc_mserver_boost.cbp';
+project_to_build[0]='false';
 project_directory[0]='/bbusr/source/IPC/ipc_mserver_boost/';
 library_directory[0]='false';
 include_directory[0]='false';
@@ -21,8 +21,8 @@ binary_directory[0]='/bbusr/bin/';
 target_name[0]='Release';
 
 # bbvector
-project_to_build[1]='bbvector.cbp';
-#project_to_build[1]='false';
+#project_to_build[1]='bbvector.cbp';
+project_to_build[1]='false';
 project_directory[1]='/bbusr/source/vectorClass/';
 library_directory[1]='/bbusr/lib/';
 include_directory[1]='/bbusr/include/';
@@ -30,8 +30,8 @@ binary_directory[1]='false';
 target_name[1]='Release';
 
 # bbipc
-project_to_build[2]='bbipc.cbp';
-#project_to_build[2]='false';
+#project_to_build[2]='bbipc.cbp';
+project_to_build[2]='false';
 project_directory[2]='/bbusr/source/IPC/bbipc/';
 library_directory[2]='/bbusr/lib/';
 include_directory[2]='/bbusr/include/ipc/';
@@ -39,8 +39,8 @@ binary_directory[2]='false';
 target_name[2]='Release';
 
 # bbdebug
-project_to_build[3]='bbdebug.cbp';
-#project_to_build[3]='false';
+#project_to_build[3]='bbdebug.cbp';
+project_to_build[3]='false';
 project_directory[3]='/bbusr/source/debug/bbdebug/';
 library_directory[3]='/bbusr/lib/';
 include_directory[3]='/bbusr/include/debug/';
@@ -48,8 +48,8 @@ binary_directory[3]='false';
 target_name[3]='Release';
 
 # debug-user
-project_to_build[4]='debug-user.cbp';
-#project_to_build[4]='false';
+#project_to_build[4]='debug-user.cbp';
+project_to_build[4]='false';
 project_directory[4]='/bbusr/source/debug/debug-user/';
 library_directory[4]='false';
 include_directory[4]='false';
@@ -66,8 +66,8 @@ binary_directory[5]='false';
 target_name[5]='Release';
 
 # spi_mserver
-project_to_build[6]='spi_mserver.cbp';
-#project_to_build[6]='false';
+#project_to_build[6]='spi_mserver.cbp';
+project_to_build[6]='false';
 project_directory[6]='/bbusr/source/spi_mserver/';
 library_directory[6]='false';
 include_directory[6]='false';
@@ -75,8 +75,8 @@ binary_directory[6]='/bbusr/bin/';
 target_name[6]='Release';
 
 # bbsensor
-project_to_build[7]='bbsensor.cbp';
-#project_to_build[7]='false';
+#project_to_build[7]='bbsensor.cbp';
+project_to_build[7]='false';
 project_directory[7]='/bbusr/source/sensorAPI/';
 library_directory[7]='/bbusr/lib/';
 include_directory[7]='/bbusr/include/sensor/';
@@ -84,8 +84,8 @@ binary_directory[7]='false';
 target_name[7]='Release';
 
 # bbmotion
-project_to_build[8]='bbmotion.cbp';
-#project_to_build[8]='false';
+#project_to_build[8]='bbmotion.cbp';
+project_to_build[8]='false';
 project_directory[8]='/bbusr/source/motionControl/bbmotion/';
 library_directory[8]='/bbusr/lib/';
 include_directory[8]='/bbusr/include/motion/';
@@ -103,6 +103,7 @@ target_name[9]='Release';
 
 #remoteControlServer
 project_to_build[10]='remoteControlServer.cbp';
+#project_to_build[10]='false';
 project_directory[10]='/bbusr/source/remoteControlServer/';
 library_directory[10]='false';
 include_directory[10]='false';

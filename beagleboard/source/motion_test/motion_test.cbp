@@ -24,12 +24,12 @@
 			<Add directory="/bbusr/include" />
 		</Compiler>
 		<Linker>
-			<Add option="-lbbvector" />
 			<Add option="-lbbmotion" />
 			<Add option="-lbbcan" />
 			<Add option="-lbbdebug" />
 			<Add option="-lbbipc" />
 			<Add option="-lpthread" />
+			<Add option="-lbbvector" />
 			<Add directory="/bbusr/lib" />
 		</Linker>
 		<Unit filename="main.cpp" />

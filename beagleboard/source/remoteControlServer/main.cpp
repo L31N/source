@@ -11,7 +11,7 @@
 using boost::asio::ip::tcp;
 
 int main () {
-    boost::asio::io_service ioservice;
+    /*boost::asio::io_service ioservice;
     tcp::acceptor acceptor(ioservice, tcp::endpoint(tcp::v4(), 4242));
 
     tcp::socket* sock = new tcp::socket(ioservice);
@@ -22,10 +22,21 @@ int main () {
     std::cout << "accepted connection ..." << std::endl;
 
     char data[6] = {0};
-    boost::system::error_code errc;
+    boost::system::error_code errc;*/
 
     Motion motion;
 
+    int x,y,time;
+    std::cout << "x: "; std::cin >> x;
+    std::cout << "y: "; std::cin >> y;
+    std::cout << "time: "; std::cin >> time;
+
+    Vector vect;
+    vect.set(double(x), double(y));
+    for(int i = 0; i<10; i++)motion.drive(vect,0);
+    usleep(time*1000);
+    for(int i = 0; i<10; i++)motion.drive(Vector(0,0), 0);
+/*
     while(42) {
         sock->read_some(boost::asio::buffer(data), errc);
         if (errc == boost::asio::error::eof) {
@@ -47,14 +58,14 @@ int main () {
 
             std::cout << "x: " << x << "\ty: " << y << std::endl;
 
-            motion.drive(Vector(double(x), double(y)), 0);
+            for(int i = 0; i<10; i++)motion.drive(Vector(double(x), double(y)), 0);
         }
-    }
+    }*/
 
     std::cout << "server going down now ..." << std::endl;
 
-    sock->shutdown(boost::asio::socket_base::shutdown_both);
-    sock->close();
+    //sock->shutdown(boost::asio::socket_base::shutdown_both);
+    //sock->close();
 
     return 0;
 }

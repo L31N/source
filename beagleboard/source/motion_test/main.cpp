@@ -1,21 +1,23 @@
 
 #include <iostream>
 
+#include "motion/motion.h"
 #include "bbvector.h"
-#include "motion/motionController.h"
-#include "motion/motor.h"
 
 int main () {
     MotionController* mc = new MotionController;
 
     double x, y;
 
+    std::cout << "type x: "; std::cin >> x;
+    std::cout << "type y: "; std::cin >> y;
+
     //std::cout << "x: " << std::flush; std::cin >> x;
     //std::cout << "y: " << std::flush; std::cin >> y;
     //std::cout << std::endl;
 
-    Vector vector(1, 1);
-    vector.setLength(50);
+    Vector vector(x, y);
+    //vector.setLength(50);
     mc->drive(vector, 0);
 
     sleep(2);
