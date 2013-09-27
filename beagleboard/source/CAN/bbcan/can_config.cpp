@@ -1,7 +1,7 @@
 
 #include "can_config.h"
 
-CANConfig::CANConfig(const std::string CAN_CONFIG_FILE_PATH) {
+/*CANConfig::CANConfig(const std::string CAN_CONFIG_FILE_PATH) {
     CONFIG_FILE_PATH = CAN_CONFIG_FILE_PATH;
     ifs = new std::ifstream(CONFIG_FILE_PATH.c_str(), std::ios_base::in);
 
@@ -165,4 +165,116 @@ std::string CANConfig::getIpcSynonym(std::string can_member) {
     }
     std::cerr << "ERROR: used unknown can_member: " << can_member << std::endl;
     return "";
+}*/
+
+CANConfig::CANConfig(const std::string CAN_CONFIG_FILE_PATH) {
+    candb = new CanDatabase();
+    candb->init(CAN_CONFIG_FILE_PATH);
+}
+
+CANConfig::~CANConfig() {
+    delete candb;
+}
+
+unsigned short CANConfig::getCanID(std::string can_member) { return candb->getCanID(can_member); }
+std::string CANConfig::getCanMember(unsigned short can_id) { return candb->getCanName(can_id); }
+std::string CANConfig::getIpcSynonym(unsigned short can_id) { return candb->getIpcSynonym(can_id); }
+std::string CANConfig::getIpcSynonym(std::string can_member) { return candb->getIpcSynonym(can_member); }
+
+
+CanDatabase::CanDatabase()
+{
+	canmap = 0;
+}
+
+CanDatabase::~CanDatabase()
+{
+	delete canmap;
+}
+
+bool CanDatabase::init(const std::string filename)
+{
+	std::ifstream input(filename.c_str());
+	if (!input.is_open())
+		return 1;
+
+	std::string line;
+
+	std::map<unsigned short, CanMember> *temp = new std::map<unsigned short, CanMember>();
+
+	while (!input.eof())
+	{
+		std::getline(input, line);
+
+		line = line.substr(0, line.find_first_of('#'));
+		while(line[line.size()-1] == ' ' || line[line.size()-1] == '\t') line.erase(line.size()-1);
+
+		size_t pos0 = line.find_first_of(':');
+		size_t pos1 = line.find_last_of(':');
+
+		if (pos0 == std::string::npos || pos1 == std::string::npos)
+		{
+			//std::cerr << "invalid line\n";
+			continue; //invalid line
+		}
+
+		std::string part0 = line.substr(0, pos0);
+		std::string part1 = line.substr(pos0+1, pos1 - pos0 - 1);
+		std::string part2 = line.substr(pos1+1, std::string::npos);
+
+		std::stringstream ss;
+		ss << part2;
+
+		unsigned short num;
+		ss >> num;
+
+		CanMember member;
+		member.canName = part0;
+		member.ipcSynonym = part1;
+		member.canID = num;
+
+		//std::cout << "canName: " << member.canName << "\tipcSynonym: " << member.ipcSynonym << "\tcanID: " << num << std::endl;
+
+		(*temp)[num] = member;
+	}
+
+
+	delete canmap;
+	canmap = temp;
+
+	input.close();
+
+	return 0;
+}
+
+unsigned short CanDatabase::getCanID(const std::string _canName) {
+    for (unsigned int i = 0; i < canmap->size(); i++) {
+        if (canmap->operator[](i).canName == _canName) {
+            return (*canmap)[i].canID;
+        }
+    }
+    return 0;
+}
+
+std::string CanDatabase::getCanName(unsigned short _canID) {
+    if (canmap->find(_canID) == canmap->end())
+        return std::string();
+    return (*canmap)[_canID].canName;
+}
+
+std::string CanDatabase::getIpcSynonym(unsigned short _canID)
+{
+	if (canmap->find(_canID) == canmap->end())
+		return std::string();
+	return (*canmap)[_canID].ipcSynonym;
+}
+
+std::string CanDatabase::getIpcSynonym(const std::string _canName)
+{
+    for (unsigned int i = 0; i < canmap->size(); i++) {
+        if (canmap->operator[](i).canName == _canName) {
+            return (*canmap)[i].ipcSynonym;
+        }
+    }
+    return std::string();
 }
