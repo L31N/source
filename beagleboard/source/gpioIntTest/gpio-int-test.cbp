@@ -2,12 +2,21 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="motion_test" />
+		<Option title="gpio-int-test" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/gpio-int-test" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
 			<Target title="Release">
-				<Option output="bin/Release/motion_test" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Release/gpio-int-test" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -21,22 +30,12 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
-			<Add directory="/bbusr/include" />
 		</Compiler>
-		<Linker>
-			<Add option="-lbbmotion" />
-			<Add option="-lbbcan" />
-			<Add option="-lbbdebug" />
-			<Add option="-lbbipc" />
-			<Add option="-lpthread" />
-			<Add option="-lbbvector" />
-			<Add directory="/bbusr/lib" />
-		</Linker>
+		<Unit filename="gpio.cpp" />
+		<Unit filename="gpio.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>
-			<envvars />
 			<code_completion />
-			<lib_finder disable_auto="1" />
 			<debugger />
 		</Extensions>
 	</Project>

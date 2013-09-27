@@ -7,7 +7,7 @@
 //Prozessorpins definieren
 //ATmega8
 #if defined (__AVR_ATmega8__)
-	#define UART_BUFFER_SIZE 100
+    #define UART_BUFFER_SIZE 100
 
     #define UART_TX_VECTOR USART_UDRE_vect
     #define UART_RX_VECTOR USART_RXC_vect
@@ -20,9 +20,7 @@
 
 //ATmega644
 #if defined (__AVR_ATmega644__)
-	#define UART_BUFFER_SIZE 200
-
-	#define TWO_UARTS
+    #define UART_BUFFER_SIZE 200
 
     #define UART_TX_VECTOR USART0_UDRE_vect
     #define UART_RX_VECTOR USART0_RX_vect
@@ -31,21 +29,13 @@
     #define UART_BAUD_HIGH UBRR0H
     #define UART_BAUD_LOW UBRR0L
     #define UART_STATUS_C() (UCSR0C = (1 << UCSZ01) | (1 << UCSZ00))
-
-    #define UART1_TX_VECTOR USART1_UDRE_vect
-    #define UART1_RX_VECTOR USART1_RX_vect
-    #define UART1_UDR UDR1
-    #define UART1_STATUS_B UCSR1B
-    #define UART1_BAUD_HIGH UBRR1H
-    #define UART1_BAUD_LOW UBRR1L
-    #define UART1_STATUS_C() (UCSR1C = (1 << UCSZ11) | (1 << UCSZ10))
 #endif
 
 //AT90CAN128
 #if defined (__AVR_AT90CAN128__)
-	#define UART_BUFFER_SIZE 500
+    #define UART_BUFFER_SIZE 500
 
-	#define TWO_UARTS
+    #define TWO_UARTS
 
     #define UART_TX_VECTOR USART0_UDRE_vect
     #define UART_RX_VECTOR USART0_RX_vect
