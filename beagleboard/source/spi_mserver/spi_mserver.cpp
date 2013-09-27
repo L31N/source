@@ -14,9 +14,23 @@ SpiMServer::SpiMServer() {
 
     th_recv = new boost::thread(SpiMServer::th_recv_fctn, &mtx, mcp2515);
     th_snd = new boost::thread(SpiMServer::th_snd_fctn, &mtx, mcp2515, rcon);
+
+    // setup gpio input
+    gpio_export(gpio);
+    gpio_set_dir(gpio, 0);
+    gpio_set_edge(gpio, "falling");
+
+    int gpio_fd = gpio_fd_open(gpio);
+
+    if (gpio_fd < 0) {
+        std::cerr << "error: " << strerror(errno) << std::endl;
+        return -1;
+    }
 }
 
 SpiMServer::~SpiMServer() {
+    gpio_unexport(gpio);
+
     delete rcon;
     delete mcp2515;
     delete th_recv;
@@ -30,7 +44,7 @@ void SpiMServer::run() {
     while(true) sleep(1);
 }
 
-void SpiMServer::th_recv_fctn(boost::mutex* mtx, Mcp2515* mcp2515) {
+/*void SpiMServer::th_recv_fctn(boost::mutex* mtx, Mcp2515* mcp2515) {
     std::cout << "th_recv_fctn:thread now running ..." << std::endl;
     while(true) {
         Mcp2515::can_t canmsg;
@@ -62,6 +76,36 @@ void SpiMServer::th_recv_fctn(boost::mutex* mtx, Mcp2515* mcp2515) {
             }
         }
         else usleep(200);
+    }
+}*/
+
+void SpiMServer::th_recv_fctn(boost::mutex* mtx, Mcp2515* mcp2515) {
+    std::cout << "th_recv_fctn:thread now running ..." << std::endl;
+
+    struct pollfd fdset;
+
+    while(true) {
+        memset((void*)&fdset, 0, sizeof(&fdset));
+
+        fdset.fd = gpio_fd;
+        fdset.events = POLLPRI;
+
+        int retval = poll(&fdset, 1, -1);
+
+        if(retval < 0)
+        {
+            std::cout <<"error: " << strerror(errno) << std::endl;
+            return -1;
+        }
+        else if (retval == 0) {
+            std::cout << "poll() timeout ..." << std::endl;
+            // not possible !!!
+        }
+
+        lseek(fdset.fd, 0, 0);
+
+        char buffer[1024];
+        read(fdset.fd, buffer, sizeof(buffer));
     }
 }
 

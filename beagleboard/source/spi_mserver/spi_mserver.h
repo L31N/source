@@ -6,9 +6,12 @@
 #include <sys/mman.h>
 #include <sys/stat.h>
 
+#include <errno.h>
+
 #include "ipc/ipc_connection.h"
 #include "spimcp2515.h"
 
+#include "gpio.h"
 
 class SpiMServer {
     public:
@@ -30,6 +33,8 @@ class SpiMServer {
 
         ipcReceivingConnection* rcon;
         Mcp2515* mcp2515;
+
+        static const unsigned short gpio = 138;
 };
 
 #endif // _SPI_MSERVER_H_

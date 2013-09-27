@@ -39,6 +39,8 @@
 		</Linker>
 		<Unit filename="can_config.cpp" />
 		<Unit filename="can_config.h" />
+		<Unit filename="gpio.cpp" />
+		<Unit filename="gpio.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="mcp2515_defs.h" />
 		<Unit filename="spi_mserver.cpp" />
