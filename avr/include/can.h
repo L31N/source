@@ -47,9 +47,9 @@
  *
  * \author 		Fabian Greif <fabian.greif@rwth-aachen.de>
  * \author      Roboterclub Aachen e.V. (http://www.roboterclub.rwth-aachen.de)
- * 
+ *
  * can_sleep() and can_wakeup() functions by Frédéric Lamorce.
- * 
+ *
  * \version		$Id: can.h 8086 2009-07-14 14:08:25Z fabian $
  */
 // ----------------------------------------------------------------------------
@@ -70,7 +70,7 @@
 //@}
 
 /** \ingroup	can_interface
- *  \brief		Bitraten fuer den CAN-Bus 
+ *  \brief		Bitraten fuer den CAN-Bus
  */
 typedef enum {
 	BITRATE_10_KBPS	= 0,	// ungetestet
@@ -115,12 +115,12 @@ typedef enum {
  *  {
  *  	MCP2515_FILTER_EXTENDED(0),	// Filter 0
  *  	MCP2515_FILTER_EXTENDED(0),	// Filter 1
- *  	
+ *
  *  	MCP2515_FILTER_EXTENDED(0),	// Filter 2
  *  	MCP2515_FILTER_EXTENDED(0),	// Filter 3
  *  	MCP2515_FILTER_EXTENDED(0),	// Filter 4
  *  	MCP2515_FILTER_EXTENDED(0),	// Filter 5
- *  	
+ *
  *  	MCP2515_FILTER_EXTENDED(0),	// Maske 0
  *  	MCP2515_FILTER_EXTENDED(0),	// Maske 1
  *  };
@@ -145,7 +145,7 @@ typedef enum {
 
 #else
 
-	#if SUPPORT_EXTENDED_CANID	
+	#if SUPPORT_EXTENDED_CANID
 		#define MCP2515_FILTER_EXTENDED(id)	\
 				(uint8_t)  ((uint32_t) (id) >> 21), \
 				(uint8_t)((((uint32_t) (id) >> 13) & 0xe0) | (1<<3) | \
@@ -153,7 +153,7 @@ typedef enum {
 				(uint8_t)  ((uint32_t) (id) >> 8), \
 				(uint8_t)  ((uint32_t) (id))
 	#endif
-	
+
 	#define	MCP2515_FILTER(id) \
 			(uint8_t)((uint32_t) id >> 3), \
 			(uint8_t)((uint32_t) id << 5), \
@@ -168,7 +168,7 @@ typedef enum {
  */
 typedef struct
 {
-	#if SUPPORT_EXTENDED_CANID	
+	#if SUPPORT_EXTENDED_CANID
 		uint32_t id;				//!< ID der Nachricht (11 oder 29 Bit)
 		struct {
 			int rtr : 1;			//!< Remote-Transmit-Request-Frame?
@@ -180,10 +180,10 @@ typedef struct
 			int rtr : 1;			//!< Remote-Transmit-Request-Frame?
 		} flags;
 	#endif
-	
+
 	uint8_t length;				//!< Anzahl der Datenbytes
 	uint8_t data[8];			//!< Die Daten der CAN Nachricht
-	
+
 	#if SUPPORT_TIMESTAMPS
 		uint16_t timestamp;
 	#endif
@@ -206,7 +206,7 @@ typedef struct
  * \endcode
  *
  * \b ACHTUNG:
- * Funktioniert nur mit dem AT90CAN, beim MCP2515 wird der Parameter ignoriert. 
+ * Funktioniert nur mit dem AT90CAN, beim MCP2515 wird der Parameter ignoriert.
  *
  * \code
  *  ext | Funtion
@@ -279,16 +279,16 @@ can_init(can_bitrate_t bitrate);
 // ----------------------------------------------------------------------------
 /**
  * \ingroup	can_interface
- * 
+ *
  * \~english
  * \brief	Put CAN interface to sleep and wake up
- * 
+ *
  * MCP2515 active : 5mA
  * MCP2515 sleep  : 1µA
- * 
+ *
  * MCP2551 active : 10mA+
  * MCP2551 sleep  : 400µA
- * 
+ *
  * \code
  * // before we are going to sleep, enable the interrupt that will wake us up
 // attach interrupt 1 to the routine
@@ -307,17 +307,17 @@ sleep_bod_disable();
 // and we go to sleep
 sei();
 sleep_cpu();
-	
+
 // here int1 has been executed and we are woken up
 sleep_disable();
-	
+
 // disable int1
 EIMSK = 0;
-	
+
 // re-enable 2515 and 2551
 can_wake();
  * \endcode
- * 
+ *
  * \warning	Only implemented for the MCP2515
  */
 extern void
@@ -330,7 +330,7 @@ can_wakeup(void);
 /**
  * \ingroup	can_interface
  * \brief	Setzen eines Filters
- * 
+ *
  * Für einen MCP2515 sollte die Funktion can_static_filter() bevorzugt werden.
  *
  * \param	number	Position des Filters
@@ -365,16 +365,16 @@ can_disable_filter(uint8_t number);
  * prog_char can_filter[] = {
  * 	MCP2515_FILTER_EXTENDED(0),	// Filter 0
  * 	MCP2515_FILTER_EXTENDED(0),	// Filter 1
- * 	
+ *
  * 	MCP2515_FILTER_EXTENDED(0),	// Filter 2
  * 	MCP2515_FILTER_EXTENDED(0),	// Filter 3
  * 	MCP2515_FILTER_EXTENDED(0),	// Filter 4
  * 	MCP2515_FILTER_EXTENDED(0),	// Filter 5
- * 	
+ *
  * 	MCP2515_FILTER_EXTENDED(0),	// Maske 0
  * 	MCP2515_FILTER_EXTENDED(0),	// Maske 1
  * };
- * 
+ *
  * ...
  *
  * // Filter und Masken-Tabelle laden
@@ -383,18 +383,20 @@ can_disable_filter(uint8_t number);
  *
  * \param	*filter_array	Array im Flash des AVRs mit den Initialisierungs-
  *							werten für die Filter des MCP2515
- * 
+ *
  * \see		MCP2515_FILTER_EXTENDED()
  * \see		MCP2515_FILTER()
  * \warning	Wird nur vom MCP2515 unterstuetzt.
  */
+typedef unsigned int prog_uint8_t __attribute__((__mode__(__QI__)));
+
 extern void
 can_static_filter(const prog_uint8_t *filter_array);
 
 // ----------------------------------------------------------------------------
 /**
  * \ingroup	can_interface
- * 
+ *
  * \~german
  * \brief	Filterdaten auslesen
  *
@@ -409,7 +411,7 @@ can_static_filter(const prog_uint8_t *filter_array);
  * \warning	Da der SJA1000 nicht feststellen kann ob der ausgelesene Filter
  *			nun zwei 11-Bit Filter oder ein 29-Bit Filter ist werden nicht
  *			die Filter sondern die Registerinhalte direkt zurück gegeben.
- *			Der Programmierer muss dann selbst entscheiden was er mit den 
+ *			Der Programmierer muss dann selbst entscheiden was er mit den
  * 			Werten macht.
  *
  * \~english

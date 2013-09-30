@@ -15,7 +15,7 @@ const unsigned int LED_REMOTE_PREFIX = 7;
 
 int main () {
     uart_init(57600);
-    can_init(BITRATE_100_KBPS);
+    can_init(BITRATE_10_KBPS);
     sei();
 
     can_filter_t filter0;
@@ -54,6 +54,26 @@ int main () {
     bool button_high = false;
 
     while(true) {
+        if (PINE < 0xF0 && button_high == false) {  /// button pressed
+            button_high = true;
+            can_t can_frame;
+            can_frame.flags.rtr = 0;
+            can_frame.id = 0xf2;
+            can_frame.length = 1;
+            can_frame.data[0] = 'H';
+
+            if (can_send_message(&can_frame)) PORTA |= 0x0F;
+            else PORTA |= 0x10;
+            //PORTA ^= 0xF0;
+        }
+        else if (PINE > 0xF0) button_high = false;
+        _delay_ms(50);
+    }
+
+    return 0;
+}
+
+    /**while(true) {
         _delay_ms(20);
        if (uart_count() >= 12) {  /// neue serial massages vorhanden
             char incomming_serial_data[12];
@@ -122,7 +142,7 @@ int main () {
             // send the signal that a button was pressed ...
             char outgoing_serial_data[11];
 
-            outgoing_serial_data[0] = 0;
+            outgoing_serial_data[0] = 0;**/
 
             /*unsigned char tmp = (PINE >> 0);
             switch (tmp) {
@@ -142,7 +162,7 @@ int main () {
                     for (int i = 0; tmp & (unsigned char)pow(2, i); i++) outgoing_serial_data[1] = BUTTON_ID[i];
             }*/
 
-            outgoing_serial_data[1] = BUTTON_ID[0];
+            /**outgoing_serial_data[1] = BUTTON_ID[0];
 
 
             outgoing_serial_data[2] = 8;
@@ -165,4 +185,4 @@ int main () {
             for (int i = 0; i < 11; i++) uart_putc(outgoing_serial_data[i]);
         }
     }
-}
+}**/

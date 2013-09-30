@@ -12,23 +12,23 @@ SpiMServer::SpiMServer() {
     mcp2515 = new Mcp2515("/dev/spidev3.0");
     mcp2515->mcp_init(Mcp2515::BITRATE_10_KBPS);
 
-    th_recv = new boost::thread(SpiMServer::th_recv_fctn, &mtx, mcp2515);
+    th_recv = new boost::thread(SpiMServer::th_recv_fctn, &mtx, mcp2515, &gpio_fd);
     th_snd = new boost::thread(SpiMServer::th_snd_fctn, &mtx, mcp2515, rcon);
 
     // setup gpio input
     gpio_export(gpio);
     gpio_set_dir(gpio, 0);
-    gpio_set_edge(gpio, "falling");
+    gpio_set_edge(gpio, (char*)"falling");
 
-    int gpio_fd = gpio_fd_open(gpio);
+    gpio_fd = gpio_fd_open(gpio);
 
     if (gpio_fd < 0) {
         std::cerr << "error: " << strerror(errno) << std::endl;
-        return -1;
     }
 }
 
 SpiMServer::~SpiMServer() {
+    gpio_fd_close(gpio_fd);
     gpio_unexport(gpio);
 
     delete rcon;
@@ -79,7 +79,7 @@ void SpiMServer::run() {
     }
 }*/
 
-void SpiMServer::th_recv_fctn(boost::mutex* mtx, Mcp2515* mcp2515) {
+void SpiMServer::th_recv_fctn(boost::mutex* mtx, Mcp2515* mcp2515, int* gpio_fd) {
     std::cout << "th_recv_fctn:thread now running ..." << std::endl;
 
     struct pollfd fdset;
@@ -87,15 +87,18 @@ void SpiMServer::th_recv_fctn(boost::mutex* mtx, Mcp2515* mcp2515) {
     while(true) {
         memset((void*)&fdset, 0, sizeof(&fdset));
 
-        fdset.fd = gpio_fd;
+        fdset.fd = *gpio_fd;
         fdset.events = POLLPRI;
 
+        std::cout << "before poll" << std::endl;
         int retval = poll(&fdset, 1, -1);
+        std::cout << "after poll" << std::endl;
+
 
         if(retval < 0)
         {
             std::cout <<"error: " << strerror(errno) << std::endl;
-            return -1;
+            return;
         }
         else if (retval == 0) {
             std::cout << "poll() timeout ..." << std::endl;
@@ -106,6 +109,35 @@ void SpiMServer::th_recv_fctn(boost::mutex* mtx, Mcp2515* mcp2515) {
 
         char buffer[1024];
         read(fdset.fd, buffer, sizeof(buffer));
+
+        Mcp2515::can_t canmsg;
+        unsigned char ret = 0;
+        mtx->lock();
+        ret = mcp2515->mcp_read_can(&canmsg);
+        mtx->unlock();
+
+        if (ret != 0xff) {      // received new message via SPI
+            unsigned short can_id = canmsg.id;
+            unsigned char length = canmsg.length;
+
+            std::string datastr = "";
+            datastr += (unsigned char)canmsg.rtr;
+            datastr += length;
+
+            for (unsigned int i = 0; i < length; i++) datastr += canmsg.data[i];
+
+            CANConfig cancnf(CAN_CONFIG_FILE_PATH);
+
+            std::cout << "received new CAN message: [" << cancnf.getCanMember(can_id) << "] : ";
+            for (unsigned int i = 0; i < length; i++) std::cout << (unsigned int)datastr[i+2] << "  " << std::flush;
+            std::cout << std::endl;
+
+            ipcSendingConnection scon("SPI_MSERVER", cancnf.getIpcSynonym(can_id), 16, ipcSendingConnection::local);
+            if (scon.is_open()) scon.sendData(datastr);
+            else {
+                std::cerr << "could not open ipcReceiving connection" << std::endl;
+            }
+        }
     }
 }
 

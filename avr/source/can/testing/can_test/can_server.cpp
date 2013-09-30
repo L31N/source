@@ -50,7 +50,7 @@
 
 int main () {
     init_leds();
-    uart_init(115200);
+    //uart_init(115200);
 
     led(true, true);
     _delay_ms(500);
@@ -58,7 +58,7 @@ int main () {
     _delay_ms(500);
 
     /** CAN TESTING HERE **/
-    can_init(BITRATE_1_MBPS);
+    can_init(BITRATE_100_KBPS);
 
     //can_static_filter(can_filter);
 
