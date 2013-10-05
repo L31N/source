@@ -20,13 +20,13 @@
 			<Add option="-mmcu=at90can128" />
 			<Add option="-Wall" />
 			<Add option="-DF_CPU=16000000UL" />
-			<Add directory="../../include" />
+			<Add directory="/avrusr/include" />
 		</Compiler>
 		<Linker>
 			<Add option="-mmcu=at90can128" />
 			<Add option="-lcan" />
 			<Add option="-luart" />
-			<Add directory="../../lib" />
+			<Add directory="/avrusr/lib" />
 		</Linker>
 		<ExtraCommands>
 			<Add after="avr-size $(TARGET_OUTPUT_FILE)" />
