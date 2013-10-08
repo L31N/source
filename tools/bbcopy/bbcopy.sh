@@ -14,7 +14,7 @@ then
     exit -1;
 fi
 
-# check file type and write to specific directory on BeagleBoard
+# check file type and write to specific directory on BeagleBoard or localhost
 
 retval=0;
 
@@ -25,8 +25,10 @@ then
     retval=$?;
 elif [[ "$1" == *".a" ]]
 then
-    echo "copy static library \"$1\" to \"$user@$host:/bbusr/lib/$1\"";
-    scp "$1" "$user@$host:/bbusr/lib/";
+    #echo "copy static library \"$1\" to \"$user@$host:/bbusr/lib/$1\"";
+    #scp "$1" "$user@$host:/bbusr/lib/";
+    echo "copy static library \"$1\" to \"/bbusr/lib/$1\"";
+    cp "$1" "/bbusr/lib/";
     retval=$?;
 else
     echo "copy binary file \"$1\" to \"$user@$host:/bbusr/bin/$1\"";
