@@ -108,7 +108,9 @@ void SpiMServer::th_recv_fctn(boost::mutex* mtx, Mcp2515* mcp2515, int* gpio_fd)
         lseek(fdset.fd, 0, 0);
 
         char buffer[1024];
-        read(fdset.fd, buffer, sizeof(buffer));
+        if (read(fdset.fd, buffer, sizeof(buffer)) <= 0) {
+            // there were no new data in buffer :(
+        }
 
         Mcp2515::can_t canmsg;
         unsigned char ret = 0;
