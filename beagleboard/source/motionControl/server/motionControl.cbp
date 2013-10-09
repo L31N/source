@@ -18,6 +18,12 @@
 					<Add option="-s" />
 				</Linker>
 			</Target>
+			<Target title="ARM">
+				<Option output="bin/ARM/motionControl" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/ARM/" />
+				<Option type="1" />
+				<Option compiler="armelfgcc" />
+			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-std=c++0x" />
@@ -32,6 +38,7 @@
 			<Add option="-lboost_thread" />
 			<Add option="-pthread" />
 			<Add option="-lbbvector" />
+			<Add option="-lrt" />
 			<Add directory="/bbusr/lib" />
 		</Linker>
 		<Unit filename="extendedMotionController.cpp" />

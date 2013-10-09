@@ -23,6 +23,9 @@ then
     echo "copy shared library \"$1\" to \"$user@$host:/bbusr/lib/$1\"";
     scp "$1" "$user@$host:/bbusr/lib/";
     retval=$?;
+    echo "copy shared library \"$1\" to \"/bbusr/lib/$1\"";
+    cp "$1" "/bbusr/lib/$1";
+    retval+=$?;
 elif [[ "$1" == *".a" ]]
 then
     #echo "copy static library \"$1\" to \"$user@$host:/bbusr/lib/$1\"";

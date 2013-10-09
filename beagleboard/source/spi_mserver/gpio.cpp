@@ -16,7 +16,7 @@ int gpio_export(unsigned int gpio)
 	}
 
 	len = snprintf(buf, sizeof(buf), "%d", gpio);
-	if (write(fd, buf, len) <= 0) {
+	if (write(fd, buf, len) < len) {
         std::cerr << "could not export GPIO " << gpio << std::endl;
         return -1;
 	}

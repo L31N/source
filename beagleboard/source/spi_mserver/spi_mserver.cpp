@@ -8,6 +8,9 @@ const std::string GPIO_FILE = "/sys/class/gpio/gpio139/value";
 const std::string CAN_CONFIG_FILE_PATH = "/bbusr/etc/can.conf";
 
 SpiMServer::SpiMServer() {
+
+    signal(SIGINT, SpiMServer::close_handler);
+
     rcon = new ipcReceivingConnection("SPI_MSERVER", 10);
     mcp2515 = new Mcp2515("/dev/spidev3.0");
     mcp2515->mcp_init(Mcp2515::BITRATE_10_KBPS);
@@ -90,10 +93,7 @@ void SpiMServer::th_recv_fctn(boost::mutex* mtx, Mcp2515* mcp2515, int* gpio_fd)
         fdset.fd = *gpio_fd;
         fdset.events = POLLPRI;
 
-        std::cout << "before poll" << std::endl;
         int retval = poll(&fdset, 1, -1);
-        std::cout << "after poll" << std::endl;
-
 
         if(retval < 0)
         {
@@ -176,4 +176,13 @@ void SpiMServer::th_snd_fctn(boost::mutex* mtx, Mcp2515* mcp2515, ipcReceivingCo
         }
         else usleep(200);
     }
+}
+
+void SpiMServer::close_handler(int signum) {
+    std::cout << "catched SIGINT (" << signum << ")\nclosing now" << std::endl;
+
+    //gpio_fd_close(*gpio_fd);
+    gpio_unexport(SpiMServer::gpio);
+
+    _exit(0);
 }

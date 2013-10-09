@@ -39,11 +39,11 @@
 			<Add directory="/bbusr/include/" />
 		</Compiler>
 		<Linker>
+			<Add option="-lbbipc" />
 			<Add option="-lboost_thread" />
 			<Add option="-lboost_system" />
 			<Add option="-lpthread" />
 			<Add option="-lrt" />
-			<Add library="/bbusr/lib/libbbipc.a" />
 			<Add directory="/bbusr/lib/" />
 		</Linker>
 		<Unit filename="can_config.cpp" />
