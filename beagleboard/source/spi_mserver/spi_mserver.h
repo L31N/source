@@ -11,6 +11,8 @@
 
 #include <functional>
 
+#include <poll.h>
+
 #include "ipc/ipc_connection.h"
 #include "spimcp2515.h"
 

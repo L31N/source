@@ -17,6 +17,8 @@
 
 #include <stdlib.h>
 
+#include <poll.h>
+
 #include "buffer.h"
 #include "ipc_config.h"
 

@@ -361,8 +361,33 @@ bool ipcReceivingConnection::init(std::string authPackage, size_t _bufferSize) {
 Data* ipcReceivingConnection::readDataFromBuffer() {
     /** critical code section --> use semaphores to synchronize with other thread **/
     sem_wait(&sem);
+    bool newData = dataBuffer->checkForNewData();
+    sem_post(&sem);
+
+    if (!newData) {    // POLL will block until data is available
+        struct pollfd fdset;
+
+        memset((void*)&fdset, 0, sizeof(&fdset));
+
+        fdset.fd = this->sock;
+        fdset.events = POLLIN;
+
+        int retval = poll(&fdset, 1, -1);
+
+        if(retval < 0)
+        {
+            std::cout <<"error: " << strerror(errno) << std::endl;
+        }
+        else if (retval == 0) {
+            std::cout << "poll() timeout ..." << std::endl;
+            // not possible !!!
+        }
+    }
+
+    sem_wait(&sem);
     Data* retdata = dataBuffer->getLastData();
     sem_post(&sem);
+
     return retdata;
 }
 
