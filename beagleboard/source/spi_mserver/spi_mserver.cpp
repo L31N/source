@@ -149,6 +149,39 @@ void SpiMServer::th_snd_fctn(boost::mutex* mtx, Mcp2515* mcp2515, ipcReceivingCo
     CANConfig cancnf(CAN_CONFIG_FILE_PATH);
 
     while(true) {
+        Data* data = rcon->readDataFromBuffer();       // should block until data is available
+        std::string str = data->getData();
+
+        Mcp2515::can_t canmsg;
+
+        canmsg.id = str[0];
+        canmsg.rtr = str[1];
+        canmsg.length = str[2];
+
+        for(int i = 0; i < canmsg.length; i++) canmsg.data[i] = str[3+i];
+
+        mtx->lock();
+        bool stat = mcp2515->mcp_write_can(&canmsg);
+        mtx->unlock();
+
+        if (stat) {
+            std::cout << "sent CAN message: [" << cancnf.getCanMember(canmsg.id) << "] : ";
+            for (unsigned int i = 0; i < canmsg.length; i++) std::cout << (unsigned int)str[3+i] << "  " << std::flush;
+            std::cout << std::endl;
+        }
+        else {
+            std::cerr << "error: could not send CAN message" << std::endl;
+        }
+    }
+}
+
+
+/*void SpiMServer::th_snd_fctn(boost::mutex* mtx, Mcp2515* mcp2515, ipcReceivingConnection* rcon) {
+    std::cout << "th_snd_fctn:thread now running ..." << std::endl;
+
+    CANConfig cancnf(CAN_CONFIG_FILE_PATH);
+
+    while(true) {
         if (rcon->checkForNewData()) {
             Data* data = rcon->readDataFromBuffer();
             std::string str = data->getData();
@@ -176,7 +209,7 @@ void SpiMServer::th_snd_fctn(boost::mutex* mtx, Mcp2515* mcp2515, ipcReceivingCo
         }
         else usleep(200);
     }
-}
+}*/
 
 void SpiMServer::close_handler(int signum) {
     std::cout << "catched SIGINT (" << signum << ")\nclosing now" << std::endl;
