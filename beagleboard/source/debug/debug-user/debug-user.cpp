@@ -68,31 +68,24 @@ int main(int argc, char* argv[])
 
     while(true)
     {
-        //Data *data = receivingConnection.readDataFromBuffer();
-        //if(data != NULL)
-        if (receivingConnection.checkForNewData()) {
-            Data* data = receivingConnection.readDataFromBuffer();
-            int senderId = data->getSenderID();
-            string message = data->getData();
-            bool transfer = false;
+        Data* data = receivingConnection.readDataFromBuffer();
+        int senderId = data->getSenderID();
+        string message = data->getData();
+        bool transfer = false;
 
-            for(int i = 0; i < showTableCount; i++)
+        for(int i = 0; i < showTableCount; i++)
+        {
+            if(showTable[i]==senderId)
             {
-                if(showTable[i]==senderId)
-                {
-                    transfer = true;
-                    break;
-                }
+                transfer = true;
+                break;
             }
-
-            if(transfer || showAll)
-            {
-                cout << "[" << ipcconfig.getProcessSynToIpcID(senderId) << "] " << message << endl;
-            }
-
         }
 
-        usleep(1000);
+        if(transfer || showAll)
+        {
+            cout << "[" << ipcconfig.getProcessSynToIpcID(senderId) << "] " << message << endl;
+        }
     }
 
     return 0;
