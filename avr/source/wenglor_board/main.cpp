@@ -126,6 +126,8 @@ int main(void) {
 
         can_send_message(&can_data);
 
+        _delay_ms(100);
+
     }
 
     return 0;
