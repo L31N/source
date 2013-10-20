@@ -8,9 +8,8 @@
 		<Build>
 			<Target title="Release">
 				<Option output="libbbipc" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="" />
 				<Option object_output="obj/Release/" />
-				<Option type="2" />
+				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option createDefFile="1" />
 				<Compiler>
@@ -22,27 +21,35 @@
 				</Linker>
 			</Target>
 			<Target title="Debug">
-                                <Option output="libbbipc" prefix_auto="1" extension_auto="1" />
-                                <Option working_dir="" />
-                                <Option object_output="obj/Debug/" />
-                                <Option type="2" />
-                                <Option compiler="gcc" />
-                                <Option createDefFile="1" />
-                                <Compiler>
-                                        <Add option="-Wall" />
-                                        <Add option="-g" />
-                                        <Add option="-DDEBUG" />
-                                </Compiler>
-                        </Target>
-
+				<Option output="libbbipc" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-Wall" />
+					<Add option="-g" />
+					<Add option="-DDEBUG" />
+				</Compiler>
+			</Target>
+			<Target title="ARM">
+				<Option output="libbbipc" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/ARM/" />
+				<Option type="3" />
+				<Option compiler="armelfgcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-Wall" />
+				</Compiler>
+			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-fpermissive" />
+			<Add option="-fPIC" />
 			<Add directory="/bbusr/include" />
 		</Compiler>
 		<Linker>
-			<Add option="-lbbipc" />
-			<Add option="-lbbdebug" />
 			<Add option="-lpthread" />
 			<Add directory="/bbusr/lib" />
 		</Linker>

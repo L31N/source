@@ -16,7 +16,10 @@ int gpio_export(unsigned int gpio)
 	}
 
 	len = snprintf(buf, sizeof(buf), "%d", gpio);
-	write(fd, buf, len);
+	if (write(fd, buf, len) < len) {
+        std::cerr << "could not export GPIO " << gpio << std::endl;
+        return -1;
+	}
 	close(fd);
 
 	return 0;
@@ -37,7 +40,10 @@ int gpio_unexport(unsigned int gpio)
 	}
 
 	len = snprintf(buf, sizeof(buf), "%d", gpio);
-	write(fd, buf, len);
+	if (write(fd, buf, len) <= 0) {
+        std::cerr << "could not unexport GPIO " << gpio << std::endl;
+        return -1;
+	}
 	close(fd);
 	return 0;
 }
@@ -58,10 +64,18 @@ int gpio_set_dir(unsigned int gpio, unsigned int out_flag)
 		return fd;
 	}
 
-	if (out_flag)
-		write(fd, "out", 4);
-	else
-		write(fd, "in", 3);
+	if (out_flag) {
+		if (write(fd, "out", 4) <= 0) {
+            std::cerr << "could not set direction of GPIO " << gpio << std::endl;
+            return -1;
+		}
+	}
+	else {
+		if (write(fd, "in", 3) <= 0) {
+            std::cerr << "could not set direction of GPIO " << gpio << std::endl;
+            return -1;
+		}
+	}
 
 	close(fd);
 	return 0;
@@ -83,10 +97,18 @@ int gpio_set_value(unsigned int gpio, unsigned int value)
 		return fd;
 	}
 
-	if (value)
-		write(fd, "1", 2);
-	else
-		write(fd, "0", 2);
+	if (value) {
+		if (write(fd, "1", 2) <= 0) {
+            std::cerr << "could not set value of GPIO " << gpio << std::endl;
+            return -1;
+		}
+	}
+	else {
+        if (write(fd, "0", 2) <= 0) {
+            std::cerr << "could not set value of GPIO " << gpio << std::endl;
+            return -1;
+        }
+	}
 
 	close(fd);
 	return 0;
@@ -109,7 +131,10 @@ int gpio_get_value(unsigned int gpio, unsigned int *value)
 		return fd;
 	}
 
-	read(fd, &ch, 1);
+	if (read(fd, &ch, 1) <= 0) {
+        std::cerr << "could not get value of GPIO " << gpio << std::endl;
+        return -1;
+	}
 
 	if (ch != '0') {
 		*value = 1;
@@ -139,7 +164,10 @@ int gpio_set_edge(unsigned int gpio, char *edge)
 		return fd;
 	}
 
-	write(fd, edge, strlen(edge) + 1);
+	if (write(fd, edge, strlen(edge) + 1) <= 0) {
+        std::cerr << "could not set edge of GPIO " << gpio << std::endl;
+        return -1;
+	}
 	close(fd);
 	return 0;
 }

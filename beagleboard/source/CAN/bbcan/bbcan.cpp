@@ -32,8 +32,9 @@ CAN::~CAN() {
     delete rcon;
 }
 
-bool CAN::read(CAN::can_t& msg) {
-    if (rcon->checkForNewData()) {
+bool CAN::read(CAN::can_t& msg, bool f_blocking) {
+    if (!f_blocking && !rcon->checkForNewData()) return false;
+    else {
         std::string data = rcon->readDataFromBuffer()->getData();
         msg.rtr = data[0];
         msg.length = data[1];
@@ -42,7 +43,6 @@ bool CAN::read(CAN::can_t& msg) {
         }
         return true;
     }
-    else return false;
 }
 
 bool CAN::write(CAN::can_t& msg) {

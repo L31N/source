@@ -7,6 +7,11 @@
 #include <sys/stat.h>
 
 #include <errno.h>
+#include <signal.h>
+
+#include <functional>
+
+#include <poll.h>
 
 #include "ipc/ipc_connection.h"
 #include "spimcp2515.h"
@@ -21,8 +26,10 @@ class SpiMServer {
         void run();     // blocking funktion, that represents the running process.
 
     private:
-        static void th_recv_fctn(boost::mutex* mtx, Mcp2515* mcp2515, int* gpio_fd);                                  // receives the CAN messages via SPI and redirects them to IPC
+        static void th_recv_fctn(boost::mutex* mtx, Mcp2515* mcp2515, int* gpio_fd);                    // receives the CAN messages via SPI and redirects them to IPC
         static void th_snd_fctn(boost::mutex* mtx, Mcp2515* mcp2515, ipcReceivingConnection* rcon);     // receives the messages via IPC and redirect them via SPI to CAN
+
+        static void close_handler(int signum);
 
         /** ++++++++++++++++++ **/
 

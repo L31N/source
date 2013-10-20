@@ -29,6 +29,14 @@ int main () {
     PORTE |= 0xF0;      // activate internal pull-ups
     DDRA |= 0xFF;       // leds as output
 
+    PORTA = 0xFF;
+    _delay_ms(1000);
+
+    while(true) {
+        PORTA ^= 0xFF;
+        _delay_ms(500);
+    }
+
     PORTA = 0x01;
     _delay_ms(1000);
 
