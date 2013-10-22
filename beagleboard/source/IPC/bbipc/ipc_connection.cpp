@@ -367,7 +367,7 @@ Data* ipcReceivingConnection::readDataFromBuffer() {
     if (!newData) {    // POLL will block until data is available
         struct pollfd fdset;
 
-        memset((void*)&fdset, 0, sizeof(&fdset));
+        memset((void*)&fdset, 0, sizeof(fdset));
 
         fdset.fd = this->sock;
         fdset.events = POLLIN;

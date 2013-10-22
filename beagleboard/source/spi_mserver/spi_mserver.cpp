@@ -88,7 +88,7 @@ void SpiMServer::th_recv_fctn(boost::mutex* mtx, Mcp2515* mcp2515, int* gpio_fd)
     struct pollfd fdset;
 
     while(true) {
-        memset((void*)&fdset, 0, sizeof(&fdset));
+        memset((void*)&fdset, 0, sizeof(fdset));
 
         fdset.fd = *gpio_fd;
         fdset.events = POLLPRI;
