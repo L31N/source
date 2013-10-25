@@ -17,24 +17,25 @@ fi
 # check file type and write to specific directory on BeagleBoard or localhost
 
 retval=0;
+filename=$(echo $1 | sed -e 's/.*[/]//');
 
-if [[ "$1" == *".so" ]]
+if [[ "$filename" == *".so" ]]
 then
-    echo "copy shared library \"$1\" to \"$user@$host:/bbusr/lib/$1\"";
+    echo "copy shared library \"$1\" to \"$user@$host:/bbusr/lib/$filename\"";
     scp "$1" "$user@$host:/bbusr/lib/";
     retval=$?;
-    echo "copy shared library \"$1\" to \"/bbusr/lib/$1\"";
+    echo "copy shared library \"$1\" to \"/bbusr/lib/$filename\"";
     cp "$1" "/bbusr/lib/";
     retval+=$?;
-elif [[ "$1" == *".a" ]]
+elif [[ "$filename" == *".a" ]]
 then
     #echo "copy static library \"$1\" to \"$user@$host:/bbusr/lib/$1\"";
     #scp "$1" "$user@$host:/bbusr/lib/";
-    echo "copy static library \"$1\" to \"/bbusr/lib/$1\"";
+    echo "copy static library \"$1\" to \"/bbusr/lib/$filename\"";
     cp "$1" "/bbusr/lib/";
     retval=$?;
 else
-    echo "copy binary file \"$1\" to \"$user@$host:/bbusr/bin/$1\"";
+    echo "copy binary file \"$1\" to \"$user@$host:/bbusr/bin/$filename\"";
     scp "$1" "$user@$host:/bbusr/bin/";
     retval=$?;
 fi
