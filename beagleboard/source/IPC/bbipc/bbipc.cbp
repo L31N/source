@@ -47,6 +47,7 @@
 		<Compiler>
 			<Add option="-fpermissive" />
 			<Add option="-fPIC" />
+			<Add option="-mcpu=cortex-a8" />
 			<Add directory="/bbusr/include" />
 		</Compiler>
 		<Linker>

@@ -28,10 +28,15 @@ class UdsConnection {
         bool write(std::string data);
         void send_callback(UdsConnection::callback callback);
 
+        void close_socket();
+
+        void listen_for_close(); // only for registered receiving connections
+
     private:
         void handle_init(const boost::system::error_code& error);
         void listen();
         void handle_received(const boost::system::error_code& error);
+        void handle_received_close(const boost::system::error_code& error);
 
         // ----------------------- //
 

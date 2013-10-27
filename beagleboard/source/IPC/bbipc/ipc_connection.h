@@ -48,6 +48,11 @@ class ipcConnection {
 
         unsigned char package_size;
 
+        enum ipc_command {
+            IPC_SEND = 0,
+            IPC_CLOSE = 1
+        };
+
     public:
         void setSenderID(short _senderID);
         void setEndpointID(short _endpointID);
@@ -63,6 +68,8 @@ class ipcSendingConnection : public ipcConnection {
     public:
         ipcSendingConnection(short _senderID, short _endpointID, unsigned char _package_size = 32, HOST_TYPE _host = IPC_LOCAL);
         ipcSendingConnection(const std::string _senderSyn, const std::string _endpointSyn, unsigned char _package_size = 32, HOST_TYPE _host = IPC_LOCAL);
+
+        ~ipcSendingConnection();
 
         static const HOST_TYPE local = IPC_LOCAL;
         static const HOST_TYPE bluetooth = IPC_BLUETOOTH;
@@ -80,6 +87,9 @@ class ipcSendingConnection : public ipcConnection {
         short btEndpointID;
 
         bool init(std::string authPackage);
+
+    public:
+        void close();
 };
 
 class ipcReceivingConnection : public ipcConnection {
@@ -111,6 +121,8 @@ class ipcReceivingConnection : public ipcConnection {
         Buffer* dataBuffer;
 
         bool init(std::string authPackage, size_t _bufferSize);
+
+        void close();
 };
 
 #endif // _CONNECTION_H_

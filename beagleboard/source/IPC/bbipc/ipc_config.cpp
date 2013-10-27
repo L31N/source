@@ -4,7 +4,7 @@
 ipcConfig::ipcConfig(std::string _IPC_CONFIG_FILE) : IPC_CONFIG_FILE(_IPC_CONFIG_FILE) {
     ifConfig = new std::ifstream(IPC_CONFIG_FILE.c_str());
     if(!ifConfig->is_open()) {
-        std::cout << "error cannot open stream to: " << IPC_CONFIG_FILE << std::endl;
+        std::cout << "error cannot open stream to: " << IPC_CONFIG_FILE << ": " << strerror(errno) << std::endl;
         return;
     }
 
