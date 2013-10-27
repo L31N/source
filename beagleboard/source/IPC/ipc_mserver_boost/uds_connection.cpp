@@ -79,7 +79,7 @@ void UdsConnection::listen() {
 
 void UdsConnection::handle_received(const boost::system::error_code& error) {
     //std::cout << "\tUdsConnection::handle_received()" << std::endl;
-    std::cout << "received message: " << std::string(cbuf, package_size + 1) << std::endl;
+    //std::cout << "received message: " << std::string(cbuf, package_size + 1) << std::endl;
 
     if (!error) {
         // create the final string to redirect
@@ -92,7 +92,7 @@ void UdsConnection::handle_received(const boost::system::error_code& error) {
         this->listen();
     }
     else {
-        std::cerr << "ERROR: UdsConnection::handle_received() --> boost::system::error_code (client may be closed): " << error.message() << std::endl;
+        //std::cerr << "ERROR: UdsConnection::handle_received() --> boost::system::error_code (client may be closed): " << error.message() << std::endl;
     }
 }
 

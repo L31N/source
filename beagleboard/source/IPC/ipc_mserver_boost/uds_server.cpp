@@ -32,7 +32,7 @@ void UdsServer::handle_accept(UdsConnection* connection, const boost::system::er
 
         this->start_accept();
 
-        std::cout << "accepted new connection ..." << std::endl;
+        //std::cout << "accepted new connection ..." << std::endl;
     }
     else {
         std::cerr << "ERROR: UdsServer::handle_accept() --> could not accept new connection: " << error.message() << std::endl;
@@ -50,12 +50,15 @@ void UdsServer::registerConnection(UdsConnection* _connection, unsigned short _e
     rcons.push_back(tmpconnection);
 
     _connection->send_callback(UdsConnection::setup_successfully);
+
+    std::cout << "connection registered: [" << _endpoint_id << "]" << std::endl;
 }
 
 void UdsServer::releaseConnection(UdsConnection* _connection) {
     //std::cout << "UdsServer::releaseConnection()" << std::endl;
     for (unsigned int i = 0; i < rcons.size(); i++) {
         if (rcons[i].connection == _connection) {
+            std::cout << "connection released: [" << rcons[i].id << "]" << std::endl;
             rcons.erase(rcons.begin() + i);
         }
     }
