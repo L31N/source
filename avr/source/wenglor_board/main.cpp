@@ -57,7 +57,6 @@ int main(void) {
 
     /** ONLY TESTING ZONE HERE **/
 
-
     /** TESTING ZONE END HERE  **/
 
     /*while(true) {
@@ -117,6 +116,7 @@ int main(void) {
             requestDistanceRS232(1);
             requested[1] = true;
         }
+
 
         /// can posting
         for (int i = 0; i < 3; i++) can_data.data[i] = ( distance[0] >> i*8 ) & 0xFF;
