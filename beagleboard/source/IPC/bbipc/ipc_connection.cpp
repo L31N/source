@@ -33,7 +33,10 @@ ipcConnection::ipcConnection(unsigned char _package_size) : package_size(_packag
     }
 }
 
-ipcConnection::~ipcConnection() { close(sock); }
+ipcConnection::~ipcConnection() {
+    close(sock);
+    delete ipcconfig;
+}
 
 bool ipcConnection::is_open() { return f_is_open; }
 
@@ -44,7 +47,6 @@ short ipcConnection::getSenderID(void) { return senderID; }
 short ipcConnection::getEndpointID(void) { return endpointID; }
 
 int ipcConnection::getLastError(void) { return _errno; }
-
 
 /** CLASS IPC_SENDING_CONNECTION **/
 ipcSendingConnection::ipcSendingConnection (short _senderID, short _endpointID, unsigned char _package_size, HOST_TYPE _host) : ipcConnection(_package_size) {
@@ -105,6 +107,10 @@ ipcSendingConnection::ipcSendingConnection(const std::string _senderSyn, const s
     init(authPackage);
 }
 
+ipcSendingConnection::~ipcSendingConnection()  {
+    this->close();
+}
+
 bool ipcSendingConnection::init(std::string authPackage) {
 
     if (write(sock, authPackage.c_str(), 3) < 0) {
@@ -161,8 +167,11 @@ bool ipcSendingConnection::sendData(const std::string data) {
         data_to_send.insert(0, 1, 0);   // insert a 0 instead of the endpointid to get a fixed package size
     }
 
+    // append command byte --> data command: 0
+    data_to_send.insert(0, 1, ipcConnection::IPC_SEND);
+
     //if (write(sock, data_to_send.c_str(), data_to_send.length()) < 0) {
-    if (write(sock, data_to_send.c_str(), package_size + 1) < 0) {
+    if (write(sock, data_to_send.c_str(), package_size + 2) < 0) {  // +2 means the command and bluetooth byte
         _errno = errno;
         return false;
     }
@@ -196,7 +205,7 @@ bool ipcSendingConnection::sendData(const std::string data) {
 
 bool ipcSendingConnection::reconnect(void) {
 
-    close(sock);
+    ::close(sock);
 
     addr.sun_family = AF_UNIX;
     strcpy(addr.sun_path, UDS_FILE_PATH.c_str());
@@ -258,6 +267,23 @@ bool ipcSendingConnection::reconnect(void) {
 
 bool ipcSendingConnection::is_open() { return f_is_open; }
 
+void ipcSendingConnection::close() {
+    std::string close_str = "";
+    close_str += ipcConnection::IPC_CLOSE;
+    close_str.resize(package_size, 0);
+
+    if (write(sock, close_str.c_str(), package_size + 2) < 0) {  // +2 means the command and bluetooth byte
+        _errno = errno;
+        std::cerr << "error: could not send close command" << std::endl;
+        return;
+    }
+    else {
+        //std::cout << "close command sent" << std::endl;
+        return;
+    }
+
+}
+
 /** CLASS IPC_RECEIVING_CONNECTION **/
 
 ipcReceivingConnection::ipcReceivingConnection(short _connID, size_t _bufferSize, unsigned char _package_size) : ipcConnection(_package_size) {
@@ -292,6 +318,7 @@ ipcReceivingConnection::~ipcReceivingConnection() {
     sem_wait(&sem);
     delete dataBuffer;
     sem_destroy(&sem);
+    this->close();
 }
 
 bool ipcReceivingConnection::init(std::string authPackage, size_t _bufferSize) {
@@ -367,7 +394,7 @@ Data* ipcReceivingConnection::readDataFromBuffer() {
     if (!newData) {    // POLL will block until data is available
         struct pollfd fdset;
 
-        memset((void*)&fdset, 0, sizeof(&fdset));
+        memset((void*)&fdset, 0, sizeof(fdset));
 
         fdset.fd = this->sock;
         fdset.events = POLLIN;
@@ -402,13 +429,13 @@ void* ipcReceivingConnection::saveReceivedData_threaded(void* arg) {
 
     struct thread_data *tdata = (struct thread_data *)arg;
     /// read to socket ...
-    char data[tdata->_package_size + 2];
+    char data[tdata->_package_size + 3];
 
     while(true) {
 
-        bzero(data, tdata->_package_size + 2);
+        bzero(data, tdata->_package_size + 3);
 
-        int retval = read(tdata->_sock, data, tdata->_package_size + 2);    // the + 1 are the bluetooth byte and the id byte
+        int retval = read(tdata->_sock, data, tdata->_package_size + 3);    // the + 3 are the command, bluetooth and the id byte
 
         if (retval == 0) {
             #ifdef DEBUG
@@ -422,7 +449,7 @@ void* ipcReceivingConnection::saveReceivedData_threaded(void* arg) {
         }
         else {  /// read successfull ...
             /// extract sender ID from string
-            std::string dataString(data, tdata->_package_size + 2);
+            std::string dataString(data, tdata->_package_size + 3);
             short senderID = dataString[0];
             HOST_TYPE host;
 
@@ -432,11 +459,11 @@ void* ipcReceivingConnection::saveReceivedData_threaded(void* arg) {
             if (senderID == ipcconf.getIpcIDToProcessSyn("BLUETOOTH_MODULE")) { /// BLUETOOTH
                 host = IPC_BLUETOOTH;
                 senderID = data[1];
-                dataString.erase(0,2);
+                dataString.erase(0,3);
             }
             else {
                 host = IPC_LOCAL;
-                dataString.erase(0,2);
+                dataString.erase(0,3);
             }
 
             #ifdef DEBUG
@@ -462,3 +489,19 @@ bool ipcReceivingConnection::checkForNewData() {
 }
 
 bool ipcReceivingConnection::is_open() { return f_is_open; }
+
+void ipcReceivingConnection::close() {
+    std::string close_str = "";
+    close_str += IPC_CLOSE;
+
+    if (write(sock, close_str.c_str(), package_size + 2) < 0) {  // +2 means the command and bluetooth byte
+        _errno = errno;
+        std::cerr << "error: could not send close command" << std::endl;
+        return;
+    }
+    else {
+        std::cout << "close command sent" << std::endl;
+        return;
+    }
+
+}

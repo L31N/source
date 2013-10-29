@@ -6,6 +6,8 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <errno.h>
+#include <string.h>
 
 class ipcConfig {
     public:
