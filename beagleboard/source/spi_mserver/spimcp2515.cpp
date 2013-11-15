@@ -11,6 +11,7 @@ Mcp2515::Mcp2515(const std::string spidev) {
 
     wordlength = 8;
     maxspeedhz = 100000;
+    //maxspeedhz = 20000000;
     delay = 0;
     mode = 0;
 
