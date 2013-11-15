@@ -12,7 +12,7 @@
 const unsigned char CANID = 68;     // WENGLORS0
 //const unsigned char CANID = 100;     // WENGLORS1
 
-bool strtoval(unsigned char* str);
+uint32_t strtoval(const unsigned char* str);
 bool getReflex();
 
 //bool makevalid(const unsigned char* str);
@@ -49,24 +49,27 @@ int main () {
     memset(buf[0], 0, 32);
     memset(buf[1], 0, 32);
 
-    bool f_update = false;
+    bool f_update [2];
+    f_update[0] = false;
+    f_update[1] = false;
 
     while(true) {
 
         if (uart_isnewdata()) {
             buf[0][iter[0]] = uart_getc();
 
-            /*if (buf[0][iter[0]-1] == 'm') {     // string complete
+            if (buf[0][iter[0]-1] == 'm') {     // string complete
                 buf[0][iter[0]+1] = '\0';
 
                 distance[0] = strtoval(buf[0]);
                 iter[0] = 0;
-            }*/
-            if (strtoval(buf[0])) {
+                f_update[0] = true;
+            }
+            /*if (strtoval(buf[0])) {
                 distance[0] = atoi((char*)buf[0]);
                 iter[0] = 0;
                 f_update = true;
-            }
+            }*/
             else iter[0] ++;
         }
 
@@ -77,7 +80,7 @@ int main () {
                 buf[1][iter[1]+1] = '\0';
                 distance[1] = strtoval(buf[1]);
                 iter[1] = 0;
-                f_update = true;
+                f_update[1] = true;
             }
             else iter[1] ++;
         }
@@ -85,7 +88,7 @@ int main () {
 
 
         /// can posting
-        if (f_update) {
+        if (f_update[0] || f_update[1]) {
 
             can_t can_data;
             can_data.id = CANID;
@@ -99,11 +102,12 @@ int main () {
 
             can_send_message(&can_data);
 
-            f_update = false;
+            f_update[0] = false;
+            f_update[1] = false;
 
-            _delay_ms(100);
+            /*_delay_ms(100);
             uart_clear();
-            uart1_clear();
+            uart1_clear();*/
         }
         _delay_ms(2);
     }
@@ -113,7 +117,7 @@ bool getReflex() {
     return !bool((PINE & (1 << 4)));
 }
 
-/*uint32_t strtoval(const unsigned char* str, bool& valid) {
+uint32_t strtoval(const unsigned char* str) {
     unsigned char res[32] = { 0 };
 
     bool valid = false;
@@ -133,8 +137,8 @@ bool getReflex() {
     }
     if (valid) return atoi((char*)res);
     else return 0;
-}*/
-
+}
+/*
 bool strtoval(unsigned char* str) {
     unsigned char tmp[32] = { 0 };
     unsigned char buf[32] = { 0 };
@@ -161,7 +165,7 @@ bool strtoval(unsigned char* str) {
     }
     else return false;
 }
-
+*/
 
 //const uint32_t ERROR_OVERFLOW_IN = 4294967293UL;
 //const uint32_t ERROR_OVERFLOW = 0xAAAAAAAD;
