@@ -13,14 +13,24 @@ SpiMServer::SpiMServer() {
 
     rcon = new ipcReceivingConnection("SPI_MSERVER", 10);
     mcp2515 = new Mcp2515("/dev/spidev3.0");
-    mcp2515->mcp_init(Mcp2515::BITRATE_10_KBPS);
+    mcp2515->mcp_init(Mcp2515::BITRATE_1_MBPS);
 
-    th_recv = new boost::thread(SpiMServer::th_recv_fctn, &mtx, mcp2515, &gpio_fd);
+    boost::thread::attributes attrs_recv;
+    if (pthread_attr_setschedpolicy(attrs_recv.native_handle(), SCHED_FIFO) == 0) std::cout << "Set scheduling policy of th_recv to: SCHED_FIFO" << std::endl;
+    else std::cerr << "error: could not set scheduling policy of th_recv" << strerror(errno) << std::endl;
+
+    struct sched_param param;
+    param.__sched_priority = 99;
+    if (pthread_attr_setschedparam(attrs_recv.native_handle(), &param) == 0) std::cout << "Set scheduling priority of th_recv to: 99" << std::endl;
+    else std::cerr << "error: could not set scheduling priority of th_recv" << strerror(errno) << std::endl;
+
+    th_recv = new boost::thread(attrs_recv, boost::bind(SpiMServer::th_recv_fctn, &mtx, mcp2515, &gpio_fd));
     th_snd = new boost::thread(SpiMServer::th_snd_fctn, &mtx, mcp2515, rcon);
 
     // setup gpio input
     gpio_export(gpio);
     gpio_set_dir(gpio, 0);
+    //gpio_set_edge(gpio, (char*)"falling");
     gpio_set_edge(gpio, (char*)"falling");
 
     gpio_fd = gpio_fd_open(gpio);
@@ -93,7 +103,7 @@ void SpiMServer::th_recv_fctn(boost::mutex* mtx, Mcp2515* mcp2515, int* gpio_fd)
         fdset.fd = *gpio_fd;
         fdset.events = POLLPRI;
 
-        int retval = poll(&fdset, 1, -1);
+        int retval = poll(&fdset, 1, 20);
 
         if(retval < 0)
         {
@@ -101,8 +111,7 @@ void SpiMServer::th_recv_fctn(boost::mutex* mtx, Mcp2515* mcp2515, int* gpio_fd)
             return;
         }
         else if (retval == 0) {
-            std::cout << "poll() timeout ..." << std::endl;
-            // not possible !!!
+            //std::cout << "poll() timeout ..." << std::endl;
         }
 
         lseek(fdset.fd, 0, 0);

@@ -3,6 +3,7 @@
 #define _SPI_MSERVER_H_
 
 #include <boost/thread/thread.hpp>
+#include <boost/function.hpp>
 #include <sys/mman.h>
 #include <sys/stat.h>
 

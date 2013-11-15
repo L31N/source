@@ -21,7 +21,7 @@ class CAN {
             unsigned char data[8];
         };
 
-        bool read(can_t& msg);
+        bool read(can_t& msg, bool f_blocking = true);
         bool write(can_t& msg);
 
         bool checkNew(void);
