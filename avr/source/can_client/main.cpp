@@ -8,11 +8,11 @@
 int main () {
 
     // initialisation of the buttons and leds //
-    //DDRE &= ~(0xF0);    // buttons as input
-    //PORTE |= 0xF0;      // activate internal pull-ups
-    //DDRA |= 0xFF;       // leds as output
+    DDRE &= ~(0xF0);    // buttons as input
+    PORTE |= 0xF0;      // activate internal pull-ups
+    DDRA |= 0xFF;       // leds as output
 
-    can_init(BITRATE_100_KBPS);
+    can_init(BITRATE_1_MBPS);
     sei();
 
     can_t msg;
@@ -20,7 +20,7 @@ int main () {
     //msg.id = 0x0234567C;
     //msg.id = 0x0234567F;
 
-    msg.id = 129;
+    msg.id = 69;
 
     msg.flags.rtr = 0;
     //msg.flags.extended = 0;
@@ -45,23 +45,30 @@ int main () {
 
     //PORTA |= 0x02;
 
+    unsigned char i = 0;
     while(true) {
-        _delay_ms(200);
+        i++;
+        //_delay_ms(200);
         if (can_send_message(&msg)) {
+            PORTA = 0x01;
             //PORTA |= 0xFF;
-            _delay_ms(1000);
+            //_delay_ms(1000);
             //PORTA &= ~(0xFF);
-            _delay_ms(1000);
+            //_delay_ms(1000);
             // comment
         }
         else {
+            PORTA = 0xF0;
             //PORTA |= 0xF0;
-            _delay_ms(500);
+            //_delay_ms(500);
             //PORTA &= ~(0xF0);
-            _delay_ms(500);
+            //_delay_ms(500);
         }
         //_delay_ms(1000);
         //msg.id --;
+        _delay_ms(10);
+        msg.data[7] = i;
+        //if (i%10 == 0) _delay_ms(100);
     }
 
     return 0;
