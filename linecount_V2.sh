@@ -1,5 +1,4 @@
 #!/bin/bash
-echo $#
 string=""
 for input in $@
 do
