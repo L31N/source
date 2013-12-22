@@ -11,6 +11,33 @@ int main () {
 
     pwm_init();
 
+    /** testing ++++++++++++++++++ **/
+
+    _delay_ms(500);
+
+    while(true) {
+        signed short value0 = 30;
+        long lvalue0 = value0;
+
+        lvalue0 += 255;
+        lvalue0 *= 1000;
+        lvalue0 /= (2*255);
+
+        pwm_set(1000, 2);
+        _delay_ms(60);
+
+        pwm_set((unsigned long)lvalue0, 2);
+
+        _delay_ms(1000);
+
+        pwm_set(500, 2);
+
+        _delay_ms(1000);
+
+    }
+
+    /** ---------------------------- **/
+
     const bool BOARD_0 = true;      /// board0
     //const bool BOARD_0 = false;     /// board1
 
