@@ -55,7 +55,7 @@ THE SOFTWARE.
 #include "I2Cdev.h"
 
 #include <string>
-const std::string I2C_DEVICE_FILE = "/dev/i2c-1";
+const std::string I2C_DEVICE_FILE = "/dev/i2c-2";
 
 /** Default constructor.
  */

@@ -3,7 +3,7 @@
 # syntax: bbcopy file
 
 user="robotics";
-host="bboard1";
+host="bbone0";
 
 echo "";
 
