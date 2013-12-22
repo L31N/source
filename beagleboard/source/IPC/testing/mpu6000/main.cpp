@@ -12,8 +12,16 @@ int main () {
     printf("Initializing I2C devices...\n");
     mpu.initialize();
 
-    printf("Testing device connections...\n");
-    printf(mpu.testConnection() ? "MPU6050 connection successful\n" : "MPU6050 connection failed\n");
+    std::cout << "Testing device connections..." << std::endl;
+    if (mpu.testConnection()) std::cout << "MPU6000 Connection successfull" << std::endl;
+    else {
+        std::cout << "MPU6000 Connection failed" << std::endl;
+        return -1;
+    }
+
+    mpu.setDMPEnabled(true);
+
+
 
     return 0;
 }

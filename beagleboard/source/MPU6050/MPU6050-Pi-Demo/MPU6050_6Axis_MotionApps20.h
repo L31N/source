@@ -36,6 +36,10 @@ THE SOFTWARE.
 #include "I2Cdev.h"
 #include "helper_3dmath.h"
 
+#include <unistd.h>
+#include <stdio.h>
+#include <string.h>
+
 // MotionApps 2.0 DMP implementation, built using the MPU-6050EVB evaluation board
 #define MPU6050_INCLUDE_DMP_MOTIONAPPS20
 
@@ -685,7 +689,7 @@ uint8_t MPU6050::dmpReadAndProcessFIFOPacket(uint8_t numPackets, uint8_t *proces
 
         // process packet
         if ((status = dmpProcessFIFOPacket(buf)) > 0) return status;
-        
+
         // increment external process count variable, if supplied
         if (processed != 0) (*processed)++;
     }

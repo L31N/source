@@ -53,6 +53,9 @@
 		<Unit filename="MPU6050_6Axis_MotionApps20.h">
 			<Option target="ARM" />
 		</Unit>
+		<Unit filename="helper_3dmath.h">
+			<Option target="ARM" />
+		</Unit>
 		<Extensions>
 			<envvars />
 			<code_completion />
