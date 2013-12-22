@@ -13,7 +13,7 @@ SpiMServer::SpiMServer() {
 
     rcon = new ipcReceivingConnection("SPI_MSERVER", 10);
     mcp2515 = new Mcp2515("/dev/spidev3.0");
-    mcp2515->mcp_init(Mcp2515::BITRATE_1_MBPS);
+    mcp2515->mcp_init(Mcp2515::BITRATE_10_KBPS);
 
     boost::thread::attributes attrs_recv;
     if (pthread_attr_setschedpolicy(attrs_recv.native_handle(), SCHED_FIFO) == 0) std::cout << "Set scheduling policy of th_recv to: SCHED_FIFO" << std::endl;
