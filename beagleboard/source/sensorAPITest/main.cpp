@@ -14,7 +14,15 @@ int main () {
 
     GyroSensor gyro("GYRO");
 
+    int i = 0;
+
     while(true) {
+        i++;
+        if (i > 200) {
+            gyro.calibrate();
+            std::cout << "calibration" << std::endl;
+            i = 0;
+        }
         //std::cout << "distance[0]: " << laser0.getDistance(LaserSensor::mm) << std::endl;
         //std::cout << "distance[1]: " << laser1.getDistance(LaserSensor::mm) << std::endl;
 

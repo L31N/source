@@ -14,7 +14,6 @@ class GyroSensor : public Sensor {
         ~GyroSensor();
 
     private:
-        MPU6000* mpu;
         ipcReceivingConnection* rcon;
 
         Vector vect;

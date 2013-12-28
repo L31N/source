@@ -16,3 +16,14 @@ Vector GyroSensor::getVector() {
 
     return vect;
 }
+
+void GyroSensor::calibrate() {
+    ipcSendingConnection scon("SENSOR_API", "I2CD");
+    scon.sendData("calibrate");
+
+    /*while(this->getVector().getAngle(true, false) > 1 || this->getVector().getAngle(true, false) < -1) {
+        offset = vect.getAngle(true, false);
+    }
+
+    std::cout << "angle: " << vect.getAngle(true, false) << "\t offset: " << offset << std::endl;*/
+}
