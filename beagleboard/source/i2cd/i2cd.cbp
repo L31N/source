@@ -2,29 +2,26 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="mpu6000" />
+		<Option title="i2cd" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="ARM">
-				<Option output="bin/ARM/mpu6000" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/ARM/i2cd" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/ARM/" />
 				<Option type="1" />
-				<Option compiler="armelfgcc" />
+				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
 				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
 			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
-			<Add directory="/bbusr/include/" />
 		</Compiler>
-		<Linker>
-			<Add option="-lmpu6050" />
-			<Add directory="/bbusr/lib" />
-		</Linker>
-		<Unit filename="main.cpp" />
 		<Extensions>
 			<envvars />
 			<code_completion />

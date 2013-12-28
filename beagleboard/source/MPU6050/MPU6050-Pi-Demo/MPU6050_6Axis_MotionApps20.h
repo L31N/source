@@ -60,12 +60,11 @@ THE SOFTWARE.
 // after moving string constants to flash memory storage using the F()
 // compiler macro (Arduino IDE 1.0+ required).
 
-//#define DEBUG
-#ifdef DEBUG
-    #define DEBUG_PRINT(x) Serial.print(x)
-    #define DEBUG_PRINTF(x, y) Serial.print(x, y)
-    #define DEBUG_PRINTLN(x) Serial.println(x)
-    #define DEBUG_PRINTLNF(x, y) Serial.println(x, y)
+#ifdef DEBUG_LINUX
+    #define DEBUG_PRINT(x) printf(x)
+    #define DEBUG_PRINTF(x, y) printf(x, y)
+    #define DEBUG_PRINTLN(x) printf(x)
+    #define DEBUG_PRINTLNF(x, y) printf(x, y)
 #else
     #define DEBUG_PRINT(x)
     #define DEBUG_PRINTF(x, y)
@@ -418,7 +417,8 @@ uint8_t MPU6050::dmpInitialize() {
 
             printf("Current FIFO count=%d\n", fifoCount);
             DEBUG_PRINTLN(fifoCount);
-            getFIFOBytes(fifoBuffer, fifoCount);
+            if (fifoCount > 0)
+                getFIFOBytes(fifoBuffer, fifoCount);
 
             DEBUG_PRINTLN(F("Setting motion detection threshold to 2..."));
             setMotionDetectionThreshold(2);

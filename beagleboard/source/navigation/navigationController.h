@@ -47,7 +47,8 @@ class NavigationController {
         Vector* speed;          // bewegungsrichtung inkl. speed
 
         // ------------------- //
-        public: Vector getPosition();
+    public:
+        Vector getPosition();
         Vector getDirection();
 
 };
