@@ -6,7 +6,7 @@
 
 #include "bbvector.h"
 
-
+#include "sensor.h"
 
 class GyroSensor : public Sensor {
     public:

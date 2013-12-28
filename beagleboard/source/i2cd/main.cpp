@@ -1,4 +1,6 @@
 
+#include <cstdlib>
+
 #include "mpu6050/I2Cdev.h"
 #include "mpu6050/MPU6050_6Axis_MotionApps20.h"
 
@@ -9,7 +11,7 @@
 
 
 int main () {
-    Debug debug("i2cd");
+    Debug debug("I2CD_DBG");
 
     MPU6000 mpu;
 
@@ -54,9 +56,10 @@ int main () {
             Vector vect(0,1);
             vect.setAngle(euler[0], false, false);
 
-            ipcSendingConnection scon("I2CD", "GYRO", sizeof(Vector));
+            ipcSendingConnection scon("I2CD", "GYRO_I2CD", sizeof(Vector));
 
             scon.sendData(std::string(vect));
         }
+        usleep(2000);
     }
 }

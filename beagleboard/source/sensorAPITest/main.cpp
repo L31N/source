@@ -2,19 +2,25 @@
 #include <string>
 #include <iostream>
 
-#include "sensor/laserSensor.h"
+#include "bbvector.h"
+#include "sensor/gyroSensor.h"
 
 
 int main () {
     std::cout << "laser-sensor-testing ..." << std::endl;
 
-    LaserSensor laser0("LASER_SENSOR0", "WENGLORS0", 0);
-    LaserSensor laser1("LASER_SENSOR1", "WENGLORS1", 1);
+    //LaserSensor laser0("LASER_SENSOR0", "WENGLORS0", 0);
+    //LaserSensor laser1("LASER_SENSOR1", "WENGLORS1", 1);
+
+    GyroSensor gyro("GYRO");
 
     while(true) {
-        std::cout << "distance[0]: " << laser0.getDistance(LaserSensor::mm) << std::endl;
+        //std::cout << "distance[0]: " << laser0.getDistance(LaserSensor::mm) << std::endl;
         //std::cout << "distance[1]: " << laser1.getDistance(LaserSensor::mm) << std::endl;
-        std::cout << std::endl;
+
+        Vector vect = gyro.getVector();
+        std::cout << vect.getAngle() << std::endl;
+
         //sleep(1);
         usleep(50 * 1000);
     }
