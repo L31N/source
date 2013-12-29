@@ -401,6 +401,10 @@ THE SOFTWARE.
 
 // note: DMP code memory blocks defined at end of header file
 
+class MPU6050;
+
+typedef MPU6050 MPU6000;
+
 class MPU6050 {
     public:
         MPU6050();

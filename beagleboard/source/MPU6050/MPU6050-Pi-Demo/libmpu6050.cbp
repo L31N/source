@@ -28,6 +28,7 @@
 				<Compiler>
 					<Add option="-O2" />
 					<Add option="-fPIC" />
+					<Add option="-DDEBUG_LINUX" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
