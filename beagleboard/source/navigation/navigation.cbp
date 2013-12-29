@@ -6,11 +6,11 @@
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
-			<Target title="Release">
+			<Target title="ARM">
 				<Option output="bin/Release/navigation" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/Release/" />
+				<Option object_output="obj/ARM/" />
 				<Option type="1" />
-				<Option compiler="gcc" />
+				<Option compiler="armelfgcc" />
 				<Compiler>
 					<Add option="-O2" />
 				</Compiler>
@@ -20,8 +20,23 @@
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="-std=c++0x" />
 			<Add option="-Wall" />
+			<Add directory="/bbusr/include/" />
 		</Compiler>
+		<Linker>
+			<Add option="-lbbsensor" />
+			<Add option="-lbbcan" />
+			<Add option="-lbbdebug" />
+			<Add option="-lbbipc" />
+			<Add option="-lbbvector" />
+			<Add directory="/bbusr/lib/" />
+		</Linker>
+		<Unit filename="Navigation.cpp" />
+		<Unit filename="Navigation.h" />
+		<Unit filename="main.cpp" />
+		<Unit filename="position.cpp" />
+		<Unit filename="position.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
