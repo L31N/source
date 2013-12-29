@@ -79,6 +79,8 @@ void Navigation::rankByVector(Position* position) {
 
     unsigned short angle = line.getAngle(driveVector);
 
+    angle *= (vectors[0].abs() / 20);    // so the priority of the vector is higher the higher motor-speed is.
+
     position->setVectorRanking(angle);
 }
 
