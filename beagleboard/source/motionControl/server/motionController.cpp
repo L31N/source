@@ -22,6 +22,10 @@ MotionController::~MotionController() {
 }
 
 void MotionController::drive(Vector vector, short rotationSpeed) {
+
+    ipcSendingConnection scon("MOTION_CONTROL", "NAVIGATION");
+    scon.sendData(std::string(vector));
+
     Vector g;
     Vector h;
 
