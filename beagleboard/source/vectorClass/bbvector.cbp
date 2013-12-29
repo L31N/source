@@ -22,7 +22,6 @@
 			</Target>
 			<Target title="ARM">
 				<Option output="libbbvector" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="" />
 				<Option object_output="obj/ARM/" />
 				<Option type="3" />
 				<Option compiler="armelfgcc" />
@@ -34,6 +33,8 @@
 			<Add option="-Wall" />
 			<Add option="-fPIC" />
 		</Compiler>
+		<Unit filename="bbline.cpp" />
+		<Unit filename="bbline.h" />
 		<Unit filename="bbvector.cpp" />
 		<Unit filename="bbvector.h" />
 		<Extensions>
