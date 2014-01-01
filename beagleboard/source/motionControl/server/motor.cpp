@@ -24,8 +24,7 @@ void Motors::setSpeed(short speed0, short speed1, short speed2, short speed3) {
     speeds[3] = speed3;
 
     CAN::can_t can_frame;
-    can_frame.rtr = 0;
-    can_frame.length = 8;
+    can_frame.can_dlc = 8;
 
     for (int i = 0; i < 4; i++) {
         if (speeds[i] < 0) {

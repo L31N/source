@@ -31,33 +31,35 @@ MotionControl::~MotionControl() {
 
 void MotionControl::run() {
     while(42) {
-        std::string datastr = ipcRcon->readDataFromBuffer()->getData();
-        if (datastr[0] == 0) {
-            Vector vector(datastr.substr(1, 16));
+        if (ipcRcon->checkForNewData()) {
+            std::string datastr = ipcRcon->readDataFromBuffer()->getData();
+            if (datastr[0] == 0) {
+                Vector vector(datastr.substr(1, 16));
 
-            short rotationSpeed = 0;
-            memcpy(&rotationSpeed, datastr.substr(17, 2).c_str(), sizeof(rotationSpeed));
+                short rotationSpeed = 0;
+                memcpy(&rotationSpeed, datastr.substr(17, 2).c_str(), sizeof(rotationSpeed));
 
-            thDrive = new boost::thread(MotionControl::thDrive_fctn, extMtnCtrlr, vector, rotationSpeed);
-            thDrive->detach();
-        }
-        else if (datastr[0] == 1) {
-        }
-        else if (datastr[0] == 2) {
-        }
-        else if (datastr[0] == 3) {
-        }
-        else if (datastr[0] == 4) {
-        }
-        else if (datastr[0] == 5) {
-        }
-        else if (datastr[0] == 6) {
-        }
-        else if (datastr[0] == 7) {
-        }
+                thDrive = new boost::thread(MotionControl::thDrive_fctn, extMtnCtrlr, vector, rotationSpeed);
+                thDrive->detach();
+            }
+            else if (datastr[0] == 1) {
+            }
+            else if (datastr[0] == 2) {
+            }
+            else if (datastr[0] == 3) {
+            }
+            else if (datastr[0] == 4) {
+            }
+            else if (datastr[0] == 5) {
+            }
+            else if (datastr[0] == 6) {
+            }
+            else if (datastr[0] == 7) {
+            }
 
-        else {  /// unknown command byte
-            std::cerr << "error: received unknown command-byte ..." << std::endl;
+            else {  /// unknown command byte
+                std::cerr << "error: received unknown command-byte ..." << std::endl;
+            }
         }
     }
 }
