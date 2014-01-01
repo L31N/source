@@ -91,11 +91,11 @@ void Navigation::rankByTrend(Position* postion) {
 Position Navigation::choosePosition(Position _positions[4]) {
 
     // set ranking priorities here -> the bigger the value the more influence this criterion has.
-    const unsigned char positionPriority = 1;
-    const unsigned char vectorPriority = 1;
+    const unsigned char positionPriority = 60;
+    const unsigned char vectorPriority = 40;
     //const unsigned char trendPriority = 1;
 
-    unsigned int rankings[4] = {
+    unsigned long long int rankings[4] = {
         positionPriority * _positions[0].getPositionRanking() + vectorPriority * _positions[0].getVectorRanking(),
         positionPriority * _positions[1].getPositionRanking() + vectorPriority * _positions[1].getVectorRanking(),
         positionPriority * _positions[2].getPositionRanking() + vectorPriority * _positions[2].getVectorRanking(),
