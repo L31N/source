@@ -77,3 +77,7 @@ bool CAN::write(can_frame& msg) {
     if (::write(sock, &msg, sizeof(msg)) > 0) return true;
     else return false;
 }
+
+unsigned short CAN::getCanId(const std::string canName) {
+    return cancnf->getCanID(canName);
+}

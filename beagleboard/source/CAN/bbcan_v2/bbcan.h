@@ -28,6 +28,8 @@ class CAN {
         bool read(can_frame& msg);
         bool write(can_frame& msg);
 
+        unsigned short getCanId(const std::string canName);
+
     private:
         static const std::string CAN_CONFIG_FILE_PATH;
         static const std::string CAN_INTERFACE_NAME;
