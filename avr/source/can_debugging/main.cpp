@@ -21,24 +21,30 @@ int main () {
     DDRA |= 0xFF;       // leds as output
 
     /** CAN TESTING HERE **/
-    can_init(BITRATE_100_KBPS);
+    can_init(BITRATE_1_MBPS);
     sei();
 
     // motor 1
     can_filter_t filter0;
-    filter0.id = 1;
-    filter0.mask = 0x7FF;
+    filter0.id = 9;
+    //filter0.mask = 0x7FF;
+    filter0.mask = 0;
     filter0.flags.rtr = 0;
 
     can_set_filter(0, &filter0);
 
     PORTA = 0x01;
     _delay_ms(1000);
-    PORTA = 0x00;
+    PORTA = 0x02;
 
 
    while(true) {
         if (can_check_message()) {
+            PORTA ^= 0x03;
+
+            /*can_t msg;
+            can_get_message(&msg);*/
+
             can_t message;
             can_get_message(&message);
             for (int i = 0; i < 8; i++) {
@@ -51,7 +57,7 @@ int main () {
             uart_debug(".\n\r");
             _delay_ms(5);
         }
-   }
+    }
 
 
     /** ** ++++++++++ ** **/
