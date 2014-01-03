@@ -2,12 +2,12 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="bbvector" />
+		<Option title="bbcan" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Release">
-				<Option output="libbbvector" prefix_auto="1" extension_auto="1" />
+				<Option output="libbbcan" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
 				<Option object_output="obj/Release/" />
 				<Option type="2" />
@@ -21,7 +21,8 @@
 				</Linker>
 			</Target>
 			<Target title="ARM">
-				<Option output="libbbvector" prefix_auto="1" extension_auto="1" />
+				<Option output="libbbcan" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
 				<Option object_output="obj/ARM/" />
 				<Option type="3" />
 				<Option compiler="armelfgcc" />
@@ -30,13 +31,20 @@
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="-std=c++0x" />
 			<Add option="-Wall" />
 			<Add option="-fPIC" />
+			<Add directory="/bbusr/include" />
 		</Compiler>
-		<Unit filename="bbline.cpp" />
-		<Unit filename="bbline.h" />
-		<Unit filename="bbvector.cpp" />
-		<Unit filename="bbvector.h" />
+		<Linker>
+			<Add option="-lbbipc" />
+			<Add option="-lpthread" />
+			<Add directory="/bbusr/lib" />
+		</Linker>
+		<Unit filename="bbcan.cpp" />
+		<Unit filename="bbcan.h" />
+		<Unit filename="can_config.cpp" />
+		<Unit filename="can_config.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

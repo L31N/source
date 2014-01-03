@@ -22,6 +22,10 @@ MotionController::~MotionController() {
 }
 
 void MotionController::drive(Vector vector, short rotationSpeed) {
+
+    ipcSendingConnection scon("MOTION_CONTROL", "NAVIGATION");
+    scon.sendData(std::string(vector));
+
     Vector g;
     Vector h;
 
@@ -77,6 +81,7 @@ void MotionController::drive(Vector vector, short rotationSpeed) {
     motorSpeeds[2] = length_h;
     motorSpeeds[3] = length_g;
 
+    std::cout << "set motor speeds: " << motorSpeeds[0] << "\t" << motorSpeeds[1] << "\t" << motorSpeeds[2] << "\t" << motorSpeeds[3] << std::endl;
 
     /// calculate motor-values dependend to the turn
 

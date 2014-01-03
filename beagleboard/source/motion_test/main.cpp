@@ -5,7 +5,7 @@
 #include "bbvector.h"
 
 int main () {
-    MotionController* mc = new MotionController;
+    Motion* motion = new Motion;
 
     double x, y;
 
@@ -18,13 +18,13 @@ int main () {
 
     Vector vector(x, y);
     //vector.setLength(50);
-    mc->drive(vector, 0);
+    motion->drive(vector, 0);
 
     sleep(2);
 
-    mc->pbreak();
+    motion->pbreak();
 
-    delete mc;
+    delete motion;
 
     return 0;
 }
