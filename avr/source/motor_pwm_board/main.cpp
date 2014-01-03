@@ -13,28 +13,31 @@ int main () {
 
     /** testing ++++++++++++++++++ **/
 
-    _delay_ms(500);
+    /*_delay_ms(2000);
 
     while(true) {
-        signed short value0 = 30;
+        signed short value0 = 100;
         long lvalue0 = value0;
 
         lvalue0 += 255;
         lvalue0 *= 1000;
         lvalue0 /= (2*255);
 
-        pwm_set(1000, 2);
+        pwm_set(1000, 0);
+        pwm_set(1000, 1);
         _delay_ms(60);
 
-        pwm_set((unsigned long)lvalue0, 2);
+        pwm_set((unsigned long)lvalue0, 0);
+        pwm_set((unsigned long)lvalue0, 1);
 
         _delay_ms(1000);
 
-        pwm_set(500, 2);
+        pwm_set(500, 0);
+        pwm_set(500, 1);
 
         _delay_ms(1000);
 
-    }
+    }*/
 
     /** ---------------------------- **/
 
@@ -43,7 +46,17 @@ int main () {
 
     unsigned short BOARD_ID = 9;
 
-    can_init(BITRATE_10_KBPS);
+    _delay_ms(2000);
+
+    pwm_set(1000, 0);
+    pwm_set(1000, 1);
+
+    _delay_ms(2000);
+
+    pwm_set(500, 0);
+    pwm_set(500, 1);
+
+    can_init(BITRATE_1_MBPS);
     sei();
 
     // motor 1
@@ -55,9 +68,10 @@ int main () {
     can_set_filter(0, &filter0);
 
     while(42) {
+
         if (can_check_message()) {
 
-            PORTA ^= 0xF0;
+            //PORTA ^= 0xF0;
 
             can_t message;
             can_get_message(&message);

@@ -16,16 +16,20 @@ int main () {
     sei();
 
     can_t msg;
+    can_t msg1;
 
     //msg.id = 0x0234567C;
     //msg.id = 0x0234567F;
 
     msg.id = 69;
+    msg1.id = 42;
 
     msg.flags.rtr = 0;
+    msg1.flags.rtr = 0;
     //msg.flags.extended = 0;
 
     msg.length = 8;
+    msg1.length = 4;
     /*msg.data[0] = 1;
     msg.data[1] = 2;
     msg.data[2] = 3;
@@ -43,13 +47,18 @@ int main () {
     msg.data[6] = 'G';
     msg.data[7] = 'H';
 
+    msg1.data[0] = 42;
+    msg1.data[1] = 21;
+    msg1.data[2] = 6;
+    msg1.data[3] = 63;
+
     //PORTA |= 0x02;
 
     unsigned char i = 0;
     while(true) {
         i++;
         //_delay_ms(200);
-        if (can_send_message(&msg)) {
+        if (can_send_message(&msg) && can_send_message(&msg1)) {
             PORTA = 0x01;
             //PORTA |= 0xFF;
             //_delay_ms(1000);
@@ -58,7 +67,7 @@ int main () {
             // comment
         }
         else {
-            PORTA = 0xF0;
+            PORTA ^= 0xF0;
             //PORTA |= 0xF0;
             //_delay_ms(500);
             //PORTA &= ~(0xF0);
@@ -66,8 +75,9 @@ int main () {
         }
         //_delay_ms(1000);
         //msg.id --;
-        _delay_ms(10);
+        _delay_ms(500);
         msg.data[7] = i;
+        msg1.data[3] = i;
         //if (i%10 == 0) _delay_ms(100);
     }
 
