@@ -54,8 +54,21 @@ int main () {
             uart_debug("##########################\n\n\r");
         }
         if (PINE < 0xF0) {
+            can_t frame;
+            frame.id = 0x09;
+            frame.flags.rtr = 0;
+            frame.length = 2;
+            frame.data[0] = 0x2A;
+            frame.data[1] = 0x06;
+
+            if (can_send_message(&frame)) {
+                PORTA &= ~0xE0;
+                PORTA ^= 0x10;
+            }
+            else PORTA = 0xE0;
+
             uart_debug(".\n\r");
-            _delay_ms(5);
+            _delay_ms(500);
         }
     }
 

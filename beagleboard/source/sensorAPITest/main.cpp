@@ -4,15 +4,30 @@
 
 #include "bbvector.h"
 #include "sensor/gyroSensor.h"
+#include "sensor/laserSensor.h"
 
 
 int main () {
     std::cout << "laser-sensor-testing ..." << std::endl;
 
-    //LaserSensor laser0("LASER_SENSOR0", "WENGLORS0", 0);
-    //LaserSensor laser1("LASER_SENSOR1", "WENGLORS1", 1);
+    LaserSensor* laser[4];
+    laser[0] = new LaserSensor("LASER_SENSOR0", "WENGLORS0", 0);
+    laser[1] = new LaserSensor("LASER_SENSOR1", "WENGLORS0", 1);
+    laser[2] = new LaserSensor("LASER_SENSOR2", "WENGLORS1", 0);
+    laser[3] = new LaserSensor("LASER_SENSOR3", "WENGLORS1", 1);
 
-    GyroSensor gyro("GYRO");
+    while(true) {
+        for (int i = 0; i < 2; i++) {
+            std::cout << "LaserSensor" << i << ": [" << laser[i]->getDistance() << "]" << std::endl;
+        }
+        std::cout << "-------------------------------" << std::endl;
+    }
+
+    for (int i = 0; i < 4; i++) delete laser[i];
+
+    return 0;
+
+    /*GyroSensor gyro("GYRO");
 
     int i = 0;
 
@@ -31,7 +46,7 @@ int main () {
 
         //sleep(1);
         usleep(50 * 1000);
-    }
+    }*/
 }
 
 /*int main () {

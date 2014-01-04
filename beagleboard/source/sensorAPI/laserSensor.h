@@ -13,14 +13,20 @@ class LaserSensor : public CANSensor {
     public:
         enum Unit {mm, cm};
 
-        LaserSensor(const std::string ipcName, const std::string canName, const unsigned short _number);
+        /**
+        ipcName: name used for debug messages,
+        canName: name which is connected with the can_id,
+        num:     number of sensor on the specific board (wenglors0:num / wenglors1:num)
+        **/
+
+        LaserSensor(const std::string ipcName, const std::string canName, unsigned char num);
         ~LaserSensor();
 
         unsigned int getDistance(Unit unit = mm);
 
     private:
         unsigned int mmDistance;
-        unsigned short number;
+        unsigned char number;
 };
 
 #endif // _LASER_SENSOR_H_

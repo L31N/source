@@ -21,7 +21,7 @@ int main () {
 
     DDRE &= ~(1 << 4);  // set the reflex pin as input
 
-    can_init(BITRATE_10_KBPS);
+    can_init(BITRATE_1_MBPS);
     sei();
 
     uart_init(38400);
@@ -109,7 +109,6 @@ int main () {
             uart_clear();
             uart1_clear();*/
         }
-        _delay_ms(2);
     }
 }
 
