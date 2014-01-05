@@ -17,7 +17,7 @@ int main () {
     laser[3] = new LaserSensor("LASER_SENSOR3", "WENGLORS1", 1);
 
     while(true) {
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 4; i++) {
             std::cout << "LaserSensor" << i << ": [" << laser[i]->getDistance() << "]" << std::endl;
         }
         std::cout << "-------------------------------" << std::endl;

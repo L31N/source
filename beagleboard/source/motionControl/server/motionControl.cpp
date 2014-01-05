@@ -10,6 +10,15 @@ MotionControl::MotionControl() {
     //thReceive = new boost::thread(MotionControl::thReceive_fctn, ipcRcon);
     //thControl = new boost::thread(MotionControl::thControl_fctn, extMtnCtrlr);
 
+    thDrive = NULL;
+    thMoveto = NULL;
+    thMove = NULL;
+    thTurnto = NULL;
+    thTurn = NULL;
+    thPBreak = NULL;
+    thIdle = NULL;
+    thTest = NULL;
+
     dbg = new Debug("MOTION_CONTROL_DBG");
 }
 
@@ -32,7 +41,9 @@ MotionControl::~MotionControl() {
 void MotionControl::run() {
     while(42) {
         if (ipcRcon->checkForNewData()) {
+
             std::string datastr = ipcRcon->readDataFromBuffer()->getData();
+
             if (datastr[0] == 0) {
                 Vector vector(datastr.substr(1, 16));
 
@@ -51,6 +62,7 @@ void MotionControl::run() {
             else if (datastr[0] == 4) {
             }
             else if (datastr[0] == 5) {
+                extMtnCtrlr->pbreak();
             }
             else if (datastr[0] == 6) {
             }
@@ -66,7 +78,7 @@ void MotionControl::run() {
 
  void MotionControl::thDrive_fctn(ExtendedMotionController* emCtrlr, Vector vector, short rotationSpeed) {
     emCtrlr->drive(vector, rotationSpeed);
-    while(42) sleep(1);
+    while(42) boost::this_thread::sleep_for(boost::chrono::nanoseconds(1));
  }
 
  void MotionControl::thMoveto_fctn(ExtendedMotionController* emCtrlr, Vector vector, unsigned char speed, Vector dir) {
