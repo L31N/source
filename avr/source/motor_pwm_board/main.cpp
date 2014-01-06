@@ -41,20 +41,10 @@ int main () {
 
     /** ---------------------------- **/
 
-    const bool BOARD_0 = true;      /// board0
-    //const bool BOARD_0 = false;     /// board1
+    //const bool BOARD_0 = true;      /// board0
+    const bool BOARD_0 = false;     /// board1
 
     unsigned short BOARD_ID = 9;
-
-    _delay_ms(2000);
-
-    pwm_set(1000, 0);
-    pwm_set(1000, 1);
-
-    _delay_ms(2000);
-
-    pwm_set(500, 0);
-    pwm_set(500, 1);
 
     can_init(BITRATE_1_MBPS);
     sei();

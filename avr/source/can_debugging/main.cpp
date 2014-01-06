@@ -21,7 +21,7 @@ int main () {
     DDRA |= 0xFF;       // leds as output
 
     /** CAN TESTING HERE **/
-    can_init(BITRATE_1_MBPS);
+    can_init(BITRATE_100_KBPS);
     sei();
 
     // motor 1
@@ -36,6 +36,29 @@ int main () {
     PORTA = 0x01;
     _delay_ms(1000);
     PORTA = 0x02;
+
+    int j = 0;
+
+    while(true) {
+        can_t frame;
+        frame.id = 0x42;
+        frame.flags.rtr = 0;
+        frame.length = 8;
+        for(int i = 0; i < 8; i++) {
+            frame.data[i] = j + i;
+        }
+        j++;
+
+        can_send_message(&frame);
+
+        //_delay_ms(2);
+        _delay_us(10);
+
+        /*if (j > 4) {
+            j = 0;
+            _delay_ms(200);
+        }*/
+    }
 
 
    while(true) {
