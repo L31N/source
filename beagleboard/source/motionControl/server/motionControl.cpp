@@ -7,8 +7,7 @@ MotionControl::MotionControl() {
     ipcRcon = new ipcReceivingConnection("MOTION_CONTROL", 1, 34);
     extMtnCtrlr = new ExtendedMotionController();
 
-    //thReceive = new boost::thread(MotionControl::thReceive_fctn, ipcRcon);
-    //thControl = new boost::thread(MotionControl::thControl_fctn, extMtnCtrlr);
+    gyro = new GyroSensor("GYRO");
 
     thDrive = NULL;
     thMoveto = NULL;
@@ -28,6 +27,8 @@ MotionControl::~MotionControl() {
     delete extMtnCtrlr;
     delete ipcRcon;
 
+    delete gyro;
+
     delete dbg;
 }
 
@@ -43,7 +44,7 @@ void MotionControl::run() {
                 short rotationSpeed = 0;
                 memcpy(&rotationSpeed, datastr.substr(17, 2).c_str(), sizeof(rotationSpeed));
 
-                thDrive = new boost::thread(MotionControl::thDrive_fctn, extMtnCtrlr, vector, rotationSpeed);
+                thDrive = new boost::thread(MotionControl::thDrive_fctn, extMtnCtrlr, vector, rotationSpeed, gyro);
             }
             else if (datastr[0] == 1) {
             }
@@ -68,10 +69,18 @@ void MotionControl::run() {
     }
 }
 
- void MotionControl::thDrive_fctn(ExtendedMotionController* emCtrlr, Vector vector, short rotationSpeed) {
+ void MotionControl::thDrive_fctn(ExtendedMotionController* emCtrlr, Vector vector, short rotationSpeed, GyroSensor* gyro) {
     std::cout << "drive(Vector(" << vector.getX() << ", " << vector.getY() << "), " << rotationSpeed << ")" << std::endl;
+
+    double old_angle = vector.getAngle(true, false);
+    std::cout << "old: " << old_angle << std::endl;
     while(true) {
         try {
+            double angle = gyro->getVector().getAngle(true, false);
+            std::cout << "angle: " << angle << std::endl;
+            vector.setAngle(old_angle - angle, true, false);   // update the vector to drive to dependent to turnangle
+            vector.print();
+
             emCtrlr->drive(vector, rotationSpeed);
             boost::this_thread::sleep_for(boost::chrono::milliseconds(5));
         }

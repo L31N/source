@@ -20,11 +20,9 @@ int main () {
     //vector.setLength(50);
     motion->drive(vector, 0);
 
-    sleep(2);
+    sleep(20);
 
     motion->pbreak();
-
-    _delay_ms(100);
 
     delete motion;
 

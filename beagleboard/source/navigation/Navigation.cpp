@@ -8,7 +8,7 @@ Navigation::Navigation() {
     laserSensor[3] = new LaserSensor("LASER_SENSOR3", "WENGLORS1", 1);
 
     gyroSensor = new GyroSensor("GYRO");
-    gyroSensor->calibrate();
+    //gyroSensor->calibrate();
     sleep(2);
 
     debug = new Debug("NAVIGATION");
@@ -16,7 +16,7 @@ Navigation::Navigation() {
     rcon = new ipcReceivingConnection("NAVIGATION");
 
     for (int i = 0; i < 4; i++)
-        vectors[i] = Vector(100, 100);
+        vectors[i] = Vector(FIELD_WIDTH/2.0, FIELD_HEIGHT/2.0);
 
     for (int i = 0; i < 10; i++)
         lastPositions[i] = Vector(100, 100);
@@ -57,13 +57,14 @@ void Navigation::run() {
             vectors[0] = Vector(rcon->readDataFromBuffer()->getData());
         }
 
-        for (int i = 0; i < 4; i++) {
-            rankByPosition(&positions[i]);
-            rankByVector(&positions[i]);
-            rankByTrend(&positions[i]);
-        }
+        rankByPosition();
+        rankByVector();
+        rankByTrend();
 
         Position chosen = choosePosition(positions);
+        std::cout << "\t chosen: ";
+        chosen.getVector().print();
+        std::cout << std::endl;
 
         // update lastPositions
         for (int i = 10; i > 0; i--)
@@ -78,14 +79,27 @@ void Navigation::run() {
 
 /** private member functions **/
 
-void Navigation::rankByPosition(Position* position) {
-    Vector line = position->getVector() - lastPositions[0];
-    double distance = line.abs();
-    position->setPositionRanking(distance);
+void Navigation::rankByPosition() {
+
+    for(int i = 0; i < 4; i++) {
+        positions[i].getVector().print();
+        std::cout << " ";
+    }
+
+    for (int i = 0; i < 4; i++) {
+        Vector line = positions[i].getVector() - lastPositions[0];
+        debug->send("vector1: %d|%d", positions[i].getVector().getX(), positions[i].getVector().getY());
+        debug->send("vector2: %d|%d", lastPositions[0].getX(), lastPositions[0].getY());
+        debug->send("line: %d|%d", line.getX(), line.getY());
+        double distance = line.abs();
+        positions[i].setPositionRanking(distance);
+
+        debug->send("posRanking: %d", distance);
+    }
 }
 
-void Navigation::rankByVector(Position* position) {
-    Vector line = position->getVector() - lastPositions[0];
+void Navigation::rankByVector() {
+    /*Vector line = positions.getVector() - lastPositions[0];
 
     Vector driveVector(1, 0);
     driveVector.setAngle(vectors[0].getAngle() + gyroSensor->getVector().getAngle());
@@ -95,9 +109,11 @@ void Navigation::rankByVector(Position* position) {
     angle *= (vectors[0].abs() / 20);    // so the priority of the vector is higher the higher motor-speed is.
 
     position->setVectorRanking(angle);
+
+    debug->send("vectRanking: %d", angle);*/
 }
 
-void Navigation::rankByTrend(Position* postion) {
+void Navigation::rankByTrend() {
     // not implemented yet
 }
 
@@ -263,12 +279,12 @@ void Navigation::calcPositions(unsigned char situation) {
     unsigned short distancesX[2];
     unsigned short distancesY[2];
 
-    //double alpha = gyroSensor->getVector().getAngle(false, true);
-    double alpha = 0;
+    double alpha = gyroSensor->getVector().getAngle(false, true);
 
     //std::cout << "general: " << int(generalSituation) << "\tspecific: " << int(specificSituation) << std::endl;
 
-    if (generalSituation == 0) {
+    //if (generalSituation == 0) {
+    if (true) {
         // calc all distances
         distancesX[0] = distances[(3 + specificSituation) % 4] * cos(alpha); // x1
         distancesX[1] = distances[(1 + specificSituation) % 4] * cos(alpha); // x2
@@ -276,18 +292,26 @@ void Navigation::calcPositions(unsigned char situation) {
         distancesY[0] = distances[(2 + specificSituation) % 4] * cos(alpha); // y1
         distancesY[1] = distances[(0 + specificSituation) % 4] * cos(alpha); // y2
 
-        std::cout << "X1: " << distancesX[0] << "\tX2: " << distancesX[1];
+        /*std::cout << "X1: " << distancesX[0] << "\tX2: " << distancesX[1];
         std::cout << "\tY1: " << distancesY[0] << "\tY2: " << distancesY[1] << std::endl;
         std::cout << "Lasers:";
+
         for (int i = 0; i < 4; i++) std::cout << "[" << i << "]: " << distances[i] << "\t\t";
         std::cout << std::endl;
-        std::cout << "---------------------" << std::endl;
+        std::cout << "---------------------" << std::endl;*/
 
         // calc possible positions
-        positions[0].setVector(Vector(FIELD_WIDTH - distancesX[1], FIELD_HEIGHT - distancesY[0]));
+        positions[0].setVector(Vector(FIELD_WIDTH - distancesX[1], FIELD_HEIGHT - distancesY[1]));
         positions[1].setVector(Vector(FIELD_WIDTH - distancesX[1], distancesY[0]));
         positions[2].setVector(Vector(distancesX[0], distancesY[0]));
-        positions[3].setVector(Vector(distancesX[0], FIELD_HEIGHT - distancesY[0]));
+        positions[3].setVector(Vector(distancesX[0], FIELD_HEIGHT - distancesY[1]));
+
+        /*for(int i = 0; i < 4; i++) {
+            positions[i].getVector().print();
+            std::cout << " ";
+        }*/
+        std::cout << "\tspecific: " << (int)specificSituation << "\talpha: " << alpha*180 /M_PI;
+        //std::cout << std::endl;
     }
 
     return;

@@ -6,7 +6,7 @@
 
 const unsigned short error_value_distance = std::numeric_limits<unsigned int>::max();
 
-const unsigned short LaserSensor::offset[]  = { 100, 80, 80, 100 };
+const unsigned short LaserSensor::offset[]  = { 100, 110, 80, 120 };
 
 LaserSensor::LaserSensor(const std::string ipcName, const std::string canName, unsigned char num) : CANSensor(ipcName, canName) {
     mmDistance = error_value_distance;

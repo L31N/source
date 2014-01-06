@@ -29,7 +29,7 @@ class Navigation
 
         Vector lastPositions[10];   // last position vectors
 
-        Position positions[4];        // posible positions calculated with wenglors
+        Position positions[4];      // posible positions calculated with wenglors
 
         Vector vectors[4];          // last drive vectors
 
@@ -39,14 +39,14 @@ class Navigation
         unsigned char detectSituation(Vector pPos, Vector pDir);
         void calcPositions(unsigned char situation);
 
-        void rankByPosition(Position* position);
-        void rankByVector(Position* position);
-        void rankByTrend(Position* position);
+        void rankByPosition();
+        void rankByVector();
+        void rankByTrend();
 
         Position choosePosition(Position _positions[4]);
 
-        static const unsigned long FIELD_WIDTH = 1835;
-        static const unsigned long FIELD_HEIGHT = 2430;
+        static const unsigned long FIELD_WIDTH = 1810;
+        static const unsigned long FIELD_HEIGHT = 2425;
 };
 
 #endif // NAVIGATION_H

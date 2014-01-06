@@ -31,6 +31,7 @@
 			<Add directory="/bbusr/include" />
 		</Compiler>
 		<Linker>
+			<Add option="-lbbsensor" />
 			<Add option="-lbbcan" />
 			<Add option="-lbbdebug" />
 			<Add option="-lbbipc" />

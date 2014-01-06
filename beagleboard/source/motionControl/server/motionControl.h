@@ -7,6 +7,8 @@
 #include "ipc/ipc_connection.h"
 #include "extendedMotionController.h"
 
+#include "sensor/gyroSensor.h"
+
 class MotionControl {
     public:
         MotionControl();
@@ -16,7 +18,7 @@ class MotionControl {
 
     private:
 
-        static void thDrive_fctn(ExtendedMotionController* emCtrlr, Vector vector, short rotationSpeed);
+        static void thDrive_fctn(ExtendedMotionController* emCtrlr, Vector vector, short rotationSpeed, GyroSensor* gyro);
         static void thMoveto_fctn(ExtendedMotionController* emCtrlr, Vector vector, unsigned char speed, Vector dir);
         static void thMove_fctn(ExtendedMotionController* emCtrlr, Vector vector, unsigned char speed, Vector dir);
         static void thTurnto_fctn(ExtendedMotionController* emCtrlr, Vector dir, unsigned char speed, ExtendedMotionController::Direction turndir);
@@ -32,6 +34,8 @@ class MotionControl {
 
         ExtendedMotionController* extMtnCtrlr;
         ipcReceivingConnection* ipcRcon;
+
+        GyroSensor* gyro;
 
         Debug* dbg;
 
