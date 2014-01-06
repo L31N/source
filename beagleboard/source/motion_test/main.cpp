@@ -24,6 +24,8 @@ int main () {
 
     motion->pbreak();
 
+    _delay_ms(100);
+
     delete motion;
 
     return 0;

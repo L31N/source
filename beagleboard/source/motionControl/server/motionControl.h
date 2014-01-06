@@ -25,6 +25,7 @@ class MotionControl {
         static void thIdle_fctn(ExtendedMotionController* emCtrlr);
         static void thTest_fctn(ExtendedMotionController* emCtrlr);
 
+        void stopThreads();
         void killThreads();
 
         /** ++++++++++++++++++ **/

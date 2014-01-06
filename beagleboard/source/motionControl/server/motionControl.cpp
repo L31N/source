@@ -10,18 +10,20 @@ MotionControl::MotionControl() {
     //thReceive = new boost::thread(MotionControl::thReceive_fctn, ipcRcon);
     //thControl = new boost::thread(MotionControl::thControl_fctn, extMtnCtrlr);
 
+    thDrive = NULL;
+    thMoveto = NULL;
+    thMove = NULL;
+    thTurnto = NULL;
+    thTurn = NULL;
+    thPBreak = NULL;
+    thIdle = NULL;
+    thTest = NULL;
+
     dbg = new Debug("MOTION_CONTROL_DBG");
 }
 
 MotionControl::~MotionControl() {
-    delete thDrive;
-    delete thMoveto;
-    delete thMove;
-    delete thTurnto;
-    delete thTurn;
-    delete thPBreak;
-    delete thIdle;
-    delete thTest;
+    killThreads();
 
     delete extMtnCtrlr;
     delete ipcRcon;
@@ -32,7 +34,9 @@ MotionControl::~MotionControl() {
 void MotionControl::run() {
     while(42) {
         if (ipcRcon->checkForNewData()) {
+            stopThreads();
             std::string datastr = ipcRcon->readDataFromBuffer()->getData();
+
             if (datastr[0] == 0) {
                 Vector vector(datastr.substr(1, 16));
 
@@ -40,7 +44,6 @@ void MotionControl::run() {
                 memcpy(&rotationSpeed, datastr.substr(17, 2).c_str(), sizeof(rotationSpeed));
 
                 thDrive = new boost::thread(MotionControl::thDrive_fctn, extMtnCtrlr, vector, rotationSpeed);
-                thDrive->detach();
             }
             else if (datastr[0] == 1) {
             }
@@ -51,6 +54,7 @@ void MotionControl::run() {
             else if (datastr[0] == 4) {
             }
             else if (datastr[0] == 5) {
+                thPBreak = new boost::thread(MotionControl::thPBreak_fctn, extMtnCtrlr);
             }
             else if (datastr[0] == 6) {
             }
@@ -65,8 +69,16 @@ void MotionControl::run() {
 }
 
  void MotionControl::thDrive_fctn(ExtendedMotionController* emCtrlr, Vector vector, short rotationSpeed) {
-    emCtrlr->drive(vector, rotationSpeed);
-    while(42) sleep(1);
+    std::cout << "drive(Vector(" << vector.getX() << ", " << vector.getY() << "), " << rotationSpeed << ")" << std::endl;
+    while(true) {
+        try {
+            emCtrlr->drive(vector, rotationSpeed);
+            boost::this_thread::sleep_for(boost::chrono::milliseconds(5));
+        }
+        catch (boost::thread_interrupted&) {
+            return;
+        }
+    }
  }
 
  void MotionControl::thMoveto_fctn(ExtendedMotionController* emCtrlr, Vector vector, unsigned char speed, Vector dir) {
@@ -86,7 +98,11 @@ void MotionControl::run() {
  }
 
  void MotionControl::thPBreak_fctn(ExtendedMotionController* emCtrlr) {
-
+        std::cout << "pbreak()" << std::endl;
+        while (true) {
+            emCtrlr->pbreak();
+            boost::this_thread::sleep_for(boost::chrono::milliseconds(5));
+        }
  }
 
  void MotionControl::thIdle_fctn(ExtendedMotionController* emCtrlr) {
@@ -96,6 +112,66 @@ void MotionControl::run() {
  void MotionControl::thTest_fctn(ExtendedMotionController* emCtrlr) {
 
  }
+
+void MotionControl::stopThreads() {
+    if (thDrive != NULL) {
+        thDrive->interrupt();
+        thDrive->join();
+        delete thDrive;
+        thDrive = NULL;
+    }
+
+    if (thMoveto != NULL) {
+        thMoveto->interrupt();
+        thMoveto->join();
+        delete thMoveto;
+        thDrive = NULL;
+    }
+
+    if (thMove != NULL) {
+        thMove->interrupt();
+        thMove->join();
+        delete thMove;
+        thMove = NULL;
+    }
+
+    if (thTurnto != NULL) {
+        thTurnto->interrupt();
+        thTurnto->join();
+        delete thTurnto;
+        thTurnto = NULL;
+    }
+
+    if (thTurn != NULL) {
+        thTurn->interrupt();
+        thTurn->join();
+        delete thTurn;
+        thTurn = NULL;
+    }
+
+    if (thPBreak != NULL) {
+        thPBreak->interrupt();
+        thPBreak->join();
+        delete thPBreak;
+        thPBreak = NULL;
+    }
+
+    if (thIdle != NULL) {
+        thIdle->interrupt();
+        thIdle->join();
+        delete thIdle;
+        thIdle = NULL;
+    }
+
+    if (thTest != NULL) {
+        thTest->interrupt();
+        thTest->join();
+        delete thTest;
+        thTest = NULL;
+    }
+
+    return;
+}
 
  void MotionControl::killThreads() {
     delete thDrive;

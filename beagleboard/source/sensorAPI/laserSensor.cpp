@@ -6,6 +6,8 @@
 
 const unsigned short error_value_distance = std::numeric_limits<unsigned int>::max();
 
+const unsigned short LaserSensor::offset[]  = { 100, 80, 80, 100 };
+
 LaserSensor::LaserSensor(const std::string ipcName, const std::string canName, unsigned char num) : CANSensor(ipcName, canName) {
     mmDistance = error_value_distance;
     number = num;
@@ -21,6 +23,8 @@ unsigned int LaserSensor::getDistance(Unit unit) {
         mmDistance = 0;
         if (number % 2 == 0) for (int i = 0; i < 3; i++) mmDistance |= (frame.data[i] << 8*i);
         else for (int i = 0; i < 3; i++) mmDistance |= (frame.data[i+3] << 8*i);
+
+        mmDistance += offset[number];
 
         switch (unit) {
             case mm:
