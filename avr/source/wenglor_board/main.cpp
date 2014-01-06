@@ -5,12 +5,13 @@
 
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "can.h"
 #include "uart.h"
 
-const unsigned char CANID = 68;     // WENGLORS0
-//const unsigned char CANID = 100;     // WENGLORS1
+//const unsigned char CANID = 68;     // WENGLORS0
+const unsigned char CANID = 100;     // WENGLORS1
 
 uint32_t strtoval(const unsigned char* str);
 bool getReflex();
@@ -53,38 +54,106 @@ int main () {
     f_update[0] = false;
     f_update[1] = false;
 
+    bool f_plus[2];
+    f_plus[0] = false;
+    f_plus[1] = false;
+
+    unsigned char buffer0[2][32];   // Sensor0
+    unsigned char buffer1[2][32];   // Sensor1
+
+    for (int i = 0; i < 2; i++) {
+        for (int j = 0; j < 32; j++) {
+            buffer0[i][j] = 0;
+            buffer1[i][j] = 0;
+        }
+    }
+
+
+    /// SENSOR_0
     while(true) {
 
-        if (uart_isnewdata()) {
-            buf[0][iter[0]] = uart_getc();
+        while (uart_isnewdata()) {
+            buffer0[0][iter[0]] = uart_getc();
+            //uart1_write(buffer0[0], 32);
+            //uart1_putstr((unsigned char*)"\r\n");
+            if (buffer0[0][iter[0]] == '+') {
+                iter[0] = 0;
+                f_plus[0] = true;
+                continue;
+                //uart1_putstr((unsigned char*)"#");
+            }
+            else if (buffer0[0][iter[0]] == 'm' && f_plus[0]) {
+                uart_getc();
+                memset(buffer0[1], 0, 32);
+                strncpy((char*)buffer0[1], (char*)buffer0[0], iter[0]);
+                memset(buffer0[0], 0, 32);
 
-            if (buf[0][iter[0]-1] == 'm') {     // string complete
-                buf[0][iter[0]+1] = '\0';
+                //uart1_putstr(buffer0[0]);
 
-                distance[0] = strtoval(buf[0]);
                 iter[0] = 0;
                 f_update[0] = true;
+
+                f_plus[0] = false;
             }
-            /*if (strtoval(buf[0])) {
-                distance[0] = atoi((char*)buf[0]);
-                iter[0] = 0;
-                f_update = true;
-            }*/
-            else iter[0] ++;
+
+            iter[0]++;
+        }
+        if (f_update[0]) {
+            if (buffer0[1][0] == 'L') {
+                distance[0] = 0x00;
+            }
+            else if (buffer0[1][0] == 'H') {
+                distance[0] = 0xFFFFFFFF;
+            }
+            else if (buffer0[1][0] == 'F') {
+                distance[0] = 0xFFFFFFFF;
+            }
+            else {
+                distance[0] = atoi((char*)buffer0[1]);
+            }
         }
 
-        if (uart1_isnewdata()) {
-            buf[1][iter[1]] = uart1_getc();
+        /// SENSOR1
+        while (uart1_isnewdata()) {
+            buffer1[0][iter[1]] = uart1_getc();
+            //uart11_write(buffer1[0], 32);
+            //uart11_putstr((unsigned char*)"\r\n");
+            if (buffer1[0][iter[1]] == '+') {
+                iter[1] = 0;
+                f_plus[1] = true;
+                continue;
+                //uart11_putstr((unsigned char*)"#");
+            }
+            else if (buffer1[0][iter[1]] == 'm' && f_plus[1]) {
+                uart1_getc();
+                memset(buffer1[1], 0, 32);
+                strncpy((char*)buffer1[1], (char*)buffer1[0], iter[1]);
+                memset(buffer1[0], 0, 32);
 
-            if (buf[1][iter[1]-1] == 'm') {     // string complete
-                buf[1][iter[1]+1] = '\0';
-                distance[1] = strtoval(buf[1]);
+                //uart11_putstr(buffer1[0]);
+
                 iter[1] = 0;
                 f_update[1] = true;
-            }
-            else iter[1] ++;
-        }
 
+                f_plus[1] = false;
+            }
+
+            iter[1]++;
+        }
+        if (f_update[1]) {
+            if (buffer1[1][0] == 'L') {
+                distance[1] = 0x00;
+            }
+            else if (buffer1[1][0] == 'H') {
+                distance[1] = 0xFFFFFFFF;
+            }
+            else if (buffer1[1][0] == 'F') {
+                distance[1] = 0xFFFFFFFF;
+            }
+            else {
+                distance[1] = atoi((char*)buffer1[1]);
+            }
+        }
 
 
         /// can posting
@@ -105,9 +174,7 @@ int main () {
             f_update[0] = false;
             f_update[1] = false;
 
-            /*_delay_ms(100);
-            uart_clear();
-            uart1_clear();*/
+            _delay_ms(30);
         }
     }
 }
@@ -117,7 +184,46 @@ bool getReflex() {
 }
 
 uint32_t strtoval(const unsigned char* str) {
-    unsigned char res[32] = { 0 };
+
+    unsigned char res[32] = {0};
+    strcpy((char*)res, (char*)str);
+
+    bool valid = false;
+    size_t len = strlen((char*)res);
+
+    size_t startpos = 0;
+
+    for (int i = len; i > 0; i--) {
+        if (res[i] == '+') {
+            startpos = i;
+            valid = true;
+            break;
+        }
+    }
+
+    unsigned char valstr[32] = {0};
+    int j = 0;
+    for (unsigned int i = startpos; i < len; i++) {
+        if (str[i] >= 48 && str[i] <= 57 && valid) {
+            valstr[j] = res[i];
+            j++;
+        }
+        else if (str[i] == 'L' && valid) {
+            return 0x01;
+        }
+        else if (str[i] == 'H' && valid) {
+            return 0xFFFFFFFF;
+        }
+    }
+
+    uart1_putstr((unsigned char*)"\r\nvalstr: ");
+    uart1_putstr(valstr);
+
+    if (valid) return atoi((char*)valstr);
+    else return 0;
+}
+
+    /*unsigned char res[32] = { 0 };
 
     bool valid = false;
 
@@ -129,14 +235,15 @@ uint32_t strtoval(const unsigned char* str) {
             return 0x0;
         }
         else if (str[i] == '+') valid = true;
-        else if (str[i] >= 48 && str[i] <= 57) {
+        else if (str[i] >= 48 && str[i] <= 57 && valid) {
             res[j] = str[i];
             j++;
         }
     }
     if (valid) return atoi((char*)res);
     else return 0;
-}
+}*/
+
 /*
 bool strtoval(unsigned char* str) {
     unsigned char tmp[32] = { 0 };
