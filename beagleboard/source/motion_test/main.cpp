@@ -20,7 +20,7 @@ int main () {
     //vector.setLength(50);
     motion->drive(vector, 0);
 
-    sleep(20);
+    sleep(1);
 
     motion->pbreak();
 

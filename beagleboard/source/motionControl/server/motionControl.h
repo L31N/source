@@ -27,9 +27,6 @@ class MotionControl {
         static void thIdle_fctn(ExtendedMotionController* emCtrlr);
         static void thTest_fctn(ExtendedMotionController* emCtrlr);
 
-        void stopThreads();
-        void killThreads();
-
         /** ++++++++++++++++++ **/
 
         ExtendedMotionController* extMtnCtrlr;
@@ -39,14 +36,7 @@ class MotionControl {
 
         Debug* dbg;
 
-        boost::thread* thDrive;
-        boost::thread* thMoveto;
-        boost::thread* thMove;
-        boost::thread* thTurnto;
-        boost::thread* thTurn;
-        boost::thread* thPBreak;
-        boost::thread* thIdle;
-        boost::thread* thTest;
+        boost::thread* thActive;
 
 };
 
