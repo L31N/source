@@ -6,7 +6,10 @@
 #include "sensor/laserSensor.h"
 #include "sensor/gyroSensor.h"
 #include "debug/bbdebug.h"
+
 #include "bbvector.h"
+#include "bbline.h"
+
 #include "ipc/ipc_connection.h"
 
 #include "position.h"
@@ -24,20 +27,26 @@ class Navigation
         GyroSensor* gyroSensor;
         Debug* debug;
 
-        Vector lastPositions[10];
+        Vector lastPositions[10];   // last position vectors
 
-        Position* positions;
+        Position positions[4];        // posible positions calculated with wenglors
 
-        Vector vectors[4];
+        Vector vectors[4];          // last drive vectors
 
         ipcReceivingConnection* rcon;
 
         // private member functions
+        unsigned char detectSituation(Vector pPos, Vector pDir);
+        void calcPositions(unsigned char situation);
+
         void rankByPosition(Position* position);
         void rankByVector(Position* position);
         void rankByTrend(Position* position);
 
         Position choosePosition(Position _positions[4]);
+
+        static const unsigned long FIELD_WIDTH = 1835;
+        static const unsigned long FIELD_HEIGHT = 2430;
 };
 
 #endif // NAVIGATION_H

@@ -27,6 +27,10 @@ class LaserSensor : public CANSensor {
     private:
         unsigned int mmDistance;
         unsigned char number;
+
+        static const unsigned short offset[4];
+        //static const unsigned short offset0 = 100;
+        //static const unsigned short offset1 = 100;
 };
 
 #endif // _LASER_SENSOR_H_
