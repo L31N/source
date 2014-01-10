@@ -54,11 +54,13 @@ int main () {
             Vector vect(0,1);
             vect.setAngle(euler[0], false, false);
 
-            std::cout << "Angle: " << int(euler[0] * (180/M_PI)) << std::endl;
+            if (euler[1] * (180/M_PI) < 20 && euler[1] * (180/M_PI) > -20 && euler[2] * (180/M_PI) < 20 && euler[2] * (180/M_PI) > -20) {   // no invalid values
+                std::cout << "Angle: " << int(euler[0] * (180/M_PI)) << std::endl;
 
-            ipcSendingConnection scon("I2CD", "GYRO_I2CD", sizeof(Vector));
+                ipcSendingConnection scon("I2CD", "GYRO_I2CD", sizeof(Vector));
 
-            scon.sendData(std::string(vect));
+                scon.sendData(std::string(vect));
+            }
         }
         usleep(30000);
         //sleep(1);
