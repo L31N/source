@@ -82,6 +82,11 @@ void Navigation::calculate() {
     avPosition.print();
     std::cout << std::endl;
 
+    // middle ranking
+    Vector middle(FIELD_WIDTH/2, FIELD_HEIGHT/2);
+    double middle_ranking = 1 - (middle-avPosition).abs() / middle.abs();
+    middle_ranking = 343 + 7769 * middle_ranking;
+
     // set reliability values
     // distance - sum - reliability
     double variationX, variationY;
@@ -101,8 +106,14 @@ void Navigation::calculate() {
     std::cout << "ialpha: " << ialpha << std::endl;
     double angle_variation = ::abs(::abs((specific_situation * 90) - (ialpha+45)) % 90 - 45) / 45.0;
     std::cout << "angle_var0: " << angle_variation << std::endl;
-    angle_variation = 1.0 / (1.0+8112.78*pow(M_E, -17.40*angle_variation));
+    angle_variation = 1.0 / (1.0+middle_ranking*pow(M_E, -17.40*angle_variation));
     std::cout << "angle_var: " << angle_variation << std::endl;
+
+    reliabilityX = 100*(1-angle_variation)*(1-variationX);
+    reliabilityY = 100*(1-angle_variation)*(1-variationY);
+
+    std::cout << "relX: " << int(reliabilityX) << std::endl;
+    std::cout << "relY: " << int(reliabilityY) << std::endl;
 
 
     return;
