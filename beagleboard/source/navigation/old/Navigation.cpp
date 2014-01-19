@@ -58,8 +58,8 @@ void Navigation::run() {
         }
 
         rankByPosition();
-        rankByVector();
-        rankByTrend();
+        //rankByVector();
+        //rankByTrend();
 
         Position chosen = choosePosition(positions);
         std::cout << "\t chosen: ";

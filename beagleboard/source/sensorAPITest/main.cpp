@@ -10,7 +10,7 @@
 int main () {
     std::cout << "laser-sensor-testing ..." << std::endl;
 
-    LaserSensor* laser[4];
+    /*LaserSensor* laser[4];
     laser[0] = new LaserSensor("LASER_SENSOR0", "WENGLORS0", 0);
     laser[1] = new LaserSensor("LASER_SENSOR1", "WENGLORS0", 1);
     laser[2] = new LaserSensor("LASER_SENSOR2", "WENGLORS1", 0);
@@ -25,9 +25,9 @@ int main () {
 
     for (int i = 0; i < 4; i++) delete laser[i];
 
-    return 0;
+    return 0;*/
 
-    /*GyroSensor gyro("GYRO");
+    GyroSensor gyro("GYRO");
 
     while(true) {
 
@@ -37,7 +37,7 @@ int main () {
 
         //sleep(1);
         usleep(50 * 1000);
-    }*/
+    }
 }
 
 /*int main () {

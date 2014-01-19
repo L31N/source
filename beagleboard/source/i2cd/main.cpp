@@ -54,7 +54,8 @@ int main () {
             Vector vect(0,1);
             vect.setAngle(euler[0], false, false);
 
-            std::cout << "Angle: " << int(euler[0] * (180/M_PI)) << std::endl;
+            //std::cout << "Angle: " << int(euler[0] * (180/M_PI)) << " | " << euler[0] << std::endl;
+            std::cout << "Angle: " << int(vect.getAngle(true, true)) << " | " << vect.getAngle(false, true) << std::endl;
 
             ipcSendingConnection scon("I2CD", "GYRO_I2CD", sizeof(Vector));
 

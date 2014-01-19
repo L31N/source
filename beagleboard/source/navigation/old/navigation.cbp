@@ -32,9 +32,11 @@
 			<Add option="-lbbvector" />
 			<Add directory="/bbusr/lib/" />
 		</Linker>
+		<Unit filename="Navigation.cpp" />
+		<Unit filename="Navigation.h" />
 		<Unit filename="main.cpp" />
-		<Unit filename="navigation.cpp" />
-		<Unit filename="navigation.h" />
+		<Unit filename="position.cpp" />
+		<Unit filename="position.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
