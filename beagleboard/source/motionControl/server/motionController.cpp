@@ -83,9 +83,23 @@ void MotionController::drive(Vector vector, short rotationSpeed) {
 
     //std::cout << "set motor speeds: " << motorSpeeds[0] << "\t" << motorSpeeds[1] << "\t" << motorSpeeds[2] << "\t" << motorSpeeds[3] << std::endl;
 
-    /// calculate motor-values dependend to the turn
+    /// set all motors to the minimum motor offset and calculate new values for the others
 
+    for(int i = 0; i < 4; i++) {
+        if ((motorSpeeds[i] < int(MOTOR_MINIMUM_OFFSET) && motorSpeeds[i] > 0) || (motorSpeeds[i] > int(MOTOR_MINIMUM_OFFSET)*-1 && motorSpeeds[i] < 0)) {
+            double ratio = abs(double(MOTOR_MINIMUM_OFFSET) / double(motorSpeeds[i]));
+            for (int j = 0; j < 4; j++) {
+                std::cout << i << "[o" << j << "]: " << motorSpeeds[j] << " | ";
+                motorSpeeds[j] *= ratio;
+                std::cout << "[" << j << "]: " << motorSpeeds[j] << std::endl;
+            }
+        }
+    }
+
+
+    /// calculate motor-values dependend to the turn
     /// check here for speed overflows and step down the values if neccessary ...
+
     if (rotationSpeed < 0) {
         if (motorSpeeds[0] + rotationSpeed > 255) {
             double factor = (motorSpeeds[0] - (abs(rotationSpeed) - 255 + motorSpeeds[0])) / abs(motorSpeeds[0]);

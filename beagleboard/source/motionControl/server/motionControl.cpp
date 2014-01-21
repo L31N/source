@@ -80,9 +80,9 @@ void MotionControl::run() {
     while(true) {
         try {
             double angle = gyro->getVector().getAngle(true, false);
-            std::cout << "angle: " << angle << std::endl;
+            //std::cout << "angle: " << angle << std::endl;
             vector.setAngle(old_angle - angle, true, false);   // update the vector to drive to dependent to turnangle
-            vector.print();
+            //vector.print();
 
             emCtrlr->drive(vector, rotationSpeed);
             boost::this_thread::sleep_for(boost::chrono::milliseconds(5));

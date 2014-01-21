@@ -20,7 +20,8 @@ int main () {
     //vector.setLength(50);
     motion->drive(vector, 0);
 
-    sleep(1);
+    int tmp;
+    std::cin >> tmp;
 
     motion->pbreak();
 
