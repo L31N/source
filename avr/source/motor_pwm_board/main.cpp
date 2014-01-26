@@ -2,8 +2,38 @@
 #include <avr/io.h>
 #include <util/delay.h>
 
+#include <math.h>
+
 #include "can.h"
 #include "pwm.h"
+
+#define MIN_OFFSET 45
+
+//const bool BOARD_0 = true;      /// board0
+const bool BOARD_0 = false;     /// board1
+
+const unsigned short BOARD_ID = 9;
+
+struct pwm_time {
+    unsigned char ontime;
+    unsigned char offtime;
+};
+
+struct pwm_time pwm_lookup[13] {
+    {2, 5},
+    {2, 4},
+    {2, 3},
+    {3, 4},
+    {2, 2},
+    {4, 3},
+    {3, 2},
+    {2, 1},
+    {5, 2},
+    {3, 1},
+    {4, 1},
+    {5, 1},
+    {6, 1}
+};
 
 int main () {
 
@@ -39,12 +69,42 @@ int main () {
 
     }*/
 
+  /*  long lvalue0 = -45;
+    long lvalue1 = -45;
+
+    lvalue0 += 255;
+    lvalue0 *= 1000;
+    lvalue0 /= (2*255);
+
+    lvalue1 += 255;
+    lvalue1 *= 1000;
+    lvalue1 /= (2*255);
+
+    pwm_set(500, 0);
+    pwm_set(500, 1);
+
+    _delay_ms(3000);
+
+    pwm_set_ontime(1, 0);
+    pwm_set_offtime(2, 0);
+    pwm_set_ontime(1, 1);
+    pwm_set_offtime(2, 1);
+
+    pwm_set(1000, 0);
+    pwm_set(1000, 1);
+
+    while(true) {
+        //pwm_set((unsigned long)lvalue0, 0);
+        //pwm_set((unsigned long)lvalue1, 1);
+        pwm_set((unsigned long)lvalue0, 0);
+        pwm_set((unsigned long)lvalue1, 1);
+        _delay_ms(20);
+        pwm_set((unsigned long)500, 0);
+        //pwm_set((unsigned long)500, 1);
+        _delay_ms(10);
+    }*/
+
     /** ---------------------------- **/
-
-    //const bool BOARD_0 = true;      /// board0
-    const bool BOARD_0 = false;     /// board1
-
-    unsigned short BOARD_ID = 9;
 
     can_init(BITRATE_1_MBPS);
     sei();
@@ -97,6 +157,55 @@ int main () {
             lvalue1 += 255;
             lvalue1 *= 1000;
             lvalue1 /= (2*255);
+
+
+            /* pulsing values */
+            if (value0 < 45) {
+                if (value0 < 5) {
+                    pwm_set(500, 0);
+                }
+                else if (value0 < 13) {
+                    pwm_set_ontime(pwm_lookup[0].ontime, 0);
+                    pwm_set_offtime(pwm_lookup[0].offtime, 0);
+                    pwm_set(588, 0);    // speed 45
+                }
+                else {
+                    double dindex = 0.44*value0-4.9;
+                    unsigned char cindex = (unsigned char)round(dindex)%13;
+                    pwm_set_ontime(pwm_lookup[cindex].ontime, 0);
+                    pwm_set_offtime(pwm_lookup[cindex].offtime, 0);
+                    pwm_set(588, 0);    // speed 45
+                }
+            }
+            else {
+                pwm_set_ontime(1, 0);
+                pwm_set_offtime(0, 0);
+                pwm_set((unsigned long)lvalue0, 0);
+            }
+
+            if (value1 < 45) {
+                if (value1 < 5) {
+                    pwm_set(500, 1);
+                }
+                else if (value1 < 13) {
+                    pwm_set_ontime(pwm_lookup[0].ontime, 1);
+                    pwm_set_offtime(pwm_lookup[0].offtime, 1);
+                    pwm_set(588, 1);    // speed 45
+                }
+                else {
+                    double dindex = 0.44*value1-4.9;
+                    unsigned char cindex = (unsigned char)round(dindex)%13;
+                    pwm_set_ontime(pwm_lookup[cindex].ontime, 1);
+                    pwm_set_offtime(pwm_lookup[cindex].offtime, 1);
+                    pwm_set(588, 1);    // speed 45
+                }
+            }
+            else {
+                pwm_set_ontime(1, 1);
+                pwm_set_offtime(0, 1);
+                pwm_set((unsigned long)lvalue0, 1);
+            }
+
 
 
             pwm_set((unsigned long)lvalue0, 0);
