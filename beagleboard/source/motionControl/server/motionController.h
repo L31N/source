@@ -23,6 +23,8 @@ class MotionController {
     private:
         Motors* motors;
         short* motorSpeeds;
+
+        static const unsigned int MOTOR_MINIMUM_OFFSET = 35;
 };
 
 #endif // _MOTION_CONTROLLER_H_

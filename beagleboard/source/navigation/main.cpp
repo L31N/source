@@ -1,9 +1,9 @@
-#include "Navigation.h"
 
-int main()
-{
+#include "navigation.h"
+
+int main () {
     Navigation navi;
-    navi.run();
+    navi.calculate();
 
     return 0;
 }

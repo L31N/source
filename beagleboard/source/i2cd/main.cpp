@@ -55,7 +55,7 @@ int main () {
             vect.setAngle(euler[0], false, false);
 
             if (euler[1] * (180/M_PI) < 20 && euler[1] * (180/M_PI) > -20 && euler[2] * (180/M_PI) < 20 && euler[2] * (180/M_PI) > -20) {   // no invalid values
-                std::cout << "Angle: " << int(euler[0] * (180/M_PI)) << std::endl;
+                std::cout << "Angle: " << int(vect.getAngle(true, true)) << " | " << vect.getAngle(false, true) << std::endl;
 
                 ipcSendingConnection scon("I2CD", "GYRO_I2CD", sizeof(Vector));
 
