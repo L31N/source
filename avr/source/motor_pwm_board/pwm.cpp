@@ -3,8 +3,22 @@
 #include <stdlib.h>
 int * compare;
 
+unsigned char offtime[3];
+unsigned char ontime[3];
+
+unsigned char overflow_count[3] = { 0 };
+
+
 void pwm_init()
 {
+    offtime[0] = 0;
+    offtime[1] = 0;
+    offtime[2] = 0;
+    ontime[0] = 1;
+    ontime[1] = 1;
+    ontime[2] = 1;
+
+
     compare = (int*)malloc(3*sizeof(int));
 	//Counter auf Null setzten
 	TCNT1 = 0;
@@ -56,28 +70,60 @@ void pwm_set(unsigned int value, unsigned char num)
     }
 }
 
+void pwm_set_ontime(unsigned char _ontime, unsigned char num) {
+    ontime[num] = _ontime;
+}
+
+void pwm_set_offtime(unsigned char _offtime, unsigned char num) {
+    offtime[num] = _offtime;
+}
+
 
 ISR(TIMER1_OVF_vect )
 {
-	TCNT1 = 25536;
+	TCNT1 = 45536;  // 10ms interval
+
+	overflow_count[0] ++;
+	overflow_count[1] ++;
+	overflow_count[2] ++;
+
+    // set to zero if periode is over
+	overflow_count[0] %= ontime[0] + offtime[0];
+	overflow_count[1] %= ontime[1] + offtime[1];
+	overflow_count[2] %= ontime[2] + offtime[2];
 
 	PORTB &= ~((1<<4)|(1<<5)|(1<<6));
 }
 
 ISR(TIMER1_COMPA_vect )
 {
-    OCR1A = compare[0];
-	PORTB |= (1<<4);
+    if (overflow_count[0] < ontime[0]) {
+        OCR1A = compare[0]; // set on
+    }
+    else {
+        OCR1A = 62535;  // set off
+    }
+    PORTB |= (1<<4);
 }
 
 ISR(TIMER1_COMPB_vect )
 {
-    OCR1B = compare[1];
+    if (overflow_count[1] < ontime[1]) {
+        OCR1B = compare[1]; // set on
+    }
+    else {
+        OCR1B = 62535;  // set off
+    }
 	PORTB |= (1<<5);
 }
 
 ISR(TIMER1_COMPC_vect )
 {
-    OCR1C = compare[2];
+    if (overflow_count[2] < ontime[2]) {
+        OCR1C = compare[2]; // set on
+    }
+    else {
+        OCR1C = 62535;  // set off
+    }
 	PORTB |= (1<<6);
 }
