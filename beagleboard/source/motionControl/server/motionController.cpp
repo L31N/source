@@ -8,7 +8,7 @@
 MotionController::MotionController() {
     motors = new Motors("MOTORS", "MOTORS");
 
-    motorSpeeds = new short[4];
+    motorSpeeds = new double[4];
     for (int i = 0; i < 4; i++) motorSpeeds[i] = 0;
     motors->setSpeed(0, 0, 0, 0);
 
@@ -85,16 +85,24 @@ void MotionController::drive(Vector vector, short rotationSpeed) {
 
     /// set all motors to the minimum motor offset and calculate new values for the others
 
+    // find smallest value
+    double smallest_value = 255;
     for(int i = 0; i < 4; i++) {
-        if ((motorSpeeds[i] < int(MOTOR_MINIMUM_OFFSET) && motorSpeeds[i] > 0) || (motorSpeeds[i] > int(MOTOR_MINIMUM_OFFSET)*-1 && motorSpeeds[i] < 0)) {
-            double ratio = abs(double(MOTOR_MINIMUM_OFFSET) / double(motorSpeeds[i]));
-            for (int j = 0; j < 4; j++) {
-                std::cout << i << "[o" << j << "]: " << motorSpeeds[j] << " | ";
-                motorSpeeds[j] *= ratio;
-                std::cout << "[" << j << "]: " << motorSpeeds[j] << std::endl;
-            }
-        }
+        if (abs(motorSpeeds[i]) < smallest_value && abs(motorSpeeds[i]) > 0) smallest_value = motorSpeeds[i];
     }
+
+    /*if (smallest_value < MOTOR_MINIMUM_OFFSET) {
+        double ratio = abs(double(MOTOR_MINIMUM_OFFSET) / smallest_value);
+        for (int j = 0; j < 4; j++) {
+            motorSpeeds[j] *= ratio;
+        }
+    }*/
+    /*if (abs(smallest_value) < MOTOR_MINIMUM_OFFSET) {
+        for (int i = 0; i < 4; i++) {
+            if (motorSpeeds[i] < 0) motorSpeeds[i] -= abs(MOTOR_MINIMUM_OFFSET - smallest_value);
+            else motorSpeeds[i] += abs(MOTOR_MINIMUM_OFFSET - smallest_value);
+        }
+    }*/
 
 
     /// calculate motor-values dependend to the turn

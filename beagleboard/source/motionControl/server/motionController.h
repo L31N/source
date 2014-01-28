@@ -22,7 +22,7 @@ class MotionController {
 
     private:
         Motors* motors;
-        short* motorSpeeds;
+        double* motorSpeeds;
 
         static const unsigned int MOTOR_MINIMUM_OFFSET = 35;
 };
