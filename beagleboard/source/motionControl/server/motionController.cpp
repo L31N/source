@@ -85,13 +85,14 @@ void MotionController::drive(Vector vector, short rotationSpeed) {
 
     /// set all motors to the minimum motor offset and calculate new values for the others
 
+    /*
     // find smallest value
     double smallest_value = 255;
     for(int i = 0; i < 4; i++) {
         if (abs(motorSpeeds[i]) < smallest_value && abs(motorSpeeds[i]) > 0) smallest_value = motorSpeeds[i];
     }
 
-    /*if (smallest_value < MOTOR_MINIMUM_OFFSET) {
+    if (smallest_value < MOTOR_MINIMUM_OFFSET) {
         double ratio = abs(double(MOTOR_MINIMUM_OFFSET) / smallest_value);
         for (int j = 0; j < 4; j++) {
             motorSpeeds[j] *= ratio;

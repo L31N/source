@@ -7,10 +7,11 @@
 int main () {
     Motion* motion = new Motion;
 
-    double x, y;
+    double x, y, rs;
 
     std::cout << "type x: "; std::cin >> x;
     std::cout << "type y: "; std::cin >> y;
+    std::cout << "rs: "; std::cin >> rs;
 
     //std::cout << "x: " << std::flush; std::cin >> x;
     //std::cout << "y: " << std::flush; std::cin >> y;
@@ -18,7 +19,7 @@ int main () {
 
     Vector vector(x, y);
     //vector.setLength(50);
-    motion->drive(vector, 0);
+    motion->drive(vector, rs);
 
     int tmp;
     std::cin >> tmp;

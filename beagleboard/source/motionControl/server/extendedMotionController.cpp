@@ -4,6 +4,7 @@
 #include "extendedMotionController.h"
 
 ExtendedMotionController::ExtendedMotionController() {
+    gyro = new GyroSensor("GYRO");
     /// create navigation-object here !
 }
 
@@ -28,7 +29,10 @@ void ExtendedMotionController::move(Vector vector, unsigned char speed, Vector d
 }*/
 
 void ExtendedMotionController::turnto(Vector dir, unsigned char speed, Direction turndir) {
+    Vector now = gyro->getVector();
+    if (turndir == automatic) {
 
+    }
 }
 
 /*void ExtendedMotionController::turnto(Angle dir, unsigned char speed, Direction turndir) {

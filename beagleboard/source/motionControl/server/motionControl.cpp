@@ -110,16 +110,16 @@ void MotionControl::run() {
  }
 
  void MotionControl::thPBreak_fctn(ExtendedMotionController* emCtrlr) {
-        std::cout << "pbreak()" << std::endl;
-        while (true) {
-            try {
-                emCtrlr->pbreak();
-                boost::this_thread::sleep_for(boost::chrono::milliseconds(5));
-            }
-            catch (boost::thread_interrupted&) {
-                return;
-            }
+    std::cout << "pbreak()" << std::endl;
+    while (true) {
+        try {
+            emCtrlr->pbreak();
+            boost::this_thread::sleep_for(boost::chrono::milliseconds(5));
         }
+        catch (boost::thread_interrupted&) {
+            return;
+        }
+    }
  }
 
  void MotionControl::thIdle_fctn(ExtendedMotionController* emCtrlr) {
