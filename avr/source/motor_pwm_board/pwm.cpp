@@ -5,6 +5,7 @@ int * compare;
 
 unsigned char offtime[3];
 unsigned char ontime[3];
+unsigned char timesum[3] = { 1 };   // ontime + offtime
 
 unsigned char overflow_count[3] = { 0 };
 
@@ -72,10 +73,12 @@ void pwm_set(unsigned int value, unsigned char num)
 
 void pwm_set_ontime(unsigned char _ontime, unsigned char num) {
     ontime[num] = _ontime;
+    timesum[num] = ontime[num] + offtime[num];
 }
 
 void pwm_set_offtime(unsigned char _offtime, unsigned char num) {
     offtime[num] = _offtime;
+    timesum[num] = ontime[num] + offtime[num];
 }
 
 
@@ -83,16 +86,21 @@ ISR(TIMER1_OVF_vect )
 {
 	TCNT1 = 45536;  // 10ms interval
 
+    PORTB &= ~((1<<4)|(1<<5)|(1<<6));
+
 	overflow_count[0] ++;
 	overflow_count[1] ++;
 	overflow_count[2] ++;
 
     // set to zero if periode is over
-	overflow_count[0] %= ontime[0] + offtime[0];
+	/*overflow_count[0] %= ontime[0] + offtime[0];
 	overflow_count[1] %= ontime[1] + offtime[1];
-	overflow_count[2] %= ontime[2] + offtime[2];
+	overflow_count[2] %= ontime[2] + offtime[2];*/
+	// modulo is slower than ifs ...
 
-	PORTB &= ~((1<<4)|(1<<5)|(1<<6));
+	if (overflow_count[0] >= timesum[0]) overflow_count[0] = 0;
+	if (overflow_count[1] >= timesum[1]) overflow_count[1] = 0;
+	if (overflow_count[2] >= timesum[2]) overflow_count[2] = 0;
 }
 
 ISR(TIMER1_COMPA_vect )
