@@ -3,6 +3,7 @@
 #include <util/delay.h>
 
 #include <math.h>
+#include <stdlib.h>
 
 #include "can.h"
 #include "pwm.h"
@@ -160,21 +161,23 @@ int main () {
 
 
             /* pulsing values */
-            if (value0 < 45) {
-                if (value0 < 5) {
+            if (abs(value0) < 45) {
+                if (abs(value0) < 5) {
                     pwm_set(500, 0);
                 }
-                else if (value0 < 13) {
+                else if (abs(value0) < 13) {
                     pwm_set_ontime(pwm_lookup[0].ontime, 0);
                     pwm_set_offtime(pwm_lookup[0].offtime, 0);
-                    pwm_set(588, 0);    // speed 45
+                    pwm_set(value0 < 0 ? 422 : 588, 0);    // speed 45
+                    //pwm_set(value0 < 0 ? 250 : 750, 0);    // speed 45
                 }
                 else {
-                    double dindex = 0.44*value0-4.9;
+                    double dindex = 0.44*abs(value0)-4.9;
                     unsigned char cindex = (unsigned char)round(dindex)%13;
                     pwm_set_ontime(pwm_lookup[cindex].ontime, 0);
                     pwm_set_offtime(pwm_lookup[cindex].offtime, 0);
-                    pwm_set(588, 0);    // speed 45
+                    pwm_set(value0 < 0 ? 422 : 588, 0);    // speed 45
+                    //pwm_set(value0 < 0 ? 250 : 750, 0);    // speed 45
                 }
             }
             else {
@@ -183,33 +186,35 @@ int main () {
                 pwm_set((unsigned long)lvalue0, 0);
             }
 
-            if (value1 < 45) {
-                if (value1 < 5) {
+            if (abs(value1) < 45) {
+                if (abs(value1) < 5) {
                     pwm_set(500, 1);
                 }
-                else if (value1 < 13) {
+                else if (abs(value1) < 13) {
                     pwm_set_ontime(pwm_lookup[0].ontime, 1);
                     pwm_set_offtime(pwm_lookup[0].offtime, 1);
-                    pwm_set(588, 1);    // speed 45
+                    pwm_set(value1 < 0 ? 422 : 588, 1);    // speed 45
+                    //pwm_set(value1 < 0 ? 250 : 750, 1);    // speed 45
                 }
                 else {
-                    double dindex = 0.44*value1-4.9;
+                    double dindex = 0.44*abs(value1)-4.9;
                     unsigned char cindex = (unsigned char)round(dindex)%13;
                     pwm_set_ontime(pwm_lookup[cindex].ontime, 1);
                     pwm_set_offtime(pwm_lookup[cindex].offtime, 1);
-                    pwm_set(588, 1);    // speed 45
+                    pwm_set(value1 < 0 ? 422 : 588, 1);    // speed 45
+                    //pwm_set(value1 < 0 ? 250 : 750, 1);    // speed 45
                 }
             }
             else {
                 pwm_set_ontime(1, 1);
                 pwm_set_offtime(0, 1);
-                pwm_set((unsigned long)lvalue0, 1);
+                pwm_set((unsigned long)lvalue1, 1);
             }
 
 
 
-            pwm_set((unsigned long)lvalue0, 0);
-            pwm_set((unsigned long)lvalue1, 1);
+            //pwm_set((unsigned long)lvalue0, 0);
+            //pwm_set((unsigned long)lvalue1, 1);
         }
     }
 }
