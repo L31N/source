@@ -410,6 +410,7 @@ Data* ipcReceivingConnection::readDataFromBuffer() {
             // not possible !!!
         }
     }
+    while(!checkForNewData());
 
     sem_wait(&sem);
     Data* retdata = dataBuffer->getLastData();

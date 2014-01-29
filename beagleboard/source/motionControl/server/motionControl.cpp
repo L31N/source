@@ -27,47 +27,48 @@ MotionControl::~MotionControl() {
 
 void MotionControl::run() {
     while(42) {
-        if (ipcRcon->checkForNewData()) {
+        //if (ipcRcon->checkForNewData()) {
 
-            // stop the running thread
-            if (thActive != NULL) {
-                thActive->interrupt();
-                thActive->join();
-                delete thActive;
-                thActive = NULL;
+        // blocks until new data in buffer and read them
+        std::string datastr = ipcRcon->readDataFromBuffer()->getData();
 
-            }
+        // stop the running thread
+        if (thActive != NULL) {
+            thActive->interrupt();
+            thActive->join();
+            delete thActive;
+            thActive = NULL;
 
-            // extract data from ipc-string
-            std::string datastr = ipcRcon->readDataFromBuffer()->getData();
+        }
 
-            if (datastr[0] == 0) {
-                Vector vector(datastr.substr(1, 16));
+        // extract data from ipc-string
 
-                short rotationSpeed = 0;
-                memcpy(&rotationSpeed, datastr.substr(17, 2).c_str(), sizeof(rotationSpeed));
+        if (datastr[0] == 0) {
+            Vector vector(datastr.substr(1, 16));
 
-                thActive = new boost::thread(MotionControl::thDrive_fctn, extMtnCtrlr, vector, rotationSpeed, gyro);
-            }
-            else if (datastr[0] == 1) {
-            }
-            else if (datastr[0] == 2) {
-            }
-            else if (datastr[0] == 3) {
-            }
-            else if (datastr[0] == 4) {
-            }
-            else if (datastr[0] == 5) {
-                thActive = new boost::thread(MotionControl::thPBreak_fctn, extMtnCtrlr);
-            }
-            else if (datastr[0] == 6) {
-            }
-            else if (datastr[0] == 7) {
-            }
+            short rotationSpeed = 0;
+            memcpy(&rotationSpeed, datastr.substr(17, 2).c_str(), sizeof(rotationSpeed));
 
-            else {  /// unknown command byte
-                std::cerr << "error: received unknown command-byte ..." << std::endl;
-            }
+            thActive = new boost::thread(MotionControl::thDrive_fctn, extMtnCtrlr, vector, rotationSpeed, gyro);
+        }
+        else if (datastr[0] == 1) {
+        }
+        else if (datastr[0] == 2) {
+        }
+        else if (datastr[0] == 3) {
+        }
+        else if (datastr[0] == 4) {
+        }
+        else if (datastr[0] == 5) {
+            thActive = new boost::thread(MotionControl::thPBreak_fctn, extMtnCtrlr);
+        }
+        else if (datastr[0] == 6) {
+        }
+        else if (datastr[0] == 7) {
+        }
+
+        else {  /// unknown command byte
+            std::cerr << "error: received unknown command-byte ..." << std::endl;
         }
     }
 }
@@ -80,12 +81,15 @@ void MotionControl::run() {
     while(true) {
         try {
             double angle = gyro->getVector().getAngle(true, false);
+
+            //vector.setAngle(vector, -5*rotationSpeed, true, false);
+
             //std::cout << "angle: " << angle << std::endl;
             vector.setAngle(old_angle - angle, true, false);   // update the vector to drive to dependent to turnangle
             //vector.print();
 
             emCtrlr->drive(vector, rotationSpeed);
-            boost::this_thread::sleep_for(boost::chrono::milliseconds(5));
+            boost::this_thread::sleep_for(boost::chrono::milliseconds(8));
         }
         catch (boost::thread_interrupted&) {
             return;
