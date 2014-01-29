@@ -7,7 +7,19 @@ using namespace std;
 
 int main()
 {
-    std::cout << "sizeof(Vector): " << sizeof(Vector) << std::endl;
+
+    Vector a(1,1);
+    Vector b(1,1);
+
+    a.setAngle(45);
+    b.setAngle(50, true, true);
+
+    std::cout << a.getAngle() << std::endl;
+    std::cout << b.getAngle() << std::endl;
+
+    std::cout << a.getAngle(b, true, false);
+
+    //std::cout << "sizeof(Vector): " << sizeof(Vector) << std::endl;
 
     /*cout << "This Programm is to test the general 2d vector class." << endl;
     Vector v1(0, 1);

@@ -106,7 +106,9 @@ void MotionControl::run() {
  }
 
  void MotionControl::thTurnto_fctn(ExtendedMotionController* emCtrlr, Vector dir, unsigned char speed, ExtendedMotionController::Direction turndir) {
-
+    // truns to the specified angle
+    if (turndir == automatic) {
+    }
  }
 
  void MotionControl::thTurn_fctn(ExtendedMotionController* emCtrlr, Vector dir, unsigned char speed, ExtendedMotionController::Direction turndir) {

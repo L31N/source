@@ -491,11 +491,13 @@ double Vector::getAngle(bool deg, bool fullCircle)
 */
 double Vector::getAngle(Vector vect, bool deg, bool fullCircle)
 {
-    double angleV1 = this->getAngle(false, false);
-    double angleV2 = vect.getAngle(false, false);
+    double angleV1 = this->getAngle(false, true);
+    double angleV2 = vect.getAngle(false, true);
 
     double angle = (angleV2 - angleV1);
+
     if(angle < 0 && fullCircle) angle += 2*M_PI;
+    if(angle > M_PI && !fullCircle) angle = -(2*M_PI - angle);
 
     if(deg)
     {
