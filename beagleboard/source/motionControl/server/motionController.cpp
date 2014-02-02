@@ -189,7 +189,14 @@ void MotionController::drive(Vector vector, short rotationSpeed) {
 }*/
 
 void MotionController::pbreak() {
-    /// implement power-break functionality here !
+    motors->setSpeed(-motorSpeeds[0], -motorSpeeds[1], -motorSpeeds[2], -motorSpeeds[3]);
+}
+
+void MotionController::idle() {
     motors->setSpeed(0, 0, 0, 0);
+}
+
+double MotionController::getMotorSpeed(unsigned char num) {
+    return motorSpeeds[num];
 }
 

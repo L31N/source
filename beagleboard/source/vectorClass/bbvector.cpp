@@ -496,7 +496,9 @@ double Vector::getAngle(Vector vect, bool deg, bool fullCircle)
 
     double angle = (angleV2 - angleV1);
 
-    if(angle < 0 && fullCircle) angle += 2*M_PI;
+    //std::cout << "angle: " << angle << " | ";
+
+    if((angle < 0 && fullCircle) || (angle < M_PI && !fullCircle)) angle += 2*M_PI;
     if(angle > M_PI && !fullCircle) angle = -(2*M_PI - angle);
 
     if(deg)

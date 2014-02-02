@@ -11,13 +11,20 @@ int main()
     Vector a(1,1);
     Vector b(1,1);
 
-    a.setAngle(45);
-    b.setAngle(50, true, true);
+    a.setAngle(0, true, false);
+    b.setAngle(-90, true, false);
 
-    std::cout << a.getAngle() << std::endl;
-    std::cout << b.getAngle() << std::endl;
 
-    std::cout << a.getAngle(b, true, false);
+
+    for (int i = 0; i < 360; i++) {
+
+        a.setAngle(i, true, true);
+
+        std::cout << a.getAngle(true, true) << " | ";
+        std::cout << b.getAngle(true, true) << " | ";
+        std::cout << a.getAngle(b, true, false) << std::endl;
+    }
+
 
     //std::cout << "sizeof(Vector): " << sizeof(Vector) << std::endl;
 

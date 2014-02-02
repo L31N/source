@@ -5,6 +5,46 @@
 #include "bbvector.h"
 
 int main () {
+    unsigned int choose = 0;
+    std::cout << "0(drive)|1(turnto): ";
+    std::cin >> choose;
+
+    Motion* motion = new Motion;
+
+    if (choose == 0) {
+        double x, y, rs;
+        std::cout << "X: "; std::cin >> x;
+        std::cout << "Y: "; std::cin >> y;
+        std::cout << "RS: "; std::cin >> rs;
+
+        Vector vector(x, y);
+        motion->drive(vector, rs);
+
+        char tmp = 0;
+        std::cin >> tmp;
+
+        motion->pbreak();
+    }
+    else if (choose == 1) {
+        double angle = 0;
+        std::cout << "angle(+/-): "; std::cin >> angle;
+
+        unsigned int speed = 0;
+        std::cout << "RS: "; std::cin >> speed;
+
+        Vector vector(1,1);
+        vector.setAngle(angle, true, false);
+
+        motion->turnto(vector, speed, Motion::automatic);
+
+        char tmp = 0;
+        std::cin >> tmp;
+
+        motion->pbreak();
+    }
+}
+
+/*int main () {
     Motion* motion = new Motion;
 
     double x, y, rs;
@@ -29,7 +69,7 @@ int main () {
     delete motion;
 
     return 0;
-}
+}*/
 
 
 //
