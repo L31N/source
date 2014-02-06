@@ -144,26 +144,15 @@ void MotionControl::run() {
  void MotionControl::thTurnto_fctn(ExtendedMotionController* emCtrlr, Vector dir, unsigned char speed, ExtendedMotionController::Direction turndir, GyroSensor* gyro) {
     std::cout << "Turnto(dir(" << dir.getX() << ", " << dir.getY() << "), speed(" << speed << "), turndir(" << turndir << "))" << std::endl;
 
-    int tmp_speed = speed;
-    double angle;
-
-    for (int i = 0; i < 100; i ++) {
-        emCtrlr->drive(Vector(), 45);
-        boost::this_thread::sleep_for(boost::chrono::milliseconds(10));
-        /*emCtrlr->pbreak();
-        boost::this_thread::sleep_for(boost::chrono::milliseconds(10));*/
-        emCtrlr->idle();
-        boost::this_thread::sleep_for(boost::chrono::milliseconds(100));
-    }
-
-    return;
-
+    double angle = 0;
+    int tmp_speed = 0;
 
     // truns to the specified angle
     while(true) {
         try {
             angle = gyro->getVector().getAngle(dir, true, false);
-            tmp_speed = speed;
+            //tmp_speed = speed;
+            tmp_speed = 5;
 
             //if (turndir == ExtendedMotionController::automatic) std::cout << "direction: " << turndir;
 
@@ -176,14 +165,21 @@ void MotionControl::run() {
             else if (angle >= 0 && turndir == ExtendedMotionController::clockwise) turndir = ExtendedMotionController::automatic;
 
             //tmp_speed = tmp_speed * (-0.821 + 0.360 * log(abs(angle)+9.8));  // set speed dependent to missing angle
-            tmp_speed = tmp_speed * (angle/180);   // set speed dependent to missing angle
+            /*tmp_speed = tmp_speed * (angle/180);   // set speed dependent to missing angle
             if (tmp_speed < 0) tmp_speed -= 5;
-            else tmp_speed += 5;
+            else tmp_speed += 5;*/
 
-            if (abs(angle) > 10) emCtrlr->drive(Vector(), tmp_speed);
+            //tmp_speed = 5;  /// TESTING !!!
+
+            if (abs(angle) > 25) {
+                emCtrlr->drive(Vector(), 255);
+                boost::this_thread::sleep_for(boost::chrono::milliseconds(10));
+                emCtrlr->idle();
+                boost::this_thread::sleep_for(boost::chrono::milliseconds(40));
+            }
             else {
-                emCtrlr->pbreak();
-                boost::this_thread::sleep_for(boost::chrono::milliseconds(60));
+                emCtrlr->drive(Vector(), -45);
+                boost::this_thread::sleep_for(boost::chrono::milliseconds(40));
                 emCtrlr->idle();
                 break;
             }
