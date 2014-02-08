@@ -41,12 +41,14 @@ void GPIO::setValue(bool value) {
 }
 
 bool GPIO::getValue() {
-    int val;
+    int val = false;
+
+    lseek(gpio_fd, 0, 0);
 
     char buffer[1024];
     int size = read(fdset.fd, buffer, sizeof(buffer));
-    if (size != -1) {
-            //buffer[size] = NULL;
+    //if (size != -1) {
+    if (size > 0) {
             val = atoi(buffer);
     }
     else {

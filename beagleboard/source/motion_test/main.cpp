@@ -11,7 +11,7 @@ int main () {
 
     Motion* motion = new Motion;
 
-    if (choose == 0) {
+    if (choose == 0) {      // drive
         double x, y, rs;
         std::cout << "X: "; std::cin >> x;
         std::cout << "Y: "; std::cin >> y;
@@ -25,7 +25,7 @@ int main () {
 
         motion->pbreak();
     }
-    else if (choose == 1) {
+    else if (choose == 1) {     // turnto
         double angle = 0;
         std::cout << "angle(+/-): "; std::cin >> angle;
 
