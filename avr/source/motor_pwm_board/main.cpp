@@ -44,66 +44,11 @@ int main () {
 
     /** testing ++++++++++++++++++ **/
 
-    /*_delay_ms(2000);
-
-    while(true) {
-        signed short value0 = 100;
-        long lvalue0 = value0;
-
-        lvalue0 += 255;
-        lvalue0 *= 1000;
-        lvalue0 /= (2*255);
-
-        pwm_set(1000, 0);
-        pwm_set(1000, 1);
-        _delay_ms(60);
-
-        pwm_set((unsigned long)lvalue0, 0);
-        pwm_set((unsigned long)lvalue0, 1);
-
-        _delay_ms(1000);
-
-        pwm_set(500, 0);
-        pwm_set(500, 1);
-
-        _delay_ms(1000);
-
-    }*/
-
-  /*  long lvalue0 = -45;
-    long lvalue1 = -45;
-
-    lvalue0 += 255;
-    lvalue0 *= 1000;
-    lvalue0 /= (2*255);
-
-    lvalue1 += 255;
-    lvalue1 *= 1000;
-    lvalue1 /= (2*255);
-
     pwm_set(500, 0);
-    pwm_set(500, 1);
-
-    _delay_ms(3000);
-
-    pwm_set_ontime(1, 0);
-    pwm_set_offtime(2, 0);
-    pwm_set_ontime(1, 1);
-    pwm_set_offtime(2, 1);
-
+    _delay_ms(2000);
     pwm_set(1000, 0);
-    pwm_set(1000, 1);
 
-    while(true) {
-        //pwm_set((unsigned long)lvalue0, 0);
-        //pwm_set((unsigned long)lvalue1, 1);
-        pwm_set((unsigned long)lvalue0, 0);
-        pwm_set((unsigned long)lvalue1, 1);
-        _delay_ms(20);
-        pwm_set((unsigned long)500, 0);
-        //pwm_set((unsigned long)500, 1);
-        _delay_ms(10);
-    }*/
+    while(true);
 
     /** ---------------------------- **/
 

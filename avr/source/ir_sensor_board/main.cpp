@@ -6,13 +6,39 @@
 
 #include "can.h"
 
-#include "clock.h"
+#include "counter.h"
 
 
 int main() {
-    clock_init();
+    counter_init();
 
-    while(1);
+    can_init(BITRATE_1_MBPS);
+    sei();
+
+    can_filter_t filter0;
+    filter0.id = 129;
+    filter0.mask = 0x7E0;
+
+    filter0.flags.rtr = 0;
+
+    can_set_filter(0, &filter0);
+
+    can_t frame;
+    frame.flags.rtr = 0;
+    frame.id = 129;
+    frame.length = 8;
+
+    while(true) {
+
+
+        for (int i = 0; i < 8; i++) {       // expand to 8 sensors
+            frame.data[i] = (unsigned char)counter_get(i);
+        }
+
+        can_send_message(&frame);
+
+        _delay_ms(100);
+    }
 }
 
 

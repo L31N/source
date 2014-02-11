@@ -34,6 +34,7 @@
 		<Linker>
 			<Add option="-mmcu=at90can128" />
 			<Add option="-lcan" />
+			<Add option="-luart" />
 			<Add directory="../../lib" />
 		</Linker>
 		<ExtraCommands>
@@ -41,6 +42,8 @@
 			<Add after="avr-objcopy -O ihex -R .eeprom -R .eesafe $(TARGET_OUTPUT_FILE) $(TARGET_OUTPUT_FILE).hex" />
 			<Add after="avr-objcopy --no-change-warnings -j .eeprom --change-section-lma .eeprom=0 -O ihex $(TARGET_OUTPUT_FILE) $(TARGET_OUTPUT_FILE).eep.hex" />
 		</ExtraCommands>
+		<Unit filename="counter.cpp" />
+		<Unit filename="counter.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />

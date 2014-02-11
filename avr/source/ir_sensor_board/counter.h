@@ -4,11 +4,8 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
-void clock_init();
+void counter_init();
 
-unsigned long long clock_get();
-
-unsigned long clock_getoverflow();
-
+unsigned int counter_get(unsigned char chan);
 
 #endif // CLOCK_H_INCLUDED
