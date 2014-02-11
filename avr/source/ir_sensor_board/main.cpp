@@ -3,9 +3,47 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 
+
 #include "can.h"
 
-volatile unsigned char flag;
+#include "counter.h"
+
+
+int main() {
+    counter_init();
+
+    can_init(BITRATE_1_MBPS);
+    sei();
+
+    can_filter_t filter0;
+    filter0.id = 129;
+    filter0.mask = 0x7E0;
+
+    filter0.flags.rtr = 0;
+
+    can_set_filter(0, &filter0);
+
+    can_t frame;
+    frame.flags.rtr = 0;
+    frame.id = 129;
+    frame.length = 8;
+
+    while(true) {
+
+
+        for (int i = 0; i < 8; i++) {       // expand to 8 sensors
+            frame.data[i] = (unsigned char)counter_get(i);
+        }
+
+        can_send_message(&frame);
+
+        _delay_ms(100);
+    }
+}
+
+
+
+/*volatile unsigned char flag;
 
 ISR(TIMER1_OVF_vect)
 {
@@ -74,4 +112,4 @@ int main () {
         _delay_ms(1);
 
     }
-}
+}*/
