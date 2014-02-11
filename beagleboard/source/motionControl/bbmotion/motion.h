@@ -22,19 +22,14 @@ class Motion {
         };
 
         void drive(Vector vector, short rotationSpeed);
-        void drive(Angle angle, unsigned char speed, short rotationSpeed);
 
         void moveto(Vector vector, unsigned char speed, Vector dir);
-        void moveto(Vector vector, unsigned char speed, Angle dir);
 
         void move(Vector vector, unsigned char speed, Vector dir);
-        void move(Vector vector, unsigned char speed, Angle dir);
 
         void turnto(Vector dir, unsigned char speed, Motion::Direction turndir = Motion::automatic);
-        void turnto(Angle dir, unsigned char speed, Motion::Direction turndir = Motion::automatic);
 
         void turn(Vector dir, unsigned char speed, Direction turndir = Motion::automatic);
-        void turn(Angle dir, unsigned char speed, Direction turndir = Motion::automatic);
 
         void pbreak();
         void idle();

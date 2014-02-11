@@ -5,12 +5,53 @@
 #include "bbvector.h"
 
 int main () {
+    unsigned int choose = 0;
+    std::cout << "0(drive)|1(turnto): ";
+    std::cin >> choose;
+
     Motion* motion = new Motion;
 
-    double x, y;
+    if (choose == 0) {      // drive
+        double x, y, rs;
+        std::cout << "X: "; std::cin >> x;
+        std::cout << "Y: "; std::cin >> y;
+        std::cout << "RS: "; std::cin >> rs;
+
+        Vector vector(x, y);
+        motion->drive(vector, rs);
+
+        char tmp = 0;
+        std::cin >> tmp;
+
+        motion->pbreak();
+    }
+    else if (choose == 1) {     // turnto
+        double angle = 0;
+        std::cout << "angle(+/-): "; std::cin >> angle;
+
+        unsigned int speed = 0;
+        std::cout << "RS: "; std::cin >> speed;
+
+        Vector vector(1,1);
+        vector.setAngle(angle, true, false);
+
+        motion->turnto(vector, speed, Motion::automatic);
+
+        char tmp = 0;
+        std::cin >> tmp;
+
+        motion->pbreak();
+    }
+}
+
+/*int main () {
+    Motion* motion = new Motion;
+
+    double x, y, rs;
 
     std::cout << "type x: "; std::cin >> x;
     std::cout << "type y: "; std::cin >> y;
+    std::cout << "rs: "; std::cin >> rs;
 
     //std::cout << "x: " << std::flush; std::cin >> x;
     //std::cout << "y: " << std::flush; std::cin >> y;
@@ -18,7 +59,7 @@ int main () {
 
     Vector vector(x, y);
     //vector.setLength(50);
-    motion->drive(vector, 0);
+    motion->drive(vector, rs);
 
     int tmp;
     std::cin >> tmp;
@@ -28,7 +69,7 @@ int main () {
     delete motion;
 
     return 0;
-}
+}*/
 
 
 //

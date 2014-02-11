@@ -5,9 +5,25 @@
 #include "bbvector.h"
 #include "sensor/gyroSensor.h"
 #include "sensor/laserSensor.h"
+#include "sensor/gpio.h"
 
 
 int main () {
+
+    GPIO gpio("USER_BUTTON0", 66, GPIO::OUTPUT);
+
+    int value;
+    while(true) {
+        std::cin >> value;
+        gpio.setValue(value);
+    }
+
+
+    while(true) {
+        gpio.poll(-1);
+        std::cout << "GPIO[30]: " << gpio.getValue() << std::endl;
+    }
+
     std::cout << "laser-sensor-testing ..." << std::endl;
 
     /*LaserSensor* laser[4];

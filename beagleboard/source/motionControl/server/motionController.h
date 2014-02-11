@@ -16,9 +16,11 @@ class MotionController {
         //void drive(Angle angle, unsigned char speed, short rotationSpeed = 0);
 
         void pbreak();
+        void idle();
 
     protected:
         Debug* debug;
+        double getMotorSpeed(unsigned char num);
 
     private:
         Motors* motors;

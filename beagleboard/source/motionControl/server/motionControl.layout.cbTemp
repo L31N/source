@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="ARM" />
+	<File name="extendedMotionController.cpp" open="1" top="0" tabpos="9">
+		<Cursor position="0" topLine="0" />
+	</File>
+	<File name="extendedMotionController.h" open="1" top="0" tabpos="7">
+		<Cursor position="0" topLine="0" />
+	</File>
+	<File name="main.cpp" open="1" top="0" tabpos="1">
+		<Cursor position="144" topLine="0" />
+	</File>
+	<File name="motionControl.cpp" open="1" top="1" tabpos="4">
+		<Cursor position="6191" topLine="149" />
+	</File>
+	<File name="motionControl.h" open="1" top="0" tabpos="3">
+		<Cursor position="1172" topLine="1" />
+	</File>
+	<File name="motionController.cpp" open="1" top="0" tabpos="5">
+		<Cursor position="779" topLine="1" />
+	</File>
+	<File name="motionController.h" open="1" top="0" tabpos="2">
+		<Cursor position="0" topLine="0" />
+	</File>
+	<File name="motor.cpp" open="1" top="0" tabpos="6">
+		<Cursor position="0" topLine="0" />
+	</File>
+	<File name="motor.h" open="1" top="0" tabpos="8">
+		<Cursor position="520" topLine="0" />
+	</File>
+</CodeBlocks_layout_file>

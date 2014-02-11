@@ -1,7 +1,35 @@
 
 #include <iostream>
-
 #include "ipc/ipc_connection.h"
+
+/*int main () {
+    ipcSendingConnection scon("DEBUG", "SENSOR_API");
+
+    if (scon.is_open()) {
+        scon.sendData("helloworld");
+    }
+    else {
+        std::cerr << "error" << std::endl;
+    }
+
+    return 0;
+}*/
+
+int main () {
+    ipcReceivingConnection rcon("SENSOR_API");
+
+    if (rcon.is_open()) {
+        std::string data = rcon.readDataFromBuffer()->getData();
+        std::cout << "data: " << data << std::endl;
+    }
+    else {
+        std::cerr << "error" << std::endl;
+    }
+
+    return 0;
+}
+
+/*#include "ipc/ipc_connection.h"
 
 int main (int argc, char** argv) {
     if (argc <= 1) {
@@ -54,4 +82,4 @@ int main (int argc, char** argv) {
     }
 
     return 0;
-}
+}*/

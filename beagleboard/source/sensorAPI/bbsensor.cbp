@@ -59,6 +59,8 @@
 		</Linker>
 		<Unit filename="canSensor.cpp" />
 		<Unit filename="canSensor.h" />
+		<Unit filename="gpio.cpp" />
+		<Unit filename="gpio.h" />
 		<Unit filename="gyroSensor.cpp" />
 		<Unit filename="gyroSensor.h" />
 		<Unit filename="laserSensor.cpp" />

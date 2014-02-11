@@ -19,10 +19,10 @@ class MotionControl {
     private:
 
         static void thDrive_fctn(ExtendedMotionController* emCtrlr, Vector vector, short rotationSpeed, GyroSensor* gyro);
-        static void thMoveto_fctn(ExtendedMotionController* emCtrlr, Vector vector, unsigned char speed, Vector dir);
-        static void thMove_fctn(ExtendedMotionController* emCtrlr, Vector vector, unsigned char speed, Vector dir);
-        static void thTurnto_fctn(ExtendedMotionController* emCtrlr, Vector dir, unsigned char speed, ExtendedMotionController::Direction turndir);
-        static void thTurn_fctn(ExtendedMotionController* emCtrlr, Vector dir, unsigned char speed, ExtendedMotionController::Direction turndir);
+        static void thMoveto_fctn(ExtendedMotionController* emCtrlr, Vector vector, unsigned char speed, Vector dir, GyroSensor* gyro);
+        static void thMove_fctn(ExtendedMotionController* emCtrlr, Vector vector, unsigned char speed, Vector dir, GyroSensor* gyro);
+        static void thTurnto_fctn(ExtendedMotionController* emCtrlr, Vector dir, unsigned char speed, ExtendedMotionController::Direction turndir, GyroSensor* gyro);
+        static void thTurn_fctn(ExtendedMotionController* emCtrlr, Vector dir, unsigned char speed, ExtendedMotionController::Direction turndir, GyroSensor* gyro);
         static void thPBreak_fctn(ExtendedMotionController* emCtrlr);
         static void thIdle_fctn(ExtendedMotionController* emCtrlr);
         static void thTest_fctn(ExtendedMotionController* emCtrlr);

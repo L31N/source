@@ -6,6 +6,7 @@
 #include "motionController.h"
 #include "bbvector.h"
 #include "debug/bbdebug.h"
+#include "sensor/gyroSensor.h"
 //#include "navigation.h"
 
 class ExtendedMotionController : public MotionController {
@@ -30,6 +31,7 @@ class ExtendedMotionController : public MotionController {
 
     private:
         //Navigation* navi;
+        GyroSensor* gyro;
 };
 
 #endif // _EXTENDED_MOTION_CONTROLLER_H_
