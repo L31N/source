@@ -3,9 +3,21 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 
+
 #include "can.h"
 
-volatile unsigned char flag;
+#include "clock.h"
+
+
+int main() {
+    clock_init();
+
+    while(1);
+}
+
+
+
+/*volatile unsigned char flag;
 
 ISR(TIMER1_OVF_vect)
 {
@@ -74,4 +86,4 @@ int main () {
         _delay_ms(1);
 
     }
-}
+}*/
