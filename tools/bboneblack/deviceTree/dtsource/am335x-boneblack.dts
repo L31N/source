@@ -1,0 +1,96 @@
+/*
+ * Copyright (C) 2012 Texas Instruments Incorporated - http://www.ti.com/
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation.
+ */
+/dts-v1/;
+
+/include/ "am33xx.dtsi"
+
+/include/ "am335x-bone-common.dtsi"
+
+&am33xx_pinmux {
+	rstctl_pins: pinmux_rstctl_pins {
+		pinctrl-single,pins = <
+			/* eMMC_RSTn */
+			0x50 0x17	/* gpmc_a4.gpio1_20, OUTPUT | MODE7 | PULLUP */
+
+			/* GPIO_PINs */
+			0x070 0x27	/* P9_11 GPIO_30 INPUT | MODE7 | PULLDOWN */
+			0x078 0x27	/* P9_12 GPIO_60 INPUT | MODE7 | PULLDOWN */
+			0x074 0x27	/* P9_13 GPIO_31 INPUT | MODE7 | PULLDOWN */
+			0x048 0x27	/* P9_14 GPIO_50 INPUT | MODE7 | PULLDOWN */
+			0x040 0x27	/* P9_15 GPIO_48 INPUT | MODE7 | PULLDOWN */
+			0x04c 0x27	/* P9_16 GPIO_51 INPUT | MODE7 | PULLDOWN */
+			0x154 0x27	/* P9_21 GPIO_03 INPUT | MODE7 | PULLDOWN */
+			0x150 0x27	/* P9_22 GPIO_02 INPUT | MODE7 | PULLDOWN */
+			0x044 0x27	/* P9_23 GPIO_49 INPUT | MODE7 | PULLDOWN */
+			0x1a4 0x27	/* P9_27 GPIO_115 INPUT | MODE7 | PULLDOWN */
+			0x198 0x27	/* P9_30 GPIO_112 INPUT | MODE7 | PULLDOWN */
+
+			0x090 0x07	/* P8_07 GPIO_66 OUTPUT | MODE7 | PULLDOWN */
+			0x094 0x07	/* P8_08 GPIO_67 OUTPUT | MODE7 | PULLDOWN */
+			0x09c 0x07	/* P8_09 GPIO_69 OUTPUT | MODE7 | PULLDOWN */
+			0x098 0x07	/* P8_10 GPIO_68 OUTPUT | MODE7 | PULLDOWN */
+			0x034 0x07	/* P8_11 GPIO_45 OUTPUT | MODE7 | PULLDOWN */
+			0x030 0x07	/* P8_12 GPIO_44 OUTPUT | MODE7 | PULLDOWN */
+			0x024 0x07	/* P8_13 GPIO_23 OUTPUT | MODE7 | PULLDOWN */
+			0x028 0x07	/* P8_14 GPIO_26 OUTPUT | MODE7 | PULLDOWN */
+			0x03c 0x07	/* P8_15 GPIO_47 OUTPUT | MODE7 | PULLDOWN */
+			0x038 0x07	/* P8_16 GPIO_46 OUTPUT | MODE7 | PULLDOWN */
+			0x02c 0x07	/* P8_17 GPIO_27 OUTPUT | MODE7 | PULLDOWN */
+			0x08c 0x07	/* P8_18 GPIO_65 OUTPUT | MODE7 | PULLDOWN */
+			0x020 0x07	/* P8_19 GPIO_22 OUTPUT | MODE7 | PULLDOWN */
+		>;
+	};
+};
+
+&ldo3_reg {
+	regulator-min-microvolt = <1800000>;
+	regulator-max-microvolt = <1800000>;
+	regulator-always-on;
+};
+
+&rstctl {
+	status = "okay";
+	compatible = "gpio-rctrl";
+	pinctrl-names = "default";
+	pinctrl-0 = <&rstctl_pins>;
+
+	#reset-cells = <2>;
+
+	gpios = <&gpio2 20 0x00>;
+	gpio-names = "eMMC_RSTn";
+};
+
+&mmc1 {
+	vmmc-supply = <&vmmcsd_fixed>;
+};
+
+&mmc2 {
+	vmmc-supply = <&vmmcsd_fixed>;
+	bus-width = <8>;
+	ti,non-removable;
+	status = "okay";
+
+	reset = <&rstctl 0 0>;
+	reset-names = "eMMC_RSTn-CONSUMER";
+};
+
+
+&cpu {
+	/*
+	 * To consider voltage drop between PMIC and SoC,
+	 * tolerance value is reduced to 2% from 4% and
+	 * voltage value is increased as a precaution.
+	 */
+	operating-points = <
+		/* kHz    uV */
+		1000000	1350000
+		800000	1300000
+		600000  1112000
+		300000   969000
+	>;
+};
