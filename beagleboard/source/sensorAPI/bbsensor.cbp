@@ -63,6 +63,8 @@
 		<Unit filename="gpio.h" />
 		<Unit filename="gyroSensor.cpp" />
 		<Unit filename="gyroSensor.h" />
+		<Unit filename="irSensor.cpp" />
+		<Unit filename="irSensor.h" />
 		<Unit filename="laserSensor.cpp" />
 		<Unit filename="laserSensor.h" />
 		<Unit filename="sensor.cpp" />

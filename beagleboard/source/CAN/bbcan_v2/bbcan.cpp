@@ -69,8 +69,27 @@ CAN::~CAN() {
 }
 
 bool CAN::read(can_frame& msg) {
-    if (::read(sock, &msg, sizeof(msg)) > 0) return true;
-    else return false;
+
+    struct pollfd fdset;
+    memset((void*)&fdset, 0, sizeof(fdset));
+
+    fdset.fd = this->sock;
+    fdset.events = POLLIN;
+
+    int retval = poll(&fdset, 1, 0);
+
+    if(retval < 0)
+    {
+        std::cout <<"error: " << strerror(errno) << std::endl;
+    }
+    else if (retval == 0) {
+        //std::cout << "poll() timeout ..." << std::endl;
+        // not possible !!!
+    }
+    else {
+        if (::read(sock, &msg, sizeof(msg)) > 0) return true;
+    }
+    return false;
 }
 
 bool CAN::write(can_frame& msg) {

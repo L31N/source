@@ -5,7 +5,7 @@
 #include "bbcan.h"
 
 int main () {
-    /*CAN motor0("MOTOR0");
+    CAN motor0("MOTOR0");
 
     std::cout << "waiting for messages " << std::endl;
 

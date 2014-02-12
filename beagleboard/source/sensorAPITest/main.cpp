@@ -6,9 +6,18 @@
 #include "sensor/gyroSensor.h"
 #include "sensor/laserSensor.h"
 #include "sensor/gpio.h"
+#include "sensor/irSensor.h"
 
 
 int main () {
+
+    IRSensor ir("BALL_SENSOR4", "BALL_SENSORS", 4);
+
+    while(true) {
+        std::cout << "value: " << ir.getValue() << std::endl;
+        usleep(100000);
+    }
+
 
     GPIO gpio("USER_BUTTON0", 66, GPIO::OUTPUT);
 
