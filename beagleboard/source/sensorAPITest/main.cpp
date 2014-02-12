@@ -11,7 +11,7 @@
 
 int main () {
 
-    IRSensor ir("BALL_SENSOR4", "BALL_SENSOR4", 4);
+    IRSensor ir("BALL_SENSOR4", "BALL_SENSORS", 4);
 
     while(true) {
         std::cout << "value: " << ir.getValue() << std::endl;
