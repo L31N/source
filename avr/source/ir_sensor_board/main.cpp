@@ -16,7 +16,7 @@ int main() {
     sei();
 
     can_filter_t filter0;
-    filter0.id = 129;
+    filter0.id = 154;
     filter0.mask = 0x7E0;
 
     filter0.flags.rtr = 0;
@@ -25,7 +25,7 @@ int main() {
 
     can_t frame;
     frame.flags.rtr = 0;
-    frame.id = 129;
+    frame.id = 153;
     frame.length = 8;
 
     while(true) {
