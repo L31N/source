@@ -11,26 +11,26 @@
 
 int main () {
 
-    IRSensor ir("BALL_SENSOR4", "BALL_SENSORS", 4);
+    /*IRSensor ir("BALL_SENSOR4", "BALL_SENSORS", 4);
 
     while(true) {
         std::cout << "value: " << ir.getValue() << std::endl;
         usleep(100000);
-    }
+    }*/
 
 
-    GPIO gpio("USER_BUTTON0", 66, GPIO::OUTPUT);
-
+    GPIO gpio_led("LED0", 44, GPIO::OUTPUT);
     int value;
     while(true) {
         std::cin >> value;
-        gpio.setValue(value);
+        gpio_led.setValue(value);
     }
 
 
+    GPIO gpio_button("USER_BUTTON0", 69, GPIO::INPUT);
     while(true) {
-        gpio.poll(-1);
-        std::cout << "GPIO[30]: " << gpio.getValue() << std::endl;
+        gpio_button.poll(-1);
+        std::cout << "GPIO[30]: " << gpio_button.getValue() << std::endl;
     }
 
     std::cout << "laser-sensor-testing ..." << std::endl;
