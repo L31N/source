@@ -5,7 +5,20 @@
 #include "bbcan.h"
 
 int main () {
-    CAN motor0("MOTOR0");
+    CAN wenglors0("WENGLORS0");
+    std::cout << "waiting for messages " << std::endl;
+
+    while(true) {
+        can_frame frame;
+        if (wenglors0.read(frame)) {
+            std::cout << (int)frame.data[0] << std::endl;
+        }
+        usleep(500);
+    }
+}
+
+/*int main () {
+    CAN motor0("WENGLORS0");
 
     std::cout << "waiting for messages " << std::endl;
 
@@ -34,7 +47,7 @@ int main () {
     }
     else std::cout << "error while reading message" << std::endl;
 
-    return 0;*/
+    return 0;
 
     CAN motor0("MOTOR0");
     CAN::can_t msg;
@@ -57,4 +70,4 @@ int main () {
     }
 
     return 0;
-}
+}*/

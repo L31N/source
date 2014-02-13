@@ -36,7 +36,6 @@ CAN::CAN(std::string _canName) {
 }
 
 CAN::CAN(unsigned short _canID) {
-
     canID = _canID;
 
     sock = socket(PF_CAN, SOCK_RAW, CAN_RAW);
@@ -90,6 +89,12 @@ bool CAN::read(can_frame& msg) {
         if (::read(sock, &msg, sizeof(msg)) > 0) return true;
     }
     return false;
+}
+
+bool CAN::read_last(can_frame& msg) {
+    while(this->read(msg));
+
+    return true;
 }
 
 bool CAN::write(can_frame& msg) {

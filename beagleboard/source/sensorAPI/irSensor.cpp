@@ -13,7 +13,7 @@ IRSensor::~IRSensor() {}
 
 unsigned int IRSensor::getValue() {
     can_frame frame;
-    if (can->read(frame)) {
+    if (can->read_last(frame)) {
         for (int i = 0; i < 8; i++) {
             IRSensor::values[i]  = frame.data[i];
         }

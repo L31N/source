@@ -4,6 +4,7 @@
 
 #include <string>
 #include <iostream>
+#include <unistd.h>
 
 #include <net/if.h>
 #include <sys/types.h>
@@ -26,6 +27,7 @@ class CAN {
         ~CAN();
 
         bool read(can_frame& msg);
+        bool read_last(can_frame& msg);
         bool write(can_frame& msg);
 
         unsigned short getCanId(const std::string canName);
