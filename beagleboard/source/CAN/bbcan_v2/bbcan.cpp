@@ -92,9 +92,11 @@ bool CAN::read(can_frame& msg) {
 }
 
 bool CAN::read_last(can_frame& msg) {
-    while(this->read(msg));
+    int count = 0;
+    while(this->read(msg)) count++;
 
-    return true;
+    if(count > 0) return true;
+    else return false;
 }
 
 bool CAN::write(can_frame& msg) {
