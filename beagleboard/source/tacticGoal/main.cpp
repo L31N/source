@@ -1,6 +1,8 @@
 
 #include <unistd.h>
 
+#include "bbvector.h"
+
 #include "debug/bbdebug.h"
 #include "sensor/irSensor.h"
 #include "motion/motion.h"
@@ -21,35 +23,44 @@ int main() {
 
     //Main Loop
     while(true) {
-        Vector drive;
-/*
-        if(ir[0]->getValue() == 0 && ir[1]->getValue() == 0 && ir[2]->getValue() == 0 && ir[3]->getValue() == 0) {
-            drive.set(0, 0);
-        }
-        else if(ir[3]->getValue() > 20) {
-            drive.set(0, -1);
-            drive.setLength(80);
-        }
-        else if(ir[0]->getValue() < ir[1]->getValue() && ir[2]->getValue() < ir[1]->getValue()) {
-            drive.set(0, 1);
-            drive.setLength(80);
-        }
-        else if(ir[0]->getValue() > ir[1]->getValue()) {
-            drive.set(1, 1);
-            drive.setLength(80);
-        }
-        else if(ir[2]->getValue() > ir[1]->getValue()) {
-            drive.set(-1, 1);
-            drive.setLength(80);
-        }*/
 
-        debug->send("Drive vector: %d | %d %d", drive.getX(), drive.getY(), ir[1]->getValue());
-        debug->send("%d\t%d\t%d\t%d", ir[0]->getValue(), ir[1]->getValue(), ir[2]->getValue(), ir[3]->getValue());
-        //motion->drive(drive, 0);
+        if(ir[0]->getValue() < 30 && ir[1]->getValue() < 30 && ir[2]->getValue() < 30 && ir[3]->getValue() < 30) {
+            //motion->pbreak();
+            motion->drive(Vector(0,0), 0);
+            debug->send("Ball not available");
+        }
+        else {
+            Vector drive(0, 0);
+            if(ir[3]->getValue() > (ir[0]->getValue() + ir[1]->getValue() + ir[2]->getValue())/3) {
+                debug->send("Ball is behind");
+                drive.set(0, -1);
+                drive.setLength(30);
+            }
+            else if(ir[0]->getValue() <= ir[1]->getValue() && ir[2]->getValue() <= ir[1]->getValue()) {
+                debug->send("Ball is in front");
+                drive.set(0, 1);
+                drive.setLength(30);
+            }
+            else if(ir[0]->getValue() > ir[1]->getValue()) {
+                debug->send("Ball is front right");
+                drive.set(1, 1);
+                drive.setLength(30);
+            }
+            else if(ir[2]->getValue() > ir[1]->getValue()) {
+                debug->send("Ball is front left");
+                drive.set(-1, 1);
+                drive.setLength(30);
+            }
 
+            //debug->send("Drive vector: %f | %f %d", drive.getX(), drive.getY(), ir[1]->getValue());
 
+            debug->send("%d\t%d\t%d\t%d", ir[0]->getValue(), ir[1]->getValue(), ir[2]->getValue(), ir[3]->getValue());
 
-        usleep(100000);
+            //motion->drive(drive, 0);
+
+        }
+
+        usleep(30000);
     }
 
 

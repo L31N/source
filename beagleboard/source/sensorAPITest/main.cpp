@@ -19,7 +19,7 @@ int main () {
     }*/
 
 
-    /*GPIO gpio_led("LED0", 44, GPIO::OUTPUT);
+    /*GPIO gpio_led("LED0", 45, GPIO::OUTPUT);
     int value;
     while(true) {
         std::cin >> value;

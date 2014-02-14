@@ -47,10 +47,12 @@ int main () {
         else if(button1.getValue()) {
             debug.send("Starting tactic for field");
             std::system("./tacticField &");
+            std::system("./motionControl &");
         }
         else {
             debug.send("Starting tactic for goal");
             std::system("./tacticGoal &");
+            std::system("./motionControl &");
         }
 
         usleep(200000);
@@ -66,6 +68,7 @@ int main () {
 
         std::system("killall tacticField");
         std::system("killall tacticGoal");
+        std::system("killall motionControl");
         std::system("cansend can0 009#0000000000000000");
 
         led_red.setValue(false);
