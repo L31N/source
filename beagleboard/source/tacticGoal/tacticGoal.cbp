@@ -2,13 +2,13 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="cantesting" />
+		<Option title="tacticGoal" />
 		<Option pch_mode="2" />
-		<Option compiler="gcc" />
+		<Option compiler="armelfgcc" />
 		<Build>
-			<Target title="Release">
-				<Option output="bin/Release/cantesting" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/Release/" />
+			<Target title="ARM">
+				<Option output="bin/ARM/tacticGoal" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/ARM/" />
 				<Option type="1" />
 				<Option compiler="armelfgcc" />
 				<Compiler>
@@ -24,15 +24,20 @@
 			<Add directory="/bbusr/include" />
 		</Compiler>
 		<Linker>
+			<Add option="-lbbnavigation" />
+			<Add option="-lbbmotion" />
+			<Add option="-lbbsensor" />
 			<Add option="-lbbcan" />
+			<Add option="-lbbdebug" />
 			<Add option="-lbbipc" />
+			<Add option="-lbbvector" />
 			<Add option="-lpthread" />
 			<Add directory="/bbusr/lib" />
 		</Linker>
 		<Unit filename="main.cpp" />
 		<Extensions>
-			<code_completion />
 			<envvars />
+			<code_completion />
 			<debugger />
 			<lib_finder disable_auto="1" />
 		</Extensions>

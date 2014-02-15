@@ -60,6 +60,7 @@ bool GPIO::getValue() {
 
 int GPIO::poll(unsigned int timeout_ms) {
     int retval = ::poll(&fdset, 1, timeout_ms);
+    this->getValue();
 
     if(retval < 0) return -1;       // error
     else if (retval == 0) return 1; // timeout

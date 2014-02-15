@@ -26,6 +26,7 @@ class CAN {
         ~CAN();
 
         bool read(can_frame& msg);
+        bool read_last(can_frame& msg);
         bool write(can_frame& msg);
 
         unsigned short getCanId(const std::string canName);

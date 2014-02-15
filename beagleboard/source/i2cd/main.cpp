@@ -20,7 +20,7 @@ int main () {
 
     ipcReceivingConnection scon("I2CD");
 
-    int count = 0;
+    //int count = 0;
 
     while(true) {
 
@@ -57,11 +57,11 @@ int main () {
             vect.setAngle(euler[0], false, false);
 
             if (euler[1] * (180/M_PI) < 20 && euler[1] * (180/M_PI) > -20 && euler[2] * (180/M_PI) < 20 && euler[2] * (180/M_PI) > -20) {   // no invalid values
-                count ++;
+                /*count ++;
                 if (count > 10) {
                     std::cout << "Angle: " << int(vect.getAngle(true, true)) << " | " << vect.getAngle(false, true) << std::endl;
                     count = 0;
-                }
+                }*/
 
                 ipcSendingConnection scon("I2CD", "GYRO_I2CD", sizeof(Vector));
 

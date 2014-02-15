@@ -18,7 +18,7 @@ LaserSensor::~LaserSensor() {}
 unsigned int LaserSensor::getDistance(Unit unit) {
 
     can_frame frame;
-    if (can->read(frame)) { /// on new data
+    if (can->read_last(frame)) { /// on new data
         mmDistance = 0;
         if (number % 2 == 0) for (int i = 0; i < 3; i++) mmDistance |= (frame.data[i] << 8*i);
         else for (int i = 0; i < 3; i++) mmDistance |= (frame.data[i+3] << 8*i);

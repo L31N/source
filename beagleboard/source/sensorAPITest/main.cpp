@@ -11,46 +11,65 @@
 
 int main () {
 
-    IRSensor ir("BALL_SENSOR4", "BALL_SENSORS", 4);
+    /*IRSensor ir("BALL_SENSOR4", "BALL_SENSORS", 4);
 
     while(true) {
         std::cout << "value: " << ir.getValue() << std::endl;
         usleep(100000);
-    }
+    }*/
 
 
-    GPIO gpio("USER_BUTTON0", 66, GPIO::OUTPUT);
-
+    /*GPIO gpio_led("LED0", 45, GPIO::OUTPUT);
     int value;
     while(true) {
         std::cin >> value;
-        gpio.setValue(value);
-    }
+        gpio_led.setValue(value);
+    }*/
 
 
+    /*GPIO gpio_button("USER_BUTTON0", 69, GPIO::INPUT);
     while(true) {
-        gpio.poll(-1);
-        std::cout << "GPIO[30]: " << gpio.getValue() << std::endl;
-    }
+        gpio_button.poll(-1);
+        std::cout << "GPIO[30]: " << gpio_button.getValue() << std::endl;
+    }*/
 
     std::cout << "laser-sensor-testing ..." << std::endl;
 
-    /*LaserSensor* laser[4];
+    LaserSensor* laser[4];
     laser[0] = new LaserSensor("LASER_SENSOR0", "WENGLORS0", 0);
-    laser[1] = new LaserSensor("LASER_SENSOR1", "WENGLORS0", 1);
+    laser[1] = new LaserSensor("LASER_SENSOR1", "WENGLORS1", 1);
     laser[2] = new LaserSensor("LASER_SENSOR2", "WENGLORS1", 0);
-    laser[3] = new LaserSensor("LASER_SENSOR3", "WENGLORS1", 1);
+    laser[3] = new LaserSensor("LASER_SENSOR3", "WENGLORS0", 1);
 
     while(true) {
         for (int i = 0; i < 4; i++) {
             std::cout << "LaserSensor" << i << ": [" << laser[i]->getDistance() << "]" << std::endl;
         }
-        std::cout << "-------------------------------" << std::endl;
+        std::cout << "\n-------------------\n" << std::flush;
+
+        usleep(200000);
+
+
+        /*if (count > 100) {
+            count = 0;
+            for (int i = 0; i < 4; i++) {
+                std::cout << "LaserSensor" << i << ": [" << distances[i] << "]" << std::endl;
+            }
+            std::cout << "--------------------------" << std::endl;
+        }
+
+        count++;*/
     }
 
     for (int i = 0; i < 4; i++) delete laser[i];
 
-    return 0;*/
+    return 0;
+
+
+
+
+
+
 
     GyroSensor gyro("GYRO");
 
