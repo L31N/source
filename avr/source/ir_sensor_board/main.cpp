@@ -3,6 +3,7 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 
+#include <string.h>
 
 #include "can.h"
 
@@ -31,13 +32,26 @@ int main() {
     while(true) {
 
 
-        for (int i = 0; i < 8; i++) {       // expand to 8 sensors
+        /*for (int i = 0; i < 8; i++) {       // expand to 8 sensors
             frame.data[i] = (unsigned char)counter_get(i);
-        }
+        }*/
 
-        can_send_message(&frame);
+        can_t frameold = frame;
 
-        _delay_ms(100);
+        frame.data[0] = (unsigned char)counter_get(0);  // set right order !
+        frame.data[1] = (unsigned char)counter_get(1);
+        frame.data[2] = (unsigned char)counter_get(2);
+        frame.data[3] = (unsigned char)counter_get(3);
+
+        frame.data[4] = (unsigned char)counter_get(4);
+        frame.data[5] = (unsigned char)counter_get(7);
+        frame.data[6] = (unsigned char)counter_get(6);
+        frame.data[7] = (unsigned char)counter_get(5);
+
+
+        if(memcmp(&frame, &frameold, sizeof(frame)) != 0) can_send_message(&frame);
+
+        _delay_ms(30);
     }
 }
 

@@ -46,6 +46,8 @@ int main () {
     uint32_t distance[2] = { 0 };
     uint8_t iter[2] = { 0 };
 
+    can_t can_data;
+
     unsigned char buf[2][32];
     memset(buf[0], 0, 32);
     memset(buf[1], 0, 32);
@@ -159,17 +161,19 @@ int main () {
         /// can posting
         if (f_update[0] || f_update[1]) {
 
-            can_t can_data;
             can_data.id = CANID;
             can_data.flags.rtr = false;
             can_data.length = 7;
+
+            can_t old;
+            old = can_data;
 
             for (int i = 0; i < 3; i++) can_data.data[i] = ( distance[0] >> i*8 ) & 0xFF;
             for (int i = 0; i < 3; i++) can_data.data[i+3] = ( distance[1] >> i*8 ) & 0xFF;
             can_data.data[6] = (unsigned char)getReflex();
             can_data.data[7] = 0;    // dummy byte ... not used !!!
 
-            can_send_message(&can_data);
+            if(memcmp(&can_data, &old, sizeof(old)) != 0) can_send_message(&can_data);
 
             f_update[0] = false;
             f_update[1] = false;
