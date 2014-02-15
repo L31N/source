@@ -152,7 +152,7 @@ void MotionControl::run() {
         try {
             angle = gyro->getVector().getAngle(dir, true, false);
             //tmp_speed = speed;
-            tmp_speed = 5;
+            tmp_speed = 255;
 
             //if (turndir == ExtendedMotionController::automatic) std::cout << "direction: " << turndir;
 
@@ -172,13 +172,13 @@ void MotionControl::run() {
             //tmp_speed = 5;  /// TESTING !!!
 
             if (abs(angle) > 25) {
-                emCtrlr->drive(Vector(), 255);
+                emCtrlr->drive(Vector(), tmp_speed);
                 boost::this_thread::sleep_for(boost::chrono::milliseconds(10));
                 emCtrlr->idle();
                 boost::this_thread::sleep_for(boost::chrono::milliseconds(40));
             }
             else {
-                emCtrlr->drive(Vector(), -45);
+                emCtrlr->drive(Vector(), 45 * (tmp_speed/abs(tmp_speed)));
                 boost::this_thread::sleep_for(boost::chrono::milliseconds(40));
                 emCtrlr->idle();
                 break;

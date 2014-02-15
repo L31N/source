@@ -24,6 +24,7 @@
 			<Add directory="/bbusr/include" />
 		</Compiler>
 		<Linker>
+			<Add option="-lbbnavigation" />
 			<Add option="-lbbmotion" />
 			<Add option="-lbbsensor" />
 			<Add option="-lbbcan" />
