@@ -173,7 +173,8 @@ int main () {
             can_data.data[6] = (unsigned char)getReflex();
             can_data.data[7] = 0;    // dummy byte ... not used !!!
 
-            if(memcmp(&can_data, &old, sizeof(old)) != 0) can_send_message(&can_data);
+            //if(memcmp(&can_data, &old, sizeof(old)) != 0) can_send_message(&can_data);
+            can_send_message(&can_data);
 
             f_update[0] = false;
             f_update[1] = false;
